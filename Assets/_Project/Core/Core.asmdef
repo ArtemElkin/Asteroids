@@ -2,7 +2,7 @@
     "name": "Core",
     "rootNamespace": "",
     "references": [
-        ""
+        "Zenject"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
