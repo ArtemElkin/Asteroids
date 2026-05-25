@@ -1,7 +1,7 @@
+# Asteroids
 
-Asteroids
 ---
-**Entities:**
+## Entities:
 - GameArea
 - Spaceship
 - Asteroid
@@ -9,7 +9,7 @@ Asteroids
 - Plate
 - Weapon
 ---
-**Core Services**
+## Core Services**
 - Player
 	- PlayerSave
 		- score
@@ -35,13 +35,12 @@ Asteroids
 	- ScreenBoundsCalculator
 
 ---
-**Common:**
+### Common
 - BounceOnCollisionHandler
 - RandomPositionGenerator
 - RandomDirectionGenerator
-- 
 
-**Spaceship**
+### Spaceship
 Subsystems:
 - HealthController
 - InvulnerabilityHandler
@@ -63,7 +62,7 @@ Auxiliary:
 	- inertiaMultiplier
 	- accelerationMultiplier
 
-**Asteroid**
+### Asteroid
 Subsystems:
 - AsteroidMovementController
 	- RandomPositionGenerator
@@ -79,7 +78,7 @@ Auxiliary:
 	- fragmentsCount
 	- speed
 
-**AsteroidFragment**
+### AsteroidFragment
 Subsystems:
 - AsteroidMovementController
 	- RandomPositionGenerator
@@ -93,7 +92,7 @@ Auxiliary:
 - AsteroidFragmentConfig
 	- speed
 
-**Plate**
+### Plate
 Subsystems:
 - PlateMovementController
 	- TargetFollower
@@ -105,12 +104,12 @@ Auxiliary:
 - PlateConfig
 	- speed
 
-**GameArea**
+### GameArea
 - BoundsWarper
 - GameAreaConfig
 	- size
 
-**Weapon**
+### Weapon
 - WeaponType (enum)
 - IWeapon
 - ProjectileWeapon
@@ -133,13 +132,9 @@ Auxiliary:
 		- maxCharges
 		- maxChargesPerSeconds
 		- rechargeTime
-
-
-
-
-
+ 
 ---
-**UI**
+## UI
 - InfoPanel
 	- SpaceshipPositionView
 	- SpaceshipRotationView
@@ -150,36 +145,6 @@ Auxiliary:
 	- JoystickView
 	- AttackButton
 	- SwitchWeaponButton
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
