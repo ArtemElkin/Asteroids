@@ -1,7 +1,7 @@
 # Asteroids
 
 ---
-## Entities:
+## Entities
 - GameArea
 - Spaceship
 - Asteroid
@@ -9,7 +9,7 @@
 - Plate
 - Weapon
 ---
-## Core Services**
+## Core Services
 - Player
 	- PlayerSave
 		- score
