@@ -1,0 +1,5 @@
+{
+  "maxSpeed": 10,
+  "accelerationMultiplier": 100,
+  "inertiaMultiplier": 0.5
+}

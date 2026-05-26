@@ -72,8 +72,8 @@ namespace _Project.Core.Infrastructure
         private void BindInput()
         {
             Container
-                .Bind<IInputService>()
-                .To<InputHandler>()
+                .Bind<IMovementInputService>()
+                .To<StandaloneInputHandler>()
                 .FromComponentInNewPrefab(_inputHandlerPrefab)
                 .AsSingle();
         }
