@@ -2,7 +2,7 @@
 
 ---
 ## Entities
-- GameArea
+- Bounds
 - Spaceship
 - Asteroid
 - AsteroidFragment
@@ -16,8 +16,10 @@
 	- PlayerModel
 		- score
 - Input system
-	- MovementInputService
-	- FireInputService
+	- IMovementInputService
+	- IFireInputService
+ 	- StandaloneInputHandler
+  	- MobileInputHandler
 - Config system
 	- IConfig
 	- IConfigProvider
@@ -32,11 +34,10 @@
 - Tools
 	- CustomPool< T >
 	- FactoryWithPool< T >
-	- ScreenBoundsCalculator
+	- ScreenBoundsService
 
 ---
 ### Common
-- BounceOnCollisionHandler
 - RandomPositionGenerator
 - RandomDirectionGenerator
 
@@ -46,19 +47,18 @@ Subsystems:
 - InvulnerabilityHandler
 	- InvulnerabilityTimer
 - SpaceshipMovementController
-	- SpaceshipInertiaHandler
-	- SpaceshipAccelerationHandler
+	- SpaceshipAccelerationApplier
+	- SpaceshipInertiaApplier
 - SpaceshipCollisionHandler
-	- BounceOnCollisionHandler
 - AttackHandler
 	- WeaponSwitcher
 
 Auxiliary:
-- SpaceShipSpawner
+- SpaceshipSpawner
 - SpaceshipConfig
 	- maxHealth
-	- maxSpeed
 - SpaceshipMovementConfig
+	- maxSpeed
 	- inertiaMultiplier
 	- accelerationMultiplier
 
@@ -68,7 +68,6 @@ Subsystems:
 	- RandomPositionGenerator
 	- RandomDirectionGenerator
 - AsteroidCollisionHandler
-	- BounceOnCollisionHandler
 - AsteroidDestructor
 
 Auxiliary:
@@ -84,7 +83,6 @@ Subsystems:
 	- RandomPositionGenerator
 	- RandomDirectionGenerator
 - AsteroidFragmentCollisionHandler
-	- BounceOnCollisionHandler
 
 Auxiliary:
 - AsteroidFragmentSpawner
@@ -104,7 +102,8 @@ Auxiliary:
 - PlateConfig
 	- speed
 
-### GameArea
+### Bounds
+- BoundsService
 - BoundsWarper
 - GameAreaConfig
 	- size
