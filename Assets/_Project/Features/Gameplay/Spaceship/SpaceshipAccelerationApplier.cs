@@ -4,13 +4,13 @@ using Zenject;
 
 namespace _Project.Features.Gameplay.Spaceship
 {
-    public class SpaceshipAccelerationHandler : IInitializable
+    public class SpaceshipAccelerationApplier : IInitializable
     {
         private float _accelerationMultiplier;
         private readonly IConfigProvider _configProvider;
 
 
-        public SpaceshipAccelerationHandler(
+        public SpaceshipAccelerationApplier(
             IConfigProvider configProvider)
         {
             _configProvider = configProvider;

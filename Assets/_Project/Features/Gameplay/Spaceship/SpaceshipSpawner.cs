@@ -1,24 +1,44 @@
+using System;
+using _Project.Core.Signals;
+using _Project.Core.Tools;
+using UnityEngine;
 using Zenject;
+
 
 namespace _Project.Features.Gameplay.Spaceship
 {
-    public class SpaceshipSpawner : IInitializable
+    public class SpaceshipSpawner : IInitializable, IDisposable
     {
+        private readonly SpaceshipCloneComponent _spaceshipClonePrefab;
         private readonly SpaceshipComponent _spaceshipPrefab;
         private readonly IInstantiator _instantiator;
+        private readonly SignalBus _signalBus;
+        private readonly ScreenBoundsService _screenBoundsService;
 
-
+        
         public SpaceshipSpawner(
             SpaceshipComponent spaceshipPrefab,
-            IInstantiator instantiator)
+            SpaceshipCloneComponent spaceshipClonePrefab,
+            IInstantiator instantiator,
+            SignalBus signalBus,
+            ScreenBoundsService screenBoundsService)
         {
             _spaceshipPrefab = spaceshipPrefab;
+            _spaceshipClonePrefab = spaceshipClonePrefab;
             _instantiator = instantiator;
+            _signalBus = signalBus;
+            _screenBoundsService = screenBoundsService;
         }
 
         public void Initialize()
         {
+            _signalBus.Subscribe<GameStartedSignal>(OnGameStarted);
+        }
+
+        private void OnGameStarted()
+        {
             SpawnSpaceship();
+            SpawnSpaceshipClones();
         }
 
         private void SpawnSpaceship()
@@ -26,5 +46,33 @@ namespace _Project.Features.Gameplay.Spaceship
             _instantiator.InstantiatePrefabForComponent<SpaceshipComponent>(_spaceshipPrefab);
         }
 
+        private void SpawnSpaceshipClones()
+        {
+            var width = _screenBoundsService.ScreenWidth;
+            var height = _screenBoundsService.ScreenHeight;
+
+            Vector2[] cloneOffsets = 
+            {
+                new (0, height),
+                new (width, height),
+                new (width, 0),
+                new (width, -height),
+                new (0, -height),
+                new (-width, -height),
+                new (-width, 0),
+                new (-width, height)
+            };
+
+            foreach (var offset in cloneOffsets)
+            {
+                var clone = _instantiator.InstantiatePrefabForComponent<SpaceshipCloneComponent>(_spaceshipClonePrefab);
+                clone.Setup(offset);
+            }
+        }
+
+        public void Dispose()
+        {
+            _signalBus.Unsubscribe<GameStartedSignal>(OnGameStarted);
+        }
     }
 }

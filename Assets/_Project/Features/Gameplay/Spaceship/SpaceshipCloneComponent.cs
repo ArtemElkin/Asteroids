@@ -5,30 +5,24 @@ using Zenject;
 namespace _Project.Features.Gameplay.Spaceship
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class SpaceshipComponent : MonoBehaviour
+    public class SpaceshipCloneComponent : MonoBehaviour
     {
+        private Vector2 _cloneOffset;
         private Rigidbody2D _rb;
         private SpaceshipMovementController _movementController;
 
 
-        private void Awake()
-        {
-            _rb = GetComponent<Rigidbody2D>();
-        }
         [Inject]
         private void Construct(SpaceshipMovementController movementController)
         {
             _movementController = movementController;
+            _rb = GetComponent<Rigidbody2D>();
         }
 
-        private void OnEnable()
+        public void Setup(Vector2 offset)
         {
-            _movementController.Setup(_rb);
-        }
-
-        private void OnDisable()
-        {
-            _movementController.Reset();
+            _cloneOffset = offset;
+            _movementController.AddClone(_rb, _cloneOffset);
         }
     }
 }

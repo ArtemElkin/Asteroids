@@ -4,13 +4,13 @@ using Zenject;
 
 namespace _Project.Features.Gameplay.Spaceship
 {
-    public class SpaceshipInertiaHandler : IInitializable
+    public class SpaceshipInertiaApplier : IInitializable
     {
         private float _inertiaMultiplier;
         private readonly IConfigProvider _configProvider;
 
 
-        public SpaceshipInertiaHandler(
+        public SpaceshipInertiaApplier(
             IConfigProvider configProvider)
         {
             _configProvider = configProvider;

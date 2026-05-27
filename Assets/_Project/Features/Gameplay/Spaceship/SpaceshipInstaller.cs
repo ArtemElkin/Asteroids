@@ -7,27 +7,28 @@ namespace _Project.Features.Gameplay.Spaceship
     public class SpaceshipInstaller : MonoInstaller
     {
         [SerializeField] private SpaceshipComponent _spaceshipPrefab;
+        [SerializeField] private SpaceshipCloneComponent _spaceshipClonePrefab;
         
         
         public override void InstallBindings()
         {
-            BindSpaceshipAccelerationHandler();
-            BindSpaceshipInertiaHandler();
+            BindSpaceshipAccelerationApplier();
+            BindSpaceshipInertiaApplier();
             BindSpaceshipMovementController();
-            BindSpaceshipSpawner(_spaceshipPrefab);
+            BindSpaceshipSpawner(_spaceshipPrefab, _spaceshipClonePrefab);
         }
 
-        private void BindSpaceshipAccelerationHandler()
+        private void BindSpaceshipAccelerationApplier()
         {
             Container
-                .BindInterfacesAndSelfTo<SpaceshipAccelerationHandler>()
+                .BindInterfacesAndSelfTo<SpaceshipAccelerationApplier>()
                 .AsSingle();
         }
 
-        private void BindSpaceshipInertiaHandler()
+        private void BindSpaceshipInertiaApplier()
         {
             Container
-                .BindInterfacesAndSelfTo<SpaceshipInertiaHandler>()
+                .BindInterfacesAndSelfTo<SpaceshipInertiaApplier>()
                 .AsSingle();
         }
 
@@ -38,12 +39,14 @@ namespace _Project.Features.Gameplay.Spaceship
                 .AsSingle();
         }
 
-        private void BindSpaceshipSpawner(SpaceshipComponent spaceshipPrefab)
+        private void BindSpaceshipSpawner(
+            SpaceshipComponent spaceshipPrefab,
+            SpaceshipCloneComponent spaceshipClonePrefab)
         {
             Container
                 .BindInterfacesAndSelfTo<SpaceshipSpawner>()
                 .AsSingle()
-                .WithArguments(spaceshipPrefab);
+                .WithArguments(spaceshipPrefab, spaceshipClonePrefab);
         }
         
     }

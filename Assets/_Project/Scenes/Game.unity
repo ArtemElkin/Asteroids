@@ -133,7 +133,9 @@ GameObject:
   m_Component:
   - component: {fileID: 43507831}
   - component: {fileID: 43507830}
+  - component: {fileID: 43507833}
   - component: {fileID: 43507829}
+  - component: {fileID: 43507832}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -154,6 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spaceshipPrefab: {fileID: 5540293121067272746, guid: 95c23640d5cc02dc1851ec8cd7977859, type: 3}
+  _spaceshipClonePrefab: {fileID: 5451190129909760875, guid: 36aa555b05a347c43b81ba92b6cca630, type: 3}
 --- !u!114 &43507830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,8 +171,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
+  - {fileID: 43507833}
   - {fileID: 43507829}
+  - {fileID: 43507832}
   _installerPrefabs: []
+  _findSiblingMonoInstallers: 0
   _autoRun: 1
   OnPreInstall:
     m_PersistentCalls:
@@ -201,6 +207,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &43507832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43507828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0207391f435b45a2854c97e16e77196e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &43507833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43507828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89c629a09524809a476e2ae92d36e98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 118967102}
 --- !u!1 &118967100
 GameObject:
   m_ObjectHideFlags: 0
