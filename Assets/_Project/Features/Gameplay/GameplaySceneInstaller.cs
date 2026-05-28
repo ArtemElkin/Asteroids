@@ -13,17 +13,25 @@ namespace _Project.Features.Gameplay
         
         public override void InstallBindings()
         {
-            BindScreenBoundsCalculator(_camera);
+            BindScreenService(_camera);
+            BindPositionGenerator();
             BindGameplayAdsController();
             BindGameplayStarter();
         }
         
-        private void BindScreenBoundsCalculator(Camera mainCamera)
+        private void BindScreenService(Camera mainCamera)
         {
             Container
-                .Bind<ScreenBoundsService>()
+                .BindInterfacesAndSelfTo<ScreenService>()
                 .AsSingle()
                 .WithArguments(mainCamera);
+        }
+
+        private void BindPositionGenerator()
+        {
+            Container
+                .BindInterfacesAndSelfTo<PositionGenerator>()
+                .AsSingle();
         }
         
         private void BindGameplayAdsController()

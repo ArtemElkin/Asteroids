@@ -15,6 +15,7 @@ namespace _Project.Features.Gameplay.Spaceship
             BindSpaceshipAccelerationApplier();
             BindSpaceshipInertiaApplier();
             BindSpaceshipMovementController();
+            BindSpaceshipRotationController();
             BindSpaceshipSpawner(_spaceshipPrefab, _spaceshipClonePrefab);
         }
 
@@ -36,6 +37,13 @@ namespace _Project.Features.Gameplay.Spaceship
         {
             Container
                 .BindInterfacesAndSelfTo<SpaceshipMovementController>()
+                .AsSingle();
+        }
+
+        private void BindSpaceshipRotationController()
+        {
+            Container
+                .BindInterfacesAndSelfTo<SpaceshipRotationController>()
                 .AsSingle();
         }
 

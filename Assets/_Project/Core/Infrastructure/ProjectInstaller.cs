@@ -24,7 +24,8 @@ namespace _Project.Core.Infrastructure
             Container.DeclareSignal<GameRestartedSignal>();
             Container.DeclareSignal<StartGameClickedSignal>();
             Container.DeclareSignal<MenuClickedSignal>();
-            
+
+            BindRandomService();
             BindSaveService();
             BindConfigProviders();
             BindPlayerModel();
@@ -33,6 +34,13 @@ namespace _Project.Core.Infrastructure
             BindSceneLoadService();
             BindSceneLoader();
             BindAdsService();
+        }
+
+        private void BindRandomService()
+        {
+            Container
+                .BindInterfacesAndSelfTo<RandomService>()
+                .AsSingle();
         }
 
         private void BindSignalBus()
@@ -72,8 +80,7 @@ namespace _Project.Core.Infrastructure
         private void BindInput()
         {
             Container
-                .Bind<IMovementInputService>()
-                .To<StandaloneInputHandler>()
+                .BindInterfacesAndSelfTo<StandaloneInputHandler>()
                 .FromComponentInNewPrefab(_inputHandlerPrefab)
                 .AsSingle();
         }

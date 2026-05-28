@@ -13,7 +13,7 @@ namespace _Project.Features.Gameplay.Spaceship
         private readonly SpaceshipComponent _spaceshipPrefab;
         private readonly IInstantiator _instantiator;
         private readonly SignalBus _signalBus;
-        private readonly ScreenBoundsService _screenBoundsService;
+        private readonly ScreenService _screenService;
 
         
         public SpaceshipSpawner(
@@ -21,13 +21,13 @@ namespace _Project.Features.Gameplay.Spaceship
             SpaceshipCloneComponent spaceshipClonePrefab,
             IInstantiator instantiator,
             SignalBus signalBus,
-            ScreenBoundsService screenBoundsService)
+            ScreenService screenService)
         {
             _spaceshipPrefab = spaceshipPrefab;
             _spaceshipClonePrefab = spaceshipClonePrefab;
             _instantiator = instantiator;
             _signalBus = signalBus;
-            _screenBoundsService = screenBoundsService;
+            _screenService = screenService;
         }
 
         public void Initialize()
@@ -48,8 +48,8 @@ namespace _Project.Features.Gameplay.Spaceship
 
         private void SpawnSpaceshipClones()
         {
-            var width = _screenBoundsService.ScreenWidth;
-            var height = _screenBoundsService.ScreenHeight;
+            var width = _screenService.ScreenWidth;
+            var height = _screenService.ScreenHeight;
 
             Vector2[] cloneOffsets = 
             {

@@ -11,21 +11,21 @@ namespace _Project.Features.Gameplay.Bounds
         private float _rightBoundX;
         private float _topBoundY;
         private float _bottomBoundY;
-        private readonly ScreenBoundsService _screenBoundsService;
+        private readonly ScreenService _screenService;
         
 
         public BoundsService(
-            ScreenBoundsService screenBoundsService)
+            ScreenService screenService)
         {
-            _screenBoundsService = screenBoundsService;
+            _screenService = screenService;
         }
 
         public void Initialize()
         {
-            _leftBoundX = _screenBoundsService.LeftEdgeX;
-            _rightBoundX = _screenBoundsService.RightEdgeX;
-            _topBoundY = _screenBoundsService.TopEdgeY;
-            _bottomBoundY = _screenBoundsService.BottomEdgeY;
+            _leftBoundX = _screenService.LeftEdgeX;
+            _rightBoundX = _screenService.RightEdgeX;
+            _topBoundY = _screenService.TopEdgeY;
+            _bottomBoundY = _screenService.BottomEdgeY;
         }
 
         public bool IsOutOfBounds(Vector2 pos)

@@ -1,5 +1,7 @@
 using System;
+using _Project.Core.Tools;
 using UnityEngine;
+using Zenject;
 
 
 namespace _Project.Core.Input
@@ -27,6 +29,11 @@ namespace _Project.Core.Input
         public float GetVerticalAxis()
         {
             return UnityEngine.Input.GetAxis(VerticalAxisName);
+        }
+
+        public Vector2 GetScreenPointerPosition()
+        {
+            return UnityEngine.Input.mousePosition;
         }
     }
 }

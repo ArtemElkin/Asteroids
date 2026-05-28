@@ -8,17 +8,17 @@ namespace _Project.Features.Gameplay.Bounds
 {
     public class BoundsWarper : IInitializable, IDisposable
     {
-        private readonly ScreenBoundsService _screenBoundsService;
+        private readonly ScreenService _screenService;
         private readonly BoundsService _boundsService;
         private readonly SignalBus _signalBus;
 
 
         public BoundsWarper(
-            ScreenBoundsService screenBoundsService,
+            ScreenService screenService,
             BoundsService boundsService,
             SignalBus signalBus)
         {
-            _screenBoundsService = screenBoundsService;
+            _screenService = screenService;
             _boundsService = boundsService;
             _signalBus = signalBus;
         }
@@ -35,10 +35,10 @@ namespace _Project.Features.Gameplay.Bounds
             var newPos = oldPos;
             if (_boundsService.TryGetCrossedBounds(oldPos, out var crossedBounds))
             {
-                if ((crossedBounds & BoundType.Top) != 0) newPos.y = _screenBoundsService.BottomEdgeY;
-                if ((crossedBounds & BoundType.Bottom) != 0) newPos.y = _screenBoundsService.TopEdgeY;
-                if ((crossedBounds & BoundType.Left) != 0) newPos.x = _screenBoundsService.RightEdgeX;
-                if((crossedBounds & BoundType.Right) != 0) newPos.x = _screenBoundsService.LeftEdgeX;
+                if ((crossedBounds & BoundType.Top) != 0) newPos.y = _screenService.BottomEdgeY;
+                if ((crossedBounds & BoundType.Bottom) != 0) newPos.y = _screenService.TopEdgeY;
+                if ((crossedBounds & BoundType.Left) != 0) newPos.x = _screenService.RightEdgeX;
+                if((crossedBounds & BoundType.Right) != 0) newPos.x = _screenService.LeftEdgeX;
                 warpable.Warp(newPos);
             }
         }

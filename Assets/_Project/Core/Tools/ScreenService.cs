@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace _Project.Core.Tools
 {
-    public class ScreenBoundsService
+    public class ScreenService
     {
         private readonly Camera _camera;
         
         
-        public ScreenBoundsService(Camera camera) => _camera = camera;
+        public ScreenService(Camera camera) => _camera = camera;
 
         public float RightEdgeX => _camera.transform.position.x + (_camera.orthographicSize * _camera.aspect);
         
@@ -21,5 +21,7 @@ namespace _Project.Core.Tools
         public float ScreenWidth => RightEdgeX - LeftEdgeX;
         
         public float ScreenHeight => TopEdgeY - BottomEdgeY;
+        
+        public Vector2 ScreenPointToWorldPoint(Vector2 point) => _camera.ScreenToWorldPoint(point);
     }
 }
