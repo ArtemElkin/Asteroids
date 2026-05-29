@@ -13,11 +13,19 @@ namespace _Project.Features.Gameplay.UFO
         
         public override void InstallBindings()
         {
+            BindUFOStorage();
             BindUFOMovementController();
             BindUFOFactory(_ufoPrefab, _ufoParentTransform);
             BindUFOSpawner();
             BindUFOSpawnTimer();
             BindUFODespawner();
+        }
+
+        private void BindUFOStorage()
+        {
+            Container
+                .BindInterfacesAndSelfTo<Storage<UFOComponent>>()
+                .AsSingle();
         }
 
         private void BindUFOMovementController()
@@ -37,6 +45,8 @@ namespace _Project.Features.Gameplay.UFO
 
         private void BindUFOSpawner()
         {
+            Container.DeclareSignal<SpawnedSignal<UFOComponent>>();
+            
             Container
                 .BindInterfacesAndSelfTo<UFOSpawner>()
                 .AsSingle();

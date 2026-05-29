@@ -17,21 +17,13 @@ namespace _Project.Features.Gameplay.UFO
         private UFOMovementController _movementController;
         private UFORotationController _rotationController;
         private UFOTargetFollower _targetFollower;
-        private SignalBus _signalBus;
-
-
-        private void OnEnable()
-        {
-            _signalBus.Subscribe<SpawnedSignal<SpaceshipComponent>>(OnSpaceshipSpawned);
-        }
+        
 
         private void FixedUpdate()
         {
             if(!_isSetup) return;
-            if (_isTargetSetup)
-            {
-                _targetFollower.UpdateTarget();
-            }
+            
+            _targetFollower.UpdateTarget();
             _movementController.UpdatePhysics(Time.fixedDeltaTime);
             _rb.MovePosition(_movementModel.Position);
             
@@ -40,49 +32,27 @@ namespace _Project.Features.Gameplay.UFO
             _rb.MoveRotation(rotation);
         }
 
-        [Inject]
-        private void Construct(
+        public void Setup(
             MovementModel movementModel,
             UFOMovementController movementController,
             UFORotationController rotationController,
-            UFOTargetFollower targetFollower,
-            SignalBus signalBus)
+            UFOTargetFollower targetFollower)
         {
             _movementModel = movementModel;
             _movementController = movementController;
             _rotationController = rotationController;
             _targetFollower = targetFollower;
-            _signalBus =  signalBus;
             _rb = GetComponent<Rigidbody2D>();
-        }
-
-        public void Setup(float initialSpeed)
-        {
-            _movementModel.Init((Vector2)transform.position, initialSpeed);
-            _movementController.Setup(_movementModel);
-            _rotationController.Setup(_movementModel);
-            _isSetup = true;
-        }
-        
-        private void OnSpaceshipSpawned(SpawnedSignal<SpaceshipComponent> signal)
-        {
-            IReadOnlyPositionable targetPositionable = signal.spawnedObj.GetPositionable();
-            _targetFollower.Setup(_movementModel, targetPositionable);
-            _isTargetSetup = true;
         }
         
         public void Reset()
         {
             _isSetup = false;
-            _isTargetSetup = false;
-            _movementController.Reset();
-            _rotationController.Reset();
-            _targetFollower.Reset();
-        }
-
-        private void OnDisable()
-        {
-            _signalBus.Unsubscribe<SpawnedSignal<SpaceshipComponent>>(OnSpaceshipSpawned);
+            _rb = null;
+            _targetFollower = null;
+            _rotationController = null;
+            _movementController = null;
+            _movementModel = null;
         }
     }
 }

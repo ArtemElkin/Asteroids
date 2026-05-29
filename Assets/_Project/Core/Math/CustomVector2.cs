@@ -38,6 +38,10 @@ namespace _Project.Core.Math
             return new Vector2(v.x, v.y);
         }
         
+        public static implicit operator CustomVector2(CustomVector3 v) => new (v.x, v.y);
+
+        public static implicit operator CustomVector3(CustomVector2 v) => new (v.x, v.y, 0.0f);
+        
         public static CustomVector2 operator +(CustomVector2 a, CustomVector2 b) => new (a.x + b.x, a.y + b.y);
 
         public static CustomVector2 operator -(CustomVector2 a, CustomVector2 b) => new (a.x - b.x, a.y - b.y);
@@ -61,9 +65,5 @@ namespace _Project.Core.Math
             return num1 * num1 + num2 * num2 < 9.999999439624929E-11;
         }
         public static bool operator !=(CustomVector2 lhs, CustomVector2 rhs) => !(lhs == rhs);
-
-        public static implicit operator CustomVector2(CustomVector3 v) => new (v.x, v.y);
-
-        public static implicit operator CustomVector3(CustomVector2 v) => new (v.x, v.y, 0.0f);
     }
 }

@@ -15,6 +15,7 @@ namespace _Project.Features.Gameplay.Asteroid
         public override void InstallBindings()
         {
             BindAsteroidMovementController();
+            BindAsteroidsStorage();
             BindAsteroidFactory(_asteroidPrefab, _asteroidsParentTransform);
             BindAsteroidSpawner();
             BindAsteroidSpawnTimer();
@@ -26,6 +27,13 @@ namespace _Project.Features.Gameplay.Asteroid
             Container
                 .BindInterfacesAndSelfTo<AsteroidMovementController>()
                 .AsTransient();
+        }
+
+        private void BindAsteroidsStorage()
+        {
+            Container
+                .BindInterfacesAndSelfTo<Storage<AsteroidComponent>>()
+                .AsSingle();
         }
 
         private void BindAsteroidFactory(AsteroidComponent asteroidPrefab, Transform asteroidsParentTransform)

@@ -30,8 +30,7 @@ namespace _Project.Features.Gameplay.Spaceship
             _boundsChecker.CheckOutOfBounds();
         }
 
-        [Inject]
-        private void Construct(
+        public void Setup(
             MovementModel movementModel,
             SpaceshipMovementController movementController,
             SpaceshipRotationController rotationController,
@@ -42,14 +41,7 @@ namespace _Project.Features.Gameplay.Spaceship
             _rotationController = rotationController;
             _boundsChecker = boundsChecker;
             _rb = GetComponent<Rigidbody2D>();
-        }
-
-        public void Setup(float maxSpeed)
-        {
-            _movementModel.Init((Vector2)transform.position, 0);
-            _movementController.Setup(_movementModel, maxSpeed);
-            _rotationController.Setup(_movementModel);
-            _boundsChecker.Setup(_movementModel, _movementController);
+            _rb.position = transform.position;
             _isSetup = true;
         }
 
@@ -59,9 +51,11 @@ namespace _Project.Features.Gameplay.Spaceship
         public void Reset()
         {
             _isSetup = false;
-            _movementController.Reset();
-            _rotationController.Reset();
-            _boundsChecker.Reset();
+            _rb = null;
+            _boundsChecker = null;
+            _rotationController = null;
+            _movementController = null;
+            _movementModel = null;
         }
     }
 }

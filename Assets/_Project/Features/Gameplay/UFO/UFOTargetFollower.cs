@@ -1,5 +1,7 @@
 using _Project.Core.Math;
 using _Project.Core.Physics;
+using _Project.Core.Tools;
+using _Project.Features.Gameplay.Spaceship;
 
 
 namespace _Project.Features.Gameplay.UFO
@@ -7,6 +9,7 @@ namespace _Project.Features.Gameplay.UFO
     public class UFOTargetFollower
     {
         private bool _isSetup;
+        private bool _hasTarget;
         CustomVector2 _direction;
         private MovementModel _movementModel;
         private IReadOnlyPositionable _targetPositionable;
@@ -14,10 +17,14 @@ namespace _Project.Features.Gameplay.UFO
 
         public void Setup(
             MovementModel movementModel,
-            IReadOnlyPositionable targetPositionable)
+            Storage<SpaceshipComponent>  spaceshipStorage)
         {
             _movementModel = movementModel;
-            _targetPositionable = targetPositionable;
+            _hasTarget = spaceshipStorage.TryGetFirst(out var spaceship);
+            if (_hasTarget)
+            {
+                _targetPositionable = spaceship.GetPositionable();
+            }
             _isSetup = true;
         }
 
