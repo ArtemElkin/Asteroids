@@ -1,4 +1,6 @@
 {
   "minSpeed": 4.0,
-  "maxSpeed": 7.0
+  "maxSpeed": 7.0,
+  "accelerationMultiplier": 100,
+  "inertiaMultiplier": 0.5
 }

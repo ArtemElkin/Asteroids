@@ -1,8 +1,10 @@
+using _Project.Core.Math;
+
+
 namespace _Project.Core.Input
 {
     public interface IMovementInputService
     {
-        float GetHorizontalAxis();
-        float GetVerticalAxis();
+        CustomVector2 GetAxis();
     }
 }

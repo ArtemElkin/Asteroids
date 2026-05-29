@@ -20,19 +20,24 @@ namespace _Project.Core.Input
                 FireStateChanged?.Invoke(false);
         }
 
-        public float GetHorizontalAxis()
+        public CustomVector2 GetAxis()
         {
-            return UnityEngine.Input.GetAxis(HorizontalAxisName);
-        }
-
-        public float GetVerticalAxis()
-        {
-            return UnityEngine.Input.GetAxis(VerticalAxisName);
+            return new  CustomVector2(GetHorizontalAxis(), GetVerticalAxis());
         }
 
         public CustomVector2 GetScreenPointerPosition()
         {
             return (Vector2)UnityEngine.Input.mousePosition;
+        }
+        
+        private float GetHorizontalAxis()
+        {
+            return UnityEngine.Input.GetAxis(HorizontalAxisName);
+        }
+
+        private float GetVerticalAxis()
+        {
+            return UnityEngine.Input.GetAxis(VerticalAxisName);
         }
     }
 }

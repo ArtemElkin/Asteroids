@@ -16,6 +16,8 @@ namespace _Project.Features.Gameplay.Spaceship
         private IReadOnlyPositionable _positionableModel;
         private IReadOnlyRotatable _rotatableModel;
         private float _spaceshipMaxSpeed;
+        private float _spaceshipAccelerationMultiplier;
+        private float _spaceshipInertiaMultiplier;
         private readonly SpaceshipCloneComponent _spaceshipClonePrefab;
         private readonly SpaceshipComponent _spaceshipPrefab;
         private readonly Transform _spaceshipParentTransform;
@@ -54,6 +56,8 @@ namespace _Project.Features.Gameplay.Spaceship
             _signalBus.Subscribe<GameStartedSignal>(OnGameStarted);
             var config = _configProvider.GetConfigFromJson<SpaceshipMovementConfig>("SpaceshipMovementConfig");
             _spaceshipMaxSpeed = config.maxSpeed;
+            _spaceshipAccelerationMultiplier = config.accelerationMultiplier;
+            _spaceshipInertiaMultiplier = config.inertiaMultiplier;
         }
 
         private void OnGameStarted()
@@ -65,15 +69,18 @@ namespace _Project.Features.Gameplay.Spaceship
         private void SpawnSpaceship()
         {
             var spaceship = _instantiator.InstantiatePrefabForComponent<SpaceshipComponent>(_spaceshipPrefab, _spaceshipParentTransform);
-            _spaceshipStorage.Add(spaceship);
             
             var movementModel = _diContainer.Resolve<MovementModel>();
-            movementModel.Init((Vector2)spaceship.transform.position, 0);
+            movementModel.Init(CustomVector2.zero, 0);
             _positionableModel = movementModel;
             _rotatableModel = movementModel;
 
             var movementController = _diContainer.Resolve<SpaceshipMovementController>();
-            movementController.Setup(movementModel, _spaceshipMaxSpeed);
+            movementController.Setup(
+                movementModel, 
+                _spaceshipMaxSpeed, 
+                _spaceshipAccelerationMultiplier,
+                _spaceshipInertiaMultiplier);
             
             var rotationController = _diContainer.Resolve<SpaceshipRotationController>();
             rotationController.Setup(movementModel);
@@ -86,6 +93,8 @@ namespace _Project.Features.Gameplay.Spaceship
                 movementController,
                 rotationController,
                 boundsChecker);
+            
+            _spaceshipStorage.Add(spaceship);
             
             _signalBus.Fire(new SpawnedSignal<SpaceshipComponent>(spaceship));
         }

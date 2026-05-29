@@ -3,10 +3,8 @@ using _Project.Core.Infrastructure.Config;
 using _Project.Core.Math;
 using _Project.Core.Physics;
 using _Project.Core.Tools;
-using _Project.Features.Gameplay.Asteroid;
 using _Project.Features.Gameplay.Signals;
 using _Project.Features.Gameplay.Spaceship;
-using UnityEngine;
 using Zenject;
 
 
@@ -15,9 +13,11 @@ namespace _Project.Features.Gameplay.UFO
     public class UFOSpawner : IInitializable, IDisposable
     {
         private float _spawnOffsetFromBounds;
+        private int _maxUFOsCount;
         private float _minUFOSpeed;
         private float _maxUFOSpeed;
-        private int _maxUFOsCount;
+        private float _ufoAccelerationMultiplier;
+        private float _ufoInertiaMultiplier;
         private readonly Storage<UFOComponent> _ufoStorage;
         private readonly Storage<SpaceshipComponent> _spaceshipStorage;
         private readonly FactoryWithPool<UFOComponent> _ufoFactory;
@@ -59,6 +59,9 @@ namespace _Project.Features.Gameplay.UFO
             var ufoConfig =  _configProvider.GetConfigFromJson<UFOConfig>("UFOConfig");
             _minUFOSpeed = ufoConfig.minSpeed;
             _maxUFOSpeed = ufoConfig.maxSpeed;
+            _ufoAccelerationMultiplier = ufoConfig.accelerationMultiplier;
+            _ufoInertiaMultiplier = ufoConfig.inertiaMultiplier;
+
         }
 
         private void OnSpawnRequested()
@@ -75,13 +78,15 @@ namespace _Project.Features.Gameplay.UFO
             var initialSpeed = GetRandomInitialUFOSpeed();
             
             var ufo = _ufoFactory.Create(initialPosition);
-            _ufoStorage.Add(ufo);
             
             var movementModel = _diContainer.Resolve<MovementModel>();
             movementModel.Init(initialPosition, initialSpeed);
 
             var movementController = _diContainer.Resolve<UFOMovementController>();
-            movementController.Setup(movementModel);
+            movementController.Setup(
+                movementModel,
+                _ufoAccelerationMultiplier,
+                _ufoInertiaMultiplier);
             
             var rotationController = _diContainer.Resolve<UFORotationController>();
             rotationController.Setup(movementModel);
@@ -99,6 +104,8 @@ namespace _Project.Features.Gameplay.UFO
                 rotationController,
                 targetFollower,
                 boundsChecker);
+            
+            _ufoStorage.Add(ufo);
         }
 
         private CustomVector2 GetRandomInitialUFOPosition()

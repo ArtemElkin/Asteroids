@@ -4,7 +4,6 @@ using _Project.Core.Math;
 using _Project.Core.Physics;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Signals;
-using UnityEngine;
 using Zenject;
 
 
@@ -70,7 +69,6 @@ namespace _Project.Features.Gameplay.Asteroid
             var initialSpeed = GetRandomInitialAsteroidSpeed();
             
             var asteroid = _asteroidFactory.Create(initialPosition);
-            _asteroidsStorage.Add(asteroid);
             
             var movementModel = _diContainer.Resolve<MovementModel>();
             movementModel.Init(initialPosition, initialSpeed);
@@ -83,6 +81,8 @@ namespace _Project.Features.Gameplay.Asteroid
             boundsChecker.Setup(movementModel, movementController);
             
             asteroid.Setup(movementModel, movementController, boundsChecker);
+            
+            _asteroidsStorage.Add(asteroid);
         }
 
         private CustomVector2 GetRandomInitialAsteroidPosition()

@@ -6,5 +6,7 @@ namespace _Project.Features.Gameplay.UFO
     {
         public float minSpeed;
         public float maxSpeed;
+        public float accelerationMultiplier;
+        public float inertiaMultiplier;
     }
 }

@@ -16,8 +16,6 @@ namespace _Project.Features.Gameplay.Spaceship
         public override void InstallBindings()
         {
             BindSpaceshipStorage();
-            BindSpaceshipAccelerationApplier();
-            BindSpaceshipInertiaApplier();
             BindSpaceshipMovementController();
             BindSpaceshipRotationController();
             BindSpaceshipSpawner(_spaceshipPrefab, _spaceshipClonePrefab, _spaceshipParentTransform);
@@ -27,20 +25,6 @@ namespace _Project.Features.Gameplay.Spaceship
         {
             Container
                 .BindInterfacesAndSelfTo<Storage<SpaceshipComponent>>()
-                .AsSingle();
-        }
-
-        private void BindSpaceshipAccelerationApplier()
-        {
-            Container
-                .BindInterfacesAndSelfTo<SpaceshipAccelerationApplier>()
-                .AsSingle();
-        }
-
-        private void BindSpaceshipInertiaApplier()
-        {
-            Container
-                .BindInterfacesAndSelfTo<SpaceshipInertiaApplier>()
                 .AsSingle();
         }
 
