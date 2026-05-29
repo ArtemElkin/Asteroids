@@ -10,6 +10,7 @@ namespace _Project.Features.Gameplay.Spaceship
     {
         [SerializeField] private SpaceshipComponent _spaceshipPrefab;
         [SerializeField] private SpaceshipCloneComponent _spaceshipClonePrefab;
+        [SerializeField] private Transform _spaceshipParentTransform;
         
         
         public override void InstallBindings()
@@ -19,7 +20,7 @@ namespace _Project.Features.Gameplay.Spaceship
             BindSpaceshipInertiaApplier();
             BindSpaceshipMovementController();
             BindSpaceshipRotationController();
-            BindSpaceshipSpawner(_spaceshipPrefab, _spaceshipClonePrefab);
+            BindSpaceshipSpawner(_spaceshipPrefab, _spaceshipClonePrefab, _spaceshipParentTransform);
         }
 
         private void BindSpaceshipStorage()
@@ -59,14 +60,15 @@ namespace _Project.Features.Gameplay.Spaceship
 
         private void BindSpaceshipSpawner(
             SpaceshipComponent spaceshipPrefab,
-            SpaceshipCloneComponent spaceshipClonePrefab)
+            SpaceshipCloneComponent spaceshipClonePrefab,
+            Transform spaceshipParentTransform)
         {
             Container.DeclareSignal<SpawnedSignal<SpaceshipComponent>>();
             
             Container
                 .BindInterfacesAndSelfTo<SpaceshipSpawner>()
                 .AsSingle()
-                .WithArguments(spaceshipPrefab, spaceshipClonePrefab);
+                .WithArguments(spaceshipPrefab, spaceshipClonePrefab, spaceshipParentTransform);
         }
         
     }

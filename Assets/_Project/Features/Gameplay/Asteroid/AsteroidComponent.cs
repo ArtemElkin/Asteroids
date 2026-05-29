@@ -11,6 +11,7 @@ namespace _Project.Features.Gameplay.Asteroid
         private Rigidbody2D _rb;
         private MovementModel _movementModel;
         private AsteroidMovementController _movementController;
+        private BoundsChecker _boundsChecker;
 
 
         private void FixedUpdate()
@@ -19,14 +20,17 @@ namespace _Project.Features.Gameplay.Asteroid
             
             _movementController.UpdatePhysics(Time.fixedDeltaTime);
             _rb.MovePosition(_movementModel.Position);
+            _boundsChecker.CheckOutOfBounds();
         }
 
         public void Setup(
             MovementModel movementModel,
-            AsteroidMovementController movementController)
+            AsteroidMovementController movementController,
+            BoundsChecker boundsChecker)
         {
             _movementModel = movementModel;
             _movementController = movementController;
+            _boundsChecker = boundsChecker;
             _rb = GetComponent<Rigidbody2D>();
             _rb.position = transform.position;
             _isSetup = true;

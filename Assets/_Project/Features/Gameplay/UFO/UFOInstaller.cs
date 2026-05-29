@@ -15,6 +15,8 @@ namespace _Project.Features.Gameplay.UFO
         {
             BindUFOStorage();
             BindUFOMovementController();
+            BindUFORotationController();
+            BindUFOTargetFollower();
             BindUFOFactory(_ufoPrefab, _ufoParentTransform);
             BindUFOSpawner();
             BindUFOSpawnTimer();
@@ -32,6 +34,20 @@ namespace _Project.Features.Gameplay.UFO
         {
             Container
                 .Bind<UFOMovementController>()
+                .AsTransient();
+        }
+
+        private void BindUFORotationController()
+        {
+            Container
+                .Bind<UFORotationController>()
+                .AsTransient();
+        }
+
+        private void BindUFOTargetFollower()
+        {
+            Container
+                .Bind<UFOTargetFollower>()
                 .AsTransient();
         }
 

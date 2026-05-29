@@ -1,3 +1,4 @@
+using _Project.Core.Physics;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Ads;
 using _Project.Features.Gameplay.Signals;
@@ -14,10 +15,19 @@ namespace _Project.Features.Gameplay
         
         public override void InstallBindings()
         {
+            BindMovementModel();
             BindScreenService(_camera);
+            BindBoundsChecker();
             BindPositionGenerator();
             BindGameplayAdsController();
             BindGameplayStarter();
+        }
+
+        private void BindMovementModel()
+        {
+            Container
+                .BindInterfacesAndSelfTo<MovementModel>()
+                .AsTransient();
         }
         
         private void BindScreenService(Camera mainCamera)
@@ -26,6 +36,13 @@ namespace _Project.Features.Gameplay
                 .BindInterfacesAndSelfTo<ScreenService>()
                 .AsSingle()
                 .WithArguments(mainCamera);
+        }
+
+        private void BindBoundsChecker()
+        {
+            Container
+                .BindInterfacesAndSelfTo<BoundsChecker>()
+                .AsTransient();
         }
 
         private void BindPositionGenerator()

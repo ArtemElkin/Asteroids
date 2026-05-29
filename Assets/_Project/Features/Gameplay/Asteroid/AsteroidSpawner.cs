@@ -46,7 +46,6 @@ namespace _Project.Features.Gameplay.Asteroid
         public void Initialize()
         {
             _signalBus.Subscribe<SpawnRequestedSignal<AsteroidComponent>>(OnSpawnRequested);
-            
             var gameConfig = _configProvider.GetConfigFromJson<GameConfig>("GameConfig");
             _maxAsteroidsCount = gameConfig.maxAsteroidsCount;
             _spawnOffsetFromBounds = gameConfig.spawnOffsetFromBounds;
@@ -74,13 +73,16 @@ namespace _Project.Features.Gameplay.Asteroid
             _asteroidsStorage.Add(asteroid);
             
             var movementModel = _diContainer.Resolve<MovementModel>();
-            movementModel.Init((Vector2)asteroid.transform.position, initialSpeed);
+            movementModel.Init(initialPosition, initialSpeed);
             movementModel.UpdateMoveDirection(initialDirection);
 
             var movementController = _diContainer.Resolve<AsteroidMovementController>();
             movementController.Setup(movementModel);
             
-            asteroid.Setup(movementModel, movementController);
+            var boundsChecker = _diContainer.Resolve<BoundsChecker>();
+            boundsChecker.Setup(movementModel, movementController);
+            
+            asteroid.Setup(movementModel, movementController, boundsChecker);
         }
 
         private CustomVector2 GetRandomInitialAsteroidPosition()

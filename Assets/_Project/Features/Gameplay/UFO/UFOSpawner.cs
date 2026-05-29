@@ -1,3 +1,4 @@
+using System;
 using _Project.Core.Infrastructure.Config;
 using _Project.Core.Math;
 using _Project.Core.Physics;
@@ -8,9 +9,10 @@ using _Project.Features.Gameplay.Spaceship;
 using UnityEngine;
 using Zenject;
 
+
 namespace _Project.Features.Gameplay.UFO
 {
-    public class UFOSpawner
+    public class UFOSpawner : IInitializable, IDisposable
     {
         private float _spawnOffsetFromBounds;
         private float _minUFOSpeed;
@@ -76,7 +78,7 @@ namespace _Project.Features.Gameplay.UFO
             _ufoStorage.Add(ufo);
             
             var movementModel = _diContainer.Resolve<MovementModel>();
-            movementModel.Init((Vector2)ufo.transform.position, initialSpeed);
+            movementModel.Init(initialPosition, initialSpeed);
 
             var movementController = _diContainer.Resolve<UFOMovementController>();
             movementController.Setup(movementModel);
@@ -87,12 +89,16 @@ namespace _Project.Features.Gameplay.UFO
             var targetFollower = _diContainer.Resolve<UFOTargetFollower>();
             targetFollower.Setup(movementModel,_spaceshipStorage);
             
+            var boundsChecker = _diContainer.Resolve<BoundsChecker>();
+            boundsChecker.Setup(movementModel, movementController);
+            
             
             ufo.Setup(
                 movementModel, 
                 movementController,
                 rotationController,
-                targetFollower);
+                targetFollower,
+                boundsChecker);
         }
 
         private CustomVector2 GetRandomInitialUFOPosition()
@@ -107,7 +113,7 @@ namespace _Project.Features.Gameplay.UFO
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<SpawnRequestedSignal<AsteroidComponent>>(OnSpawnRequested);
+            _signalBus.Unsubscribe<SpawnRequestedSignal<UFOComponent>>(OnSpawnRequested);
         }
     }
 }

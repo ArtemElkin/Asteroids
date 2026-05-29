@@ -6,6 +6,7 @@ namespace _Project.Features.Gameplay.Asteroid
 {
     public class AsteroidMovementController : IWarpable
     {
+        private CustomVector2 _velocity;
         private MovementModel _movementModel;
         private bool _isSetup;
 
@@ -48,7 +49,7 @@ namespace _Project.Features.Gameplay.Asteroid
         
         private void MoveAsteroid(float deltaTime)
         {
-            _movementModel.UpdatePosition(_movementModel.Velocity * deltaTime);
+            _movementModel.UpdatePosition(_movementModel.Position + _movementModel.Velocity * deltaTime);
         }
     }
 }

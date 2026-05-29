@@ -18,6 +18,7 @@ namespace _Project.Features.Gameplay.Spaceship
         private float _spaceshipMaxSpeed;
         private readonly SpaceshipCloneComponent _spaceshipClonePrefab;
         private readonly SpaceshipComponent _spaceshipPrefab;
+        private readonly Transform _spaceshipParentTransform;
         private readonly Storage<SpaceshipComponent> _spaceshipStorage;
         private readonly IInstantiator _instantiator;
         private readonly SignalBus _signalBus;
@@ -29,6 +30,7 @@ namespace _Project.Features.Gameplay.Spaceship
         public SpaceshipSpawner(
             SpaceshipComponent spaceshipPrefab,
             SpaceshipCloneComponent spaceshipClonePrefab,
+            Transform spaceshipParentTransform,
             Storage<SpaceshipComponent> spaceshipStorage,
             IInstantiator instantiator,
             SignalBus signalBus,
@@ -38,6 +40,7 @@ namespace _Project.Features.Gameplay.Spaceship
         {
             _spaceshipPrefab = spaceshipPrefab;
             _spaceshipClonePrefab = spaceshipClonePrefab;
+            _spaceshipParentTransform =  spaceshipParentTransform;
             _spaceshipStorage = spaceshipStorage;
             _instantiator = instantiator;
             _signalBus = signalBus;
@@ -61,7 +64,7 @@ namespace _Project.Features.Gameplay.Spaceship
 
         private void SpawnSpaceship()
         {
-            var spaceship = _instantiator.InstantiatePrefabForComponent<SpaceshipComponent>(_spaceshipPrefab);
+            var spaceship = _instantiator.InstantiatePrefabForComponent<SpaceshipComponent>(_spaceshipPrefab, _spaceshipParentTransform);
             _spaceshipStorage.Add(spaceship);
             
             var movementModel = _diContainer.Resolve<MovementModel>();
@@ -106,7 +109,7 @@ namespace _Project.Features.Gameplay.Spaceship
 
             foreach (var offset in cloneOffsets)
             {
-                var clone = _instantiator.InstantiatePrefabForComponent<SpaceshipCloneComponent>(_spaceshipClonePrefab);
+                var clone = _instantiator.InstantiatePrefabForComponent<SpaceshipCloneComponent>(_spaceshipClonePrefab, _spaceshipParentTransform);
                 clone.Setup(offset, _positionableModel, _rotatableModel);
             }
         }

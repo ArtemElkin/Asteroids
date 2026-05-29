@@ -1,6 +1,7 @@
 using _Project.Core.Physics;
 using _Project.Features.Gameplay.Bounds;
 using _Project.Features.Gameplay.Signals;
+using UnityEngine;
 using Zenject;
 
 namespace _Project.Features.Gameplay
@@ -38,7 +39,7 @@ namespace _Project.Features.Gameplay
             {
                 _signalBus.Fire(new OutOfBoundsSignal(_warpable, _positionable.Position));
             }
-            else if (!_isEnteredGameAreaAfterSpawn && _boundsService.IsOutOfBounds(_positionable.Position))
+            else if (!_isEnteredGameAreaAfterSpawn && !_boundsService.IsOutOfBounds(_positionable.Position))
             {
                 _isEnteredGameAreaAfterSpawn = true;
             }

@@ -11,6 +11,8 @@ namespace _Project.Features.Gameplay.Spaceship
     {
         private float _maxSpeed;
         private bool _isSetup;
+        private CustomVector2 _moveDirection;
+        private CustomVector2 _velocity;
         private MovementModel _movementModel;
         private readonly SpaceshipAccelerationApplier _accelerationApplier;
         private readonly SpaceshipInertiaApplier _inertiaApplier;
@@ -67,31 +69,32 @@ namespace _Project.Features.Gameplay.Spaceship
 
         private void UpdateDirection()
         {
-            var x = _movementInputService.GetHorizontalAxis();
-            var y = _movementInputService.GetVerticalAxis();
-            var direction = new CustomVector2(x, y);
-            if (direction.sqrMagnitude > 1) 
+            _moveDirection.x = _movementInputService.GetHorizontalAxis();
+            _moveDirection.y = _movementInputService.GetVerticalAxis();
+            if (_moveDirection.sqrMagnitude > 1) 
             {
-                direction = direction.normalized;
+                _moveDirection = _moveDirection.normalized;
             }
-            _movementModel.UpdateMoveDirection(direction);
+            _movementModel.UpdateMoveDirection(_moveDirection);
         }
 
         private void UpdateVelocity(float deltaTime)
         {
-            var velocity = _movementModel.MoveDirection == CustomVector2.zero ? 
-                (_inertiaApplier.ApplyInertia(_movementModel.Velocity, deltaTime)) :
-                _accelerationApplier.ApplyAcceleration(_movementModel.Velocity, _movementModel.MoveDirection, deltaTime);
+            _velocity = _movementModel.Velocity;
+            _velocity = _movementModel.MoveDirection == CustomVector2.zero ? 
+                (_inertiaApplier.ApplyInertia(_velocity, deltaTime)) :
+                _accelerationApplier.ApplyAcceleration(_velocity, _movementModel.MoveDirection, deltaTime);
 
-            if (velocity.magnitude > _maxSpeed)
+            if (_velocity.magnitude > _maxSpeed)
             {
-                _movementModel.UpdateVelocity(velocity.normalized * _maxSpeed);
+                _velocity = _velocity.normalized * _maxSpeed;
             }
+            _movementModel.UpdateVelocity(_velocity);
         }
         
         private void MoveSpaceship(float  deltaTime)
         {
-            _movementModel.UpdatePosition(_movementModel.Velocity * deltaTime);
+            _movementModel.UpdatePosition(_movementModel.Position + _movementModel.Velocity * deltaTime);
         }
     }
 }
