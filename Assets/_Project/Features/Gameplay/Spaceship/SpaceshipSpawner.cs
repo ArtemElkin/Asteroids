@@ -1,7 +1,9 @@
 using System;
+using _Project.Core.Infrastructure.Config;
+using _Project.Core.Math;
+using _Project.Core.Physics;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
-using UnityEngine;
 using Zenject;
 
 
@@ -9,11 +11,15 @@ namespace _Project.Features.Gameplay.Spaceship
 {
     public class SpaceshipSpawner : IInitializable, IDisposable
     {
+        private IReadOnlyPositionable _positionableModel;
+        private IReadOnlyRotatable _rotatableModel;
+        private float _spaceshipMaxSpeed;
         private readonly SpaceshipCloneComponent _spaceshipClonePrefab;
         private readonly SpaceshipComponent _spaceshipPrefab;
         private readonly IInstantiator _instantiator;
         private readonly SignalBus _signalBus;
         private readonly ScreenService _screenService;
+        private readonly IConfigProvider _configProvider;
 
         
         public SpaceshipSpawner(
@@ -21,18 +27,22 @@ namespace _Project.Features.Gameplay.Spaceship
             SpaceshipCloneComponent spaceshipClonePrefab,
             IInstantiator instantiator,
             SignalBus signalBus,
-            ScreenService screenService)
+            ScreenService screenService,
+            IConfigProvider configProvider)
         {
             _spaceshipPrefab = spaceshipPrefab;
             _spaceshipClonePrefab = spaceshipClonePrefab;
             _instantiator = instantiator;
             _signalBus = signalBus;
             _screenService = screenService;
+            _configProvider = configProvider;
         }
 
         public void Initialize()
         {
             _signalBus.Subscribe<GameStartedSignal>(OnGameStarted);
+            var config = _configProvider.GetConfigFromJson<SpaceshipMovementConfig>("SpaceshipMovementConfig");
+            _spaceshipMaxSpeed = config.maxSpeed;
         }
 
         private void OnGameStarted()
@@ -43,7 +53,10 @@ namespace _Project.Features.Gameplay.Spaceship
 
         private void SpawnSpaceship()
         {
-            _instantiator.InstantiatePrefabForComponent<SpaceshipComponent>(_spaceshipPrefab);
+            var spaceship = _instantiator.InstantiatePrefabForComponent<SpaceshipComponent>(_spaceshipPrefab);
+            _positionableModel = spaceship.GetPositionable();
+            _rotatableModel = spaceship.GetRotatable();
+            spaceship.Setup(_spaceshipMaxSpeed);
         }
 
         private void SpawnSpaceshipClones()
@@ -51,7 +64,7 @@ namespace _Project.Features.Gameplay.Spaceship
             var width = _screenService.ScreenWidth;
             var height = _screenService.ScreenHeight;
 
-            Vector2[] cloneOffsets = 
+            CustomVector2[] cloneOffsets = 
             {
                 new (0, height),
                 new (width, height),
@@ -66,7 +79,7 @@ namespace _Project.Features.Gameplay.Spaceship
             foreach (var offset in cloneOffsets)
             {
                 var clone = _instantiator.InstantiatePrefabForComponent<SpaceshipCloneComponent>(_spaceshipClonePrefab);
-                clone.Setup(offset);
+                clone.Setup(offset, _positionableModel, _rotatableModel);
             }
         }
 

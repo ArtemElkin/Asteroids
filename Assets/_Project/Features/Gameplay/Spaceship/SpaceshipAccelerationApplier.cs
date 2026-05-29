@@ -1,5 +1,5 @@
 using _Project.Core.Infrastructure.Config;
-using UnityEngine;
+using _Project.Core.Math;
 using Zenject;
 
 namespace _Project.Features.Gameplay.Spaceship
@@ -22,7 +22,7 @@ namespace _Project.Features.Gameplay.Spaceship
             _accelerationMultiplier = config.accelerationMultiplier;
         }
 
-        public Vector2 ApplyAcceleration(Vector2 velocity, Vector2 direction, float deltaTime)
+        public CustomVector2 ApplyAcceleration(CustomVector2 velocity, CustomVector2 direction, float deltaTime)
         {
             return velocity + _accelerationMultiplier * deltaTime * direction;
         }

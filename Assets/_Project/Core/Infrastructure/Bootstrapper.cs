@@ -1,4 +1,4 @@
-using _Project.Core.Ads;
+using _Project.Core.Infrastructure.Ads;
 using _Project.Core.Infrastructure.Config;
 using _Project.Core.Infrastructure.Save;
 using _Project.Core.Player;

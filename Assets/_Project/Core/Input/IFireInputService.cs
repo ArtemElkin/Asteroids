@@ -1,5 +1,5 @@
 using System;
-using UnityEngine;
+using _Project.Core.Math;
 
 
 namespace _Project.Core.Input
@@ -7,6 +7,6 @@ namespace _Project.Core.Input
     public interface IFireInputService
     {
         event Action<bool> FireStateChanged;
-        Vector2 GetScreenPointerPosition();
+        CustomVector2 GetScreenPointerPosition();
     }
 }

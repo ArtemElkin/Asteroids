@@ -20,11 +20,6 @@ namespace _Project.Core.Tools
             return _random.Next(max);
         }
 
-        public int GetRandomInt(int min = Int32.MinValue, int max = Int32.MaxValue)
-        {
-            return _random.Next(min, max);
-        }
-
         public float GetRandomFloat(float min = float.MinValue, float max = float.MaxValue)
         {
             var minScaled = (int)(min * _scale);

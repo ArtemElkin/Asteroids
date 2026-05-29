@@ -1,6 +1,7 @@
 using System;
 using _Project.Core.Signals;
 using _Project.Features.Gameplay.Signals;
+// TODO осталась зависимость отUnity
 using UnityEngine;
 using Zenject;
 

@@ -1,10 +1,10 @@
 using System;
 using _Project.Core.Infrastructure.Config;
-using _Project.Core.Signals;
+using _Project.Core.Math;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Signals;
-using UnityEngine;
 using Zenject;
+
 
 namespace _Project.Features.Gameplay.Asteroid
 {
@@ -57,12 +57,12 @@ namespace _Project.Features.Gameplay.Asteroid
             asteroid.Setup(initialDirection, initialSpeed);
         }
 
-        private Vector2 GetRandomInitialAsteroidPosition()
+        private CustomVector2 GetRandomInitialAsteroidPosition()
         {
             return _positionGenerator.GenerateRandomPositionOutOfScreen(_spawnOffsetFromBounds);
         }
 
-        private Vector2 GetRandomInitialAsteroidDirection(Vector2 initialPosition)
+        private CustomVector2 GetRandomInitialAsteroidDirection(CustomVector2 initialPosition)
         {
             var target = _positionGenerator.GenerateRandomPositionOnScreen();
             return (target - initialPosition).normalized;

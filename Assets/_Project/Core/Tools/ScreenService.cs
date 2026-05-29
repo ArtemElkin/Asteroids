@@ -1,3 +1,4 @@
+using _Project.Core.Math;
 using UnityEngine;
 
 
@@ -22,6 +23,6 @@ namespace _Project.Core.Tools
         
         public float ScreenHeight => TopEdgeY - BottomEdgeY;
         
-        public Vector2 ScreenPointToWorldPoint(Vector2 point) => _camera.ScreenToWorldPoint(point);
+        public CustomVector2 ScreenPointToWorldPoint(CustomVector2 point) => (Vector2)_camera.ScreenToWorldPoint((Vector2)point);
     }
 }

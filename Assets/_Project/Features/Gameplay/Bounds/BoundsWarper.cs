@@ -31,7 +31,7 @@ namespace _Project.Features.Gameplay.Bounds
         private void OnOutOfBounds(OutOfBoundsSignal signal)
         {
             var warpable = signal.warpable;
-            var oldPos = warpable.GetLastPosition();
+            var oldPos = signal.position;
             var newPos = oldPos;
             if (_boundsService.TryGetCrossedBounds(oldPos, out var crossedBounds))
             {

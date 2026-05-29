@@ -1,20 +1,20 @@
-using System.Collections.Generic;
 using _Project.Core.Input;
+using _Project.Core.Math;
+using _Project.Core.Physics;
 using _Project.Core.Tools;
-using UnityEngine;
 using Zenject;
 
 
 namespace _Project.Features.Gameplay.Spaceship
 {
-    public class SpaceshipRotationController : IInitializable, ITickable
+    public class SpaceshipRotationController
     {
+        private bool _isSetup;
+        private CustomVector2 _lookPoint;
         private float _rotateAngle;
-        private Vector2 _lookPoint;
-        private Vector2 _rotateDirection;
+        private CustomVector2 _rotateDirection;
         private IFireInputService _fireInputService;
-        private Dictionary<Rigidbody2D, Vector2> _clonesRigidbodiesOffsets;
-        private Rigidbody2D _rb;
+        private MovementModel _movementModel;
         private ScreenService _screenService;
 
 
@@ -27,37 +27,32 @@ namespace _Project.Features.Gameplay.Spaceship
             _screenService = screenService;
         }
 
-        public void Initialize()
+        public void Setup(MovementModel movementModel)
         {
-            _clonesRigidbodiesOffsets = new Dictionary<Rigidbody2D, Vector2>();
-        }
-        
-        public void Setup(Rigidbody2D rb)
-        {
-            _rb = rb;
-        }
-        
-        public void AddClone(Rigidbody2D clone, Vector2 offset)
-        {
-            _clonesRigidbodiesOffsets[clone] = offset;
+            _movementModel = movementModel;
+            _isSetup = true;
         }
 
-        public void Tick()
+
+        public void UpdatePhysics(float deltaTime)
         {
+            if (!_isSetup) return;
+            
             RotateSpaceship();
         }
         
         private void RotateSpaceship()
         {
             _lookPoint = _screenService.ScreenPointToWorldPoint(_fireInputService.GetScreenPointerPosition());
-            _rotateDirection = _lookPoint - _rb.position;
-            _rotateAngle = Mathf.Atan2(_rotateDirection.y, _rotateDirection.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.Euler(0, 0, _rotateAngle - 90); 
-            _rb.MoveRotation(rotation);
-            foreach (var clone in _clonesRigidbodiesOffsets.Keys)
-            {
-                clone.MoveRotation(rotation);
-            }
+            _rotateDirection = _lookPoint - _movementModel.Position;
+            _rotateAngle = CustomMath.Atan2(_rotateDirection.y, _rotateDirection.x) * CustomMath.Rad2Deg;
+            _movementModel.UpdateRotationAngle(_rotateAngle - 90); 
+        }
+
+        public void Reset()
+        {
+            _isSetup = false;
+            _movementModel = null;
         }
     }
 }

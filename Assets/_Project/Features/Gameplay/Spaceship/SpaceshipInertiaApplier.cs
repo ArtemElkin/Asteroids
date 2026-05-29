@@ -1,6 +1,7 @@
 using _Project.Core.Infrastructure.Config;
-using UnityEngine;
+using _Project.Core.Math;
 using Zenject;
+
 
 namespace _Project.Features.Gameplay.Spaceship
 {
@@ -22,7 +23,7 @@ namespace _Project.Features.Gameplay.Spaceship
             _inertiaMultiplier = config.inertiaMultiplier;
         }
 
-        public Vector2 ApplyInertia(Vector2 velocity, float deltaTime)
+        public CustomVector2 ApplyInertia(CustomVector2 velocity, float deltaTime)
         {
             return velocity * (1 - _inertiaMultiplier * deltaTime);
         }

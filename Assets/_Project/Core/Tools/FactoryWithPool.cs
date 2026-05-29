@@ -1,3 +1,4 @@
+using _Project.Core.Math;
 using UnityEngine;
 using Zenject;
 
@@ -24,10 +25,10 @@ namespace _Project.Core.Tools
             _pool = new CustomPool<T>(_instantiator, _prefab, defaultParentTransform:_defaultParentTransform);
         }
 
-        public T Create(Vector3 localPosition, Transform parentTransform = null)
+        public T Create(CustomVector2 localPosition, Transform parentTransform = null)
         {
             var obj = _pool.Get(parentTransform);
-            obj.transform.localPosition = localPosition;
+            obj.transform.localPosition = (Vector2)localPosition;
             return obj;
         }
 

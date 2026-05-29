@@ -1,9 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using _Project.Core.Infrastructure.Config;
 
-
-namespace _Project.Core.Ads
+namespace _Project.Core.Infrastructure.Ads
 {
     public interface IAdsService
     {

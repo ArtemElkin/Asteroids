@@ -1,5 +1,5 @@
+using _Project.Core.Math;
 using _Project.Core.Tools;
-using UnityEngine;
 using Zenject;
 
 
@@ -28,7 +28,7 @@ namespace _Project.Features.Gameplay.Bounds
             _bottomBoundY = _screenService.BottomEdgeY;
         }
 
-        public bool IsOutOfBounds(Vector2 pos)
+        public bool IsOutOfBounds(CustomVector2 pos)
         {
             return pos.y > _topBoundY ||
                    pos.y < _bottomBoundY ||
@@ -36,7 +36,7 @@ namespace _Project.Features.Gameplay.Bounds
                    pos.x < _leftBoundX;
         }
 
-        public bool TryGetCrossedBounds(Vector2 pos, out BoundType crossedBounds)
+        public bool TryGetCrossedBounds(CustomVector2 pos, out BoundType crossedBounds)
         {
             crossedBounds = BoundType.None;
             if (pos.y > _topBoundY) crossedBounds |= BoundType.Top;

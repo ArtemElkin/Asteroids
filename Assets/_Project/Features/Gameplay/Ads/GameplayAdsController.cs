@@ -1,5 +1,5 @@
 using System;
-using _Project.Core.Ads;
+using _Project.Core.Infrastructure.Ads;
 using _Project.Core.Signals;
 using Zenject;
 
