@@ -3,6 +3,7 @@ using _Project.Features.Gameplay.Signals;
 using UnityEngine;
 using Zenject;
 
+
 namespace _Project.Features.Gameplay.UFO
 {
     public class UFOInstaller : MonoInstaller
@@ -13,11 +14,15 @@ namespace _Project.Features.Gameplay.UFO
         
         public override void InstallBindings()
         {
+            Container.DeclareSignal<SpawnedSignal<UFOComponent>>();
+            Container.DeclareSignal<SpawnRequestedSignal<UFOComponent>>();
+            
             BindUFOStorage();
             BindUFOMovementController();
             BindUFORotationController();
             BindUFOTargetFollower();
             BindUFOFactory(_ufoPrefab, _ufoParentTransform);
+            BindUFOBuilder();
             BindUFOSpawner();
             BindUFOSpawnTimer();
             BindUFODespawner();
@@ -59,10 +64,15 @@ namespace _Project.Features.Gameplay.UFO
                 .WithArguments(_ufoPrefab, parentTransform);
         }
 
+        private void BindUFOBuilder()
+        {
+            Container
+                .BindInterfacesAndSelfTo<UFOBuilder>()
+                .AsSingle();
+        }
+
         private void BindUFOSpawner()
         {
-            Container.DeclareSignal<SpawnedSignal<UFOComponent>>();
-            
             Container
                 .BindInterfacesAndSelfTo<UFOSpawner>()
                 .AsSingle();
@@ -70,8 +80,6 @@ namespace _Project.Features.Gameplay.UFO
 
         private void BindUFOSpawnTimer()
         {
-            Container.DeclareSignal<SpawnRequestedSignal<UFOComponent>>();
-
             Container
                 .BindInterfacesAndSelfTo<SpawnTimer<UFOComponent>>()
                 .AsSingle();
