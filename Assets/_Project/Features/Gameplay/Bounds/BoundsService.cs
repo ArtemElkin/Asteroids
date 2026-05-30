@@ -1,6 +1,5 @@
 using _Project.Core.Math;
 using _Project.Core.Services;
-using _Project.Core.Signals;
 
 namespace _Project.Features.Gameplay.Bounds
 {
@@ -11,7 +10,6 @@ namespace _Project.Features.Gameplay.Bounds
         private float TopBoundY => _screenService.TopEdgeY;
         private float BottomBoundY => _screenService.BottomEdgeY;
         private readonly IScreenService _screenService;
-        private readonly ISignalBus _signalBus;
         
 
         public BoundsService(IScreenService screenService) => _screenService = screenService;

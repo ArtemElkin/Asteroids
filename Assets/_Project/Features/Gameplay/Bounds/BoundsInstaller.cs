@@ -1,14 +1,11 @@
-using _Project.Features.Gameplay.Common;
-using _Project.Features.Gameplay.Signals;
 using Zenject;
 
 namespace _Project.Features.Gameplay.Bounds
 {
-    public class BoundsInstaller : Installer<BoundsInstaller>
+    public class BoundsInstaller : MonoInstaller
     {
         public override void InstallBindings()
         {
-
             BindBoundsService();
             BindBoundsChecker();
             BindBoundsWarper();

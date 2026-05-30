@@ -19,7 +19,6 @@ namespace _Project.Features.Gameplay
         public override void InstallBindings()
         {
             BindScreenService(_camera);
-            BoundsInstaller.Install(Container);
             BindMovementModel();
             BindPositionGenerator();
             BindGameplayAdsController();

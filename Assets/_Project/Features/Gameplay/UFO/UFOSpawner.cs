@@ -3,7 +3,6 @@ using _Project.Core.Config;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Common;
-using _Project.Features.Gameplay.Signals;
 using _Project.Features.Gameplay.Spaceship;
 
 namespace _Project.Features.Gameplay.UFO

@@ -1,33 +1,25 @@
-using System;
+using _Project.Core.Math;
+using _Project.Core.Physics;
 using _Project.Core.Services;
-using _Project.Core.Signals;
-using _Project.Features.Gameplay.Signals;
-
 
 namespace _Project.Features.Gameplay.Bounds
 {
-    public class BoundsWarper : IDisposable
+    public class BoundsWarper
     {
         private readonly IScreenService _screenService;
         private readonly BoundsService _boundsService;
-        private readonly ISignalBus _signalBus;
 
 
         public BoundsWarper(
             IScreenService screenService,
-            BoundsService boundsService,
-            ISignalBus signalBus)
+            BoundsService boundsService)
         {
             _screenService = screenService;
             _boundsService = boundsService;
-            _signalBus = signalBus;
-            _signalBus.Subscribe<OutOfBoundsSignal>(OnOutOfBounds);
         }
 
-        private void OnOutOfBounds(OutOfBoundsSignal signal)
+        public void Warp(IWarpable warpable, Vector2 oldPos)
         {
-            var warpable = signal.warpable;
-            var oldPos = signal.position;
             var newPos = oldPos;
             if (_boundsService.TryGetCrossedBounds(oldPos, out var crossedBounds))
             {
@@ -37,11 +29,6 @@ namespace _Project.Features.Gameplay.Bounds
                 if((crossedBounds & BoundType.Right) != 0) newPos.x = _screenService.LeftEdgeX;
                 warpable.Warp(newPos);
             }
-        }
-        
-        public void Dispose()
-        {
-            _signalBus.Unsubscribe<OutOfBoundsSignal>(OnOutOfBounds);
         }
     }
 }

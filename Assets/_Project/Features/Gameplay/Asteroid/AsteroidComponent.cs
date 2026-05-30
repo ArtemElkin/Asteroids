@@ -1,4 +1,5 @@
 using _Project.Core.Physics;
+using _Project.Features.Gameplay.Bounds;
 using _Project.Features.Gameplay.Common;
 using _Project.Infrastructure.Tools;
 using UnityEngine;

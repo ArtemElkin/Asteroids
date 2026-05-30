@@ -5,8 +5,8 @@ using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
+using _Project.Features.Gameplay.Bounds;
 using _Project.Features.Gameplay.Common;
-using _Project.Features.Gameplay.Signals;
 using _Project.Infrastructure.Factories;
 // TODO: отвязать от zenject
 using Zenject;

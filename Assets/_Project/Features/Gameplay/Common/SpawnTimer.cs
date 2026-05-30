@@ -1,29 +1,30 @@
 using System;
 using _Project.Core.Config;
+using _Project.Core.Services;
 using _Project.Core.Signals;
-using _Project.Features.Gameplay.Signals;
-// TODO осталась зависимость отUnity
-using UnityEngine;
-using Zenject;
 
 namespace _Project.Features.Gameplay.Common
 {
-    public class SpawnTimer<T> : IInitializable, ITickable, IDisposable
+    public class SpawnTimer<T> : IDisposable
     {
         public event Action OnSpawnRequested;
         private bool _isEnabled;
         private float _timeFromLastRequest;
         private float _spawnInterval;
         private readonly ISignalBus _signalBus;
+        private readonly ITimeService _timeService;
         private readonly IConfigProvider _configProvider;
 
 
         public SpawnTimer(
             IConfigProvider configProvider,
+            ITimeService timeService,
             ISignalBus signalBus)
         {
             _configProvider = configProvider;
+            _timeService = timeService;
             _signalBus =  signalBus;
+            _signalBus.Subscribe<InitializeGameSignal>(Initialize);
             _signalBus.Subscribe<StartGameSignal>(Start);
             _signalBus.Subscribe<StopGameSignal>(Stop);
         }
@@ -42,7 +43,7 @@ namespace _Project.Features.Gameplay.Common
                 OnSpawnRequested?.Invoke();
                 _timeFromLastRequest = 0;
             }
-            _timeFromLastRequest += Time.deltaTime;
+            _timeFromLastRequest += _timeService.DeltaTime;
         }
 
         private void Start() => _isEnabled = true;
@@ -51,6 +52,7 @@ namespace _Project.Features.Gameplay.Common
 
         public void Dispose()
         {
+            _signalBus.Unsubscribe<InitializeGameSignal>(Initialize);
             _signalBus.Unsubscribe<StartGameSignal>(Start);
             _signalBus.Unsubscribe<StopGameSignal>(Stop);
         }

@@ -1,9 +1,6 @@
 using _Project.Core.Physics;
-using _Project.Core.Signals;
-using _Project.Features.Gameplay.Bounds;
-using _Project.Features.Gameplay.Signals;
 
-namespace _Project.Features.Gameplay.Common
+namespace _Project.Features.Gameplay.Bounds
 {
     public class BoundsChecker
     {
@@ -11,16 +8,16 @@ namespace _Project.Features.Gameplay.Common
         private bool _isEnteredGameAreaAfterSpawn;
         private IWarpable _warpable;
         private IReadOnlyPositionable _positionable;
-        private readonly ISignalBus _signalBus;
         private readonly BoundsService _boundsService;
+        private readonly BoundsWarper _boundsWarper;
 
 
         public BoundsChecker(
-            ISignalBus signalBus,
-            BoundsService boundsService)
+            BoundsService boundsService,
+            BoundsWarper boundsWarper)
         {
-            _signalBus = signalBus;
             _boundsService = boundsService;
+            _boundsWarper = boundsWarper;
         }
 
         public void Setup(IReadOnlyPositionable  positionable, IWarpable warpable)
@@ -36,7 +33,7 @@ namespace _Project.Features.Gameplay.Common
             
             if (_boundsService.IsOutOfBounds(_positionable.Position) && _isEnteredGameAreaAfterSpawn)
             {
-                _signalBus.Fire(new OutOfBoundsSignal(_warpable, _positionable.Position));
+                _boundsWarper.Warp(_warpable, _positionable.Position);
             }
             else if (!_isEnteredGameAreaAfterSpawn && !_boundsService.IsOutOfBounds(_positionable.Position))
             {
