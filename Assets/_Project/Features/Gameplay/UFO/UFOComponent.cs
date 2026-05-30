@@ -25,10 +25,10 @@ namespace _Project.Features.Gameplay.UFO
             
             _targetFollower.UpdateTarget();
             
-            _movementController.UpdatePhysics(Time.fixedDeltaTime);
+            _movementController.Move(Time.fixedDeltaTime);
             _rb.MovePosition(_movementModel.Position.ToUnity());
             
-            _rotationController.UpdatePhysics();
+            _rotationController.Rotate();
             var rotation =Quaternion.Euler(0, 0, _movementModel.RotationAngle);
             _rb.MoveRotation(rotation);
             

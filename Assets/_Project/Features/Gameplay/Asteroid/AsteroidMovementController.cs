@@ -9,7 +9,7 @@ namespace _Project.Features.Gameplay.Asteroid
             SetInitialVelocity();
         }
 
-        protected override void UpdateVelocity(float deltaTime) { }
+        protected override void UpdateVelocityOnMove(float deltaTime) { }
         
         private void SetInitialVelocity()
         {

@@ -17,7 +17,7 @@ namespace _Project.Features.Gameplay.UFO
             base.Setup(movementModel);
         }
 
-        protected override void UpdateVelocity(float deltaTime)
+        protected override void UpdateVelocityOnMove(float deltaTime)
         {
             var velocity = _movementModel.Velocity; 
             velocity = _movementModel.MoveDirection == Vector2.zero ? 

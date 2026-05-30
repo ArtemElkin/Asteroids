@@ -14,14 +14,14 @@ namespace _Project.Features.Gameplay.Common
             _isSetup = true;
         }
 
-        public void UpdatePhysics(float deltaTime)
+        public void Rotate()
         {
             if (!_isSetup) return;
             
-            Rotate();
+            UpdateAngleOnRotate();
         }
 
-        protected abstract void Rotate();
+        protected abstract void UpdateAngleOnRotate();
 
         public virtual void Reset()
         {

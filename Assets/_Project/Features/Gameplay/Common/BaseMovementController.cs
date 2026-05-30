@@ -18,13 +18,13 @@ namespace _Project.Features.Gameplay.Common
         
         protected virtual void OnSetup() { }
 
-        public void UpdatePhysics(float deltaTime)
+        public void Move(float deltaTime)
         {
             if (!_isSetup) return;
             
-            UpdateDirection();
-            UpdateVelocity(deltaTime);
-            Move(deltaTime);
+            UpdateDirectionOnMove();
+            UpdateVelocityOnMove(deltaTime);
+            UpdatePositionOnMove(deltaTime);
         }
 
         public void Warp(Vector2 position)
@@ -32,11 +32,11 @@ namespace _Project.Features.Gameplay.Common
             _movementModel.UpdatePosition(position);
         }
 
-        protected virtual void UpdateDirection() { }
+        protected virtual void UpdateDirectionOnMove() { }
 
-        protected abstract void UpdateVelocity(float  deltaTime);
+        protected abstract void UpdateVelocityOnMove(float  deltaTime);
         
-        private void Move(float  deltaTime)
+        private void UpdatePositionOnMove(float  deltaTime)
         {
             _movementModel.UpdatePosition(_movementModel.Position + _movementModel.Velocity * deltaTime);
         }

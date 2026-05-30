@@ -31,7 +31,7 @@ namespace _Project.Features.Gameplay.Spaceship
             base.Setup(movementModel);
         }
         
-        protected override void UpdateDirection()
+        protected override void UpdateDirectionOnMove()
         {
             var moveDirection = _movementInputService.GetAxis();
             if (moveDirection.sqrMagnitude > 1) 
@@ -41,7 +41,7 @@ namespace _Project.Features.Gameplay.Spaceship
             _movementModel.UpdateMoveDirection(moveDirection);
         }
 
-        protected override void UpdateVelocity(float deltaTime)
+        protected override void UpdateVelocityOnMove(float deltaTime)
         {
             var velocity = _movementModel.Velocity;
             velocity = _movementModel.MoveDirection == Vector2.zero ? 

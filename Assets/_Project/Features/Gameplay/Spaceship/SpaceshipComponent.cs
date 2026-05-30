@@ -20,10 +20,10 @@ namespace _Project.Features.Gameplay.Spaceship
         {
             if (!_isSetup) return;
             
-            _movementController.UpdatePhysics(Time.fixedDeltaTime);
+            _movementController.Move(Time.fixedDeltaTime);
             _rb.MovePosition(_movementModel.Position.ToUnity());
             
-            _rotationController.UpdatePhysics(Time.fixedDeltaTime);
+            _rotationController.Rotate();
             var rotation = Quaternion.Euler(0, 0, _movementModel.RotationAngle);
             _rb.MoveRotation(rotation);
             

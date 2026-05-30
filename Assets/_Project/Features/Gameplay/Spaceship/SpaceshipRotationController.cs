@@ -20,7 +20,7 @@ namespace _Project.Features.Gameplay.Spaceship
             _screenService = screenService;
         }
         
-        protected override void Rotate()
+        protected override void UpdateAngleOnRotate()
         {
             var lookPoint = _screenService.ScreenPointToWorldPoint(_fireInputService.GetScreenPointerPosition());
             var rotateDirection = lookPoint - _movementModel.Position;
