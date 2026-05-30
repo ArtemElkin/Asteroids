@@ -1,40 +1,15 @@
 using _Project.Core.Math;
-using _Project.Core.Physics;
+using _Project.Features.Gameplay.Common;
 
 namespace _Project.Features.Gameplay.UFO
 {
-    public class UFORotationController
+    public class UFORotationController : BaseRotationController
     {
-        private bool _isSetup;
-        private float _rotateAngle;
-        private MovementModel _movementModel;
-
-
-        public void Setup(MovementModel movementModel)
-        {
-            _movementModel = movementModel;
-            _isSetup = true;
-        }
-
-        public void UpdatePhysics()
-        {
-            if (!_isSetup) return;
-            
-            RotateUFO();
-        }
-        
-        private void RotateUFO()
+        protected override void Rotate()
         {
             if (_movementModel.Velocity.sqrMagnitude < 0.001f) return;
-            _rotateAngle = Math.Atan2(_movementModel.Velocity.y, _movementModel.Velocity.x) * Math.Rad2Deg;
-            _movementModel.UpdateRotationAngle(_rotateAngle);
-        }
-
-        public void Reset()
-        {
-            _isSetup = false;
-            _rotateAngle = 0;
-            _movementModel = null;
+            var rotateAngle = Math.Atan2(_movementModel.Velocity.y, _movementModel.Velocity.x) * Math.Rad2Deg;
+            _movementModel.UpdateRotationAngle(rotateAngle);
         }
     }
 }
