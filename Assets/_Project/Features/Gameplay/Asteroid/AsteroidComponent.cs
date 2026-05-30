@@ -1,4 +1,6 @@
 using _Project.Core.Physics;
+using _Project.Features.Gameplay.Common;
+using _Project.Infrastructure.Tools;
 using UnityEngine;
 
 
@@ -19,7 +21,7 @@ namespace _Project.Features.Gameplay.Asteroid
             if (!_isSetup) return;
             
             _movementController.UpdatePhysics(Time.fixedDeltaTime);
-            _rb.MovePosition(_movementModel.Position);
+            _rb.MovePosition(_movementModel.Position.ToUnity());
             _boundsChecker.CheckOutOfBounds();
         }
 

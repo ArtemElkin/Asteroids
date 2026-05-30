@@ -1,5 +1,7 @@
 using System;
-using _Project.Core.Infrastructure.Config;
+using _Project.Core;
+using _Project.Core.Config;
+using _Project.Core.Signals;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Signals;
 using _Project.Features.Gameplay.Spaceship;
@@ -16,14 +18,14 @@ namespace _Project.Features.Gameplay.UFO
         private readonly Storage<SpaceshipComponent> _spaceshipStorage;
         private readonly UFOBuilder _ufoBuilder;
         private readonly IConfigProvider _configProvider;
-        private readonly SignalBus _signalBus;
+        private readonly ISignalBus _signalBus;
 
         public UFOSpawner(
             UFOBuilder ufoBuilder,
             Storage<UFOComponent> ufoStorage,
             Storage<SpaceshipComponent> spaceshipStorage,
             IConfigProvider configProvider,
-            SignalBus signalBus)
+            ISignalBus signalBus)
         {
             _ufoBuilder = ufoBuilder;
             _ufoStorage = ufoStorage;
@@ -36,7 +38,7 @@ namespace _Project.Features.Gameplay.UFO
         {
             _signalBus.Subscribe<SpawnRequestedSignal<UFOComponent>>(OnSpawnRequested);
             
-            var gameConfig = _configProvider.GetConfigFromJson<GameConfig>("GameConfig");
+            var gameConfig = _configProvider.GetConfig<GameConfig>("GameConfig");
             _maxUFOsCount = gameConfig.maxUFOsCount;
             _spawnOffsetFromBounds = gameConfig.spawnOffsetFromBounds;
             

@@ -4,7 +4,6 @@ namespace _Project.Core.Physics
 {
     public interface IReadOnlyPositionable
     {
-        CustomVector2 Position { get; }
-        
+        Vector2 Position { get; }
     }
 }

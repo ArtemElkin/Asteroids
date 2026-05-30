@@ -4,6 +4,6 @@ namespace _Project.Core.Physics
 {
     public interface IWarpable
     {
-        void Warp(CustomVector2 position);
+        void Warp(Vector2 position);
     }
 }

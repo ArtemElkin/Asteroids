@@ -1,26 +1,27 @@
 using System;
-using _Project.Core.Tools;
+using _Project.Core.Services;
+using _Project.Core.Signals;
 using _Project.Features.Gameplay.Signals;
-using Zenject;
 
 
 namespace _Project.Features.Gameplay.Bounds
 {
-    public class BoundsWarper : IInitializable, IDisposable
+    public class BoundsWarper : IDisposable
     {
-        private readonly ScreenService _screenService;
+        private readonly IScreenService _screenService;
         private readonly BoundsService _boundsService;
-        private readonly SignalBus _signalBus;
+        private readonly ISignalBus _signalBus;
 
 
         public BoundsWarper(
-            ScreenService screenService,
+            IScreenService screenService,
             BoundsService boundsService,
-            SignalBus signalBus)
+            ISignalBus signalBus)
         {
             _screenService = screenService;
             _boundsService = boundsService;
             _signalBus = signalBus;
+            _signalBus.Subscribe<InitializeGameSignal>(Initialize);
         }
 
         public void Initialize()
@@ -45,6 +46,7 @@ namespace _Project.Features.Gameplay.Bounds
         
         public void Dispose()
         {
+            _signalBus.Unsubscribe<OutOfBoundsSignal>(Initialize);
             _signalBus.Unsubscribe<OutOfBoundsSignal>(OnOutOfBounds);
         }
     }

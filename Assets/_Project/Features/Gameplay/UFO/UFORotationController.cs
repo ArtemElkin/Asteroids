@@ -26,7 +26,7 @@ namespace _Project.Features.Gameplay.UFO
         private void RotateUFO()
         {
             if (_movementModel.Velocity.sqrMagnitude < 0.001f) return;
-            _rotateAngle = CustomMath.Atan2(_movementModel.Velocity.y, _movementModel.Velocity.x) * CustomMath.Rad2Deg;
+            _rotateAngle = Math.Atan2(_movementModel.Velocity.y, _movementModel.Velocity.x) * Math.Rad2Deg;
             _movementModel.UpdateRotationAngle(_rotateAngle);
         }
 

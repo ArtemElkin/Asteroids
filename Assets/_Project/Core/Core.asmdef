@@ -1,9 +1,7 @@
 {
     "name": "Core",
     "rootNamespace": "",
-    "references": [
-        "Zenject"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

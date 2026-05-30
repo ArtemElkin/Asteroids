@@ -4,27 +4,27 @@ namespace _Project.Core.Physics
 {
     public class MovementModel : IPositionable, IRotatable, IMovable
     {
-        public CustomVector2 Position { get; private set; }
+        public Vector2 Position { get; private set; }
         public float RotationAngle { get; private set; }
         public float Speed { get; private set; }
-        public CustomVector2 Velocity {  get; private set; }
-        public CustomVector2 MoveDirection { get; private set; }
+        public Vector2 Velocity {  get; private set; }
+        public Vector2 MoveDirection { get; private set; }
 
 
-        public virtual void Init(CustomVector2 initialPosition, float initialSpeed)
+        public virtual void Init(Vector2 initialPosition, float initialSpeed)
         {
             UpdatePosition(initialPosition);
             UpdateSpeed(initialSpeed);
         }
 
-        public void UpdatePosition(CustomVector2 newPosition) => Position = newPosition;
+        public void UpdatePosition(Vector2 newPosition) => Position = newPosition;
         
         public void UpdateRotationAngle(float rotationAngle) => RotationAngle = rotationAngle;
 
-        public void UpdateVelocity(CustomVector2 newVelocity) => Velocity = newVelocity;
+        public void UpdateVelocity(Vector2 newVelocity) => Velocity = newVelocity;
         
         public void UpdateSpeed(float speed) => Speed = speed;
         
-        public void UpdateMoveDirection(CustomVector2 newDirection) => MoveDirection = newDirection;
+        public void UpdateMoveDirection(Vector2 newDirection) => MoveDirection = newDirection;
     }
 }

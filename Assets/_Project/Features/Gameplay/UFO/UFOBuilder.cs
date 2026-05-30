@@ -1,8 +1,11 @@
-using _Project.Core.Infrastructure.Config;
+using _Project.Core.Config;
 using _Project.Core.Math;
 using _Project.Core.Physics;
+using _Project.Core.Services;
 using _Project.Core.Tools;
+using _Project.Features.Gameplay.Common;
 using _Project.Features.Gameplay.Spaceship;
+using _Project.Infrastructure.Factories;
 using Zenject;
 
 
@@ -43,7 +46,7 @@ namespace _Project.Features.Gameplay.UFO
         
         public void Initialize()
         {
-            var ufoConfig =  _configProvider.GetConfigFromJson<UFOConfig>("UFOConfig");
+            var ufoConfig =  _configProvider.GetConfig<UFOConfig>("UFOConfig");
             _minUFOSpeed = ufoConfig.minSpeed;
             _maxUFOSpeed = ufoConfig.maxSpeed;
             _ufoAccelerationMultiplier = ufoConfig.accelerationMultiplier;
@@ -127,7 +130,7 @@ namespace _Project.Features.Gameplay.UFO
             return ufo;
         }
         
-        private CustomVector2 GetRandomInitialUFOPosition()
+        private Vector2 GetRandomInitialUFOPosition()
         {
             return _positionGenerator.GenerateRandomPositionOutOfScreen(_spawnOffsetFromBounds);
         }

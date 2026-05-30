@@ -1,6 +1,7 @@
 using _Project.Core.Input;
 using _Project.Core.Math;
 using _Project.Core.Physics;
+using _Project.Features.Gameplay.Common;
 
 
 namespace _Project.Features.Gameplay.Spaceship
@@ -44,9 +45,9 @@ namespace _Project.Features.Gameplay.Spaceship
         protected override void UpdateVelocity(float deltaTime)
         {
             var velocity = _movementModel.Velocity;
-            velocity = _movementModel.MoveDirection == CustomVector2.zero ? 
-                (CustomPhysics.ApplyInertia(velocity, _inertiaMultiplier, deltaTime)) :
-                CustomPhysics.ApplyAcceleration(velocity, _accelerationMultiplier, _movementModel.MoveDirection, deltaTime);
+            velocity = _movementModel.MoveDirection == Vector2.zero ? 
+                (Physics.ApplyInertia(velocity, _inertiaMultiplier, deltaTime)) :
+                Physics.ApplyAcceleration(velocity, _accelerationMultiplier, _movementModel.MoveDirection, deltaTime);
 
             if (velocity.magnitude > _maxSpeed)
             {

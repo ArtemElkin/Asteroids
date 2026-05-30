@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Generic;
-using _Project.Core.Infrastructure.Save;
-using Zenject;
-
 
 namespace _Project.Core.Player
 {
-    public class PlayerModel : IInitializable
+    public class PlayerModel
     {
         public event Action<int> OnCurrentScoreChanged;
         private int _currentScore;
@@ -25,19 +21,9 @@ namespace _Project.Core.Player
             }
         }
 
-        public void Initialize()
-        {
-            ResetCurrentScore();
-        }
-
         public void IncreaseCurrentScore()
         {
             CurrentScore++;
-        }
-
-        public void ResetCurrentScore()
-        {
-            CurrentScore = 0;
         }
 
         public void TryUpdateMaxScore(int newMaxScore)

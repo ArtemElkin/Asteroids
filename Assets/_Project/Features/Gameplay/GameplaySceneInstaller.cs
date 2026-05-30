@@ -1,7 +1,10 @@
 using _Project.Core.Physics;
+using _Project.Core.Services;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Ads;
-using _Project.Features.Gameplay.Signals;
+using _Project.Features.Gameplay.Common;
+using _Project.Infrastructure.Lifecycle;
+using _Project.Infrastructure.Services;
 using UnityEngine;
 using Zenject;
 
@@ -33,9 +36,11 @@ namespace _Project.Features.Gameplay
         private void BindScreenService(Camera mainCamera)
         {
             Container
-                .BindInterfacesAndSelfTo<ScreenService>()
+                .Bind<IScreenService>()
+                .To<ScreenService>()
                 .AsSingle()
-                .WithArguments(mainCamera);
+                .WithArguments(mainCamera)
+                .NonLazy();
         }
 
         private void BindBoundsChecker()
@@ -48,8 +53,9 @@ namespace _Project.Features.Gameplay
         private void BindPositionGenerator()
         {
             Container
-                .BindInterfacesAndSelfTo<PositionGenerator>()
-                .AsSingle();
+                .Bind<PositionGenerator>()
+                .AsSingle()
+                .NonLazy();
         }
         
         private void BindGameplayAdsController()

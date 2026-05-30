@@ -1,6 +1,8 @@
 using _Project.Core.Physics;
+using _Project.Features.Gameplay.Common;
 using _Project.Features.Gameplay.Signals;
 using _Project.Features.Gameplay.Spaceship;
+using _Project.Infrastructure.Tools;
 using UnityEngine;
 using Zenject;
 
@@ -27,7 +29,7 @@ namespace _Project.Features.Gameplay.UFO
             _targetFollower.UpdateTarget();
             
             _movementController.UpdatePhysics(Time.fixedDeltaTime);
-            _rb.MovePosition(_movementModel.Position);
+            _rb.MovePosition(_movementModel.Position.ToUnity());
             
             _rotationController.UpdatePhysics();
             var rotation =Quaternion.Euler(0, 0, _movementModel.RotationAngle);

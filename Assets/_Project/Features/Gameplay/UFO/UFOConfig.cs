@@ -1,4 +1,4 @@
-using _Project.Core.Infrastructure.Config;
+using _Project.Core.Config;
 
 namespace _Project.Features.Gameplay.UFO
 {

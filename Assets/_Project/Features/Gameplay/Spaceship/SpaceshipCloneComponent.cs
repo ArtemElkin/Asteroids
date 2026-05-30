@@ -1,7 +1,7 @@
-using _Project.Core.Math;
 using _Project.Core.Physics;
+using _Project.Infrastructure.Tools;
 using UnityEngine;
-using Zenject;
+using Vector2 = _Project.Core.Math.Vector2;
 
 
 namespace _Project.Features.Gameplay.Spaceship
@@ -10,7 +10,7 @@ namespace _Project.Features.Gameplay.Spaceship
     public class SpaceshipCloneComponent : MonoBehaviour
     {
         public bool _isSetup;
-        private CustomVector2 _cloneOffset;
+        private Vector2 _cloneOffset;
         private Rigidbody2D _rb;
         private IReadOnlyRotatable _mainSpaceshipRotatable;
         private IReadOnlyPositionable _mainSpaceshipPositionable;
@@ -20,14 +20,14 @@ namespace _Project.Features.Gameplay.Spaceship
         {
             if (!_isSetup) return;
             
-            _rb.MovePosition(_mainSpaceshipPositionable.Position + _cloneOffset);
+            _rb.MovePosition((_mainSpaceshipPositionable.Position + _cloneOffset).ToUnity());
             
             var rotation = Quaternion.Euler(0,0,_mainSpaceshipRotatable.RotationAngle);
             _rb.MoveRotation(rotation);
         }
 
         public void Setup(
-            CustomVector2 offset,
+            Vector2 offset,
             IReadOnlyPositionable mainSpaceshipPositionable,
             IReadOnlyRotatable mainSpaceshipRotatable)
         {
@@ -44,7 +44,7 @@ namespace _Project.Features.Gameplay.Spaceship
             _rb = null;
             _mainSpaceshipRotatable = null;
             _mainSpaceshipPositionable = null;
-            _cloneOffset = CustomVector2.zero;
+            _cloneOffset = Vector2.zero;
         }
     }
 }

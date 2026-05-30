@@ -4,6 +4,6 @@ namespace _Project.Core.Physics
 {
     public interface IPositionable : IReadOnlyPositionable
     {
-        void UpdatePosition(CustomVector2 newPosition);
+        void UpdatePosition(Vector2 newPosition);
     }
 }

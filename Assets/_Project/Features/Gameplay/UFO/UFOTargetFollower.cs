@@ -3,6 +3,7 @@ using _Project.Core.Physics;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Spaceship;
 using UnityEngine;
+using Vector2 = _Project.Core.Math.Vector2;
 
 
 namespace _Project.Features.Gameplay.UFO
@@ -11,7 +12,7 @@ namespace _Project.Features.Gameplay.UFO
     {
         private bool _isSetup;
         private bool _hasTarget;
-        CustomVector2 _direction;
+        Vector2 _direction;
         private MovementModel _movementModel;
         private IReadOnlyPositionable _targetPositionable;
         private Storage<SpaceshipComponent> _spaceshipStorage;
@@ -55,7 +56,7 @@ namespace _Project.Features.Gameplay.UFO
         public void Reset()
         {
             _isSetup = false;
-            _direction = CustomVector2.zero;
+            _direction = Vector2.zero;
             _movementModel = null;
             _targetPositionable = null;
         }

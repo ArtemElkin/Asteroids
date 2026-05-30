@@ -1,27 +1,27 @@
 using _Project.Core.Input;
 using _Project.Core.Math;
 using _Project.Core.Physics;
-using _Project.Core.Tools;
+using _Project.Core.Services;
+using _Project.Infrastructure.Services;
 using Zenject;
-
 
 namespace _Project.Features.Gameplay.Spaceship
 {
     public class SpaceshipRotationController
     {
         private bool _isSetup;
-        private CustomVector2 _lookPoint;
+        private Vector2 _lookPoint;
         private float _rotateAngle;
-        private CustomVector2 _rotateDirection;
+        private Vector2 _rotateDirection;
         private IFireInputService _fireInputService;
         private MovementModel _movementModel;
-        private ScreenService _screenService;
+        private IScreenService _screenService;
 
 
         [Inject]
         private void Construct(
             IFireInputService fireInputService,
-            ScreenService screenService)
+            IScreenService screenService)
         {
             _fireInputService = fireInputService;
             _screenService = screenService;
@@ -45,7 +45,7 @@ namespace _Project.Features.Gameplay.Spaceship
         {
             _lookPoint = _screenService.ScreenPointToWorldPoint(_fireInputService.GetScreenPointerPosition());
             _rotateDirection = _lookPoint - _movementModel.Position;
-            _rotateAngle = CustomMath.Atan2(_rotateDirection.y, _rotateDirection.x) * CustomMath.Rad2Deg;
+            _rotateAngle = Math.Atan2(_rotateDirection.y, _rotateDirection.x) * Math.Rad2Deg;
             _movementModel.UpdateRotationAngle(_rotateAngle - 90); 
         }
 

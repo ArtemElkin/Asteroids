@@ -1,48 +1,38 @@
+using System;
 using _Project.Core.Math;
-using _Project.Core.Tools;
-using Zenject;
-
+using _Project.Core.Services;
+using _Project.Core.Signals;
 
 namespace _Project.Features.Gameplay.Bounds
 {
-    public class BoundsService : IInitializable
+    public class BoundsService
     {
-        private float _leftBoundX;
-        private float _rightBoundX;
-        private float _topBoundY;
-        private float _bottomBoundY;
-        private readonly ScreenService _screenService;
+        private float LeftBoundX => _screenService.LeftEdgeX;
+        private float RightBoundX => _screenService.RightEdgeX;
+        private float TopBoundY => _screenService.TopEdgeY;
+        private float BottomBoundY => _screenService.BottomEdgeY;
+        private readonly IScreenService _screenService;
+        private readonly ISignalBus _signalBus;
         
 
-        public BoundsService(
-            ScreenService screenService)
+        public BoundsService(IScreenService screenService) => _screenService = screenService;
+        
+
+        public bool IsOutOfBounds(Vector2 pos)
         {
-            _screenService = screenService;
+            return pos.y > TopBoundY ||
+                   pos.y < BottomBoundY ||
+                   pos.x > RightBoundX ||
+                   pos.x < LeftBoundX;
         }
 
-        public void Initialize()
-        {
-            _leftBoundX = _screenService.LeftEdgeX;
-            _rightBoundX = _screenService.RightEdgeX;
-            _topBoundY = _screenService.TopEdgeY;
-            _bottomBoundY = _screenService.BottomEdgeY;
-        }
-
-        public bool IsOutOfBounds(CustomVector2 pos)
-        {
-            return pos.y > _topBoundY ||
-                   pos.y < _bottomBoundY ||
-                   pos.x > _rightBoundX ||
-                   pos.x < _leftBoundX;
-        }
-
-        public bool TryGetCrossedBounds(CustomVector2 pos, out BoundType crossedBounds)
+        public bool TryGetCrossedBounds(Vector2 pos, out BoundType crossedBounds)
         {
             crossedBounds = BoundType.None;
-            if (pos.y > _topBoundY) crossedBounds |= BoundType.Top;
-            if (pos.y < _bottomBoundY) crossedBounds |= BoundType.Bottom;
-            if (pos.x > _rightBoundX) crossedBounds |= BoundType.Right;
-            if (pos.x < _leftBoundX) crossedBounds |= BoundType.Left;
+            if (pos.y > TopBoundY) crossedBounds |= BoundType.Top;
+            if (pos.y < BottomBoundY) crossedBounds |= BoundType.Bottom;
+            if (pos.x > RightBoundX) crossedBounds |= BoundType.Right;
+            if (pos.x < LeftBoundX) crossedBounds |= BoundType.Left;
             return crossedBounds != BoundType.None;
         }
     }

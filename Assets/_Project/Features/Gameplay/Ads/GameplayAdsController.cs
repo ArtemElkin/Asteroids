@@ -1,30 +1,25 @@
 using System;
-using _Project.Core.Infrastructure.Ads;
+using _Project.Core.Ads;
 using _Project.Core.Signals;
 using Zenject;
 
 namespace _Project.Features.Gameplay.Ads
 {
-    public class GameplayAdsController : IInitializable, IDisposable
+    public class GameplayAdsController : IDisposable
     {
         private const int DeathsPerAdInterval = 3;
         private int _deathsFromLastAd;
-        private SignalBus _signalBus;
+        private ISignalBus _signalBus;
         private IAdsService _adsService;
 
-        public GameplayAdsController(SignalBus signalBus, IAdsService adsService)
+        public GameplayAdsController(ISignalBus signalBus, IAdsService adsService)
         {
             _signalBus = signalBus;
             _adsService = adsService;
-        }
-
-
-        public void Initialize()
-        {
+            
             _signalBus.Subscribe<GameOverSignal>(OnGameOver);
             _signalBus.Subscribe<GameRestartedSignal>(OnGameRestarted);
             _signalBus.Subscribe<MenuClickedSignal>(OnMenuClicked);
-
             _deathsFromLastAd = 0;
         }
 

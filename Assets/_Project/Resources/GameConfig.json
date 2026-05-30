@@ -1,5 +1,6 @@
 {
   "maxAsteroidsCount": 20,
   "maxUFOsCount": 1,
-  "spawnOffsetFromBounds": 5
+  "spawnOffsetFromBounds": 5,
+  "spawnInterval": 5.0
 }

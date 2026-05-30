@@ -1,3 +1,5 @@
+using _Project.Features.Gameplay.Common;
+
 namespace _Project.Features.Gameplay.Asteroid
 {
     public class AsteroidMovementController : BaseMovementController

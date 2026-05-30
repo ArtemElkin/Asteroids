@@ -1,4 +1,4 @@
-using _Project.Core.Infrastructure.Config;
+using _Project.Core.Config;
 
 namespace _Project.Features.Gameplay
 {
@@ -7,5 +7,6 @@ namespace _Project.Features.Gameplay
         public int maxAsteroidsCount;
         public int maxUFOsCount;
         public float spawnOffsetFromBounds;
+        public float spawnInterval;
     }
 }

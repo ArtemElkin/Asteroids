@@ -1,9 +1,14 @@
 using System;
-using _Project.Core.Infrastructure.Config;
+using _Project.Core;
+using _Project.Core.Config;
 using _Project.Core.Math;
 using _Project.Core.Physics;
+using _Project.Core.Services;
+using _Project.Core.Signals;
 using _Project.Core.Tools;
+using _Project.Features.Gameplay.Common;
 using _Project.Features.Gameplay.Signals;
+using _Project.Infrastructure.Factories;
 using Zenject;
 
 
@@ -20,7 +25,7 @@ namespace _Project.Features.Gameplay.Asteroid
         private readonly RandomService _randomService;
         private readonly PositionGenerator _positionGenerator;
         private readonly IConfigProvider _configProvider;
-        private readonly SignalBus _signalBus;
+        private readonly ISignalBus _signalBus;
         private readonly DiContainer _diContainer;
 
 
@@ -30,7 +35,7 @@ namespace _Project.Features.Gameplay.Asteroid
             RandomService randomService,
             PositionGenerator positionGenerator,
             IConfigProvider configProvider,
-            SignalBus signalBus,
+            ISignalBus signalBus,
             DiContainer diContainer)
         {
             _asteroidsStorage = asteroidsStorage;
@@ -45,11 +50,11 @@ namespace _Project.Features.Gameplay.Asteroid
         public void Initialize()
         {
             _signalBus.Subscribe<SpawnRequestedSignal<AsteroidComponent>>(OnSpawnRequested);
-            var gameConfig = _configProvider.GetConfigFromJson<GameConfig>("GameConfig");
+            var gameConfig = _configProvider.GetConfig<GameConfig>("GameConfig");
             _maxAsteroidsCount = gameConfig.maxAsteroidsCount;
             _spawnOffsetFromBounds = gameConfig.spawnOffsetFromBounds;
             
-            var asteroidConfig =  _configProvider.GetConfigFromJson<AsteroidConfig>("AsteroidConfig");
+            var asteroidConfig =  _configProvider.GetConfig<AsteroidConfig>("AsteroidConfig");
             _minAsteroidSpeed = asteroidConfig.minSpeed;
             _maxAsteroidSpeed = asteroidConfig.maxSpeed;
         }
@@ -85,12 +90,12 @@ namespace _Project.Features.Gameplay.Asteroid
             _asteroidsStorage.Add(asteroid);
         }
 
-        private CustomVector2 GetRandomInitialAsteroidPosition()
+        private Vector2 GetRandomInitialAsteroidPosition()
         {
             return _positionGenerator.GenerateRandomPositionOutOfScreen(_spawnOffsetFromBounds);
         }
 
-        private CustomVector2 GetRandomInitialAsteroidDirection(CustomVector2 initialPosition)
+        private Vector2 GetRandomInitialAsteroidDirection(Vector2 initialPosition)
         {
             var target = _positionGenerator.GenerateRandomPositionOnScreen();
             return (target - initialPosition).normalized;
