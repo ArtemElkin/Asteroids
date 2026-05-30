@@ -44,7 +44,6 @@ namespace _Project.Features.Gameplay.UFO
             _spawnOffsetFromBounds = gameConfig.spawnOffsetFromBounds;
             
             _ufoBuilder.SetSpawnOffsetFromBounds(_spawnOffsetFromBounds);
-
         }
 
         private void OnSpawnRequested()
