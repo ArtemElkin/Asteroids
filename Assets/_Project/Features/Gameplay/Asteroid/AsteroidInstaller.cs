@@ -1,6 +1,5 @@
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Common;
-using _Project.Features.Gameplay.Signals;
 using _Project.Infrastructure.Factories;
 using UnityEngine;
 using Zenject;
@@ -55,8 +54,6 @@ namespace _Project.Features.Gameplay.Asteroid
 
         private void BindAsteroidSpawnTimer()
         {
-            Container.DeclareSignal<SpawnRequestedSignal<AsteroidComponent>>();
-            
             Container
                 .BindInterfacesAndSelfTo<SpawnTimer<AsteroidComponent>>()
                 .AsSingle()

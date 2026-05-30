@@ -2,6 +2,7 @@ using System;
 using _Project.Core.Config;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
+using _Project.Features.Gameplay.Common;
 using _Project.Features.Gameplay.Signals;
 using _Project.Features.Gameplay.Spaceship;
 
@@ -15,6 +16,7 @@ namespace _Project.Features.Gameplay.UFO
         private readonly Storage<SpaceshipComponent> _spaceshipStorage;
         private readonly UFOBuilder _ufoBuilder;
         private readonly IConfigProvider _configProvider;
+        private readonly SpawnTimer<UFOComponent> _spawnTimer;
         private readonly ISignalBus _signalBus;
 
         public UFOSpawner(
@@ -22,15 +24,17 @@ namespace _Project.Features.Gameplay.UFO
             Storage<UFOComponent> ufoStorage,
             Storage<SpaceshipComponent> spaceshipStorage,
             IConfigProvider configProvider,
+            SpawnTimer<UFOComponent> spawnTimer,
             ISignalBus signalBus)
         {
             _ufoBuilder = ufoBuilder;
             _ufoStorage = ufoStorage;
             _spaceshipStorage = spaceshipStorage;
             _configProvider = configProvider;
+            _spawnTimer =  spawnTimer;
             _signalBus = signalBus;
             _signalBus.Subscribe<InitializeGameSignal>(Initialize);
-            _signalBus.Subscribe<SpawnRequestedSignal<UFOComponent>>(OnSpawnRequested);
+            _spawnTimer.OnSpawnRequested += OnSpawnRequested;
         }
 
         public void Initialize()
@@ -66,8 +70,8 @@ namespace _Project.Features.Gameplay.UFO
 
         public void Dispose()
         {
+            _spawnTimer.OnSpawnRequested -= OnSpawnRequested;
             _signalBus.Unsubscribe<InitializeGameSignal>(Initialize);
-            _signalBus.Unsubscribe<SpawnRequestedSignal<UFOComponent>>(OnSpawnRequested);
         }
     }
 }

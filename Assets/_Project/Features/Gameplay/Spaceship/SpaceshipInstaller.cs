@@ -49,8 +49,6 @@ namespace _Project.Features.Gameplay.Spaceship
             SpaceshipCloneComponent spaceshipClonePrefab,
             Transform spaceshipParentTransform)
         {
-            Container.DeclareSignal<SpawnedSignal<SpaceshipComponent>>();
-
             Container
                 .BindInterfacesAndSelfTo<SpaceshipSpawner>()
                 .AsSingle()

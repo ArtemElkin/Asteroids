@@ -25,7 +25,7 @@ namespace _Project.Features.Gameplay.UFO
         private UFOTargetFollower _targetFollower;
         private BoundsChecker _boundsChecker;
         private readonly PositionGenerator _positionGenerator;
-        private readonly RandomService _randomService;
+        private readonly IRandomService _randomService;
         private readonly FactoryWithPool<UFOComponent> _ufoFactory;
         private readonly IConfigProvider _configProvider;
         private readonly DiContainer _diContainer;
@@ -34,7 +34,7 @@ namespace _Project.Features.Gameplay.UFO
 
         public UFOBuilder(
             PositionGenerator positionGenerator,
-            RandomService randomService,
+            IRandomService randomService,
             FactoryWithPool<UFOComponent> ufoFactory,
             IConfigProvider configProvider,
             DiContainer diContainer,

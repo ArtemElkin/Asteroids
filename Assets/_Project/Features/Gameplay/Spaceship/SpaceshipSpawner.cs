@@ -97,8 +97,6 @@ namespace _Project.Features.Gameplay.Spaceship
                 boundsChecker);
             
             _spaceshipStorage.Add(spaceship);
-            
-            _signalBus.Fire(new SpawnedSignal<SpaceshipComponent>(spaceship));
         }
 
         private void SpawnSpaceshipClones()

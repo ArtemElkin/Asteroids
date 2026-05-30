@@ -2,7 +2,7 @@ using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Ads;
-using _Project.Features.Gameplay.Common;
+using _Project.Features.Gameplay.Bounds;
 using _Project.Infrastructure.Lifecycle;
 using _Project.Infrastructure.Services;
 using UnityEngine;
@@ -18,9 +18,9 @@ namespace _Project.Features.Gameplay
         
         public override void InstallBindings()
         {
-            BindMovementModel();
             BindScreenService(_camera);
-            BindBoundsChecker();
+            BoundsInstaller.Install(Container);
+            BindMovementModel();
             BindPositionGenerator();
             BindGameplayAdsController();
             BindGameplayStarter();
@@ -41,13 +41,6 @@ namespace _Project.Features.Gameplay
                 .AsSingle()
                 .WithArguments(mainCamera)
                 .NonLazy();
-        }
-
-        private void BindBoundsChecker()
-        {
-            Container
-                .BindInterfacesAndSelfTo<BoundsChecker>()
-                .AsTransient();
         }
 
         private void BindPositionGenerator()

@@ -5,13 +5,13 @@ namespace _Project.Core.Tools
 {
     public class PositionGenerator
     {
-        private readonly RandomService _randomService;
+        private readonly IRandomService _randomService;
         private readonly IScreenService _screenService;
 
         
         public PositionGenerator(
             IScreenService screenService,
-            RandomService randomService)
+            IRandomService randomService)
         {
             _randomService = randomService;
             _screenService = screenService;

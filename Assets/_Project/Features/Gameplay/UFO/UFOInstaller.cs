@@ -15,9 +15,6 @@ namespace _Project.Features.Gameplay.UFO
         
         public override void InstallBindings()
         {
-            Container.DeclareSignal<SpawnedSignal<UFOComponent>>();
-            Container.DeclareSignal<SpawnRequestedSignal<UFOComponent>>();
-            
             BindUFOStorage();
             BindUFOMovementController();
             BindUFORotationController();

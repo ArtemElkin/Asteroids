@@ -9,13 +9,9 @@ namespace _Project.Infrastructure.Lifecycle
         private ISignalBus _signalBus;
 
 
-        private void Awake()
-        {
-            _signalBus.Fire<InitializeGameSignal>();
-        }
-
         private void Start()
         {
+            _signalBus.Fire<InitializeGameSignal>();
             _signalBus.Fire<StartGameSignal>();
         }
 

@@ -22,20 +22,22 @@ namespace _Project.Features.Gameplay.Asteroid
         private int _maxAsteroidsCount;
         private readonly Storage<AsteroidComponent> _asteroidsStorage;
         private readonly FactoryWithPool<AsteroidComponent> _asteroidFactory;
-        private readonly RandomService _randomService;
+        private readonly IRandomService _randomService;
         private readonly PositionGenerator _positionGenerator;
         private readonly IConfigProvider _configProvider;
         private readonly ISignalBus _signalBus;
+        private readonly SpawnTimer<AsteroidComponent> _spawnTimer;
         private readonly DiContainer _diContainer;
 
 
         public AsteroidSpawner(
             Storage<AsteroidComponent> asteroidsStorage,
             FactoryWithPool<AsteroidComponent> asteroidFactory,
-            RandomService randomService,
+            IRandomService randomService,
             PositionGenerator positionGenerator,
             IConfigProvider configProvider,
             ISignalBus signalBus,
+            SpawnTimer<AsteroidComponent> spawnTimer,
             DiContainer diContainer)
         {
             _asteroidsStorage = asteroidsStorage;
@@ -44,9 +46,10 @@ namespace _Project.Features.Gameplay.Asteroid
             _positionGenerator = positionGenerator;
             _configProvider = configProvider;
             _signalBus = signalBus;
+            _spawnTimer = spawnTimer;
             _diContainer = diContainer;
             _signalBus.Subscribe<InitializeGameSignal>(Initialize);
-            _signalBus.Subscribe<SpawnRequestedSignal<AsteroidComponent>>(OnSpawnRequested);
+            _spawnTimer.OnSpawnRequested += OnSpawnRequested;;
         }
 
         public void Initialize()
@@ -109,8 +112,8 @@ namespace _Project.Features.Gameplay.Asteroid
 
         public void Dispose()
         {
+            _spawnTimer.OnSpawnRequested -= OnSpawnRequested;
             _signalBus.Unsubscribe<InitializeGameSignal>(Initialize);
-            _signalBus.Unsubscribe<SpawnRequestedSignal<AsteroidComponent>>(OnSpawnRequested);
         }
     }
 }

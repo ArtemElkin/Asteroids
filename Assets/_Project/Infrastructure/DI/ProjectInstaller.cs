@@ -1,10 +1,10 @@
-using _Project.Core;
 using _Project.Core.Ads;
 using _Project.Core.Config;
 using _Project.Core.Player;
 using _Project.Core.Save;
 using _Project.Core.Services;
 using _Project.Core.Signals;
+using _Project.Features.Gameplay.Signals;
 using _Project.Infrastructure.Config;
 using _Project.Infrastructure.Input;
 using _Project.Infrastructure.Save;
@@ -23,11 +23,13 @@ namespace _Project.Infrastructure.DI
         public override void InstallBindings()
         {
             BindSignalBus();
+            Container.DeclareSignal<InitializeGameSignal>();
             Container.DeclareSignal<StartGameSignal>();
             Container.DeclareSignal<StopGameSignal>();
             Container.DeclareSignal<GameRestartedSignal>();
             Container.DeclareSignal<StartGameClickedSignal>();
             Container.DeclareSignal<MenuClickedSignal>();
+            Container.DeclareSignal<OutOfBoundsSignal>();
 
             BindRandomService();
             BindSaveService();

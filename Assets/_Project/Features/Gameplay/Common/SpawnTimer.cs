@@ -10,6 +10,7 @@ namespace _Project.Features.Gameplay.Common
 {
     public class SpawnTimer<T> : IInitializable, ITickable, IDisposable
     {
+        public event Action OnSpawnRequested;
         private bool _isEnabled;
         private float _timeFromLastRequest;
         private float _spawnInterval;
@@ -38,7 +39,7 @@ namespace _Project.Features.Gameplay.Common
             if (!_isEnabled) return;
             if (_timeFromLastRequest >= _spawnInterval)
             {
-                _signalBus.Fire<SpawnRequestedSignal<T>>();
+                OnSpawnRequested?.Invoke();
                 _timeFromLastRequest = 0;
             }
             _timeFromLastRequest += Time.deltaTime;
