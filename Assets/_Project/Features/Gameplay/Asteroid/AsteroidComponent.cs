@@ -3,7 +3,6 @@ using _Project.Features.Gameplay.Common;
 using _Project.Infrastructure.Tools;
 using UnityEngine;
 
-
 namespace _Project.Features.Gameplay.Asteroid
 {
     [RequireComponent(typeof(Rigidbody2D))]

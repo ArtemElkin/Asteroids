@@ -1,5 +1,4 @@
 using System;
-using _Project.Core;
 using _Project.Core.Config;
 using _Project.Core.Math;
 using _Project.Core.Physics;
@@ -9,12 +8,13 @@ using _Project.Core.Tools;
 using _Project.Features.Gameplay.Common;
 using _Project.Features.Gameplay.Signals;
 using _Project.Infrastructure.Factories;
+// TODO: отвязать от zenject
 using Zenject;
 
 
 namespace _Project.Features.Gameplay.Asteroid
 {
-    public class AsteroidSpawner : IInitializable, IDisposable
+    public class AsteroidSpawner : IDisposable
     {
         private float _spawnOffsetFromBounds;
         private float _minAsteroidSpeed;
@@ -45,11 +45,12 @@ namespace _Project.Features.Gameplay.Asteroid
             _configProvider = configProvider;
             _signalBus = signalBus;
             _diContainer = diContainer;
+            _signalBus.Subscribe<InitializeGameSignal>(Initialize);
+            _signalBus.Subscribe<SpawnRequestedSignal<AsteroidComponent>>(OnSpawnRequested);
         }
 
         public void Initialize()
         {
-            _signalBus.Subscribe<SpawnRequestedSignal<AsteroidComponent>>(OnSpawnRequested);
             var gameConfig = _configProvider.GetConfig<GameConfig>("GameConfig");
             _maxAsteroidsCount = gameConfig.maxAsteroidsCount;
             _spawnOffsetFromBounds = gameConfig.spawnOffsetFromBounds;
@@ -108,6 +109,7 @@ namespace _Project.Features.Gameplay.Asteroid
 
         public void Dispose()
         {
+            _signalBus.Unsubscribe<InitializeGameSignal>(Initialize);
             _signalBus.Unsubscribe<SpawnRequestedSignal<AsteroidComponent>>(OnSpawnRequested);
         }
     }

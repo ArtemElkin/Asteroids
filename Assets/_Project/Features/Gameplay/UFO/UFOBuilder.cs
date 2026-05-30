@@ -1,17 +1,18 @@
+using System;
 using _Project.Core.Config;
 using _Project.Core.Math;
 using _Project.Core.Physics;
 using _Project.Core.Services;
+using _Project.Core.Signals;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Common;
 using _Project.Features.Gameplay.Spaceship;
 using _Project.Infrastructure.Factories;
 using Zenject;
 
-
 namespace _Project.Features.Gameplay.UFO
 {
-    public class UFOBuilder : IInitializable
+    public class UFOBuilder : IDisposable
     {
         private float _spawnOffsetFromBounds;
         private float _minUFOSpeed;
@@ -28,6 +29,7 @@ namespace _Project.Features.Gameplay.UFO
         private readonly FactoryWithPool<UFOComponent> _ufoFactory;
         private readonly IConfigProvider _configProvider;
         private readonly DiContainer _diContainer;
+        private readonly ISignalBus _signalBus;
 
 
         public UFOBuilder(
@@ -35,16 +37,19 @@ namespace _Project.Features.Gameplay.UFO
             RandomService randomService,
             FactoryWithPool<UFOComponent> ufoFactory,
             IConfigProvider configProvider,
-            DiContainer diContainer)
+            DiContainer diContainer,
+            ISignalBus signalBus)
         {
             _positionGenerator = positionGenerator;
             _randomService = randomService;
             _ufoFactory = ufoFactory;
             _configProvider = configProvider;
             _diContainer = diContainer;
+            _signalBus = signalBus;
+            _signalBus.Subscribe<InitializeGameSignal>(Initialize);
         }
         
-        public void Initialize()
+        private void Initialize()
         {
             var ufoConfig =  _configProvider.GetConfig<UFOConfig>("UFOConfig");
             _minUFOSpeed = ufoConfig.minSpeed;
@@ -147,6 +152,12 @@ namespace _Project.Features.Gameplay.UFO
             _rotationController = null;
             _targetFollower = null;
             _boundsChecker = null;
+        }
+
+        public void Dispose()
+        {
+            _signalBus.Unsubscribe<InitializeGameSignal>(Initialize);
+            Clear();
         }
     }
 }

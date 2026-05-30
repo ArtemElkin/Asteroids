@@ -3,7 +3,6 @@ using _Project.Features.Gameplay.Signals;
 using UnityEngine;
 using Zenject;
 
-
 namespace _Project.Features.Gameplay.Spaceship
 {
     public class SpaceshipInstaller : MonoInstaller
@@ -24,22 +23,25 @@ namespace _Project.Features.Gameplay.Spaceship
         private void BindSpaceshipStorage()
         {
             Container
-                .BindInterfacesAndSelfTo<Storage<SpaceshipComponent>>()
-                .AsSingle();
+                .Bind<Storage<SpaceshipComponent>>()
+                .AsSingle()
+                .NonLazy();
         }
 
         private void BindSpaceshipMovementController()
         {
             Container
-                .BindInterfacesAndSelfTo<SpaceshipMovementController>()
-                .AsSingle();
+                .Bind<SpaceshipMovementController>()
+                .AsSingle()
+                .NonLazy();
         }
 
         private void BindSpaceshipRotationController()
         {
             Container
                 .BindInterfacesAndSelfTo<SpaceshipRotationController>()
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
         }
 
         private void BindSpaceshipSpawner(
@@ -48,11 +50,12 @@ namespace _Project.Features.Gameplay.Spaceship
             Transform spaceshipParentTransform)
         {
             Container.DeclareSignal<SpawnedSignal<SpaceshipComponent>>();
-            
+
             Container
                 .BindInterfacesAndSelfTo<SpaceshipSpawner>()
                 .AsSingle()
-                .WithArguments(spaceshipPrefab, spaceshipClonePrefab, spaceshipParentTransform);
+                .WithArguments(spaceshipPrefab, spaceshipClonePrefab, spaceshipParentTransform)
+                .NonLazy();
         }
         
     }

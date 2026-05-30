@@ -2,10 +2,9 @@ using System;
 using _Project.Core.Config;
 using _Project.Core.Signals;
 using _Project.Features.Gameplay.Signals;
+// TODO осталась зависимость отUnity
 using UnityEngine;
 using Zenject;
-// TODO осталась зависимость отUnity
-
 
 namespace _Project.Features.Gameplay.Common
 {
@@ -19,18 +18,17 @@ namespace _Project.Features.Gameplay.Common
 
 
         public SpawnTimer(
-            ISignalBus signalBus,
-            IConfigProvider configProvider)
+            IConfigProvider configProvider,
+            ISignalBus signalBus)
         {
-            _signalBus =  signalBus;
             _configProvider = configProvider;
+            _signalBus =  signalBus;
+            _signalBus.Subscribe<StartGameSignal>(Start);
+            _signalBus.Subscribe<StopGameSignal>(Stop);
         }
 
         public void Initialize()
         {
-            _signalBus.Subscribe<StartGameSignal>(Start);
-            _signalBus.Subscribe<GameOverSignal>(Stop);
-
             var config = _configProvider.GetConfig<GameConfig>("GameConfig");
             _spawnInterval = config.spawnInterval;
         }
@@ -53,7 +51,7 @@ namespace _Project.Features.Gameplay.Common
         public void Dispose()
         {
             _signalBus.Unsubscribe<StartGameSignal>(Start);
-            _signalBus.Unsubscribe<GameOverSignal>(Stop);
+            _signalBus.Unsubscribe<StopGameSignal>(Stop);
         }
     }
 }

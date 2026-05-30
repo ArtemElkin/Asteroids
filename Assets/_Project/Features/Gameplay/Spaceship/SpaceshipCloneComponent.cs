@@ -3,7 +3,6 @@ using _Project.Infrastructure.Tools;
 using UnityEngine;
 using Vector2 = _Project.Core.Math.Vector2;
 
-
 namespace _Project.Features.Gameplay.Spaceship
 {
     [RequireComponent(typeof(Rigidbody2D))]

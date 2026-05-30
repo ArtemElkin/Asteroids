@@ -1,9 +1,6 @@
-using _Project.Core.Math;
 using _Project.Core.Physics;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Spaceship;
-using UnityEngine;
-using Vector2 = _Project.Core.Math.Vector2;
 
 
 namespace _Project.Features.Gameplay.UFO
@@ -12,7 +9,6 @@ namespace _Project.Features.Gameplay.UFO
     {
         private bool _isSetup;
         private bool _hasTarget;
-        Vector2 _direction;
         private MovementModel _movementModel;
         private IReadOnlyPositionable _targetPositionable;
         private Storage<SpaceshipComponent> _spaceshipStorage;
@@ -36,12 +32,12 @@ namespace _Project.Features.Gameplay.UFO
                 TryGetTarget();
                 if (!_hasTarget) return;
             }
-            _direction = _targetPositionable.Position - _movementModel.Position;
-            if (_direction.sqrMagnitude > 1) 
+            var direction = _targetPositionable.Position - _movementModel.Position;
+            if (direction.sqrMagnitude > 1) 
             {
-                _direction = _direction.normalized;
+                direction = direction.normalized;
             }
-            _movementModel.UpdateMoveDirection(_direction);
+            _movementModel.UpdateMoveDirection(direction);
         }
 
         private void TryGetTarget()
@@ -56,7 +52,6 @@ namespace _Project.Features.Gameplay.UFO
         public void Reset()
         {
             _isSetup = false;
-            _direction = Vector2.zero;
             _movementModel = null;
             _targetPositionable = null;
         }

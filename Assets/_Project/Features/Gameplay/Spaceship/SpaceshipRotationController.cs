@@ -2,8 +2,6 @@ using _Project.Core.Input;
 using _Project.Core.Math;
 using _Project.Core.Physics;
 using _Project.Core.Services;
-using _Project.Infrastructure.Services;
-using Zenject;
 
 namespace _Project.Features.Gameplay.Spaceship
 {
@@ -18,8 +16,7 @@ namespace _Project.Features.Gameplay.Spaceship
         private IScreenService _screenService;
 
 
-        [Inject]
-        private void Construct(
+        public SpaceshipRotationController(
             IFireInputService fireInputService,
             IScreenService screenService)
         {
@@ -32,7 +29,6 @@ namespace _Project.Features.Gameplay.Spaceship
             _movementModel = movementModel;
             _isSetup = true;
         }
-
 
         public void UpdatePhysics(float deltaTime)
         {

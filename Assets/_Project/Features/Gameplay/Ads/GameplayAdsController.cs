@@ -1,7 +1,6 @@
 using System;
 using _Project.Core.Ads;
 using _Project.Core.Signals;
-using Zenject;
 
 namespace _Project.Features.Gameplay.Ads
 {
@@ -12,12 +11,13 @@ namespace _Project.Features.Gameplay.Ads
         private ISignalBus _signalBus;
         private IAdsService _adsService;
 
+        
         public GameplayAdsController(ISignalBus signalBus, IAdsService adsService)
         {
             _signalBus = signalBus;
             _adsService = adsService;
             
-            _signalBus.Subscribe<GameOverSignal>(OnGameOver);
+            _signalBus.Subscribe<StopGameSignal>(OnGameOver);
             _signalBus.Subscribe<GameRestartedSignal>(OnGameRestarted);
             _signalBus.Subscribe<MenuClickedSignal>(OnMenuClicked);
             _deathsFromLastAd = 0;
@@ -46,7 +46,7 @@ namespace _Project.Features.Gameplay.Ads
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<GameOverSignal>(OnGameOver);
+            _signalBus.Unsubscribe<StopGameSignal>(OnGameOver);
             _signalBus.Unsubscribe<GameRestartedSignal>(OnGameRestarted);
             _signalBus.Unsubscribe<MenuClickedSignal>(OnMenuClicked);
         }

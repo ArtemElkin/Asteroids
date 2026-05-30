@@ -5,7 +5,6 @@ using _Project.Infrastructure.Factories;
 using UnityEngine;
 using Zenject;
 
-
 namespace _Project.Features.Gameplay.UFO
 {
     public class UFOInstaller : MonoInstaller
@@ -33,8 +32,9 @@ namespace _Project.Features.Gameplay.UFO
         private void BindUFOStorage()
         {
             Container
-                .BindInterfacesAndSelfTo<Storage<UFOComponent>>()
-                .AsSingle();
+                .Bind<Storage<UFOComponent>>()
+                .AsSingle()
+                .NonLazy();
         }
 
         private void BindUFOMovementController()
@@ -61,9 +61,10 @@ namespace _Project.Features.Gameplay.UFO
         private void BindUFOFactory(UFOComponent ufoPrefab, Transform parentTransform)
         {
             Container
-                .BindInterfacesAndSelfTo<FactoryWithPool<UFOComponent>>()
+                .Bind<FactoryWithPool<UFOComponent>>()
                 .AsSingle()
-                .WithArguments(_ufoPrefab, parentTransform);
+                .WithArguments(ufoPrefab, parentTransform)
+                .NonLazy();
         }
 
         private void BindUFOBuilder()

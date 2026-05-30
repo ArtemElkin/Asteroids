@@ -1,11 +1,7 @@
 using _Project.Core.Physics;
 using _Project.Features.Gameplay.Common;
-using _Project.Features.Gameplay.Signals;
-using _Project.Features.Gameplay.Spaceship;
 using _Project.Infrastructure.Tools;
 using UnityEngine;
-using Zenject;
-
 
 namespace _Project.Features.Gameplay.UFO
 {

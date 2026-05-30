@@ -10,10 +10,9 @@ using UnityEngine;
 using Zenject;
 using Vector2 = _Project.Core.Math.Vector2;
 
-
 namespace _Project.Features.Gameplay.Spaceship
 {
-    public class SpaceshipSpawner : IInitializable, IDisposable
+    public class SpaceshipSpawner : IDisposable
     {
         private IReadOnlyPositionable _positionableModel;
         private IReadOnlyRotatable _rotatableModel;
@@ -51,11 +50,12 @@ namespace _Project.Features.Gameplay.Spaceship
             _screenService = screenService;
             _configProvider = configProvider;
             _diContainer =  diContainer;
+            _signalBus.Subscribe<InitializeGameSignal>(Initialize);
+            _signalBus.Subscribe<StartGameSignal>(OnGameStarted);
         }
 
         public void Initialize()
         {
-            _signalBus.Subscribe<StartGameSignal>(OnGameStarted);
             var config = _configProvider.GetConfig<SpaceshipMovementConfig>("SpaceshipMovementConfig");
             _spaceshipMaxSpeed = config.maxSpeed;
             _spaceshipAccelerationMultiplier = config.accelerationMultiplier;
@@ -127,6 +127,7 @@ namespace _Project.Features.Gameplay.Spaceship
 
         public void Dispose()
         {
+            _signalBus.Unsubscribe<InitializeGameSignal>(Initialize);
             _signalBus.Unsubscribe<StartGameSignal>(OnGameStarted);
         }
     }

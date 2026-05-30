@@ -5,7 +5,7 @@ namespace _Project.Features.Gameplay.Common
 {
     public abstract class BaseMovementController : IWarpable
     {
-        protected bool _isSetup;
+        private bool _isSetup;
         protected MovementModel _movementModel;
         
 
@@ -18,7 +18,7 @@ namespace _Project.Features.Gameplay.Common
         
         protected virtual void OnSetup() { }
 
-        public virtual void UpdatePhysics(float deltaTime)
+        public void UpdatePhysics(float deltaTime)
         {
             if (!_isSetup) return;
             
@@ -36,7 +36,7 @@ namespace _Project.Features.Gameplay.Common
 
         protected abstract void UpdateVelocity(float  deltaTime);
         
-        protected void Move(float  deltaTime)
+        private void Move(float  deltaTime)
         {
             _movementModel.UpdatePosition(_movementModel.Position + _movementModel.Velocity * deltaTime);
         }

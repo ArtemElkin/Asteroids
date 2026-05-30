@@ -5,7 +5,6 @@ using _Project.Infrastructure.Factories;
 using UnityEngine;
 using Zenject;
 
-
 namespace _Project.Features.Gameplay.Asteroid
 {
     public class AsteroidInstaller : MonoInstaller
@@ -27,23 +26,24 @@ namespace _Project.Features.Gameplay.Asteroid
         private void BindAsteroidMovementController()
         {
             Container
-                .BindInterfacesAndSelfTo<AsteroidMovementController>()
+                .Bind<AsteroidMovementController>()
                 .AsTransient();
         }
 
         private void BindAsteroidsStorage()
         {
             Container
-                .BindInterfacesAndSelfTo<Storage<AsteroidComponent>>()
+                .Bind<Storage<AsteroidComponent>>()
                 .AsSingle();
         }
 
         private void BindAsteroidFactory(AsteroidComponent asteroidPrefab, Transform asteroidsParentTransform)
         {
             Container
-                .BindInterfacesAndSelfTo<FactoryWithPool<AsteroidComponent>>()
+                .Bind<FactoryWithPool<AsteroidComponent>>()
                 .AsSingle()
-                .WithArguments(asteroidPrefab, asteroidsParentTransform);
+                .WithArguments(asteroidPrefab, asteroidsParentTransform)
+                .NonLazy();
         }
 
         private void BindAsteroidSpawner()
@@ -59,14 +59,16 @@ namespace _Project.Features.Gameplay.Asteroid
             
             Container
                 .BindInterfacesAndSelfTo<SpawnTimer<AsteroidComponent>>()
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
         }
 
         private void BindAsteroidDespawner()
         {
             Container
                 .BindInterfacesAndSelfTo<AsteroidDespawner>()
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace _Project.Infrastructure.DI
         {
             BindSignalBus();
             Container.DeclareSignal<StartGameSignal>();
-            Container.DeclareSignal<GameOverSignal>();
+            Container.DeclareSignal<StopGameSignal>();
             Container.DeclareSignal<GameRestartedSignal>();
             Container.DeclareSignal<StartGameClickedSignal>();
             Container.DeclareSignal<MenuClickedSignal>();

@@ -1,16 +1,13 @@
 using System;
-using _Project.Core;
 using _Project.Core.Config;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Signals;
 using _Project.Features.Gameplay.Spaceship;
-using Zenject;
-
 
 namespace _Project.Features.Gameplay.UFO
 {
-    public class UFOSpawner : IInitializable, IDisposable
+    public class UFOSpawner : IDisposable
     {
         private float _spawnOffsetFromBounds;
         private int _maxUFOsCount;
@@ -32,11 +29,12 @@ namespace _Project.Features.Gameplay.UFO
             _spaceshipStorage = spaceshipStorage;
             _configProvider = configProvider;
             _signalBus = signalBus;
+            _signalBus.Subscribe<InitializeGameSignal>(Initialize);
+            _signalBus.Subscribe<SpawnRequestedSignal<UFOComponent>>(OnSpawnRequested);
         }
 
         public void Initialize()
         {
-            _signalBus.Subscribe<SpawnRequestedSignal<UFOComponent>>(OnSpawnRequested);
             
             var gameConfig = _configProvider.GetConfig<GameConfig>("GameConfig");
             _maxUFOsCount = gameConfig.maxUFOsCount;
@@ -68,6 +66,7 @@ namespace _Project.Features.Gameplay.UFO
 
         public void Dispose()
         {
+            _signalBus.Unsubscribe<InitializeGameSignal>(Initialize);
             _signalBus.Unsubscribe<SpawnRequestedSignal<UFOComponent>>(OnSpawnRequested);
         }
     }

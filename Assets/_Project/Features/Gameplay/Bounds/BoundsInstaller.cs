@@ -1,7 +1,6 @@
 using _Project.Features.Gameplay.Signals;
 using Zenject;
 
-
 namespace _Project.Features.Gameplay.Bounds
 {
     public class BoundsInstaller : MonoInstaller
@@ -17,15 +16,17 @@ namespace _Project.Features.Gameplay.Bounds
         private void BindBoundsService()
         {
             Container
-                .BindInterfacesAndSelfTo<BoundsService>()
-                .AsSingle();
+                .Bind<BoundsService>()
+                .AsSingle()
+                .NonLazy();
         }
 
         private void BindBoundsWarper()
         {
             Container
                 .BindInterfacesAndSelfTo<BoundsWarper>()
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

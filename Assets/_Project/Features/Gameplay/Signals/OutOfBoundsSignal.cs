@@ -1,7 +1,6 @@
 using _Project.Core.Math;
 using _Project.Core.Physics;
 
-
 namespace _Project.Features.Gameplay.Signals
 {
     public class OutOfBoundsSignal

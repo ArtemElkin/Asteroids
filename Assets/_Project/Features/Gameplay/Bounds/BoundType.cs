@@ -1,6 +1,5 @@
 using System;
 
-
 namespace _Project.Features.Gameplay.Bounds
 {
     [Flags]

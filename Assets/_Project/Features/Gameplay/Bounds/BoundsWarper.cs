@@ -21,11 +21,6 @@ namespace _Project.Features.Gameplay.Bounds
             _screenService = screenService;
             _boundsService = boundsService;
             _signalBus = signalBus;
-            _signalBus.Subscribe<InitializeGameSignal>(Initialize);
-        }
-
-        public void Initialize()
-        {
             _signalBus.Subscribe<OutOfBoundsSignal>(OnOutOfBounds);
         }
 
@@ -46,7 +41,6 @@ namespace _Project.Features.Gameplay.Bounds
         
         public void Dispose()
         {
-            _signalBus.Unsubscribe<OutOfBoundsSignal>(Initialize);
             _signalBus.Unsubscribe<OutOfBoundsSignal>(OnOutOfBounds);
         }
     }
