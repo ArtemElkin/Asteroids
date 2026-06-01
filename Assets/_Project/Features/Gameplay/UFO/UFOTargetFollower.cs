@@ -7,7 +7,6 @@ namespace _Project.Features.Gameplay.UFO
 {
     public class UFOTargetFollower
     {
-        private bool _isSetup;
         private bool _hasTarget;
         private MovementModel _movementModel;
         private IReadOnlyPositionable _targetPositionable;
@@ -22,19 +21,8 @@ namespace _Project.Features.Gameplay.UFO
             _spaceshipStorage = spaceshipStorage;
         }
 
-        public void Setup(
-            MovementModel movementModel,
-            Storage<SpaceshipFacade>  spaceshipStorage)
-        {
-            _movementModel = movementModel;
-            _spaceshipStorage = spaceshipStorage;
-            TryGetTarget();
-            _isSetup = true;
-        }
-
         public void UpdateTarget()
         {
-            if (!_isSetup) return;
             if (!_hasTarget)
             {
                 TryGetTarget();
@@ -55,13 +43,6 @@ namespace _Project.Features.Gameplay.UFO
             {
                 _targetPositionable = spaceship.GetPositionable();
             }
-        }
-
-        public void Reset()
-        {
-            _isSetup = false;
-            _movementModel = null;
-            _targetPositionable = null;
         }
     }
 }

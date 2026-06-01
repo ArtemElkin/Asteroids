@@ -15,6 +15,7 @@ namespace _Project.Core.Physics
         {
             UpdatePosition(data.initialPosition);
             UpdateSpeed(data.initialSpeed);
+            UpdateMoveDirection(data.initialMoveDirection);
         }
 
         public void UpdatePosition(Vector2 newPosition) => Position = newPosition;

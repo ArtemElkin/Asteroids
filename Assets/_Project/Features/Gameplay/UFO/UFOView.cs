@@ -27,6 +27,8 @@ namespace _Project.Features.Gameplay.UFO
         {
             _movementModel = movementModel;
             _rb = GetComponent<Rigidbody2D>();
+            transform.position = _movementModel.Position.ToUnity();
+            _rb.position = transform.position;
             _isSetup = true;
         }
         

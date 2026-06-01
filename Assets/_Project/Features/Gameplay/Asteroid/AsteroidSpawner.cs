@@ -56,7 +56,8 @@ namespace _Project.Features.Gameplay.Asteroid
         {
             var initialPosition = GetRandomInitialAsteroidPosition();
             var initialSpeed = GetRandomInitialAsteroidSpeed();
-            var spawnData = new AsteroidSpawnData(initialPosition, initialSpeed);
+            var initialDirection = GetRandomInitialDirection(initialPosition);
+            var spawnData = new AsteroidSpawnData(initialPosition, initialSpeed, initialDirection);
             var asteroid = _asteroidFactory.Create(spawnData);
             return asteroid;
         }
@@ -69,6 +70,12 @@ namespace _Project.Features.Gameplay.Asteroid
         private float GetRandomInitialAsteroidSpeed()
         {
             return _randomService.GetRandomFloat(min: _asteroidConfig.minSpeed, max: _asteroidConfig.maxSpeed);
+        }
+        
+        private Vector2 GetRandomInitialDirection(Vector2 initialPosition)
+        {
+            var target = _positionGenerator.GenerateRandomPositionOnScreen();
+            return (target - initialPosition).normalized;
         }
     }
 }

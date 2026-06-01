@@ -24,9 +24,9 @@ namespace _Project.Features.Gameplay.Asteroid
 
     public AsteroidFacade Create(AsteroidSpawnData data)
     {
-        var initialMovementData = new InitialMovementData(data.initialPosition, data.initialSpeed);
+        var initialMovementData = new InitialMovementData(data.initialPosition, data.initialSpeed, data.initialDirection);
         var movementModel = _instantiator.Instantiate<MovementModel>(new object[] { initialMovementData });
-
+        
         var movementController = _instantiator.Instantiate<AsteroidMovementController>(new object[] { movementModel });
 
         var boundsChecker =
