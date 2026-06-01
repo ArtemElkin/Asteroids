@@ -2,7 +2,7 @@ using System;
 using _Project.Core.Factories;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
-using _Project.Features.Asteroid.Signals;
+using _Project.Features.Common.Signals;
 
 namespace _Project.Features.Asteroid
 {
@@ -22,19 +22,19 @@ namespace _Project.Features.Asteroid
             _asteroidStorage = asteroidStorage;
             _signalBus = signalBus;
             
-            _signalBus.Subscribe<DespawnRequestedSignal>(OnDespawnRequested);
+            _signalBus.Subscribe<DespawnRequestedSignal<AsteroidFacade>>(OnDespawnRequested);
         }
 
-        private void OnDespawnRequested(DespawnRequestedSignal signal)
+        private void OnDespawnRequested(DespawnRequestedSignal<AsteroidFacade> signal)
         {
-            var asteroidToDespawn = signal.asteroidFacade;
-            _asteroidFactory.Release(asteroidToDespawn);
-            _asteroidStorage.Remove(asteroidToDespawn);
+            var asteroidToDespawn = signal.facade;
+            _asteroidFactory.Release((AsteroidFacade)asteroidToDespawn);
+            _asteroidStorage.Remove((AsteroidFacade)asteroidToDespawn);
         }
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<DespawnRequestedSignal>(OnDespawnRequested);;
+            _signalBus.Unsubscribe<DespawnRequestedSignal<AsteroidFacade>>(OnDespawnRequested);;
         }
     }
 }

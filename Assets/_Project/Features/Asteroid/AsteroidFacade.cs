@@ -1,13 +1,13 @@
 using System;
 using _Project.Core.Services;
 using _Project.Core.Signals;
-using _Project.Features.Asteroid.Signals;
 using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
+using _Project.Features.Common.Signals;
 
 namespace _Project.Features.Asteroid
 {
-    public class AsteroidFacade : IDisposable
+    public class AsteroidFacade : IFacade
     {
         private readonly AsteroidMovementController _movementController;
         private readonly BoundsChecker _boundsChecker;
@@ -47,7 +47,7 @@ namespace _Project.Features.Asteroid
 
         private void Destruct()
         {
-            _signalBus.Fire(new DespawnRequestedSignal(this));
+            _signalBus.Fire(new DespawnRequestedSignal<AsteroidFacade>(this));
         }
 
         public void Dispose()

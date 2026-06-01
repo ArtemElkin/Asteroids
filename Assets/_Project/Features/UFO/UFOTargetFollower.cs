@@ -2,7 +2,7 @@ using _Project.Core.Physics;
 using _Project.Core.Tools;
 using _Project.Features.Spaceship;
 
-namespace _Project.Features.Gameplay.UFO
+namespace _Project.Features.UFO
 {
     public class UFOTargetFollower
     {

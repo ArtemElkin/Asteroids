@@ -17,15 +17,25 @@ namespace _Project.Infrastructure.DI
         public override void InstallBindings()
         {
             BindSpaceshipStorage();
+            BindSpaceshipCloneStorage();
             BindSpaceshipFactory(_spaceshipPrefab, _spaceshipParentTransform);
             BindSpaceshipCloneFactory(_spaceshipPrefab, _spaceshipParentTransform);
             BindSpaceshipSpawner();
+            BindSpaceshipDespawner();
         }
 
         private void BindSpaceshipStorage()
         {
             Container
                 .Bind<Storage<SpaceshipFacade>>()
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindSpaceshipCloneStorage()
+        {
+            Container
+                .Bind<Storage<SpaceshipCloneFacade>>()
                 .AsSingle()
                 .NonLazy();
         }
@@ -61,6 +71,13 @@ namespace _Project.Infrastructure.DI
                 .AsSingle()
                 .NonLazy();
         }
-        
+
+        private void BindSpaceshipDespawner()
+        {
+            Container
+                .BindInterfacesAndSelfTo<SpaceshipDespawner>()
+                .AsSingle()
+                .NonLazy();
+        }
     }
 }

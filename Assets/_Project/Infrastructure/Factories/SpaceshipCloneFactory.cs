@@ -12,8 +12,7 @@ namespace _Project.Infrastructure.Factories
     {
         private readonly IInstantiator _instantiator;
         private readonly Storage<SpaceshipFacade> _mainSpaceshipStorage;
-        private readonly MovableView _spaceshipPrefab;
-        private readonly Transform _spaceshipParentTransform;
+        private readonly CustomPool<MovableView> _viewPool;
         
         
         public SpaceshipCloneFactory(
@@ -24,8 +23,8 @@ namespace _Project.Infrastructure.Factories
         {
             _instantiator = instantiator;
             _mainSpaceshipStorage = mainSpaceshipStorage;
-            _spaceshipPrefab = spaceshipPrefab;
-            _spaceshipParentTransform = parentTransform;
+            
+            _viewPool = new CustomPool<MovableView>(instantiator, spaceshipPrefab, defaultParentTransform: parentTransform);
         }
         
         public SpaceshipCloneFacade Create(SpaceshipCloneSpawnData data)
@@ -36,7 +35,7 @@ namespace _Project.Infrastructure.Factories
                 var initialMovementData = new  InitialMovementData(data.offsetFromMainSpaceship, 0);
                 var movementModel = _instantiator.Instantiate<MovementModel>(new object[] { initialMovementData });
                 
-                var view = _instantiator.InstantiatePrefabForComponent<MovableView>(_spaceshipPrefab, _spaceshipParentTransform);
+                var view = _viewPool.Get();
                 view.Setup(movementModel);
                 
                 var mainSpaceshipPositionable = mainSpaceship.GetPositionable();
@@ -57,9 +56,13 @@ namespace _Project.Infrastructure.Factories
             
         }
 
-        public void Release(SpaceshipCloneFacade entity)
+        public void Release(SpaceshipCloneFacade facade)
         {
-            throw new System.NotImplementedException();
+            var drawable = facade.GetDrawable();
+            var view = (MovableView)drawable;
+            view.Reset();
+            _viewPool.Release(view);
+            facade.Dispose();
         }
     }
 }

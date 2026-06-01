@@ -1,5 +1,5 @@
 using _Project.Core.Tools;
-using _Project.Features.Gameplay.UFO;
+using _Project.Features.UFO;
 using _Project.Infrastructure.Factories;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;

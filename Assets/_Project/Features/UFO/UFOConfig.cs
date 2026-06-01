@@ -1,6 +1,6 @@
 using _Project.Core.Config;
 
-namespace _Project.Features.Gameplay.UFO
+namespace _Project.Features.UFO
 {
     public class UFOConfig : IConfig
     {

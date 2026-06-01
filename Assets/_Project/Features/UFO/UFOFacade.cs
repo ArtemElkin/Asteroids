@@ -1,11 +1,10 @@
-using System;
 using _Project.Core.Services;
 using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
 
-namespace _Project.Features.Gameplay.UFO
+namespace _Project.Features.UFO
 {
-    public class UFOFacade : IDisposable
+    public class UFOFacade : IFacade
     {
         private readonly UFOMovementController _movementController;
         private readonly UFORotationController _rotationController;
@@ -41,6 +40,8 @@ namespace _Project.Features.Gameplay.UFO
             _boundsChecker.CheckOutOfBounds();
             _view.Draw();
         }
+        
+        public IDrawable GetDrawable() => _view;
 
         public void Dispose()
         {

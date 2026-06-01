@@ -10,17 +10,22 @@ namespace _Project.Features.Spaceship
 {
     public class SpaceshipSpawner : IDisposable
     {
-        private SpaceshipMovementConfig _spaceshipConfig;
+        private SpaceshipConfig _spaceshipConfig;
+        private SpaceshipMovementConfig _spaceshipMovementConfig;
         private readonly Core.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade> _spaceshipFactory;
         private readonly Core.Factories.IFactory<SpaceshipCloneSpawnData, SpaceshipCloneFacade> _spaceshipCloneFactory;
         private readonly Storage<SpaceshipFacade> _spaceshipStorage;
+        private readonly Storage<SpaceshipCloneFacade> _spaceshipCloneStorage;
         private readonly ISignalBus _signalBus;
         private readonly IScreenService _screenService;
         private readonly IConfigProvider _configProvider;
 
         
-        public SpaceshipSpawner(Core.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade> spaceshipFactory, Core.Factories.IFactory<SpaceshipCloneSpawnData, SpaceshipCloneFacade> spaceshipCloneFactory,
+        public SpaceshipSpawner(
+            Core.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade> spaceshipFactory, 
+            Core.Factories.IFactory<SpaceshipCloneSpawnData, SpaceshipCloneFacade> spaceshipCloneFactory,
             Storage<SpaceshipFacade> spaceshipStorage,
+            Storage<SpaceshipCloneFacade> spaceshipCloneStorage,
             ISignalBus signalBus,
             IScreenService screenService,
             IConfigProvider configProvider)
@@ -28,6 +33,7 @@ namespace _Project.Features.Spaceship
             _spaceshipFactory = spaceshipFactory;
             _spaceshipCloneFactory =  spaceshipCloneFactory;
             _spaceshipStorage = spaceshipStorage;
+            _spaceshipCloneStorage = spaceshipCloneStorage;
             _signalBus = signalBus;
             _screenService = screenService;
             _configProvider = configProvider;
@@ -37,7 +43,8 @@ namespace _Project.Features.Spaceship
 
         private void OnGameInitialize()
         {
-            _spaceshipConfig =  _configProvider.GetConfig<SpaceshipMovementConfig>("SpaceshipMovementConfig");
+            _spaceshipMovementConfig =  _configProvider.GetConfig<SpaceshipMovementConfig>("SpaceshipMovementConfig");
+            _spaceshipConfig =  _configProvider.GetConfig<SpaceshipConfig>("SpaceshipConfig");
         }
 
         private void OnGameStarted()
@@ -48,7 +55,7 @@ namespace _Project.Features.Spaceship
 
         private void SpawnSpaceship()
         {
-            var spawnData = new SpaceshipSpawnData(Vector2.zero, _spaceshipConfig);
+            var spawnData = new SpaceshipSpawnData(Vector2.zero, _spaceshipMovementConfig, _spaceshipConfig.maxHp);
             var spaceship = _spaceshipFactory.Create(spawnData);
             
             _spaceshipStorage.Add(spaceship);
@@ -74,7 +81,8 @@ namespace _Project.Features.Spaceship
             foreach (var offset in cloneOffsets)
             {
                 var spawnData = new SpaceshipCloneSpawnData(offset);
-                _spaceshipCloneFactory.Create(spawnData);
+                var clone = _spaceshipCloneFactory.Create(spawnData);
+                _spaceshipCloneStorage.Add(clone);
             }
         }
 

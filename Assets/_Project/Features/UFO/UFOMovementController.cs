@@ -2,7 +2,7 @@ using _Project.Core.Math;
 using _Project.Core.Physics;
 using _Project.Features.Common;
 
-namespace _Project.Features.Gameplay.UFO
+namespace _Project.Features.UFO
 {
     public class UFOMovementController : BaseMovementController
     {

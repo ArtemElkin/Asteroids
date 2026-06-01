@@ -1,6 +1,7 @@
 using _Project.Core.Physics;
 using _Project.Features.Common.Bounds;
 using _Project.Features.Spaceship;
+using _Project.Features.Spaceship.Health;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;
 using Zenject;
@@ -9,6 +10,7 @@ namespace _Project.Infrastructure.Factories
 {
     public class SpaceshipFactory : Core.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade>
     {
+        private MovableView _view;
         private readonly IInstantiator _instantiator;
         private readonly MovableView _spaceshipPrefab;
         private readonly Transform _spaceshipParentTransform;
@@ -39,8 +41,15 @@ namespace _Project.Infrastructure.Factories
                 movementController
             });
             
-            var view = _instantiator.InstantiatePrefabForComponent<MovableView>(_spaceshipPrefab, _spaceshipParentTransform);
-            view.Setup(movementModel);
+            if (_view == null)
+                _view = _instantiator.InstantiatePrefabForComponent<MovableView>(_spaceshipPrefab, _spaceshipParentTransform);
+            _view.Setup(movementModel);
+            _view.gameObject.SetActive(true);
+            
+            var collisionHandler = _view.GetComponent<SpaceshipCollisionHandler>();
+
+            var healthModel = _instantiator.Instantiate<HealthModel>(new object[] { data.initialHp });
+            var healthController = _instantiator.Instantiate<HealthController>(new object[] { healthModel });
             
             var spaceship = _instantiator.Instantiate<SpaceshipFacade>(new object[]
             {
@@ -48,15 +57,19 @@ namespace _Project.Infrastructure.Factories
                 movementController,
                 rotationController,
                 boundsChecker,
-                view
+                _view,
+                collisionHandler,
+                healthController
             });
             
             return spaceship;
         }
 
-        public void Release(SpaceshipFacade entity)
+        public void Release(SpaceshipFacade facade)
         {
-            throw new System.NotImplementedException();
+            _view.Reset();
+            _view.gameObject.SetActive(false);
+            facade.Dispose();
         }
     }
 }

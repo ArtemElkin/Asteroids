@@ -6,13 +6,13 @@ using _Project.Features.Common;
 
 namespace _Project.Features.Spaceship.SpaceshipClone
 {
-    public class SpaceshipCloneFacade : IDisposable
+    public class SpaceshipCloneFacade : IFacade
     {
         private readonly Vector2 _cloneOffset;
         private readonly MovementModel _cloneMovementModel;
         private readonly IReadOnlyPositionable _mainSpaceshipPositionable;
         private readonly IReadOnlyRotatable _mainSpaceshipRotatable;
-        private readonly IDrawable _spaceshipView;
+        private readonly IDrawable _cloneView;
         private readonly ITimeService _timeService;
 
 
@@ -21,14 +21,14 @@ namespace _Project.Features.Spaceship.SpaceshipClone
             MovementModel cloneMovementModel,
             IReadOnlyPositionable mainSpaceshipPositionable,
             IReadOnlyRotatable mainSpaceshipRotatable,
-            IDrawable spaceshipView,
+            IDrawable cloneView,
             Vector2 cloneOffset)
         {
             _timeService = timeService;
             _cloneMovementModel = cloneMovementModel;
             _mainSpaceshipPositionable = mainSpaceshipPositionable;
             _mainSpaceshipRotatable = mainSpaceshipRotatable;
-            _spaceshipView = spaceshipView;
+            _cloneView = cloneView;
             _cloneOffset = cloneOffset;
             
             _timeService.OnFixedTick += OnFixedTick;
@@ -38,8 +38,10 @@ namespace _Project.Features.Spaceship.SpaceshipClone
         {
             _cloneMovementModel.UpdatePosition(_mainSpaceshipPositionable.Position + _cloneOffset);
             _cloneMovementModel.UpdateRotationAngle(_mainSpaceshipRotatable.RotationAngle);
-            _spaceshipView.Draw();
+            _cloneView.Draw();
         }
+        
+        public IDrawable GetDrawable() => _cloneView;
 
         public void Dispose()
         {

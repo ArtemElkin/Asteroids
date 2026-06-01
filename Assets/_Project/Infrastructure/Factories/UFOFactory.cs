@@ -1,6 +1,6 @@
 using _Project.Core.Physics;
 using _Project.Features.Common.Bounds;
-using _Project.Features.Gameplay.UFO;
+using _Project.Features.UFO;
 using _Project.Infrastructure.UnityRender;
 using _Project.Infrastructure.UnityServices;
 using UnityEngine;

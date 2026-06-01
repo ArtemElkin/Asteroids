@@ -8,7 +8,7 @@ using _Project.Core.Tools;
 using _Project.Features.Common;
 using _Project.Features.Spaceship;
 
-namespace _Project.Features.Gameplay.UFO
+namespace _Project.Features.UFO
 {
     public class UFOSpawner : BaseSpawner<UFOFacade>
     {
