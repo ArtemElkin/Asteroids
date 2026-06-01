@@ -17,8 +17,8 @@ namespace _Project.Features.Gameplay.Common.Ads
             _signalBus = signalBus;
             _adsService = adsService;
             
-            _signalBus.Subscribe<StopGameSignal>(OnGameOver);
-            _signalBus.Subscribe<GameRestartedSignal>(OnGameRestarted);
+            _signalBus.Subscribe<GameStopSignal>(OnGameOver);
+            _signalBus.Subscribe<GameRestartSignal>(OnGameRestarted);
             _signalBus.Subscribe<MenuClickedSignal>(OnMenuClicked);
             _deathsFromLastAd = 0;
         }
@@ -46,8 +46,8 @@ namespace _Project.Features.Gameplay.Common.Ads
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<StopGameSignal>(OnGameOver);
-            _signalBus.Unsubscribe<GameRestartedSignal>(OnGameRestarted);
+            _signalBus.Unsubscribe<GameStopSignal>(OnGameOver);
+            _signalBus.Unsubscribe<GameRestartSignal>(OnGameRestarted);
             _signalBus.Unsubscribe<MenuClickedSignal>(OnMenuClicked);
         }
     }

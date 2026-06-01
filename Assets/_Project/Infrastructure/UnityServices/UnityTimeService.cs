@@ -6,8 +6,8 @@ namespace _Project.Infrastructure.UnityServices
 {
     public class UnityTimeService : MonoBehaviour, ITimeService
     {
-        public float DeltaTime => UnityEngine.Time.deltaTime;
-        public float FixedDeltaTime => UnityEngine.Time.fixedDeltaTime;
+        public float DeltaTime => Time.deltaTime;
+        public float FixedDeltaTime => Time.fixedDeltaTime;
         public event Action OnTick;
         public event Action OnFixedTick;
 

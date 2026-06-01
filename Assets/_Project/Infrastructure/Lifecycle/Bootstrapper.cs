@@ -32,7 +32,7 @@ namespace _Project.Infrastructure.Lifecycle
             _adsService = adsService;
             _configProvider = configProvider;
             _signalBus = signalBus;
-            _signalBus.Subscribe<InitializeGameSignal>(Initialize);
+            _signalBus.Subscribe<GameInitializeSignal>(Initialize);
         }
 
         private void Initialize()
@@ -51,7 +51,7 @@ namespace _Project.Infrastructure.Lifecycle
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<InitializeGameSignal>(Initialize);
+            _signalBus.Unsubscribe<GameInitializeSignal>(Initialize);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace _Project.Features.Gameplay.Common
             _storage = storage;
             _spawnTimer =  spawnTimer;
             _signalBus = signalBus;
-            _signalBus.Subscribe<InitializeGameSignal>(Initialize);
+            _signalBus.Subscribe<GameInitializeSignal>(Initialize);
             _spawnTimer.OnSpawnRequested += OnSpawnRequested;
         }
 
@@ -52,7 +52,7 @@ namespace _Project.Features.Gameplay.Common
             _storage.Clear();
             _maxCount = 0;
             _spawnTimer.OnSpawnRequested -= OnSpawnRequested;
-            _signalBus.Unsubscribe<InitializeGameSignal>(Initialize);
+            _signalBus.Unsubscribe<GameInitializeSignal>(Initialize);
         }
     }
 }

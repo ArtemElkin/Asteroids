@@ -11,8 +11,8 @@ namespace _Project.Infrastructure.Lifecycle
 
         private void Start()
         {
-            _signalBus.Fire<InitializeGameSignal>();
-            _signalBus.Fire<StartGameSignal>();
+            _signalBus.Fire<GameInitializeSignal>();
+            _signalBus.Fire<GameStartSignal>();
         }
 
         [Inject]

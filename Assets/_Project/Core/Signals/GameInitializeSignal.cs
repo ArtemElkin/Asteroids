@@ -1,6 +1,6 @@
 namespace _Project.Core.Signals
 {
-    public class StopGameSignal
+    public class GameInitializeSignal
     {
         
     }

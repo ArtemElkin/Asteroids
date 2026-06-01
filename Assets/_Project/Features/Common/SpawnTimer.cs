@@ -20,8 +20,8 @@ namespace _Project.Features.Gameplay.Common
         {
             _timeService = timeService;
             _signalBus =  signalBus;
-            _signalBus.Subscribe<StartGameSignal>(Start);
-            _signalBus.Subscribe<StopGameSignal>(Stop);
+            _signalBus.Subscribe<GameStartSignal>(Start);
+            _signalBus.Subscribe<GameStopSignal>(Stop);
             _timeService.OnTick += OnTick;
         }
 
@@ -47,8 +47,8 @@ namespace _Project.Features.Gameplay.Common
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<StartGameSignal>(Start);
-            _signalBus.Unsubscribe<StopGameSignal>(Stop);
+            _signalBus.Unsubscribe<GameStartSignal>(Start);
+            _signalBus.Unsubscribe<GameStopSignal>(Stop);
             _timeService.OnTick -= OnTick;
         }
     }

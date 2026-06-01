@@ -33,8 +33,8 @@ namespace _Project.Features.Gameplay.Spaceship
             _signalBus = signalBus;
             _screenService = screenService;
             _configProvider = configProvider;
-            _signalBus.Subscribe<InitializeGameSignal>(OnGameInitialize);
-            _signalBus.Subscribe<StartGameSignal>(OnGameStarted);
+            _signalBus.Subscribe<GameInitializeSignal>(OnGameInitialize);
+            _signalBus.Subscribe<GameStartSignal>(OnGameStarted);
         }
 
         private void OnGameInitialize()
@@ -82,8 +82,8 @@ namespace _Project.Features.Gameplay.Spaceship
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<InitializeGameSignal>(OnGameInitialize);
-            _signalBus.Unsubscribe<StartGameSignal>(OnGameStarted);
+            _signalBus.Unsubscribe<GameInitializeSignal>(OnGameInitialize);
+            _signalBus.Unsubscribe<GameStartSignal>(OnGameStarted);
         }
     }
 }

@@ -20,10 +20,10 @@ namespace _Project.Infrastructure.DI
         public override void InstallBindings()
         {
             BindSignalBus();
-            Container.DeclareSignal<InitializeGameSignal>();
-            Container.DeclareSignal<StartGameSignal>();
-            Container.DeclareSignal<StopGameSignal>();
-            Container.DeclareSignal<GameRestartedSignal>();
+            Container.DeclareSignal<GameInitializeSignal>();
+            Container.DeclareSignal<GameStartSignal>();
+            Container.DeclareSignal<GameStopSignal>();
+            Container.DeclareSignal<GameRestartSignal>();
             Container.DeclareSignal<StartGameClickedSignal>();
             Container.DeclareSignal<MenuClickedSignal>();
 
