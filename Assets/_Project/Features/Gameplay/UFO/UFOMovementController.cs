@@ -10,11 +10,12 @@ namespace _Project.Features.Gameplay.UFO
         private float _inertiaMultiplier;
 
 
-        public void Setup(MovementModel movementModel, float accelerationMultipler, float inertiaMultiplier)
+        public UFOMovementController(
+            MovementModel movementModel, UFOSpawnData spawnData) : base(
+            movementModel)
         {
-            _accelerationMultiplier = accelerationMultipler;
-            _inertiaMultiplier = inertiaMultiplier;
-            base.Setup(movementModel);
+            _accelerationMultiplier = spawnData.accelerationMultiplier;
+            _inertiaMultiplier = spawnData.inertiaMultiplier;
         }
 
         protected override void UpdateVelocityOnMove(float deltaTime)

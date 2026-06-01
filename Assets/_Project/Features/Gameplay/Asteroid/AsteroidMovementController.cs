@@ -1,10 +1,11 @@
+using _Project.Core.Physics;
 using _Project.Features.Gameplay.Common;
 
 namespace _Project.Features.Gameplay.Asteroid
 {
     public class AsteroidMovementController : BaseMovementController
     {
-        protected override void OnSetup()
+        public AsteroidMovementController(MovementModel movementModel) : base(movementModel)
         {
             SetInitialVelocity();
         }

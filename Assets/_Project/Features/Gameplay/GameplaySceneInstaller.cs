@@ -3,6 +3,7 @@ using _Project.Core.Services;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Ads;
 using _Project.Features.Gameplay.Bounds;
+using _Project.Features.Gameplay.Common;
 using _Project.Infrastructure.Lifecycle;
 using _Project.Infrastructure.Services;
 using UnityEngine;
@@ -19,17 +20,10 @@ namespace _Project.Features.Gameplay
         public override void InstallBindings()
         {
             BindScreenService(_camera);
-            BindMovementModel();
             BindPositionGenerator();
             BindGameplayAdsController();
+            BindSpawnTimer();
             BindGameplayStarter();
-        }
-
-        private void BindMovementModel()
-        {
-            Container
-                .BindInterfacesAndSelfTo<MovementModel>()
-                .AsTransient();
         }
         
         private void BindScreenService(Camera mainCamera)
@@ -55,6 +49,13 @@ namespace _Project.Features.Gameplay
             Container
                 .BindInterfacesAndSelfTo<GameplayAdsController>()
                 .AsSingle();
+        }
+
+        private void BindSpawnTimer()
+        {
+            Container
+                .BindInterfacesAndSelfTo<SpawnTimer>()
+                .AsTransient();
         }
 
         private void BindGameplayStarter()

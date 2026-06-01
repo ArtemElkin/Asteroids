@@ -1,11 +1,10 @@
 using System;
-using _Project.Core.Config;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 
 namespace _Project.Features.Gameplay.Common
 {
-    public class SpawnTimer<T> : IDisposable
+    public class SpawnTimer : IDisposable
     {
         public event Action OnSpawnRequested;
         private bool _isEnabled;
@@ -13,29 +12,25 @@ namespace _Project.Features.Gameplay.Common
         private float _spawnInterval;
         private readonly ISignalBus _signalBus;
         private readonly ITimeService _timeService;
-        private readonly IConfigProvider _configProvider;
 
 
         public SpawnTimer(
-            IConfigProvider configProvider,
             ITimeService timeService,
             ISignalBus signalBus)
         {
-            _configProvider = configProvider;
             _timeService = timeService;
             _signalBus =  signalBus;
-            _signalBus.Subscribe<InitializeGameSignal>(Initialize);
             _signalBus.Subscribe<StartGameSignal>(Start);
             _signalBus.Subscribe<StopGameSignal>(Stop);
+            _timeService.OnTick += OnTick;
         }
 
-        public void Initialize()
+        public void Setup(float spawnInterval)
         {
-            var config = _configProvider.GetConfig<GameConfig>("GameConfig");
-            _spawnInterval = config.spawnInterval;
+            _spawnInterval = spawnInterval;
         }
         
-        public void Tick()
+        private void OnTick()
         {
             if (!_isEnabled) return;
             if (_timeFromLastRequest >= _spawnInterval)
@@ -52,9 +47,9 @@ namespace _Project.Features.Gameplay.Common
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<InitializeGameSignal>(Initialize);
             _signalBus.Unsubscribe<StartGameSignal>(Start);
             _signalBus.Unsubscribe<StopGameSignal>(Stop);
+            _timeService.OnTick -= OnTick;
         }
     }
 }

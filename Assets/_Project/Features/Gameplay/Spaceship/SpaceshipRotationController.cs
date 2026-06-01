@@ -13,8 +13,9 @@ namespace _Project.Features.Gameplay.Spaceship
 
 
         public SpaceshipRotationController(
+            MovementModel movementModel,
             IFireInputService fireInputService,
-            IScreenService screenService)
+            IScreenService screenService) : base(movementModel)
         {
             _fireInputService = fireInputService;
             _screenService = screenService;
@@ -26,13 +27,6 @@ namespace _Project.Features.Gameplay.Spaceship
             var rotateDirection = lookPoint - _movementModel.Position;
             var rotateAngle = Math.Atan2(rotateDirection.y, rotateDirection.x) * Math.Rad2Deg;
             _movementModel.UpdateRotationAngle(rotateAngle - 90); 
-        }
-
-        public override void Reset()
-        {
-            base.Reset();
-            _fireInputService = null;
-            _screenService = null;
         }
     }
 }

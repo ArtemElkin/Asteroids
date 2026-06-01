@@ -6,52 +6,55 @@ namespace _Project.Features.Gameplay.Spaceship
 {
     public class SpaceshipInstaller : MonoInstaller
     {
-        [SerializeField] private SpaceshipComponent _spaceshipPrefab;
-        [SerializeField] private SpaceshipCloneComponent _spaceshipClonePrefab;
+        [SerializeField] private SpaceshipView _spaceshipPrefab;
         [SerializeField] private Transform _spaceshipParentTransform;
         
         
         public override void InstallBindings()
         {
             BindSpaceshipStorage();
-            BindSpaceshipMovementController();
-            BindSpaceshipRotationController();
-            BindSpaceshipSpawner(_spaceshipPrefab, _spaceshipClonePrefab, _spaceshipParentTransform);
+            BindSpaceshipFactory(_spaceshipPrefab, _spaceshipParentTransform);
+            BindSpaceshipCloneFactory(_spaceshipPrefab, _spaceshipParentTransform);
+            BindSpaceshipSpawner();
         }
 
         private void BindSpaceshipStorage()
         {
             Container
-                .Bind<Storage<SpaceshipComponent>>()
+                .Bind<Storage<SpaceshipFacade>>()
                 .AsSingle()
                 .NonLazy();
         }
 
-        private void BindSpaceshipMovementController()
-        {
-            Container
-                .Bind<SpaceshipMovementController>()
-                .AsSingle()
-                .NonLazy();
-        }
-
-        private void BindSpaceshipRotationController()
-        {
-            Container
-                .BindInterfacesAndSelfTo<SpaceshipRotationController>()
-                .AsSingle()
-                .NonLazy();
-        }
-
-        private void BindSpaceshipSpawner(
-            SpaceshipComponent spaceshipPrefab,
-            SpaceshipCloneComponent spaceshipClonePrefab,
+        private void BindSpaceshipFactory(
+            SpaceshipView spaceshipPrefab,
             Transform spaceshipParentTransform)
+        {
+            Container
+                .Bind<Infrastructure.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade>>()
+                .To<SpaceshipFactory>()
+                .AsSingle()
+                .WithArguments(spaceshipPrefab, spaceshipParentTransform)
+                .NonLazy();
+        }
+
+        private void BindSpaceshipCloneFactory(
+            SpaceshipView spaceshipPrefab,
+            Transform spaceshipParentTransform)
+        {
+            Container
+                .Bind<Infrastructure.Factories.IFactory<SpaceshipCloneSpawnData, SpaceshipCloneFacade>>()
+                .To<SpaceshipCloneFactory>()
+                .AsSingle()
+                .WithArguments(spaceshipPrefab, spaceshipParentTransform)
+                .NonLazy();
+        }
+
+        private void BindSpaceshipSpawner()
         {
             Container
                 .BindInterfacesAndSelfTo<SpaceshipSpawner>()
                 .AsSingle()
-                .WithArguments(spaceshipPrefab, spaceshipClonePrefab, spaceshipParentTransform)
                 .NonLazy();
         }
         

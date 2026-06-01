@@ -11,12 +11,20 @@ namespace _Project.Features.Gameplay.UFO
         private bool _hasTarget;
         private MovementModel _movementModel;
         private IReadOnlyPositionable _targetPositionable;
-        private Storage<SpaceshipComponent> _spaceshipStorage;
+        private Storage<SpaceshipFacade> _spaceshipStorage;
 
+
+        public UFOTargetFollower(
+            MovementModel movementModel,
+            Storage<SpaceshipFacade> spaceshipStorage)
+        {
+            _movementModel = movementModel;
+            _spaceshipStorage = spaceshipStorage;
+        }
 
         public void Setup(
             MovementModel movementModel,
-            Storage<SpaceshipComponent>  spaceshipStorage)
+            Storage<SpaceshipFacade>  spaceshipStorage)
         {
             _movementModel = movementModel;
             _spaceshipStorage = spaceshipStorage;

@@ -1,75 +1,80 @@
-using System;
 using _Project.Core.Config;
+using _Project.Core.Math;
+using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Common;
 using _Project.Features.Gameplay.Spaceship;
+using _Project.Infrastructure.Factories;
 
 namespace _Project.Features.Gameplay.UFO
 {
-    public class UFOSpawner : IDisposable
+    public class UFOSpawner : BaseSpawner<UFOFacade>
     {
-        private float _spawnOffsetFromBounds;
-        private int _maxUFOsCount;
-        private readonly Storage<UFOComponent> _ufoStorage;
-        private readonly Storage<SpaceshipComponent> _spaceshipStorage;
-        private readonly UFOBuilder _ufoBuilder;
+        private GameConfig _gameConfig;
+        private UFOConfig _ufoConfig;
+        private readonly Storage<SpaceshipFacade> _spaceshipStorage;
         private readonly IConfigProvider _configProvider;
-        private readonly SpawnTimer<UFOComponent> _spawnTimer;
-        private readonly ISignalBus _signalBus;
-
+        private readonly IFactory<UFOSpawnData, UFOFacade> _ufoFactory;
+        private readonly PositionGenerator _positionGenerator;
+        private readonly IRandomService _randomService;
         public UFOSpawner(
-            UFOBuilder ufoBuilder,
-            Storage<UFOComponent> ufoStorage,
-            Storage<SpaceshipComponent> spaceshipStorage,
-            IConfigProvider configProvider,
-            SpawnTimer<UFOComponent> spawnTimer,
-            ISignalBus signalBus)
+            Storage<UFOFacade> ufoStorage,
+            SpawnTimer spawnTimer,
+            ISignalBus signalBus,
+            IFactory<UFOSpawnData, UFOFacade> ufoFactory,
+            PositionGenerator positionGenerator,
+            IRandomService randomService,
+            Storage<SpaceshipFacade> spaceshipStorage,
+            IConfigProvider configProvider) : base (
+            ufoStorage,
+            spawnTimer,
+            signalBus)
         {
-            _ufoBuilder = ufoBuilder;
-            _ufoStorage = ufoStorage;
+            _ufoFactory = ufoFactory;
+            _positionGenerator = positionGenerator;
+            _randomService = randomService;
             _spaceshipStorage = spaceshipStorage;
             _configProvider = configProvider;
-            _spawnTimer =  spawnTimer;
-            _signalBus = signalBus;
-            _signalBus.Subscribe<InitializeGameSignal>(Initialize);
-            _spawnTimer.OnSpawnRequested += OnSpawnRequested;
         }
 
-        public void Initialize()
+        protected override void OnInitialize()
         {
+            _gameConfig = _configProvider.GetConfig<GameConfig>("GameConfig");
             
-            var gameConfig = _configProvider.GetConfig<GameConfig>("GameConfig");
-            _maxUFOsCount = gameConfig.maxUFOsCount;
-            _spawnOffsetFromBounds = gameConfig.spawnOffsetFromBounds;
-            
-            _ufoBuilder.SetSpawnOffsetFromBounds(_spawnOffsetFromBounds);
+            _ufoConfig =  _configProvider.GetConfig<UFOConfig>("UFOConfig");
         }
 
-        private void OnSpawnRequested()
+        protected override int GetMaxCount()
         {
-            if (_ufoStorage.Count < _maxUFOsCount)
-            {
-                SpawnUFO();
-            }
+            return _gameConfig.maxUFOsCount;
         }
 
-        private void SpawnUFO()
+        protected override float GetSpawnInterval()
         {
-            var ufo = _ufoBuilder
-                .AddMovementController()
-                .AddRotationController()
-                .AddTargetFollower(_spaceshipStorage)
-                .AddBoundsChecker()
-                .Build();
-            
-            _ufoStorage.Add(ufo);
+            return _gameConfig.spawnInterval;
         }
 
-        public void Dispose()
+        protected override UFOFacade Spawn()
         {
-            _spawnTimer.OnSpawnRequested -= OnSpawnRequested;
-            _signalBus.Unsubscribe<InitializeGameSignal>(Initialize);
+            var initialPosition = GetRandomInitialUFOPosition();
+            var initialSpeed = GetRandomInitialUFOSpeed();
+            var spawnData = new UFOSpawnData(
+                initialPosition,
+                initialSpeed,
+                _ufoConfig.accelerationMultiplier,
+                _ufoConfig.inertiaMultiplier);
+            var ufo = _ufoFactory.Create(spawnData);
+            return ufo;
+        }
+        private Vector2 GetRandomInitialUFOPosition()
+        {
+            return _positionGenerator.GenerateRandomPositionOutOfScreen(_gameConfig.spawnOffsetFromBounds);
+        }
+
+        private float GetRandomInitialUFOSpeed()
+        {
+            return _randomService.GetRandomFloat(min: _ufoConfig.minSpeed, max: _ufoConfig.maxSpeed);
         }
     }
 }

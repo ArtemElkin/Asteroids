@@ -1,68 +1,74 @@
-using System;
 using _Project.Core.Config;
+using _Project.Core.Math;
+using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Common;
+using _Project.Infrastructure.Factories;
 
 namespace _Project.Features.Gameplay.Asteroid
 {
-    public class AsteroidSpawner : IDisposable
+    public class AsteroidSpawner : BaseSpawner<AsteroidFacade>
     {
-        private int _maxAsteroidsCount;
-        private readonly Storage<AsteroidComponent> _asteroidsStorage;
-        private readonly AsteroidBuilder _asteroidBuilder;
+        private GameConfig _gameConfig;
+        private AsteroidConfig _asteroidConfig;
+        private readonly IFactory<AsteroidSpawnData, AsteroidFacade> _asteroidFactory;
         private readonly IConfigProvider _configProvider;
-        private readonly ISignalBus _signalBus;
-        private readonly SpawnTimer<AsteroidComponent> _spawnTimer;
+        private readonly PositionGenerator _positionGenerator;
+        private readonly IRandomService _randomService;
 
 
         public AsteroidSpawner(
-            Storage<AsteroidComponent> asteroidsStorage,
-            AsteroidBuilder asteroidBuilder,
-            IConfigProvider configProvider,
+            Storage<AsteroidFacade> asteroidsStorage,
+            SpawnTimer spawnTimer,
             ISignalBus signalBus,
-            SpawnTimer<AsteroidComponent> spawnTimer)
+            IFactory<AsteroidSpawnData, AsteroidFacade> asteroidFactory,
+            IConfigProvider configProvider,
+            PositionGenerator positionGenerator,
+            IRandomService randomService) : base(
+            asteroidsStorage,
+            spawnTimer,
+            signalBus)
         {
-            _asteroidsStorage = asteroidsStorage;
-            _asteroidBuilder = asteroidBuilder;
+            _asteroidFactory = asteroidFactory;
             _configProvider = configProvider;
-            _signalBus = signalBus;
-            _spawnTimer = spawnTimer;
-            _signalBus.Subscribe<InitializeGameSignal>(Initialize);
-            _spawnTimer.OnSpawnRequested += OnSpawnRequested;;
+            _positionGenerator = positionGenerator;
+            _randomService =  randomService;
         }
 
-        public void Initialize()
+        protected override void OnInitialize()
         {
-            var gameConfig = _configProvider.GetConfig<GameConfig>("GameConfig");
-            _maxAsteroidsCount = gameConfig.maxAsteroidsCount;
-            var spawnOffsetFromBounds = gameConfig.spawnOffsetFromBounds;
-            
-            _asteroidBuilder.SetSpawnOffsetFromBounds(spawnOffsetFromBounds);
-
+            _gameConfig = _configProvider.GetConfig<GameConfig>("GameConfig");
+            _asteroidConfig =  _configProvider.GetConfig<AsteroidConfig>("AsteroidConfig");
         }
 
-        private void OnSpawnRequested()
+        protected override int GetMaxCount()
         {
-            if (_asteroidsStorage.Count < _maxAsteroidsCount)
-            {
-                SpawnAsteroid();
-            }
+            return _gameConfig.maxAsteroidsCount;
         }
 
-        private void SpawnAsteroid()
+        protected override float GetSpawnInterval()
         {
-            var asteroid = _asteroidBuilder
-                .AddMovementController()
-                .AddBoundsChecker()
-                .Build();
-            _asteroidsStorage.Add(asteroid);
+            return _gameConfig.spawnInterval;
         }
 
-        public void Dispose()
+        protected override AsteroidFacade Spawn()
         {
-            _spawnTimer.OnSpawnRequested -= OnSpawnRequested;
-            _signalBus.Unsubscribe<InitializeGameSignal>(Initialize);
+            var initialPosition = GetRandomInitialAsteroidPosition();
+            var initialSpeed = GetRandomInitialAsteroidSpeed();
+            var spawnData = new AsteroidSpawnData(initialPosition, initialSpeed);
+            var asteroid = _asteroidFactory.Create(spawnData);
+            return asteroid;
+        }
+        
+        private Vector2 GetRandomInitialAsteroidPosition()
+        {
+            return _positionGenerator.GenerateRandomPositionOutOfScreen(_gameConfig.spawnOffsetFromBounds);
+        }
+
+        private float GetRandomInitialAsteroidSpeed()
+        {
+            return _randomService.GetRandomFloat(min: _asteroidConfig.minSpeed, max: _asteroidConfig.maxSpeed);
         }
     }
 }

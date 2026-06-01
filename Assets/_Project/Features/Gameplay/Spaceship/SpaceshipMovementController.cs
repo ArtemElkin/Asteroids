@@ -7,28 +7,18 @@ namespace _Project.Features.Gameplay.Spaceship
 {
     public class SpaceshipMovementController : BaseMovementController
     {
-        private float _maxSpeed;
-        private float _accelerationMultiplier;
-        private float _inertiaMultiplier;
+        private readonly SpaceshipMovementConfig _movementConfig;
         private readonly IMovementInputService _movementInputService;
 
 
         public SpaceshipMovementController(
-            IMovementInputService movementInputService)
+            MovementModel movementModel,
+            IMovementInputService movementInputService,
+            SpaceshipMovementConfig movementConfig
+            ) : base (movementModel)
         {
             _movementInputService = movementInputService;
-        }
-
-        public void Setup(
-            MovementModel movementModel, 
-            float maxSpeed,
-            float accelerationMultiplier,
-            float inertiaMultiplier)
-        {
-            _maxSpeed = maxSpeed;
-            _accelerationMultiplier = accelerationMultiplier;
-            _inertiaMultiplier = inertiaMultiplier;
-            base.Setup(movementModel);
+            _movementConfig = movementConfig;
         }
         
         protected override void UpdateDirectionOnMove()
@@ -45,20 +35,14 @@ namespace _Project.Features.Gameplay.Spaceship
         {
             var velocity = _movementModel.Velocity;
             velocity = _movementModel.MoveDirection == Vector2.zero ? 
-                (Physics.ApplyInertia(velocity, _inertiaMultiplier, deltaTime)) :
-                Physics.ApplyAcceleration(velocity, _accelerationMultiplier, _movementModel.MoveDirection, deltaTime);
+                (Physics.ApplyInertia(velocity, _movementConfig.inertiaMultiplier, deltaTime)) :
+                Physics.ApplyAcceleration(velocity, _movementConfig.accelerationMultiplier, _movementModel.MoveDirection, deltaTime);
 
-            if (velocity.magnitude > _maxSpeed)
+            if (velocity.magnitude > _movementConfig.maxSpeed)
             {
-                velocity = velocity.normalized * _maxSpeed;
+                velocity = velocity.normalized * _movementConfig.maxSpeed;
             }
             _movementModel.UpdateVelocity(velocity);
-        }
-        
-        public override void Reset()
-        {
-            base.Reset();
-            _maxSpeed = 0f;
         }
     }
 }

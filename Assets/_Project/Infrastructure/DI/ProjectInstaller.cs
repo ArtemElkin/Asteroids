@@ -29,6 +29,7 @@ namespace _Project.Infrastructure.DI
             Container.DeclareSignal<StartGameClickedSignal>();
             Container.DeclareSignal<MenuClickedSignal>();
 
+            BindTimeService();
             BindRandomService();
             BindSaveService();
             BindConfigProviders();
@@ -37,6 +38,16 @@ namespace _Project.Infrastructure.DI
             BindInput();
             BindSceneLoadService();
             BindAdsService();
+        }
+
+        private void BindTimeService()
+        {
+            Container
+                .Bind<ITimeService>()
+                .To<UnityTimeService>()
+                .FromNewComponentOnNewGameObject()
+                .AsSingle()
+                .NonLazy();
         }
 
         private void BindSignalBus()

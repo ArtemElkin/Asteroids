@@ -4,7 +4,6 @@ using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
-using _Project.Features.Gameplay.Bounds;
 using UnityEngine;
 using Zenject;
 using Vector2 = _Project.Core.Math.Vector2;
@@ -13,52 +12,36 @@ namespace _Project.Features.Gameplay.Spaceship
 {
     public class SpaceshipSpawner : IDisposable
     {
-        private IReadOnlyPositionable _positionableModel;
-        private IReadOnlyRotatable _rotatableModel;
-        private float _spaceshipMaxSpeed;
-        private float _spaceshipAccelerationMultiplier;
-        private float _spaceshipInertiaMultiplier;
-        private readonly SpaceshipCloneComponent _spaceshipClonePrefab;
-        private readonly SpaceshipComponent _spaceshipPrefab;
-        private readonly Transform _spaceshipParentTransform;
-        private readonly Storage<SpaceshipComponent> _spaceshipStorage;
-        private readonly IInstantiator _instantiator;
+        private SpaceshipMovementConfig _spaceshipConfig;
+        private readonly Infrastructure.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade> _spaceshipFactory;
+        private readonly Infrastructure.Factories.IFactory<SpaceshipCloneSpawnData, SpaceshipCloneFacade> _spaceshipCloneFactory;
+        private readonly Storage<SpaceshipFacade> _spaceshipStorage;
         private readonly ISignalBus _signalBus;
         private readonly IScreenService _screenService;
         private readonly IConfigProvider _configProvider;
-        private readonly DiContainer _diContainer;
 
         
         public SpaceshipSpawner(
-            SpaceshipComponent spaceshipPrefab,
-            SpaceshipCloneComponent spaceshipClonePrefab,
-            Transform spaceshipParentTransform,
-            Storage<SpaceshipComponent> spaceshipStorage,
-            IInstantiator instantiator,
+            Infrastructure.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade> spaceshipFactory, 
+            Infrastructure.Factories.IFactory<SpaceshipCloneSpawnData, SpaceshipCloneFacade> spaceshipCloneFactory,
+            Storage<SpaceshipFacade> spaceshipStorage,
             ISignalBus signalBus,
             IScreenService screenService,
-            IConfigProvider configProvider,
-            DiContainer diContainer)
+            IConfigProvider configProvider)
         {
-            _spaceshipPrefab = spaceshipPrefab;
-            _spaceshipClonePrefab = spaceshipClonePrefab;
-            _spaceshipParentTransform =  spaceshipParentTransform;
+            _spaceshipFactory = spaceshipFactory;
+            _spaceshipCloneFactory =  spaceshipCloneFactory;
             _spaceshipStorage = spaceshipStorage;
-            _instantiator = instantiator;
             _signalBus = signalBus;
             _screenService = screenService;
             _configProvider = configProvider;
-            _diContainer =  diContainer;
-            _signalBus.Subscribe<InitializeGameSignal>(Initialize);
+            _signalBus.Subscribe<InitializeGameSignal>(OnGameInitialize);
             _signalBus.Subscribe<StartGameSignal>(OnGameStarted);
         }
 
-        public void Initialize()
+        private void OnGameInitialize()
         {
-            var config = _configProvider.GetConfig<SpaceshipMovementConfig>("SpaceshipMovementConfig");
-            _spaceshipMaxSpeed = config.maxSpeed;
-            _spaceshipAccelerationMultiplier = config.accelerationMultiplier;
-            _spaceshipInertiaMultiplier = config.inertiaMultiplier;
+            _spaceshipConfig =  _configProvider.GetConfig<SpaceshipMovementConfig>("SpaceshipMovementConfig");
         }
 
         private void OnGameStarted()
@@ -69,31 +52,8 @@ namespace _Project.Features.Gameplay.Spaceship
 
         private void SpawnSpaceship()
         {
-            var spaceship = _instantiator.InstantiatePrefabForComponent<SpaceshipComponent>(_spaceshipPrefab, _spaceshipParentTransform);
-            
-            var movementModel = _diContainer.Resolve<MovementModel>();
-            movementModel.Init(Vector2.zero, 0);
-            _positionableModel = movementModel;
-            _rotatableModel = movementModel;
-
-            var movementController = _diContainer.Resolve<SpaceshipMovementController>();
-            movementController.Setup(
-                movementModel, 
-                _spaceshipMaxSpeed, 
-                _spaceshipAccelerationMultiplier,
-                _spaceshipInertiaMultiplier);
-            
-            var rotationController = _diContainer.Resolve<SpaceshipRotationController>();
-            rotationController.Setup(movementModel);
-            
-            var boundsChecker = _diContainer.Resolve<BoundsChecker>();
-            boundsChecker.Setup(movementModel, movementController);
-            
-            spaceship.Setup(
-                movementModel,
-                movementController,
-                rotationController,
-                boundsChecker);
+            var spawnData = new SpaceshipSpawnData(Vector2.zero, _spaceshipConfig);
+            var spaceship = _spaceshipFactory.Create(spawnData);
             
             _spaceshipStorage.Add(spaceship);
         }
@@ -117,14 +77,14 @@ namespace _Project.Features.Gameplay.Spaceship
 
             foreach (var offset in cloneOffsets)
             {
-                var clone = _instantiator.InstantiatePrefabForComponent<SpaceshipCloneComponent>(_spaceshipClonePrefab, _spaceshipParentTransform);
-                clone.Setup(offset, _positionableModel, _rotatableModel);
+                var spawnData = new SpaceshipCloneSpawnData(offset);
+                _spaceshipCloneFactory.Create(spawnData);
             }
         }
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<InitializeGameSignal>(Initialize);
+            _signalBus.Unsubscribe<InitializeGameSignal>(OnGameInitialize);
             _signalBus.Unsubscribe<StartGameSignal>(OnGameStarted);
         }
     }

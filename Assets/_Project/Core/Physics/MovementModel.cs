@@ -11,10 +11,10 @@ namespace _Project.Core.Physics
         public Vector2 MoveDirection { get; private set; }
 
 
-        public virtual void Init(Vector2 initialPosition, float initialSpeed)
+        public MovementModel(InitialMovementData data)
         {
-            UpdatePosition(initialPosition);
-            UpdateSpeed(initialSpeed);
+            UpdatePosition(data.initialPosition);
+            UpdateSpeed(data.initialSpeed);
         }
 
         public void UpdatePosition(Vector2 newPosition) => Position = newPosition;

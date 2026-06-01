@@ -1,0 +1,54 @@
+using _Project.Core.Physics;
+using _Project.Features.Gameplay.Bounds;
+using UnityEngine;
+using Zenject;
+
+namespace _Project.Features.Gameplay.Spaceship
+{
+    public class SpaceshipFactory : Infrastructure.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade>
+    {
+        private readonly IInstantiator _instantiator;
+        private readonly SpaceshipView _spaceshipPrefab;
+        private readonly Transform _spaceshipParentTransform;
+        
+        
+        public SpaceshipFactory(
+            IInstantiator instantiator,
+            SpaceshipView spaceshipPrefab,
+            Transform parentTransform)
+        {
+            _instantiator = instantiator;
+            _spaceshipPrefab = spaceshipPrefab;
+            _spaceshipParentTransform = parentTransform;
+        }
+        
+        public SpaceshipFacade Create(SpaceshipSpawnData data)
+        {
+            var initialMovementData = new InitialMovementData(data.initialPosition, 0);
+            var movementModel = _instantiator.Instantiate<MovementModel>(new object[] { initialMovementData });
+            
+            var movementController = _instantiator.Instantiate<SpaceshipMovementController>(new object[] { movementModel, data.movementConfig});
+            
+            var rotationController = _instantiator.Instantiate<SpaceshipRotationController>(new object[] { movementModel });
+            
+            var boundsChecker = _instantiator.Instantiate<BoundsChecker>(new object[] { movementModel, movementController});
+
+            var view = _instantiator.InstantiatePrefabForComponent<SpaceshipView>(_spaceshipPrefab, _spaceshipParentTransform, new object[]
+            {
+                (IReadOnlyPositionable) movementModel,
+                (IReadOnlyRotatable) movementModel
+            });
+            
+            var spaceship = _instantiator.Instantiate<SpaceshipFacade>(new object[]
+            {
+                movementModel,
+                movementController,
+                rotationController,
+                boundsChecker,
+                view
+            });
+            
+            return spaceship;
+        }
+    }
+}
