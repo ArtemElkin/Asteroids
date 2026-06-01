@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3938214250894757927}
   - component: {fileID: 3765746499141441980}
-  - component: {fileID: 4004780364184756216}
+  - component: {fileID: 3265573660231110551}
   m_Layer: 0
   m_Name: UFOPrefab
   m_TagString: Untagged
@@ -61,7 +61,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &4004780364184756216
+--- !u!114 &3265573660231110551
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1961822414021944314}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e0f7d9b13c342eba9a0fd3e2f62e1bb, type: 3}
+  m_Script: {fileID: 11500000, guid: b7c46a13f93247b4819bb2d0a3fdd0f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4765024618728757156

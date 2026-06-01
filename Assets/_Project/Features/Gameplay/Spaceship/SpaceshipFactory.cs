@@ -1,5 +1,6 @@
 using _Project.Core.Physics;
 using _Project.Features.Gameplay.Bounds;
+using _Project.Features.Gameplay.Common;
 using UnityEngine;
 using Zenject;
 
@@ -8,13 +9,13 @@ namespace _Project.Features.Gameplay.Spaceship
     public class SpaceshipFactory : Infrastructure.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade>
     {
         private readonly IInstantiator _instantiator;
-        private readonly SpaceshipView _spaceshipPrefab;
+        private readonly MovableView _spaceshipPrefab;
         private readonly Transform _spaceshipParentTransform;
         
         
         public SpaceshipFactory(
             IInstantiator instantiator,
-            SpaceshipView spaceshipPrefab,
+            MovableView spaceshipPrefab,
             Transform parentTransform)
         {
             _instantiator = instantiator;
@@ -33,11 +34,8 @@ namespace _Project.Features.Gameplay.Spaceship
             
             var boundsChecker = _instantiator.Instantiate<BoundsChecker>(new object[] { movementModel, movementController});
 
-            var view = _instantiator.InstantiatePrefabForComponent<SpaceshipView>(_spaceshipPrefab, _spaceshipParentTransform, new object[]
-            {
-                (IReadOnlyPositionable) movementModel,
-                (IReadOnlyRotatable) movementModel
-            });
+            var view = _instantiator.InstantiatePrefabForComponent<MovableView>(_spaceshipPrefab, _spaceshipParentTransform);
+            view.Setup(movementModel);
             
             var spaceship = _instantiator.Instantiate<SpaceshipFacade>(new object[]
             {

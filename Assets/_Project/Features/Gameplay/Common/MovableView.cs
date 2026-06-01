@@ -1,13 +1,11 @@
 using _Project.Core.Physics;
-using _Project.Features.Gameplay.Common;
 using _Project.Infrastructure.Tools;
 using UnityEngine;
-using Zenject;
 
-namespace _Project.Features.Gameplay.Asteroid
+namespace _Project.Features.Gameplay.Common
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class AsteroidView : MonoBehaviour, IDrawable
+    public class MovableView : MonoBehaviour, IDrawable
     {
         private bool _isSetup;
         private Rigidbody2D _rb;
@@ -28,6 +26,8 @@ namespace _Project.Features.Gameplay.Asteroid
             if (!_isSetup) return;
             
             _rb.MovePosition(_movementModel.Position.ToUnity());
+            var rotation = Quaternion.Euler(0, 0, _movementModel.RotationAngle);
+            _rb.MoveRotation(rotation);
         }
 
         public void Reset()

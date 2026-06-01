@@ -2,15 +2,14 @@ using _Project.Core.Physics;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Spaceship;
 
-
 namespace _Project.Features.Gameplay.UFO
 {
     public class UFOTargetFollower
     {
         private bool _hasTarget;
-        private MovementModel _movementModel;
         private IReadOnlyPositionable _targetPositionable;
-        private Storage<SpaceshipFacade> _spaceshipStorage;
+        private readonly MovementModel _movementModel;
+        private readonly Storage<SpaceshipFacade> _spaceshipStorage;
 
 
         public UFOTargetFollower(

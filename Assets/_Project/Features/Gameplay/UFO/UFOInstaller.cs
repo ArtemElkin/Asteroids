@@ -7,7 +7,7 @@ namespace _Project.Features.Gameplay.UFO
 {
     public class UFOInstaller : MonoInstaller
     {
-        [SerializeField] private UFOView _ufoPrefab;
+        [SerializeField] private MovableView _ufoPrefab;
         [SerializeField] private Transform _ufoParentTransform;
         
         
@@ -27,7 +27,7 @@ namespace _Project.Features.Gameplay.UFO
                 .NonLazy();
         }
         
-        private void BindUFOFactory(UFOView ufoPrefab, Transform parentTransform)
+        private void BindUFOFactory(MovableView ufoPrefab, Transform parentTransform)
         {
             Container
                 .Bind<Infrastructure.Factories.IFactory<UFOSpawnData, UFOFacade>>()

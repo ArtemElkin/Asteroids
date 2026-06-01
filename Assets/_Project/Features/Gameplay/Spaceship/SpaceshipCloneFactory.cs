@@ -1,5 +1,6 @@
 using _Project.Core.Physics;
 using _Project.Core.Tools;
+using _Project.Features.Gameplay.Common;
 using UnityEngine;
 using Zenject;
 
@@ -9,14 +10,14 @@ namespace _Project.Features.Gameplay.Spaceship
     {
         private readonly IInstantiator _instantiator;
         private readonly Storage<SpaceshipFacade> _mainSpaceshipStorage;
-        private readonly SpaceshipView _spaceshipPrefab;
+        private readonly MovableView _spaceshipPrefab;
         private readonly Transform _spaceshipParentTransform;
         
         
         public SpaceshipCloneFactory(
             IInstantiator instantiator,
             Storage<SpaceshipFacade> mainSpaceshipStorage,
-            SpaceshipView spaceshipPrefab,
+            MovableView spaceshipPrefab,
             Transform parentTransform)
         {
             _instantiator = instantiator;
@@ -33,11 +34,9 @@ namespace _Project.Features.Gameplay.Spaceship
                 var initialMovementData = new  InitialMovementData(data.offsetFromMainSpaceship, 0);
                 var movementModel = _instantiator.Instantiate<MovementModel>(new object[] { initialMovementData });
                 
-                var view = _instantiator.InstantiatePrefabForComponent<SpaceshipView>(_spaceshipPrefab, _spaceshipParentTransform, new object[]
-                {
-                    (IReadOnlyPositionable) movementModel,
-                    (IReadOnlyRotatable) movementModel
-                });
+                var view = _instantiator.InstantiatePrefabForComponent<MovableView>(_spaceshipPrefab, _spaceshipParentTransform);
+                view.Setup(movementModel);
+                
                 var mainSpaceshipPositionable = mainSpaceship.GetPositionable();
                 var mainSpaceshipRotatable = mainSpaceship.GetRotatable();
                 var spaceshipClone = _instantiator.Instantiate<SpaceshipCloneFacade>(new object[]

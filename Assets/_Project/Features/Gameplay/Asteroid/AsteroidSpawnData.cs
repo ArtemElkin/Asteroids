@@ -1,4 +1,3 @@
-
 using _Project.Core.Math;
 
 namespace _Project.Features.Gameplay.Asteroid

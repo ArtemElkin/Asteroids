@@ -1,4 +1,5 @@
 using _Project.Core.Tools;
+using _Project.Features.Gameplay.Common;
 using UnityEngine;
 using Zenject;
 
@@ -7,7 +8,7 @@ namespace _Project.Features.Gameplay.Asteroid
     public class AsteroidInstaller : MonoInstaller
     {
         [SerializeField] private Transform _asteroidsParentTransform;
-        [SerializeField] AsteroidView _asteroidPrefab;
+        [SerializeField] MovableView _asteroidPrefab;
         
         
         public override void InstallBindings()
@@ -25,7 +26,7 @@ namespace _Project.Features.Gameplay.Asteroid
                 .AsSingle();
         }
 
-        private void BindAsteroidFactory(AsteroidView asteroidPrefab, Transform asteroidsParentTransform)
+        private void BindAsteroidFactory(MovableView asteroidPrefab, Transform asteroidsParentTransform)
         {
             Container
                 .Bind<Infrastructure.Factories.IFactory<AsteroidSpawnData, AsteroidFacade>>()

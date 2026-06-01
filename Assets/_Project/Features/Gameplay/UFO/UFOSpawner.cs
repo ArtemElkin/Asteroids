@@ -1,5 +1,6 @@
 using _Project.Core.Config;
 using _Project.Core.Math;
+using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
@@ -59,9 +60,9 @@ namespace _Project.Features.Gameplay.UFO
         {
             var initialPosition = GetRandomInitialUFOPosition();
             var initialSpeed = GetRandomInitialUFOSpeed();
+            var initialMovementData = new InitialMovementData(initialPosition, initialSpeed);
             var spawnData = new UFOSpawnData(
-                initialPosition,
-                initialSpeed,
+                initialMovementData,
                 _ufoConfig.accelerationMultiplier,
                 _ufoConfig.inertiaMultiplier);
             var ufo = _ufoFactory.Create(spawnData);

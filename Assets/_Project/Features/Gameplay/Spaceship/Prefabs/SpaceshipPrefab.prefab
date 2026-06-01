@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1830045826210119389}
-  - component: {fileID: 5540293121067272746}
   - component: {fileID: 3111369683198905654}
   - component: {fileID: 8985238514096115603}
+  - component: {fileID: 5525588446862852787}
   m_Layer: 0
   m_Name: SpaceshipPrefab
   m_TagString: Untagged
@@ -39,18 +39,6 @@ Transform:
   - {fileID: 3248703779830972654}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5540293121067272746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 830864728649392611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57c47d013a3649b5a271165874fd44ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &3111369683198905654
 Rigidbody2D:
   serializedVersion: 4
@@ -113,6 +101,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.78}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &5525588446862852787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830864728649392611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7c46a13f93247b4819bb2d0a3fdd0f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2794879332353839289
 GameObject:
   m_ObjectHideFlags: 0

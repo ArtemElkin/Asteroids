@@ -157,8 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 920d3347acf54e669dd0a3c79e93cfac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spaceshipPrefab: {fileID: 5540293121067272746, guid: 95c23640d5cc02dc1851ec8cd7977859, type: 3}
-  _spaceshipClonePrefab: {fileID: 5451190129909760875, guid: 36aa555b05a347c43b81ba92b6cca630, type: 3}
+  _spaceshipPrefab: {fileID: 5525588446862852787, guid: 95c23640d5cc02dc1851ec8cd7977859, type: 3}
   _spaceshipParentTransform: {fileID: 1798339293}
 --- !u!4 &43507831
 Transform:
@@ -201,7 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _asteroidsParentTransform: {fileID: 1875763359}
-  _asteroidPrefab: {fileID: 4168162389486907131, guid: 267c99e27207e76659890aa56fc57947, type: 3}
+  _asteroidPrefab: {fileID: 7623577070740433406, guid: 267c99e27207e76659890aa56fc57947, type: 3}
 --- !u!114 &43507835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,7 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcee7c879f574df2a5d8063a7a203338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ufoPrefab: {fileID: 4004780364184756216, guid: b77e5d66472431836a026d26f44792d0, type: 3}
+  _ufoPrefab: {fileID: 3265573660231110551, guid: b77e5d66472431836a026d26f44792d0, type: 3}
   _ufoParentTransform: {fileID: 1213199478}
 --- !u!114 &43507837
 MonoBehaviour:
@@ -301,7 +300,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.18764883, g: 0.18764883, b: 0.18764883, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

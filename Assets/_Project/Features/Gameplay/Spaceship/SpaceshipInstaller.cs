@@ -1,4 +1,5 @@
 using _Project.Core.Tools;
+using _Project.Features.Gameplay.Common;
 using UnityEngine;
 using Zenject;
 
@@ -6,7 +7,7 @@ namespace _Project.Features.Gameplay.Spaceship
 {
     public class SpaceshipInstaller : MonoInstaller
     {
-        [SerializeField] private SpaceshipView _spaceshipPrefab;
+        [SerializeField] private MovableView _spaceshipPrefab;
         [SerializeField] private Transform _spaceshipParentTransform;
         
         
@@ -27,7 +28,7 @@ namespace _Project.Features.Gameplay.Spaceship
         }
 
         private void BindSpaceshipFactory(
-            SpaceshipView spaceshipPrefab,
+            MovableView spaceshipPrefab,
             Transform spaceshipParentTransform)
         {
             Container
@@ -39,7 +40,7 @@ namespace _Project.Features.Gameplay.Spaceship
         }
 
         private void BindSpaceshipCloneFactory(
-            SpaceshipView spaceshipPrefab,
+            MovableView spaceshipPrefab,
             Transform spaceshipParentTransform)
         {
             Container

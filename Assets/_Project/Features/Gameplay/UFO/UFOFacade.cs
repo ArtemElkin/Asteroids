@@ -1,9 +1,7 @@
 using System;
-using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Features.Gameplay.Bounds;
 using _Project.Features.Gameplay.Common;
-using UnityEngine;
 
 namespace _Project.Features.Gameplay.UFO
 {
