@@ -1,14 +1,11 @@
-using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Ads;
-using _Project.Features.Gameplay.Bounds;
 using _Project.Features.Gameplay.Common;
 using _Project.Infrastructure.Lifecycle;
 using _Project.Infrastructure.Services;
 using UnityEngine;
 using Zenject;
-
 
 namespace _Project.Features.Gameplay
 {

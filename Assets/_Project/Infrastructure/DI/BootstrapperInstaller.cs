@@ -1,4 +1,3 @@
-using _Project.Core;
 using _Project.Infrastructure.Lifecycle;
 using Zenject;
 
