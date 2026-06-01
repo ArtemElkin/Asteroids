@@ -1,10 +1,10 @@
 using _Project.Core.Config;
+using _Project.Core.Factories;
 using _Project.Core.Math;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
 using _Project.Features.Gameplay.Common;
-using _Project.Infrastructure.Factories;
 
 namespace _Project.Features.Gameplay.Asteroid
 {

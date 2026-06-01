@@ -4,11 +4,9 @@ using _Project.Core.Player;
 using _Project.Core.Save;
 using _Project.Core.Services;
 using _Project.Core.Signals;
-using _Project.Infrastructure.Config;
 using _Project.Infrastructure.Input;
-using _Project.Infrastructure.Save;
-using _Project.Infrastructure.Services;
 using _Project.Infrastructure.Signals;
+using _Project.Infrastructure.UnityServices;
 using UnityEngine;
 using Zenject;
 

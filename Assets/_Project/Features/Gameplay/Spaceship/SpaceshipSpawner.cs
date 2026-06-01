@@ -13,17 +13,15 @@ namespace _Project.Features.Gameplay.Spaceship
     public class SpaceshipSpawner : IDisposable
     {
         private SpaceshipMovementConfig _spaceshipConfig;
-        private readonly Infrastructure.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade> _spaceshipFactory;
-        private readonly Infrastructure.Factories.IFactory<SpaceshipCloneSpawnData, SpaceshipCloneFacade> _spaceshipCloneFactory;
+        private readonly Core.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade> _spaceshipFactory;
+        private readonly Core.Factories.IFactory<SpaceshipCloneSpawnData, SpaceshipCloneFacade> _spaceshipCloneFactory;
         private readonly Storage<SpaceshipFacade> _spaceshipStorage;
         private readonly ISignalBus _signalBus;
         private readonly IScreenService _screenService;
         private readonly IConfigProvider _configProvider;
 
         
-        public SpaceshipSpawner(
-            Infrastructure.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade> spaceshipFactory, 
-            Infrastructure.Factories.IFactory<SpaceshipCloneSpawnData, SpaceshipCloneFacade> spaceshipCloneFactory,
+        public SpaceshipSpawner(Core.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade> spaceshipFactory, Core.Factories.IFactory<SpaceshipCloneSpawnData, SpaceshipCloneFacade> spaceshipCloneFactory,
             Storage<SpaceshipFacade> spaceshipStorage,
             ISignalBus signalBus,
             IScreenService screenService,

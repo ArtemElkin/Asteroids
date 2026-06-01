@@ -4,7 +4,7 @@ using _Project.Core.Config;
 using _Project.Core.Player;
 using _Project.Core.Save;
 using _Project.Core.Signals;
-using _Project.Infrastructure.Services;
+using _Project.Infrastructure.UnityServices;
 
 namespace _Project.Infrastructure.Lifecycle
 {

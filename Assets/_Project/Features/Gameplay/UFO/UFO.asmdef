@@ -1,14 +1,11 @@
 {
-    "name": "Infrastructure",
+    "name": "UFO",
     "rootNamespace": "",
     "references": [
         "GUID:21d30d6bdca61a75899458d6e163fd8f",
         "GUID:aa804e47dfcf53f4b97d65f68b943461",
-        "GUID:70927df8418342093922a0aa67f8ada1",
-        "GUID:917a50ebe27fdc9b38d900c0cefad9a8",
         "GUID:4313472eb13795fed96c0134acc795bc",
-        "GUID:bc0b1bf08cdcf1f449bf379ac776485e",
-        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4"
+        "GUID:917a50ebe27fdc9b38d900c0cefad9a8"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

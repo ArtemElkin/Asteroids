@@ -1,0 +1,30 @@
+using System;
+using _Project.Core.Config;
+using Newtonsoft.Json;
+using UnityEngine;
+
+namespace _Project.Infrastructure.UnityServices
+{
+    public class ResourcesConfigProvider : IConfigProvider
+    {
+        public T GetConfig<T>(string path) where T : IConfig
+        {
+            TextAsset jsonConfig = Resources.Load<TextAsset>(path);
+            if (jsonConfig == null)
+            {
+                Debug.LogError($"Config file \"{path}\" could not be found.");
+                return default;
+            }
+            try
+            {
+                T config = JsonConvert.DeserializeObject<T>(jsonConfig.text);
+                return config;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Config file \"{path}\" could not be deserialized.");
+                return default;
+            }
+        }
+    }
+}
