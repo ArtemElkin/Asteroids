@@ -4,109 +4,138 @@
 ## Entities
 - Bounds
 - Spaceship
+- SpaceshipClone
 - Asteroid
 - AsteroidFragment
-- Plate
+- UFO
 - Weapon
 ---
-## Core Services
+## Core
+- Ads
+  - AdUnitIdsConfig
+  - IAdsService
+  - MockAdsService
+- Analytics
+    - IAnalyticsService
+- Config
+  - IConfig
+  - IConfigProvider
+- Input
+    - IMovementInputService
+    - IFireInputService
+- Math
+  - Math
+  - Vector2
+  - Vector3
+- Physics
+  - IMovable
+  - InitialMovementData
+  - IPositionable
+  - IReadOnlyPositionable
+  - IReadOnlyRotatable
+  - IRotatable
+  - IWarpable
+  - MovementModel
+  - Physics
 - Player
+    - PlayerModel
 	- PlayerSave
-		- score
-	- PlayerModel
-		- score
-- Input system
-	- IMovementInputService
-	- IFireInputService
- 	- StandaloneInputHandler
-  	- MobileInputHandler
-- Config system
-	- IConfig
-	- IConfigProvider
-	- ResourcesConfigProvider
-	- AddresablesConfigProvider
-- Ads System
-	- IAdsService
-	- YandexAdsService
-- Analytics System
-	- IAnalyticsService
-	- FirebaseAnalyticsService
+    - PlayerSaveController
+- Save
+  - ISave
+  - ISaveService
+- Services
+  - IRandomService
+  - IScreenService
+  - ITimeService
+  - RandomService
+- Signals
+  - GameRestartedSignal
+  - InitializeGameSignal
+  - ISignalBus
+  - MenuClickedSignal
+  - StartGameClickedSignal
+  - StartGameSignal
+  - StopGameSignal
 - Tools
-	- CustomPool< T >
-	- FactoryWithPool< T >
-	- ScreenBoundsService
-
+  - PositionGenerator
+  - Storage
 ---
 ### Common
-- RandomPositionGenerator
-- RandomDirectionGenerator
+- BaseMovementController
+- BaseRotationController
+- BaseSpawner
+- IDrawable
+- MovableView
+- SpawnTimer
 
 ### Spaceship
-Subsystems:
-- HealthController
-- InvulnerabilityHandler
+- SpaceshipFacade
+- SpaceshipHealthController
+- SpaceshipInvulnerabilityHandler
 	- InvulnerabilityTimer
 - SpaceshipMovementController
-	- SpaceshipAccelerationApplier
-	- SpaceshipInertiaApplier
+- SpaceshipRotationController
 - SpaceshipCollisionHandler
-- AttackHandler
+- SpaceshipAttackHandler
 	- WeaponSwitcher
 
 Auxiliary:
-- SpaceshipSpawner
 - SpaceshipConfig
-	- maxHealth
+- SpaceshipFactory
 - SpaceshipMovementConfig
-	- maxSpeed
-	- inertiaMultiplier
-	- accelerationMultiplier
+- SpaceshipSpawnData
+- SpaceshipSpawner
+
+### SpaceshipClone
+- SpaceshipCloneFacade
+- SpaceshipCloneFactory
+- SpaceshipCloneSpawnData
 
 ### Asteroid
-Subsystems:
+- AsteroidFacade
 - AsteroidMovementController
-	- RandomPositionGenerator
-	- RandomDirectionGenerator
 - AsteroidCollisionHandler
 - AsteroidDestructor
 
 Auxiliary:
-- AsteroidSpawner
-- AsteroidDespawner
 - AsteroidConfig
-	- fragmentsCount
-	- speed
+- AsteroidDespawner
+- AsteroidFactory
+- AsteroidInstaller
+- AsteroidSpawnData
+- AsteroidSpawner
 
 ### AsteroidFragment
-Subsystems:
 - AsteroidMovementController
-	- RandomPositionGenerator
-	- RandomDirectionGenerator
 - AsteroidFragmentCollisionHandler
 
 Auxiliary:
-- AsteroidFragmentSpawner
-- AsteroidFragmentDespawner
 - AsteroidFragmentConfig
-	- speed
-
-### Plate
-Subsystems:
-- PlateMovementController
-	- TargetFollower
-- PlateCollisionHandler
-
-Auxiliary:
-- PlateSpawner
-- PlateDespawner
-- PlateConfig
-	- speed
+- AsteroidFragmentDespawner
+- AsteroidFragmentSpawner
 
 ### Bounds
+- BoundsChecker
+- BoundsInstaller
 - BoundsService
 - BoundsWarper
-- GameAreaConfig
-	- size
+- BoundType
+
+### UFO
+- UFOFacade
+- UFOMovementController
+- UFORotationController
+- UFOCollisionHandler
+- UFOTargetFollower
+
+Auxiliary:
+- UFOConfig
+- UFODespawner
+- UFOFactory
+- UFOInstaller
+- UFOSpawnData
+- UFOSpawner
 
 ### Weapon
 - WeaponType (enum)
@@ -131,7 +160,38 @@ Auxiliary:
 		- maxCharges
 		- maxChargesPerSeconds
 		- rechargeTime
- 
+
+---
+## INFRASTRUCTURE
+- Ads
+- Analytics 
+  - FirebaseAnalyticsService
+- Config
+  - ResourcesConfigProvider 
+  - AddresablesConfigProvider
+- DI
+  - BootstrapperInstaller
+  - ProjectInstaller
+- Factories
+  - CustomPool
+  - IFactory
+- Input
+    - StandaloneInputHandler
+    - MobileInputHandler
+- Lifecycle
+  - Bootstrapper
+  - GameplayStarter
+- Save
+  - PlayerPrefsSaveService
+- Services
+  - SceneLoadService
+  - ScreenService
+  - UnityTimeService
+- Signals
+  - ZenjectSignalBus
+- Tools
+  - VectorExtensions
+
 ---
 ## UI
 - InfoPanel
@@ -144,8 +204,3 @@ Auxiliary:
 	- JoystickView
 	- AttackButton
 	- SwitchWeaponButton
-
-
-
-
-
