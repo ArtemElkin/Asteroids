@@ -5,17 +5,16 @@ using UnityEngine;
 namespace _Project.Features.Asteroid
 {
     [RequireComponent(typeof(Collider2D))]
-    public class AsteroidCollisionHandler : MonoBehaviour, IProjectileCollisionable
+    public class AsteroidCollisionHandler : MonoBehaviour, IHitable
     {
-        private readonly Collider2D _collider;
-        public event Action OnProjectileCollisioned;
+        public event Action OnHit;
         
         
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.TryGetComponent(out ProjectileCollisionHandler projectile))
             {
-                OnProjectileCollisioned?.Invoke();
+                OnHit?.Invoke();
             }
         }
     }

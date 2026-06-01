@@ -33,12 +33,12 @@ namespace _Project.Infrastructure.Factories
             
             var rotationController = _instantiator.Instantiate<SpaceshipRotationController>(new object[] { movementModel });
             
-            var boundsChecker =
-                _instantiator.Instantiate<BoundsChecker>(new object[]
-                {
-                    movementModel,
-                    movementController
-                });
+            var boundsChecker = _instantiator.Instantiate<BoundsChecker>(new object[]
+            {
+                movementModel, 
+                movementController
+            });
+            
             var view = _instantiator.InstantiatePrefabForComponent<MovableView>(_spaceshipPrefab, _spaceshipParentTransform);
             view.Setup(movementModel);
             

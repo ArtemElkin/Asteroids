@@ -34,12 +34,11 @@ namespace _Project.Infrastructure.Factories
             
             var targetFollower = _instantiator.Instantiate<UFOTargetFollower>(new object[] { movementModel });
             
-            var boundsChecker =
-                _instantiator.Instantiate<BoundsChecker>(new object[]
-                {
-                    movementModel,
-                    movementController
-                });
+            var boundsChecker = _instantiator.Instantiate<BoundsChecker>(new object[]
+            {
+                movementModel, 
+                movementController
+            });
             
             var view = _viewPool.Get();
             view.Setup(movementModel);

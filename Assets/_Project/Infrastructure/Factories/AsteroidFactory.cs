@@ -31,16 +31,17 @@ namespace _Project.Infrastructure.Factories
             
             var movementController = _instantiator.Instantiate<AsteroidMovementController>(new object[] { movementModel });
 
-            var boundsChecker =
-                _instantiator.Instantiate<BoundsChecker>(new object[]
-                {
-                    movementModel,
-                    movementController
-                });
+            var boundsChecker = _instantiator.Instantiate<BoundsChecker>(new object[]
+            {
+                movementModel, 
+                movementController
+            });
 
             var view = _viewPool.Get();
             view.Setup(movementModel);
+            
             var collisionHandler = view.GetComponent<AsteroidCollisionHandler>();
+            
             var asteroid = _instantiator.Instantiate<AsteroidFacade>(new object[]
             {
                 movementController,

@@ -11,7 +11,7 @@ namespace _Project.Features.Asteroid
     {
         private readonly AsteroidMovementController _movementController;
         private readonly BoundsChecker _boundsChecker;
-        private readonly IProjectileCollisionable _projectileCollisionable;
+        private readonly IHitable _hitable;
         private readonly IDrawable _asteroidView;
         private readonly ITimeService _timeService;
         private readonly ISignalBus _signalBus;
@@ -20,20 +20,20 @@ namespace _Project.Features.Asteroid
         public AsteroidFacade(
             AsteroidMovementController movementController,
             BoundsChecker boundsChecker,
-            IProjectileCollisionable projectileCollisionable,
+            IHitable hitable,
             IDrawable asteroidView,
             ITimeService timeService,
             ISignalBus signalBus)
         {
             _movementController = movementController;
             _boundsChecker = boundsChecker;
-            _projectileCollisionable = projectileCollisionable;
+            _hitable = hitable;
             _asteroidView = asteroidView;
             _timeService = timeService;
             _signalBus = signalBus;
             
             _timeService.OnFixedTick += OnFixedTick;
-            _projectileCollisionable.OnProjectileCollisioned += Destruct;
+            _hitable.OnHit += Destruct;
         }
         
         public IDrawable GetDrawable() => _asteroidView;
@@ -53,7 +53,7 @@ namespace _Project.Features.Asteroid
         public void Dispose()
         {
             _timeService.OnFixedTick -= OnFixedTick;
-            _projectileCollisionable.OnProjectileCollisioned -= Destruct;
+            _hitable.OnHit -= Destruct;
         }
     }
 }
