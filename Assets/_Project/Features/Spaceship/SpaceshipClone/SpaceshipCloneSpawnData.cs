@@ -1,6 +1,6 @@
 using _Project.Core.Math;
 
-namespace _Project.Features.Gameplay.Spaceship
+namespace _Project.Features.Spaceship.SpaceshipClone
 {
     public struct SpaceshipCloneSpawnData
     {

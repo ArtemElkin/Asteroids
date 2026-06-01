@@ -1,6 +1,8 @@
 using _Project.Core.Physics;
-using _Project.Features.Gameplay.Asteroid;
-using _Project.Features.Gameplay.Bounds;
+using _Project.Features.Asteroid;
+using _Project.Features.Common;
+using _Project.Features.Common.Bounds;
+using _Project.Features.Spaceship;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;
 using Zenject;
@@ -30,19 +32,33 @@ namespace _Project.Infrastructure.Factories
             var movementController = _instantiator.Instantiate<AsteroidMovementController>(new object[] { movementModel });
 
             var boundsChecker =
-                _instantiator.Instantiate<BoundsChecker>(new object[] { movementModel, movementController });
+                _instantiator.Instantiate<BoundsChecker>(new object[]
+                {
+                    movementModel,
+                    movementController
+                });
 
             var view = _viewPool.Get();
             view.Setup(movementModel);
-            
+            var collisionHandler = view.GetComponent<AsteroidCollisionHandler>();
             var asteroid = _instantiator.Instantiate<AsteroidFacade>(new object[]
             {
                 movementController,
                 boundsChecker,
-                view
+                view,
+                collisionHandler
             });
 
             return asteroid;
+        }
+
+        public void Release(AsteroidFacade asteroidFacade)
+        {
+            var drawable = asteroidFacade.GetDrawable();
+            var view = (MovableView)drawable;
+            view.Reset();
+            _viewPool.Release(view);
+            asteroidFacade.Dispose();
         }
     }
 }

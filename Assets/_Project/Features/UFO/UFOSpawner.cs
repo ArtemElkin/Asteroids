@@ -5,8 +5,8 @@ using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
-using _Project.Features.Gameplay.Common;
-using _Project.Features.Gameplay.Spaceship;
+using _Project.Features.Common;
+using _Project.Features.Spaceship;
 
 namespace _Project.Features.Gameplay.UFO
 {

@@ -1,6 +1,6 @@
 using _Project.Core.Physics;
-using _Project.Features.Gameplay.Bounds;
-using _Project.Features.Gameplay.Spaceship;
+using _Project.Features.Common.Bounds;
+using _Project.Features.Spaceship;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;
 using Zenject;
@@ -33,8 +33,12 @@ namespace _Project.Infrastructure.Factories
             
             var rotationController = _instantiator.Instantiate<SpaceshipRotationController>(new object[] { movementModel });
             
-            var boundsChecker = _instantiator.Instantiate<BoundsChecker>(new object[] { movementModel, movementController});
-
+            var boundsChecker =
+                _instantiator.Instantiate<BoundsChecker>(new object[]
+                {
+                    movementModel,
+                    movementController
+                });
             var view = _instantiator.InstantiatePrefabForComponent<MovableView>(_spaceshipPrefab, _spaceshipParentTransform);
             view.Setup(movementModel);
             
@@ -48,6 +52,11 @@ namespace _Project.Infrastructure.Factories
             });
             
             return spaceship;
+        }
+
+        public void Release(SpaceshipFacade entity)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

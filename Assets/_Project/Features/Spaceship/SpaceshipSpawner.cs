@@ -1,14 +1,12 @@
 using System;
 using _Project.Core.Config;
-using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
-using UnityEngine;
-using Zenject;
+using _Project.Features.Spaceship.SpaceshipClone;
 using Vector2 = _Project.Core.Math.Vector2;
 
-namespace _Project.Features.Gameplay.Spaceship
+namespace _Project.Features.Spaceship
 {
     public class SpaceshipSpawner : IDisposable
     {

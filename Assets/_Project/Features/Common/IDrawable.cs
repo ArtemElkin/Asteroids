@@ -1,4 +1,4 @@
-namespace _Project.Features.Gameplay.Common
+namespace _Project.Features.Common
 {
     public interface IDrawable
     {

@@ -1,7 +1,7 @@
 using _Project.Core.Math;
 using _Project.Core.Services;
 
-namespace _Project.Features.Gameplay.Bounds
+namespace _Project.Features.Common.Bounds
 {
     public class BoundsService
     {

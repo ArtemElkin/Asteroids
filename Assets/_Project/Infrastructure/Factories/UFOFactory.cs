@@ -1,5 +1,5 @@
 using _Project.Core.Physics;
-using _Project.Features.Gameplay.Bounds;
+using _Project.Features.Common.Bounds;
 using _Project.Features.Gameplay.UFO;
 using _Project.Infrastructure.UnityRender;
 using _Project.Infrastructure.UnityServices;
@@ -34,7 +34,12 @@ namespace _Project.Infrastructure.Factories
             
             var targetFollower = _instantiator.Instantiate<UFOTargetFollower>(new object[] { movementModel });
             
-            var boundsChecker = _instantiator.Instantiate<BoundsChecker>(new object[] { movementModel, movementController});
+            var boundsChecker =
+                _instantiator.Instantiate<BoundsChecker>(new object[]
+                {
+                    movementModel,
+                    movementController
+                });
             
             var view = _viewPool.Get();
             view.Setup(movementModel);
@@ -50,6 +55,11 @@ namespace _Project.Infrastructure.Factories
             });
             
             return ufo;
+        }
+
+        public void Release(UFOFacade entity)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -1,7 +1,7 @@
 using _Project.Core.Services;
 using _Project.Core.Tools;
-using _Project.Features.Gameplay.Common;
-using _Project.Features.Gameplay.Common.Ads;
+using _Project.Features.Common;
+using _Project.Features.Common.Ads;
 using _Project.Infrastructure.Lifecycle;
 using _Project.Infrastructure.UnityServices;
 using UnityEngine;

@@ -1,10 +1,9 @@
 {
-    "name": "Asteroid",
+    "name": "Projectile",
     "rootNamespace": "",
     "references": [
         "GUID:21d30d6bdca61a75899458d6e163fd8f",
-        "GUID:aa804e47dfcf53f4b97d65f68b943461",
-        "GUID:db18c6170ebe008979712062d8f9b418"
+        "GUID:aa804e47dfcf53f4b97d65f68b943461"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,6 +1,6 @@
 using _Project.Core.Math;
 
-namespace _Project.Features.Gameplay.Asteroid
+namespace _Project.Features.Asteroid
 {
     public struct AsteroidSpawnData
     {

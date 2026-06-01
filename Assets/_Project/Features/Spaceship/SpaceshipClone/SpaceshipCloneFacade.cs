@@ -2,9 +2,9 @@ using System;
 using _Project.Core.Math;
 using _Project.Core.Physics;
 using _Project.Core.Services;
-using _Project.Features.Gameplay.Common;
+using _Project.Features.Common;
 
-namespace _Project.Features.Gameplay.Spaceship
+namespace _Project.Features.Spaceship.SpaceshipClone
 {
     public class SpaceshipCloneFacade : IDisposable
     {

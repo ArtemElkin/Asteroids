@@ -1,7 +1,7 @@
 using System;
 using _Project.Core.Services;
-using _Project.Features.Gameplay.Bounds;
-using _Project.Features.Gameplay.Common;
+using _Project.Features.Common;
+using _Project.Features.Common.Bounds;
 
 namespace _Project.Features.Gameplay.UFO
 {

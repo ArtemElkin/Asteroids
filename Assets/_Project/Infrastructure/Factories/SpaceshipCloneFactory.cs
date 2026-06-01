@@ -1,6 +1,7 @@
 using _Project.Core.Physics;
 using _Project.Core.Tools;
-using _Project.Features.Gameplay.Spaceship;
+using _Project.Features.Spaceship;
+using _Project.Features.Spaceship.SpaceshipClone;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;
 using Zenject;
@@ -54,6 +55,11 @@ namespace _Project.Infrastructure.Factories
             Debug.LogError($"Main Spaceship not found for SpaceshipCloneFactory.Create()");
             return null;
             
+        }
+
+        public void Release(SpaceshipCloneFacade entity)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

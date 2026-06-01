@@ -1,9 +1,8 @@
 using System;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
-using UnityEngine;
 
-namespace _Project.Features.Gameplay.Common
+namespace _Project.Features.Common
 {
     public abstract class BaseSpawner<T> : IDisposable where T : class
     {

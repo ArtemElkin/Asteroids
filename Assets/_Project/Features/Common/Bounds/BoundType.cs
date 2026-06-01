@@ -1,6 +1,6 @@
 using System;
 
-namespace _Project.Features.Gameplay.Bounds
+namespace _Project.Features.Common.Bounds
 {
     [Flags]
     public enum BoundType

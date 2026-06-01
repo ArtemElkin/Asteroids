@@ -1,6 +1,6 @@
 using _Project.Core.Config;
 
-namespace _Project.Features.Gameplay.Common
+namespace _Project.Features.Common
 {
     public class GameConfig : IConfig
     {

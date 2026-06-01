@@ -1,6 +1,6 @@
 using _Project.Core.Config;
 
-namespace _Project.Features.Gameplay.Spaceship
+namespace _Project.Features.Spaceship
 {
     public class SpaceshipMovementConfig : IConfig
     {

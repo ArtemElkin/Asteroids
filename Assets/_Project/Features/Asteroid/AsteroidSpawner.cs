@@ -4,9 +4,9 @@ using _Project.Core.Math;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
-using _Project.Features.Gameplay.Common;
+using _Project.Features.Common;
 
-namespace _Project.Features.Gameplay.Asteroid
+namespace _Project.Features.Asteroid
 {
     public class AsteroidSpawner : BaseSpawner<AsteroidFacade>
     {

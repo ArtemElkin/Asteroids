@@ -1,8 +1,9 @@
+using System;
 using _Project.Core.Physics;
 
-namespace _Project.Features.Gameplay.Bounds
+namespace _Project.Features.Common.Bounds
 {
-    public class BoundsChecker
+    public class BoundsChecker : IDisposable
     {
         private bool _isEnteredGameAreaAfterSpawn;
         private readonly IWarpable _warpable;
@@ -33,6 +34,10 @@ namespace _Project.Features.Gameplay.Bounds
             {
                 _isEnteredGameAreaAfterSpawn = true;
             }
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

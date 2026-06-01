@@ -1,4 +1,4 @@
-using _Project.Features.Gameplay.Bounds;
+using _Project.Features.Common.Bounds;
 using Zenject;
 
 namespace _Project.Infrastructure.DI
@@ -8,7 +8,6 @@ namespace _Project.Infrastructure.DI
         public override void InstallBindings()
         {
             BindBoundsService();
-            BindBoundsChecker();
             BindBoundsWarper();
         }
 
@@ -18,13 +17,6 @@ namespace _Project.Infrastructure.DI
                 .Bind<BoundsService>()
                 .AsSingle()
                 .NonLazy();
-        }
-        
-        private void BindBoundsChecker()
-        {
-            Container
-                .BindInterfacesAndSelfTo<BoundsChecker>()
-                .AsTransient();
         }
 
         private void BindBoundsWarper()

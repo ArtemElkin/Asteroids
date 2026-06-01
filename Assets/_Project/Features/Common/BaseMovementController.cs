@@ -1,7 +1,7 @@
 using _Project.Core.Math;
 using _Project.Core.Physics;
 
-namespace _Project.Features.Gameplay.Common
+namespace _Project.Features.Common
 {
     public abstract class BaseMovementController : IWarpable
     {

@@ -1,5 +1,6 @@
 using _Project.Core.Tools;
-using _Project.Features.Gameplay.Spaceship;
+using _Project.Features.Spaceship;
+using _Project.Features.Spaceship.SpaceshipClone;
 using _Project.Infrastructure.Factories;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;

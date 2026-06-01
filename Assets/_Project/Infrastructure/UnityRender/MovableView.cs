@@ -1,5 +1,5 @@
 using _Project.Core.Physics;
-using _Project.Features.Gameplay.Common;
+using _Project.Features.Common;
 using _Project.Infrastructure.UnityServices;
 using UnityEngine;
 

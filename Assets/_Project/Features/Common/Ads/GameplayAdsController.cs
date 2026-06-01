@@ -2,7 +2,7 @@ using System;
 using _Project.Core.Ads;
 using _Project.Core.Signals;
 
-namespace _Project.Features.Gameplay.Common.Ads
+namespace _Project.Features.Common.Ads
 {
     public class GameplayAdsController : IDisposable
     {

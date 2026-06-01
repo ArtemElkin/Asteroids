@@ -1,9 +1,9 @@
 using _Project.Core.Input;
 using _Project.Core.Math;
 using _Project.Core.Physics;
-using _Project.Features.Gameplay.Common;
+using _Project.Features.Common;
 
-namespace _Project.Features.Gameplay.Spaceship
+namespace _Project.Features.Spaceship
 {
     public class SpaceshipMovementController : BaseMovementController
     {

@@ -2,7 +2,7 @@ using System;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 
-namespace _Project.Features.Gameplay.Common
+namespace _Project.Features.Common
 {
     public class SpawnTimer : IDisposable
     {

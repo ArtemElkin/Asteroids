@@ -1,5 +1,5 @@
 using _Project.Core.Tools;
-using _Project.Features.Gameplay.Asteroid;
+using _Project.Features.Asteroid;
 using _Project.Infrastructure.Factories;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;
