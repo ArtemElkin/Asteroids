@@ -1,4 +1,5 @@
 using _Project.Core.Physics;
+using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
 using _Project.Features.UFO;
 using _Project.Infrastructure.UnityRender;
@@ -28,7 +29,19 @@ namespace _Project.Infrastructure.Factories
             var initialMovementData = data.initialMovementData;
             var movementModel = _instantiator.Instantiate<MovementModel>(new object[] { initialMovementData });
             
-            var movementController = _instantiator.Instantiate<UFOMovementController>(new object[] { movementModel, data});
+            var view = _viewPool.Get();
+            view.Setup(movementModel);
+            view.transform.localPosition = initialMovementData.initialPosition.ToUnity();
+
+            var collidable = view.GetComponent<ICollidable>();
+            
+            var hitable = view.GetComponent<IHitable>();
+
+            var movementController = _instantiator.Instantiate<UFOMovementController>(new object[]
+            {
+                movementModel, 
+                data
+            });
             
             var rotationController = _instantiator.Instantiate<UFORotationController>(new object[] { movementModel });
             
@@ -39,26 +52,28 @@ namespace _Project.Infrastructure.Factories
                 movementModel, 
                 movementController
             });
-            
-            var view = _viewPool.Get();
-            view.Setup(movementModel);
-            view.transform.localPosition = initialMovementData.initialPosition.ToUnity();
-            
+           
             var ufo = _instantiator.Instantiate<UFOFacade>(new object[]
             {
                 movementController,
                 rotationController,
                 targetFollower,
                 boundsChecker,
-                view
+                view,
+                collidable,
+                hitable
             });
             
             return ufo;
         }
 
-        public void Release(UFOFacade entity)
+        public void Release(UFOFacade facade)
         {
-            throw new System.NotImplementedException();
+            var drawable = facade.GetDrawable();
+            var view = (MovableView)drawable;
+            view.Reset();
+            _viewPool.Release(view);
+            facade.Dispose();
         }
     }
 }

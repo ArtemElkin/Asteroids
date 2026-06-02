@@ -1,4 +1,6 @@
 using System;
+using _Project.Core.Math;
+using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Features.Common;
@@ -11,8 +13,9 @@ namespace _Project.Features.Asteroid
     {
         private readonly AsteroidMovementController _movementController;
         private readonly BoundsChecker _boundsChecker;
-        private readonly IHitable _hitable;
         private readonly IDrawable _asteroidView;
+        private readonly ICollidable _collidable;
+        private readonly IHitable _hitable;
         private readonly ITimeService _timeService;
         private readonly ISignalBus _signalBus;
         
@@ -20,19 +23,22 @@ namespace _Project.Features.Asteroid
         public AsteroidFacade(
             AsteroidMovementController movementController,
             BoundsChecker boundsChecker,
-            IHitable hitable,
             IDrawable asteroidView,
+            ICollidable collidable,
+            IHitable hitable,
             ITimeService timeService,
             ISignalBus signalBus)
         {
             _movementController = movementController;
             _boundsChecker = boundsChecker;
-            _hitable = hitable;
             _asteroidView = asteroidView;
+            _collidable = collidable;
+            _hitable = hitable;
             _timeService = timeService;
             _signalBus = signalBus;
             
             _timeService.OnFixedTick += OnFixedTick;
+            _collidable.OnCollided += OnCollided;
             _hitable.OnHit += Destruct;
         }
         
@@ -45,6 +51,11 @@ namespace _Project.Features.Asteroid
             _asteroidView.Draw();
         }
 
+        private void OnCollided(Vector2 normal)
+        {
+            _movementController.Bounce(normal);
+        }
+
         private void Destruct()
         {
             _signalBus.Fire(new DespawnRequestedSignal<AsteroidFacade>(this));
@@ -53,6 +64,7 @@ namespace _Project.Features.Asteroid
         public void Dispose()
         {
             _timeService.OnFixedTick -= OnFixedTick;
+            _collidable.OnCollided -= OnCollided;
             _hitable.OnHit -= Destruct;
         }
     }

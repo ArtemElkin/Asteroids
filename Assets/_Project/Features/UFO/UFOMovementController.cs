@@ -4,14 +4,15 @@ using _Project.Features.Common;
 
 namespace _Project.Features.UFO
 {
-    public class UFOMovementController : BaseMovementController
+    public class UFOMovementController : BaseMovementController, IBouncable
     {
         private float _accelerationMultiplier;
         private float _inertiaMultiplier;
 
 
         public UFOMovementController(
-            MovementModel movementModel, UFOSpawnData spawnData) : base(
+            MovementModel movementModel,
+            UFOSpawnData spawnData) : base(
             movementModel)
         {
             _accelerationMultiplier = spawnData.accelerationMultiplier;
@@ -29,6 +30,13 @@ namespace _Project.Features.UFO
                 velocity = velocity.normalized * _movementModel.Speed;
             }
             _movementModel.UpdateVelocity(velocity);
+        }
+        
+        public void Bounce(Vector2 normal)
+        {
+            var velocity = _movementModel.Velocity;
+            var reflectedVelocity = Vector2.Reflect(velocity, normal);
+            _movementModel.UpdateVelocity(reflectedVelocity);
         }
     }
 }

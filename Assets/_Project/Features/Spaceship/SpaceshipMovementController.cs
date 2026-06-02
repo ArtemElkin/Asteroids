@@ -5,7 +5,7 @@ using _Project.Features.Common;
 
 namespace _Project.Features.Spaceship
 {
-    public class SpaceshipMovementController : BaseMovementController
+    public class SpaceshipMovementController : BaseMovementController, IBouncable
     {
         private readonly SpaceshipMovementConfig _movementConfig;
         private readonly IMovementInputService _movementInputService;
@@ -14,8 +14,7 @@ namespace _Project.Features.Spaceship
         public SpaceshipMovementController(
             MovementModel movementModel,
             IMovementInputService movementInputService,
-            SpaceshipMovementConfig movementConfig
-            ) : base (movementModel)
+            SpaceshipMovementConfig movementConfig) : base (movementModel)
         {
             _movementInputService = movementInputService;
             _movementConfig = movementConfig;
@@ -43,6 +42,13 @@ namespace _Project.Features.Spaceship
                 velocity = velocity.normalized * _movementConfig.maxSpeed;
             }
             _movementModel.UpdateVelocity(velocity);
+        }
+        
+        public void Bounce(Vector2 normal)
+        {
+            var velocity = _movementModel.Velocity;
+            var reflectedVelocity = Vector2.Reflect(velocity, normal);
+            _movementModel.UpdateVelocity(reflectedVelocity);
         }
     }
 }

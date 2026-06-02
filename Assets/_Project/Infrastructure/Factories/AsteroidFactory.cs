@@ -29,6 +29,12 @@ namespace _Project.Infrastructure.Factories
             var initialMovementData = new InitialMovementData(data.initialPosition, data.initialSpeed, data.initialDirection);
             var movementModel = _instantiator.Instantiate<MovementModel>(new object[] { initialMovementData });
             
+            var view = _viewPool.Get();
+            view.Setup(movementModel);
+            
+            var collidable = view.GetComponent<ICollidable>();
+            var hitable = view.GetComponent<IHitable>();
+            
             var movementController = _instantiator.Instantiate<AsteroidMovementController>(new object[] { movementModel });
 
             var boundsChecker = _instantiator.Instantiate<BoundsChecker>(new object[]
@@ -37,17 +43,15 @@ namespace _Project.Infrastructure.Factories
                 movementController
             });
 
-            var view = _viewPool.Get();
-            view.Setup(movementModel);
             
-            var collisionHandler = view.GetComponent<AsteroidCollisionHandler>();
             
             var asteroid = _instantiator.Instantiate<AsteroidFacade>(new object[]
             {
                 movementController,
                 boundsChecker,
                 view,
-                collisionHandler
+                collidable,
+                hitable
             });
 
             return asteroid;

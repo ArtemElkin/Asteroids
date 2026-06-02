@@ -1,5 +1,7 @@
 using System;
+using _Project.Core.Physics;
 using UnityEngine;
+using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Features.Spaceship.Health
 {
@@ -19,7 +21,7 @@ namespace _Project.Features.Spaceship.Health
             _healthModel.DecreaseHp(damage);
             Debug.Log($"Damage applied. Spaceship hp: {_healthModel.Hp}");
         }
-
+        
         private void OnDeathHandler()
         {
             OnDeath?.Invoke();

@@ -1,4 +1,5 @@
 using System;
+using _Project.Core.Math;
 using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Core.Signals;
@@ -17,7 +18,7 @@ namespace _Project.Features.Spaceship
         private readonly BoundsChecker _boundsChecker;
         private readonly IDrawable _spaceshipView;
         private readonly HealthController _healthController;
-        private readonly IHitable _hitable;
+        private readonly ICollidable _collidable;
         private readonly ITimeService _timeService;
         private readonly ISignalBus _signalBus;
 
@@ -29,7 +30,7 @@ namespace _Project.Features.Spaceship
             SpaceshipRotationController rotationController,
             IDrawable spaceshipView,
             HealthController healthController,
-            IHitable hitable,
+            ICollidable collidable,
             BoundsChecker boundsChecker,
             ISignalBus signalBus)
         {
@@ -39,14 +40,13 @@ namespace _Project.Features.Spaceship
             _rotationController = rotationController;
             _spaceshipView = spaceshipView;
             _healthController = healthController;
-            _hitable = hitable;
-            _healthController = healthController;
+            _collidable = collidable;
             _boundsChecker = boundsChecker;
             _signalBus = signalBus;
             
             _timeService.OnFixedTick += OnFixedTick;
-            _hitable.OnHit += OnHit;
             _healthController.OnDeath += OnDeath;
+            _collidable.OnCollided += OnCollided;
         }
 
         private void OnFixedTick()
@@ -57,8 +57,9 @@ namespace _Project.Features.Spaceship
             _spaceshipView.Draw();
         }
 
-        private void OnHit()
+        private void OnCollided(Vector2 normal)
         {
+            _movementController.Bounce(normal);
             _healthController.ApplyDamage(1);
         }
 
@@ -75,8 +76,9 @@ namespace _Project.Features.Spaceship
         public void Dispose()
         {
             _timeService.OnFixedTick -= OnFixedTick;
-            _hitable.OnHit -= OnHit;
             _healthController.OnDeath -= OnDeath;
+            _collidable.OnCollided -= OnCollided;
+            _healthController.Dispose();
         }
     }
 }

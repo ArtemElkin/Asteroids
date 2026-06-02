@@ -1,11 +1,13 @@
+using _Project.Core.Math;
 using _Project.Core.Physics;
 using _Project.Features.Common;
 
 namespace _Project.Features.Asteroid
 {
-    public class AsteroidMovementController : BaseMovementController
+    public class AsteroidMovementController : BaseMovementController, IBouncable
     {
-        public AsteroidMovementController(MovementModel movementModel) : base(movementModel)
+        public AsteroidMovementController(
+            MovementModel movementModel) : base(movementModel)
         {
             SetInitialVelocity();
         }
@@ -20,6 +22,13 @@ namespace _Project.Features.Asteroid
                 velocity = velocity.normalized * _movementModel.Speed;
             }
             _movementModel.UpdateVelocity(velocity);
+        }
+        
+        public void Bounce(Vector2 normal)
+        {
+            var velocity = _movementModel.Velocity;
+            var reflectedVelocity = Vector2.Reflect(velocity, normal);
+            _movementModel.UpdateVelocity(reflectedVelocity);
         }
     }
 }

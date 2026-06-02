@@ -1,4 +1,5 @@
 using _Project.Core.Physics;
+using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
 using _Project.Features.Spaceship;
 using _Project.Features.Spaceship.Health;
@@ -31,7 +32,18 @@ namespace _Project.Infrastructure.Factories
             var initialMovementData = new InitialMovementData(data.initialPosition, 0);
             var movementModel = _instantiator.Instantiate<MovementModel>(new object[] { initialMovementData });
             
-            var movementController = _instantiator.Instantiate<SpaceshipMovementController>(new object[] { movementModel, data.movementConfig});
+            if (_view == null)
+                _view = _instantiator.InstantiatePrefabForComponent<MovableView>(_spaceshipPrefab, _spaceshipParentTransform);
+            _view.Setup(movementModel);
+            _view.gameObject.SetActive(true);
+            
+            var collidable = _view.GetComponent<ICollidable>();
+            
+            var movementController = _instantiator.Instantiate<SpaceshipMovementController>(new object[]
+            {
+                movementModel,
+                data.movementConfig
+            });
             
             var rotationController = _instantiator.Instantiate<SpaceshipRotationController>(new object[] { movementModel });
             
@@ -41,12 +53,8 @@ namespace _Project.Infrastructure.Factories
                 movementController
             });
             
-            if (_view == null)
-                _view = _instantiator.InstantiatePrefabForComponent<MovableView>(_spaceshipPrefab, _spaceshipParentTransform);
-            _view.Setup(movementModel);
-            _view.gameObject.SetActive(true);
             
-            var collisionHandler = _view.GetComponent<SpaceshipCollisionHandler>();
+            
 
             var healthModel = _instantiator.Instantiate<HealthModel>(new object[] { data.initialHp });
             var healthController = _instantiator.Instantiate<HealthController>(new object[] { healthModel });
@@ -58,8 +66,8 @@ namespace _Project.Infrastructure.Factories
                 rotationController,
                 boundsChecker,
                 _view,
-                collisionHandler,
-                healthController
+                healthController,
+                collidable
             });
             
             return spaceship;
