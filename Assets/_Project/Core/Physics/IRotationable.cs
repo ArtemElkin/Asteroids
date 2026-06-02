@@ -1,6 +1,6 @@
 namespace _Project.Core.Physics
 {
-    public interface IRotatable : IReadOnlyRotatable
+    public interface IRotationable : IReadOnlyRotationable
     {
         void UpdateRotationAngle(float rotationAngle);
     }

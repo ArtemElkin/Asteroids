@@ -9,75 +9,55 @@ using Zenject;
 
 namespace _Project.Infrastructure.Factories
 {
-    public class SpaceshipFactory : Core.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade>
+    public class SpaceshipFactory : AbstractFactory<SpaceshipSpawnData, SpaceshipFacade>
     {
-        private MovableView _view;
-        private readonly IInstantiator _instantiator;
-        private readonly MovableView _spaceshipPrefab;
-        private readonly Transform _spaceshipParentTransform;
-        
-        
-        public SpaceshipFactory(
-            IInstantiator instantiator,
-            MovableView spaceshipPrefab,
-            Transform parentTransform)
-        {
-            _instantiator = instantiator;
-            _spaceshipPrefab = spaceshipPrefab;
-            _spaceshipParentTransform = parentTransform;
-        }
-        
-        public SpaceshipFacade Create(SpaceshipSpawnData data)
+        public SpaceshipFactory(IInstantiator instantiator, MovableView prefab, Transform parentTransform) : 
+            base(instantiator, prefab, parentTransform) { }
+
+        public override SpaceshipFacade Create(SpaceshipSpawnData data)
         {
             var initialMovementData = new InitialMovementData(data.initialPosition, 0);
             var movementModel = _instantiator.Instantiate<MovementModel>(new object[] { initialMovementData });
             
-            if (_view == null)
-                _view = _instantiator.InstantiatePrefabForComponent<MovableView>(_spaceshipPrefab, _spaceshipParentTransform);
-            _view.Setup(movementModel);
-            _view.gameObject.SetActive(true);
+            var view = _viewPool.Get();
+
+            IDrawable drawable = view;
+            drawable.Setup(movementModel);
             
-            var collidable = _view.GetComponent<ICollidable>();
+            ICollidable collidable = view.GetComponent<ICollidable>();
             
-            var movementController = _instantiator.Instantiate<SpaceshipMovementController>(new object[]
+            IMovable movable = _instantiator.Instantiate<SpaceshipMovementController>(new object[]
             {
                 movementModel,
                 data.movementConfig
             });
             
-            var rotationController = _instantiator.Instantiate<SpaceshipRotationController>(new object[] { movementModel });
+            IRotatable rotatable = _instantiator.Instantiate<SpaceshipRotationController>(new object[] { movementModel });
+            
+            IBouncable bouncable = _instantiator.Instantiate<BounceController>(new object[] { movementModel });
             
             var boundsChecker = _instantiator.Instantiate<BoundsChecker>(new object[]
             {
                 movementModel, 
-                movementController
+                movable,
             });
             
-            
-            
-
             var healthModel = _instantiator.Instantiate<HealthModel>(new object[] { data.initialHp });
             var healthController = _instantiator.Instantiate<HealthController>(new object[] { healthModel });
             
             var spaceship = _instantiator.Instantiate<SpaceshipFacade>(new object[]
             {
                 movementModel,
-                movementController,
-                rotationController,
+                movable,
+                rotatable,
+                bouncable,
                 boundsChecker,
-                _view,
+                drawable,
                 healthController,
                 collidable
             });
             
             return spaceship;
-        }
-
-        public void Release(SpaceshipFacade facade)
-        {
-            _view.Reset();
-            _view.gameObject.SetActive(false);
-            facade.Dispose();
         }
     }
 }

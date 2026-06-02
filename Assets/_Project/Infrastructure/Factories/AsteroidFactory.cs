@@ -2,68 +2,52 @@ using _Project.Core.Physics;
 using _Project.Features.Asteroid;
 using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
-using _Project.Features.Spaceship;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;
 using Zenject;
 
 namespace _Project.Infrastructure.Factories
 {
-    public class AsteroidFactory : Core.Factories.IFactory<AsteroidSpawnData, AsteroidFacade>
+    public class AsteroidFactory : AbstractFactory<AsteroidSpawnData, AsteroidFacade>
     {
-        private readonly CustomPool<MovableView> _viewPool;
-        private readonly IInstantiator _instantiator;
+        public AsteroidFactory(IInstantiator instantiator, MovableView prefab, Transform parentTransform) : 
+            base(instantiator, prefab, parentTransform) { }
 
-
-        public AsteroidFactory(
-            IInstantiator instantiator,
-            MovableView prefab,
-            Transform parentTransform)
-        {
-            _instantiator = instantiator;
-            _viewPool = new CustomPool<MovableView>(instantiator, prefab, defaultParentTransform: parentTransform);
-        }
-
-        public AsteroidFacade Create(AsteroidSpawnData data)
+        public override AsteroidFacade Create(AsteroidSpawnData data)
         {
             var initialMovementData = new InitialMovementData(data.initialPosition, data.initialSpeed, data.initialDirection);
             var movementModel = _instantiator.Instantiate<MovementModel>(new object[] { initialMovementData });
             
             var view = _viewPool.Get();
-            view.Setup(movementModel);
             
-            var collidable = view.GetComponent<ICollidable>();
-            var hitable = view.GetComponent<IHitable>();
+            IDrawable drawable = view;
+            drawable.Setup(movementModel);
             
-            var movementController = _instantiator.Instantiate<AsteroidMovementController>(new object[] { movementModel });
+            ICollidable collidable = view.GetComponent<ICollidable>();
+            
+            IHitable hitable = view.GetComponent<IHitable>();
+            
+            IMovable movable = _instantiator.Instantiate<BaseMovementController>(new object[] { movementModel });
+            
+            IBouncable bouncable = _instantiator.Instantiate<BounceController>(new object[] { movementModel });
 
-            var boundsChecker = _instantiator.Instantiate<BoundsChecker>(new object[]
+            BoundsChecker boundsChecker = _instantiator.Instantiate<BoundsChecker>(new object[]
             {
                 movementModel, 
-                movementController
+                movable
             });
-
-            
             
             var asteroid = _instantiator.Instantiate<AsteroidFacade>(new object[]
             {
-                movementController,
+                movable,
+                bouncable,
                 boundsChecker,
-                view,
+                drawable,
                 collidable,
                 hitable
             });
 
             return asteroid;
-        }
-
-        public void Release(AsteroidFacade asteroidFacade)
-        {
-            var drawable = asteroidFacade.GetDrawable();
-            var view = (MovableView)drawable;
-            view.Reset();
-            _viewPool.Release(view);
-            asteroidFacade.Dispose();
         }
     }
 }

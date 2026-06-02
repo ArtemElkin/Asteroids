@@ -2,7 +2,7 @@ using _Project.Core.Physics;
 
 namespace _Project.Features.Common
 {
-    public abstract class BaseRotationController
+    public abstract class BaseRotationController : IRotatable
     {
         protected MovementModel _movementModel;
 

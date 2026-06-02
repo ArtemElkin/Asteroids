@@ -5,7 +5,7 @@ using _Project.Features.Common;
 
 namespace _Project.Features.Spaceship
 {
-    public class SpaceshipMovementController : BaseMovementController, IBouncable
+    public class SpaceshipMovementController : BaseMovementController
     {
         private readonly SpaceshipMovementConfig _movementConfig;
         private readonly IMovementInputService _movementInputService;
@@ -22,33 +22,18 @@ namespace _Project.Features.Spaceship
         
         protected override void UpdateDirectionOnMove()
         {
-            var moveDirection = _movementInputService.GetAxis();
-            if (moveDirection.sqrMagnitude > 1) 
-            {
-                moveDirection = moveDirection.normalized;
-            }
+            var moveDirection = _movementInputService.GetAxis().normalized;
             _movementModel.UpdateMoveDirection(moveDirection);
         }
 
-        protected override void UpdateVelocityOnMove(float deltaTime)
+        protected override void UpdateSpeedOnMove(float deltaTime)
         {
-            var velocity = _movementModel.Velocity;
-            velocity = _movementModel.MoveDirection == Vector2.zero ? 
-                (Physics.ApplyInertia(velocity, _movementConfig.inertiaMultiplier, deltaTime)) :
-                Physics.ApplyAcceleration(velocity, _movementConfig.accelerationMultiplier, _movementModel.MoveDirection, deltaTime);
-
-            if (velocity.magnitude > _movementConfig.maxSpeed)
-            {
-                velocity = velocity.normalized * _movementConfig.maxSpeed;
-            }
-            _movementModel.UpdateVelocity(velocity);
-        }
-        
-        public void Bounce(Vector2 normal)
-        {
-            var velocity = _movementModel.Velocity;
-            var reflectedVelocity = Vector2.Reflect(velocity, normal);
-            _movementModel.UpdateVelocity(reflectedVelocity);
+            var speed = _movementModel.Speed;
+            speed = _movementInputService.GetAxis().sqrMagnitude < 0.001f ? 
+                Physics.ApplyInertia(speed, _movementConfig.inertiaMultiplier, deltaTime) :
+                Physics.ApplyAcceleration(speed, _movementConfig.accelerationMultiplier, deltaTime);
+            if (speed > _movementConfig.maxSpeed)  speed = _movementConfig.maxSpeed;
+            _movementModel.UpdateSpeed(speed);
         }
     }
 }

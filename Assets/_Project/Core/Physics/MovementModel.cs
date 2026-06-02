@@ -2,7 +2,7 @@ using _Project.Core.Math;
 
 namespace _Project.Core.Physics
 {
-    public class MovementModel : IPositionable, IRotatable, IMovable
+    public class MovementModel : IPositionable, IRotationable
     {
         public Vector2 Position { get; private set; }
         public float RotationAngle { get; private set; }

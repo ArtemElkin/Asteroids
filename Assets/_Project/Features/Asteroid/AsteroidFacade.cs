@@ -11,9 +11,10 @@ namespace _Project.Features.Asteroid
 {
     public class AsteroidFacade : IFacade
     {
-        private readonly AsteroidMovementController _movementController;
+        private readonly IMovable _movable;
+        private readonly IBouncable _bouncable;
         private readonly BoundsChecker _boundsChecker;
-        private readonly IDrawable _asteroidView;
+        private readonly IDrawable _drawable;
         private readonly ICollidable _collidable;
         private readonly IHitable _hitable;
         private readonly ITimeService _timeService;
@@ -21,17 +22,19 @@ namespace _Project.Features.Asteroid
         
 
         public AsteroidFacade(
-            AsteroidMovementController movementController,
+            IMovable movable,
+            IBouncable bouncable,
             BoundsChecker boundsChecker,
-            IDrawable asteroidView,
+            IDrawable drawable,
             ICollidable collidable,
             IHitable hitable,
             ITimeService timeService,
             ISignalBus signalBus)
         {
-            _movementController = movementController;
+            _movable = movable;
+            _bouncable = bouncable;
             _boundsChecker = boundsChecker;
-            _asteroidView = asteroidView;
+            _drawable = drawable;
             _collidable = collidable;
             _hitable = hitable;
             _timeService = timeService;
@@ -42,18 +45,18 @@ namespace _Project.Features.Asteroid
             _hitable.OnHit += Destruct;
         }
         
-        public IDrawable GetDrawable() => _asteroidView;
+        public IDrawable GetDrawable() => _drawable;
 
         private void OnFixedTick()
         {
-            _movementController.Move(_timeService.FixedDeltaTime);
+            _movable.Move(_timeService.FixedDeltaTime);
             _boundsChecker.CheckOutOfBounds();
-            _asteroidView.Draw();
+            _drawable.Draw();
         }
 
         private void OnCollided(Vector2 normal)
         {
-            _movementController.Bounce(normal);
+            _bouncable.Bounce(normal);
         }
 
         private void Destruct()

@@ -13,10 +13,11 @@ namespace _Project.Features.Spaceship
     public class SpaceshipFacade : IFacade
     {
         private readonly MovementModel _movementModel;
-        private readonly SpaceshipMovementController _movementController;
-        private readonly SpaceshipRotationController _rotationController;
+        private readonly IMovable _movable;
+        private readonly IBouncable _bouncable;
+        private readonly IRotatable _rotationController;
         private readonly BoundsChecker _boundsChecker;
-        private readonly IDrawable _spaceshipView;
+        private readonly IDrawable _drawable;
         private readonly HealthController _healthController;
         private readonly ICollidable _collidable;
         private readonly ITimeService _timeService;
@@ -26,9 +27,10 @@ namespace _Project.Features.Spaceship
         public SpaceshipFacade(
             ITimeService timeService,
             MovementModel movementModel,
-            SpaceshipMovementController movementController,
-            SpaceshipRotationController rotationController,
-            IDrawable spaceshipView,
+            IMovable movable,
+            IBouncable bouncable,
+            IRotatable rotationController,
+            IDrawable drawable,
             HealthController healthController,
             ICollidable collidable,
             BoundsChecker boundsChecker,
@@ -36,9 +38,10 @@ namespace _Project.Features.Spaceship
         {
             _timeService = timeService;
             _movementModel = movementModel;
-            _movementController = movementController;
+            _movable = movable;
+            _bouncable = bouncable;
             _rotationController = rotationController;
-            _spaceshipView = spaceshipView;
+            _drawable = drawable;
             _healthController = healthController;
             _collidable = collidable;
             _boundsChecker = boundsChecker;
@@ -51,15 +54,15 @@ namespace _Project.Features.Spaceship
 
         private void OnFixedTick()
         {
-            _movementController.Move(_timeService.FixedDeltaTime);
+            _movable.Move(_timeService.FixedDeltaTime);
             _rotationController.Rotate();
             _boundsChecker.CheckOutOfBounds();
-            _spaceshipView.Draw();
+            _drawable.Draw();
         }
 
         private void OnCollided(Vector2 normal)
         {
-            _movementController.Bounce(normal);
+            _bouncable.Bounce(normal);
             _healthController.ApplyDamage(1);
         }
 
@@ -69,9 +72,9 @@ namespace _Project.Features.Spaceship
         }
 
         public IReadOnlyPositionable GetPositionable() => _movementModel;
-        public IReadOnlyRotatable GetRotatable() => _movementModel;
+        public IReadOnlyRotationable GetRotationable() => _movementModel;
         
-        public IDrawable GetDrawable() => _spaceshipView;
+        public IDrawable GetDrawable() => _drawable;
 
         public void Dispose()
         {

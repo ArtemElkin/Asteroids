@@ -10,11 +10,12 @@ namespace _Project.Features.UFO
 {
     public class UFOFacade : IFacade
     {
-        private readonly UFOMovementController _movementController;
-        private readonly UFORotationController _rotationController;
+        private readonly IMovable _movable;
+        private readonly IRotatable _rotatable;
+        private readonly IBouncable _bouncable;
         private readonly UFOTargetFollower _targetFollower;
         private readonly BoundsChecker _boundsChecker;
-        private readonly IDrawable _view;
+        private readonly IDrawable _drawable;
         private readonly ICollidable _collidable;
         private readonly IHitable _hitable;
         private readonly ITimeService _timeService;
@@ -22,21 +23,23 @@ namespace _Project.Features.UFO
 
 
         public UFOFacade(
-            UFOMovementController movementController,
-            UFORotationController rotationController,
+            IMovable movable,
+            IRotatable rotatable,
+            IBouncable bouncable,
             UFOTargetFollower targetFollower,
             BoundsChecker boundsChecker,
-            IDrawable view,
+            IDrawable drawable,
             ICollidable collidable,
             IHitable hitable,
             ITimeService timeService,
             ISignalBus signalBus)
         {
-            _movementController = movementController;
-            _rotationController = rotationController;
+            _movable = movable;
+            _rotatable = rotatable;
+            _bouncable = bouncable;
             _targetFollower = targetFollower;
             _boundsChecker = boundsChecker;
-            _view = view;
+            _drawable = drawable;
             _collidable = collidable;
             _hitable = hitable;
             _timeService = timeService;
@@ -50,15 +53,15 @@ namespace _Project.Features.UFO
         private void OnFixedTick()
         {
             _targetFollower.UpdateTarget();
-            _movementController.Move(_timeService.FixedDeltaTime);
-            _rotationController.Rotate();
+            _movable.Move(_timeService.FixedDeltaTime);
+            _rotatable.Rotate();
             _boundsChecker.CheckOutOfBounds();
-            _view.Draw();
+            _drawable.Draw();
         }
 
         private void OnCollided(Vector2 normal)
         {
-            _movementController.Bounce(normal);
+            _bouncable.Bounce(normal);
         }
 
         private void Destruct()
@@ -66,7 +69,7 @@ namespace _Project.Features.UFO
             _signalBus.Fire(new DespawnRequestedSignal<UFOFacade>(this));
         }
         
-        public IDrawable GetDrawable() => _view;
+        public IDrawable GetDrawable() => _drawable;
 
         public void Dispose()
         {

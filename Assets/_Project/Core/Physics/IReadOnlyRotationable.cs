@@ -1,6 +1,6 @@
 namespace _Project.Core.Physics
 {
-    public interface IReadOnlyRotatable
+    public interface IReadOnlyRotationable
     {
         public float RotationAngle { get; }
     }
