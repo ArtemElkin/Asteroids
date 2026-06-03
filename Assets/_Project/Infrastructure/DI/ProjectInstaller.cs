@@ -24,16 +24,17 @@ namespace _Project.Infrastructure.DI
         public override void InstallBindings()
         {
             BindSignalBus();
+            
             Container.DeclareSignal<GameInitializeSignal>();
             Container.DeclareSignal<GameStartSignal>();
             Container.DeclareSignal<GameStopSignal>();
             Container.DeclareSignal<GameRestartSignal>();
             Container.DeclareSignal<StartGameClickedSignal>();
             Container.DeclareSignal<MenuClickedSignal>();
+            
             Container.DeclareSignal<DespawnRequestedSignal<SpaceshipFacade>>();
             Container.DeclareSignal<DespawnRequestedSignal<AsteroidFacade>>();
             Container.DeclareSignal<DespawnRequestedSignal<UFOFacade>>();
-            Container.DeclareSignal<SpaceshipCollidedSignal>();
 
             BindTimeService();
             BindRandomService();

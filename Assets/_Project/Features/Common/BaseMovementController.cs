@@ -11,6 +11,8 @@ namespace _Project.Features.Common
         protected BaseMovementController(MovementModel movementModel)
         {
             _movementModel = movementModel;
+            var initialVelocity =  _movementModel.MoveDirection * _movementModel.Speed;
+            _movementModel.UpdateVelocity(initialVelocity);
         }
 
         public void Move(float deltaTime)
@@ -32,7 +34,7 @@ namespace _Project.Features.Common
         protected virtual void UpdateVelocityOnMove(float deltaTime)
         {
             // var previousVelocity = _movementModel.Velocity;
-            var newVelocity = _movementModel.MoveDirection * _movementModel.Speed;
+            var newVelocity = _movementModel.Velocity.normalized * _movementModel.Speed;
             // var velocity = Vector2.Lerp(previousVelocity, newVelocity, deltaTime);
             _movementModel.UpdateVelocity(newVelocity);
         }

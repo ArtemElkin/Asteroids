@@ -68,7 +68,6 @@ namespace _Project.Features.Spaceship
             _bouncable.Bounce(normal);
             _healthController.ApplyDamage(1);
             _ = _stunController.ApplyStun(3f);
-            _signalBus.Fire<SpaceshipCollidedSignal>();
         }
 
         private void OnDeath()
