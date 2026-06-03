@@ -15,39 +15,24 @@ namespace _Project.Infrastructure.Factories
 
         public override AsteroidFacade Create(AsteroidSpawnData data)
         {
-            var initialMovementData = new InitialMovementData(data.initialPosition, data.initialSpeed, data.initialDirection);
-            var movementModel = _instantiator.Instantiate<MovementModel>(new object[] { initialMovementData });
-            
-            var view = _viewPool.Get();
-            
+            MovableView view = _viewPool.Get();
+            InitialMovementData initialMovementData = data.initialMovementData;
+            MovementModel movementModel = CreateComponent<MovementModel>(initialMovementData);
             IDrawable drawable = view;
             drawable.Setup(movementModel);
-            
             ICollidable collidable = view.GetComponent<ICollidable>();
-            
             IHitable hitable = view.GetComponent<IHitable>();
-            
-            IMovable movable = _instantiator.Instantiate<BaseMovementController>(new object[] { movementModel });
-            
-            IBouncable bouncable = _instantiator.Instantiate<BounceController>(new object[] { movementModel });
-
-            BoundsChecker boundsChecker = _instantiator.Instantiate<BoundsChecker>(new object[]
-            {
-                movementModel, 
-                movable
-            });
-            
-            var asteroid = _instantiator.Instantiate<AsteroidFacade>(new object[]
-            {
+            IMovable movable = CreateComponent<BaseMovementController>(movementModel);
+            IBouncable bouncable = CreateComponent<BounceController>(movementModel);
+            BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel, movable);
+            AsteroidFacade facade = CreateComponent<AsteroidFacade>(
                 movable,
                 bouncable,
                 boundsChecker,
                 drawable,
                 collidable,
-                hitable
-            });
-
-            return asteroid;
+                hitable);
+            return facade;
         }
     }
 }

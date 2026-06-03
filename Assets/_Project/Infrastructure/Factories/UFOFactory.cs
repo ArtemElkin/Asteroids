@@ -16,46 +16,28 @@ namespace _Project.Infrastructure.Factories
 
         public override UFOFacade Create(UFOSpawnData data)
         {
-            var initialMovementData = data.initialMovementData;
-            var movementModel = _instantiator.Instantiate<MovementModel>(new object[] { initialMovementData });
-            
             MovableView view = _viewPool.Get();
-            view.transform.localPosition = initialMovementData.initialPosition.ToUnity();
-
+            InitialMovementData initialMovementData = data.initialMovementData;
+            MovementModel movementModel = CreateComponent<MovementModel>(initialMovementData);
             IDrawable drawable = view;
             drawable.Setup(movementModel);
-            
             ICollidable collidable = view.GetComponent<ICollidable>();
-            
             IHitable hitable = view.GetComponent<IHitable>();
-
-            IMovable movable = _instantiator.Instantiate<BaseMovementController>(new object[]
-            {
-                movementModel, 
-            });
-            
-            IRotatable rotatable = _instantiator.Instantiate<UFORotationController>(new object[] { movementModel });
-            
-            var targetFollower = _instantiator.Instantiate<UFOTargetFollower>(new object[] { movementModel });
-            
-            var boundsChecker = _instantiator.Instantiate<BoundsChecker>(new object[]
-            {
-                movementModel, 
-                movable
-            });
-           
-            var ufo = _instantiator.Instantiate<UFOFacade>(new object[]
-            {
+            IMovable movable = CreateComponent<BaseMovementController>(movementModel);
+            IRotatable rotatable = CreateComponent<UFORotationController>(movementModel);
+            IBouncable bouncable = CreateComponent<BounceController>(movementModel);
+            UFOTargetFollower targetFollower = CreateComponent<UFOTargetFollower>(movementModel);
+            BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel, movable);
+            UFOFacade facade = CreateComponent<UFOFacade>(
                 movable,
                 rotatable,
+                bouncable,
                 targetFollower,
                 boundsChecker,
                 view,
                 collidable,
-                hitable
-            });
-            
-            return ufo;
+                hitable);
+            return facade;
         }
     }
 }

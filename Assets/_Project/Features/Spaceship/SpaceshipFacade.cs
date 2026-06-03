@@ -19,6 +19,7 @@ namespace _Project.Features.Spaceship
         private readonly BoundsChecker _boundsChecker;
         private readonly IDrawable _drawable;
         private readonly HealthController _healthController;
+        private readonly StunController _stunController;
         private readonly ICollidable _collidable;
         private readonly ITimeService _timeService;
         private readonly ISignalBus _signalBus;
@@ -34,6 +35,7 @@ namespace _Project.Features.Spaceship
             HealthController healthController,
             ICollidable collidable,
             BoundsChecker boundsChecker,
+            StunController stunController,
             ISignalBus signalBus)
         {
             _timeService = timeService;
@@ -45,6 +47,7 @@ namespace _Project.Features.Spaceship
             _healthController = healthController;
             _collidable = collidable;
             _boundsChecker = boundsChecker;
+            _stunController = stunController;
             _signalBus = signalBus;
             
             _timeService.OnFixedTick += OnFixedTick;
@@ -64,6 +67,8 @@ namespace _Project.Features.Spaceship
         {
             _bouncable.Bounce(normal);
             _healthController.ApplyDamage(1);
+            _ = _stunController.ApplyStun(3f);
+            _signalBus.Fire<SpaceshipCollidedSignal>();
         }
 
         private void OnDeath()
@@ -73,6 +78,7 @@ namespace _Project.Features.Spaceship
 
         public IReadOnlyPositionable GetPositionable() => _movementModel;
         public IReadOnlyRotationable GetRotationable() => _movementModel;
+        public IStunable GetStunable() => _movementModel;
         
         public IDrawable GetDrawable() => _drawable;
 

@@ -1,6 +1,7 @@
 using _Project.Core.Config;
 using _Project.Core.Factories;
 using _Project.Core.Math;
+using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
@@ -57,7 +58,8 @@ namespace _Project.Features.Asteroid
             var initialPosition = GetRandomInitialAsteroidPosition();
             var initialSpeed = GetRandomInitialAsteroidSpeed();
             var initialDirection = GetRandomInitialDirection(initialPosition);
-            var spawnData = new AsteroidSpawnData(initialPosition, initialSpeed, initialDirection);
+            InitialMovementData initialMovementData = new (initialPosition, initialSpeed, initialDirection);
+            var spawnData = new AsteroidSpawnData(initialMovementData);
             var asteroid = _asteroidFactory.Create(spawnData);
             return asteroid;
         }

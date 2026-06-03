@@ -22,8 +22,30 @@ namespace _Project.Features.Spaceship
         
         protected override void UpdateDirectionOnMove()
         {
-            var moveDirection = _movementInputService.GetAxis().normalized;
-            _movementModel.UpdateMoveDirection(moveDirection);
+            if (_movementModel.IsStunned) return;
+            
+            var input = _movementInputService.GetAxis().normalized;
+            if (input.sqrMagnitude > 0.001f)
+            {
+                _movementModel.UpdateMoveDirection(input.normalized);
+            }
+        }
+
+        protected override void UpdateVelocityOnMove(float deltaTime)
+        {
+            var input = _movementInputService.GetAxis();
+            if (input.sqrMagnitude > 0.001f && !_movementModel.IsStunned)
+            {
+                var previousVelocity = _movementModel.Velocity;
+                var newVelocity = _movementModel.MoveDirection * _movementModel.Speed;
+                var velocity = Vector2.MoveTowards(previousVelocity, newVelocity, 15 * deltaTime);
+                _movementModel.UpdateVelocity(velocity);
+            }
+            else
+            {
+                var decayedVelocity = _movementModel.Velocity.normalized * _movementModel.Speed;
+                _movementModel.UpdateVelocity(decayedVelocity);
+            }
         }
 
         protected override void UpdateSpeedOnMove(float deltaTime)

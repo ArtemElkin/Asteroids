@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using _Project.Features.Common;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;
@@ -21,6 +22,11 @@ namespace _Project.Infrastructure.Factories
         }
 
         public abstract TFacade Create(TSpawnData data);
+
+        protected T CreateComponent<T>(params object[] extraArgs)
+        {
+            return _instantiator.Instantiate<T>(extraArgs);
+        }
 
         public void Release(TFacade facade)
         {

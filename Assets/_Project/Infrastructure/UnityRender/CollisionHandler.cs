@@ -6,17 +6,34 @@ using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Infrastructure.UnityRender
 {
+    [RequireComponent(typeof(Collider2D))]
     public class CollisionHandler : MonoBehaviour, ICollidable
     {
         public event Action<Vector2> OnCollided;
         private const float CooldownTime = 0.5f;
         private float _timeLeftAfterLastCollision;
+        private Collider2D _collider;
 
 
+        private void Awake()
+        {
+            _collider = GetComponent<Collider2D>();
+        }
+        
         private void Update()
         {
             if (_timeLeftAfterLastCollision < CooldownTime)
                 _timeLeftAfterLastCollision += Time.deltaTime;
+        }
+
+        public void ActivateCollision()
+        {
+            _collider.enabled = true;
+        }
+
+        public void DeactivateCollision()
+        {
+            _collider.enabled = false;
         }
 
 

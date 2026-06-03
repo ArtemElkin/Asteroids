@@ -6,8 +6,6 @@ namespace _Project.Features.UFO
 {
     public class UFOTargetFollower
     {
-        private bool _hasTarget;
-        private IReadOnlyPositionable _targetPositionable;
         private readonly MovementModel _movementModel;
         private readonly Storage<SpaceshipFacade> _spaceshipStorage;
 
@@ -22,26 +20,31 @@ namespace _Project.Features.UFO
 
         public void UpdateTarget()
         {
-            if (!_hasTarget)
+            if (TryGetTarget(out var targetPositionable, out var targetStunable))
             {
-                TryGetTarget();
-                if (!_hasTarget) return;
+                if (targetStunable.IsStunned) return;
+                
+                var direction = targetPositionable.Position - _movementModel.Position;
+                if (direction.sqrMagnitude > 1) 
+                {
+                    direction = direction.normalized;
+                }
+                _movementModel.UpdateMoveDirection(direction);
             }
-            var direction = _targetPositionable.Position - _movementModel.Position;
-            if (direction.sqrMagnitude > 1) 
-            {
-                direction = direction.normalized;
-            }
-            _movementModel.UpdateMoveDirection(direction);
         }
 
-        private void TryGetTarget()
+        private bool TryGetTarget(out IReadOnlyPositionable targetPositionable, out IReadOnlyStunable targetStunable)
         {
-            _hasTarget = _spaceshipStorage.TryGetFirst(out var spaceship);
-            if (_hasTarget)
+            targetPositionable = null;
+            targetStunable = null;
+            var hasTarget = _spaceshipStorage.TryGetFirst(out var spaceship);
+            if (hasTarget)
             {
-                _targetPositionable = spaceship.GetPositionable();
+                targetPositionable = spaceship.GetPositionable();
+                targetStunable = spaceship.GetStunable();
+                return true;
             }
+            return false;
         }
     }
 }

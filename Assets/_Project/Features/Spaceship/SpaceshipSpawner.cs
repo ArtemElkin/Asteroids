@@ -1,5 +1,6 @@
 using System;
 using _Project.Core.Config;
+using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
@@ -55,7 +56,8 @@ namespace _Project.Features.Spaceship
 
         private void SpawnSpaceship()
         {
-            var spawnData = new SpaceshipSpawnData(Vector2.zero, _spaceshipMovementConfig, _spaceshipConfig.maxHp);
+            InitialMovementData initialMovementData = new  InitialMovementData(Vector2.zero, 0f, Vector2.zero);
+            var spawnData = new SpaceshipSpawnData(initialMovementData, _spaceshipMovementConfig, _spaceshipConfig.maxHp);
             var spaceship = _spaceshipFactory.Create(spawnData);
             
             _spaceshipStorage.Add(spaceship);

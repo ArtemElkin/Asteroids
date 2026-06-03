@@ -17,7 +17,7 @@ namespace _Project.Features.Common
         {
             UpdateDirectionOnMove();
             UpdateSpeedOnMove(deltaTime);
-            UpdateVelocityOnMove();
+            UpdateVelocityOnMove(deltaTime);
             UpdatePositionOnMove(deltaTime);
         }
 
@@ -29,10 +29,12 @@ namespace _Project.Features.Common
         protected virtual void UpdateDirectionOnMove() { }
         protected virtual void UpdateSpeedOnMove(float deltaTime) { }
 
-        private void UpdateVelocityOnMove()
+        protected virtual void UpdateVelocityOnMove(float deltaTime)
         {
-            var velocity = _movementModel.MoveDirection * _movementModel.Speed;
-            _movementModel.UpdateVelocity(velocity);
+            // var previousVelocity = _movementModel.Velocity;
+            var newVelocity = _movementModel.MoveDirection * _movementModel.Speed;
+            // var velocity = Vector2.Lerp(previousVelocity, newVelocity, deltaTime);
+            _movementModel.UpdateVelocity(newVelocity);
         }
         
         private void UpdatePositionOnMove(float  deltaTime)

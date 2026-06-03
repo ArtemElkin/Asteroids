@@ -16,37 +16,20 @@ namespace _Project.Infrastructure.Factories
 
         public override SpaceshipFacade Create(SpaceshipSpawnData data)
         {
-            var initialMovementData = new InitialMovementData(data.initialPosition, 0);
-            var movementModel = _instantiator.Instantiate<MovementModel>(new object[] { initialMovementData });
-            
-            var view = _viewPool.Get();
-
+            MovableView view = _viewPool.Get();
+            InitialMovementData initialMovementData = data.InitialMovementData;
+            MovementModel movementModel = CreateComponent<MovementModel>(initialMovementData);
             IDrawable drawable = view;
             drawable.Setup(movementModel);
-            
             ICollidable collidable = view.GetComponent<ICollidable>();
-            
-            IMovable movable = _instantiator.Instantiate<SpaceshipMovementController>(new object[]
-            {
-                movementModel,
-                data.movementConfig
-            });
-            
-            IRotatable rotatable = _instantiator.Instantiate<SpaceshipRotationController>(new object[] { movementModel });
-            
-            IBouncable bouncable = _instantiator.Instantiate<BounceController>(new object[] { movementModel });
-            
-            var boundsChecker = _instantiator.Instantiate<BoundsChecker>(new object[]
-            {
-                movementModel, 
-                movable,
-            });
-            
-            var healthModel = _instantiator.Instantiate<HealthModel>(new object[] { data.initialHp });
-            var healthController = _instantiator.Instantiate<HealthController>(new object[] { healthModel });
-            
-            var spaceship = _instantiator.Instantiate<SpaceshipFacade>(new object[]
-            {
+            IMovable movable = CreateComponent<SpaceshipMovementController>(movementModel, data.movementConfig);
+            IRotatable rotatable = CreateComponent<SpaceshipRotationController>(movementModel);
+            IBouncable bouncable = CreateComponent<BounceController>(movementModel);
+            BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel, movable);
+            HealthModel healthModel = CreateComponent<HealthModel>(data.initialHp);
+            HealthController healthController = CreateComponent<HealthController>(healthModel);
+            StunController stunController = CreateComponent<StunController>(movementModel, collidable);
+            SpaceshipFacade facade = CreateComponent<SpaceshipFacade>(
                 movementModel,
                 movable,
                 rotatable,
@@ -54,10 +37,9 @@ namespace _Project.Infrastructure.Factories
                 boundsChecker,
                 drawable,
                 healthController,
-                collidable
-            });
-            
-            return spaceship;
+                collidable,
+                stunController);
+            return facade;
         }
     }
 }
