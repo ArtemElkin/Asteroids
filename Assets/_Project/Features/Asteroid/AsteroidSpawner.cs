@@ -58,7 +58,8 @@ namespace _Project.Features.Asteroid
             var initialPosition = GetRandomInitialAsteroidPosition();
             var initialSpeed = GetRandomInitialAsteroidSpeed();
             var initialDirection = GetRandomInitialDirection(initialPosition);
-            InitialMovementData initialMovementData = new (initialPosition, initialSpeed, initialDirection);
+            var initialVelocity = initialDirection * initialSpeed;
+            InitialMovementData initialMovementData = new (initialPosition, initialVelocity);
             var spawnData = new AsteroidSpawnData(initialMovementData);
             var asteroid = _asteroidFactory.Create(spawnData);
             return asteroid;

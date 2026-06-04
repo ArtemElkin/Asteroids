@@ -1,16 +1,21 @@
+using _Project.Core.Math;
+
 namespace _Project.Core.Physics
 {
     public static class Physics
     {
-        public static float ApplyInertia(float speed, float friction, float deltaTime)
+        public static Vector2 ApplyInertia(Vector2 velocity, float friction, float deltaTime)
         {
-            var newSpeed = speed - friction * deltaTime;
-            return newSpeed < 0f ? 0f : newSpeed;
+            if (velocity.sqrMagnitude < 0.001f) return Vector2.zero;
+        
+            var drag = velocity.normalized * friction * deltaTime;
+            if (drag.sqrMagnitude > velocity.sqrMagnitude) return Vector2.zero;
+            return velocity - drag;
         }
         
-        public static float ApplyAcceleration(float speed, float accelerationMultiplier, float deltaTime)
+        public static Vector2 ApplyAcceleration(Vector2 velocity, Vector2 moveDirection, float acceleration, float deltaTime)
         {
-            return speed + accelerationMultiplier * deltaTime;
+            return velocity + moveDirection * acceleration * deltaTime;
         }
     }
 }

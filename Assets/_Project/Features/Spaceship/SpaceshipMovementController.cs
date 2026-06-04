@@ -24,7 +24,7 @@ namespace _Project.Features.Spaceship
         {
             if (_movementModel.IsStunned) return;
             
-            var input = _movementInputService.GetAxis().normalized;
+            var input = _movementInputService.GetAxis();
             if (input.sqrMagnitude > 0.001f)
             {
                 _movementModel.UpdateMoveDirection(input.normalized);
@@ -36,26 +36,20 @@ namespace _Project.Features.Spaceship
             var input = _movementInputService.GetAxis();
             if (input.sqrMagnitude > 0.001f && !_movementModel.IsStunned)
             {
-                var previousVelocity = _movementModel.Velocity;
-                var newVelocity = _movementModel.MoveDirection * _movementModel.Speed;
-                var velocity = Vector2.MoveTowards(previousVelocity, newVelocity, 15 * deltaTime);
-                _movementModel.UpdateVelocity(velocity);
+                var currentVelocity = _movementModel.Velocity;
+                var targetVelocity = Physics.ApplyAcceleration(currentVelocity, _movementModel.MoveDirection, _movementConfig.accelerationMultiplier, deltaTime);
+                if (targetVelocity.magnitude > _movementConfig.maxSpeed)
+                {
+                    targetVelocity = targetVelocity.normalized * _movementConfig.maxSpeed;
+                }
+                var newVelocity = Vector2.MoveTowards(currentVelocity, targetVelocity, 15 * deltaTime);
+                _movementModel.UpdateVelocity(newVelocity);
             }
             else
             {
-                var decayedVelocity = _movementModel.Velocity.normalized * _movementModel.Speed;
-                _movementModel.UpdateVelocity(decayedVelocity);
+                var velocity = Physics.ApplyInertia(_movementModel.Velocity, _movementConfig.inertiaMultiplier, deltaTime);
+                _movementModel.UpdateVelocity(velocity);
             }
-        }
-
-        protected override void UpdateSpeedOnMove(float deltaTime)
-        {
-            var speed = _movementModel.Speed;
-            speed = _movementInputService.GetAxis().sqrMagnitude < 0.001f ? 
-                Physics.ApplyInertia(speed, _movementConfig.inertiaMultiplier, deltaTime) :
-                Physics.ApplyAcceleration(speed, _movementConfig.accelerationMultiplier, deltaTime);
-            if (speed > _movementConfig.maxSpeed)  speed = _movementConfig.maxSpeed;
-            _movementModel.UpdateSpeed(speed);
         }
     }
 }

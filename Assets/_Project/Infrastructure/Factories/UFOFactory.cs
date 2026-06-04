@@ -23,7 +23,7 @@ namespace _Project.Infrastructure.Factories
             drawable.Setup(movementModel);
             ICollidable collidable = view.GetComponent<ICollidable>();
             IHitable hitable = view.GetComponent<IHitable>();
-            IMovable movable = CreateComponent<BaseMovementController>(movementModel);
+            IMovable movable = CreateComponent<UFOMovementController>(movementModel, data.speed);
             IRotatable rotatable = CreateComponent<UFORotationController>(movementModel);
             IBouncable bouncable = CreateComponent<BounceController>(movementModel);
             UFOTargetFollower targetFollower = CreateComponent<UFOTargetFollower>(movementModel);

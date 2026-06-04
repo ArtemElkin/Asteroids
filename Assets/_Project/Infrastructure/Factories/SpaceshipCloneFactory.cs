@@ -6,6 +6,7 @@ using _Project.Features.Spaceship.SpaceshipClone;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;
 using Zenject;
+using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Infrastructure.Factories
 {
@@ -27,7 +28,7 @@ namespace _Project.Infrastructure.Factories
             if (_mainSpaceshipStorage.TryGetFirst(out var mainSpaceship))
             {
 
-                var initialMovementData = new  InitialMovementData(data.offsetFromMainSpaceship, 0);
+                var initialMovementData = new  InitialMovementData(data.offsetFromMainSpaceship, Vector2.zero);
                 var movementModel = _instantiator.Instantiate<MovementModel>(new object[] { initialMovementData });
                 
                 var view = _viewPool.Get();

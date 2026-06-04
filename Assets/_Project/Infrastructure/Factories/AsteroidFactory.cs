@@ -22,7 +22,7 @@ namespace _Project.Infrastructure.Factories
             drawable.Setup(movementModel);
             ICollidable collidable = view.GetComponent<ICollidable>();
             IHitable hitable = view.GetComponent<IHitable>();
-            IMovable movable = CreateComponent<BaseMovementController>(movementModel);
+            IMovable movable = CreateComponent<AsteroidMovementController>(movementModel);
             IBouncable bouncable = CreateComponent<BounceController>(movementModel);
             BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel, movable);
             AsteroidFacade facade = CreateComponent<AsteroidFacade>(

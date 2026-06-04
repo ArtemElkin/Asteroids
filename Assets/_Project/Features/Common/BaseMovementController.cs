@@ -3,7 +3,7 @@ using _Project.Core.Physics;
 
 namespace _Project.Features.Common
 {
-    public class BaseMovementController : IMovable, IWarpable
+    public abstract class BaseMovementController : IMovable, IWarpable
     {
         protected readonly MovementModel _movementModel;
 
@@ -11,14 +11,11 @@ namespace _Project.Features.Common
         protected BaseMovementController(MovementModel movementModel)
         {
             _movementModel = movementModel;
-            var initialVelocity =  _movementModel.MoveDirection * _movementModel.Speed;
-            _movementModel.UpdateVelocity(initialVelocity);
         }
 
         public void Move(float deltaTime)
         {
             UpdateDirectionOnMove();
-            UpdateSpeedOnMove(deltaTime);
             UpdateVelocityOnMove(deltaTime);
             UpdatePositionOnMove(deltaTime);
         }
@@ -29,15 +26,8 @@ namespace _Project.Features.Common
         }
 
         protected virtual void UpdateDirectionOnMove() { }
-        protected virtual void UpdateSpeedOnMove(float deltaTime) { }
 
-        protected virtual void UpdateVelocityOnMove(float deltaTime)
-        {
-            // var previousVelocity = _movementModel.Velocity;
-            var newVelocity = _movementModel.Velocity.normalized * _movementModel.Speed;
-            // var velocity = Vector2.Lerp(previousVelocity, newVelocity, deltaTime);
-            _movementModel.UpdateVelocity(newVelocity);
-        }
+        protected virtual void UpdateVelocityOnMove(float deltaTime) { }
         
         private void UpdatePositionOnMove(float  deltaTime)
         {

@@ -13,8 +13,7 @@ namespace _Project.Features.Common
         
         public void Bounce(Vector2 normal)
         {
-            var velocity = _movementModel.Velocity;
-            var reflectedVelocity = Vector2.Reflect(velocity, normal);
+            var reflectedVelocity = Vector2.Reflect(_movementModel.Velocity, normal);
             _movementModel.UpdateVelocity(reflectedVelocity);
         }
     }

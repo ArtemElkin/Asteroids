@@ -56,7 +56,7 @@ namespace _Project.Features.Spaceship
 
         private void SpawnSpaceship()
         {
-            InitialMovementData initialMovementData = new  InitialMovementData(Vector2.zero, 0f, Vector2.zero);
+            InitialMovementData initialMovementData = new  InitialMovementData(Vector2.zero, Vector2.zero);
             var spawnData = new SpaceshipSpawnData(initialMovementData, _spaceshipMovementConfig, _spaceshipConfig.maxHp);
             var spaceship = _spaceshipFactory.Create(spawnData);
             
