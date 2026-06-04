@@ -6,6 +6,7 @@ using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Features.Asteroid;
 using _Project.Features.Common.Signals;
+using _Project.Features.Projectile;
 using _Project.Features.Spaceship;
 using _Project.Features.UFO;
 using _Project.Infrastructure.Input;
@@ -35,6 +36,8 @@ namespace _Project.Infrastructure.DI
             Container.DeclareSignal<DespawnRequestedSignal<SpaceshipFacade>>();
             Container.DeclareSignal<DespawnRequestedSignal<AsteroidFacade>>();
             Container.DeclareSignal<DespawnRequestedSignal<UFOFacade>>();
+            Container.DeclareSignal<SpawnRequestedSignal<ProjectileFacade>>();
+            Container.DeclareSignal<DespawnRequestedSignal<ProjectileFacade>>();
 
             BindTimeService();
             BindRandomService();

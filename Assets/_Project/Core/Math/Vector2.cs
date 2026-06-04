@@ -77,5 +77,10 @@ namespace _Project.Core.Math
             return num1 * num1 + num2 * num2 < 9.999999439624929E-11;
         }
         public static bool operator !=(Vector2 lhs, Vector2 rhs) => !(lhs == rhs);
+
+        public override string ToString()
+        {
+            return $"({x}, {y})";
+        }
     }
 }

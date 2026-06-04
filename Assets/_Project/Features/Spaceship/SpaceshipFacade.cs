@@ -21,6 +21,7 @@ namespace _Project.Features.Spaceship
         private readonly HealthController _healthController;
         private readonly StunController _stunController;
         private readonly ICollidable _collidable;
+        private readonly Weapon.Weapon _weapon;
         private readonly ITimeService _timeService;
         private readonly ISignalBus _signalBus;
 
@@ -36,6 +37,7 @@ namespace _Project.Features.Spaceship
             ICollidable collidable,
             BoundsChecker boundsChecker,
             StunController stunController,
+            Weapon.Weapon weapon,
             ISignalBus signalBus)
         {
             _timeService = timeService;
@@ -48,6 +50,7 @@ namespace _Project.Features.Spaceship
             _collidable = collidable;
             _boundsChecker = boundsChecker;
             _stunController = stunController;
+            _weapon = weapon;
             _signalBus = signalBus;
             
             _timeService.OnFixedTick += OnFixedTick;
@@ -87,6 +90,7 @@ namespace _Project.Features.Spaceship
             _healthController.OnDeath -= OnDeath;
             _collidable.OnCollided -= OnCollided;
             _healthController.Dispose();
+            _weapon.Dispose();
         }
     }
 }

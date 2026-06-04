@@ -3,6 +3,7 @@ using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
 using _Project.Features.Spaceship;
 using _Project.Features.Spaceship.Health;
+using _Project.Features.Spaceship.Weapon;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;
 using Zenject;
@@ -11,12 +12,13 @@ namespace _Project.Infrastructure.Factories
 {
     public class SpaceshipFactory : AbstractFactory<SpaceshipSpawnData, SpaceshipFacade>
     {
-        public SpaceshipFactory(IInstantiator instantiator, MovableView prefab, Transform parentTransform) : 
+        public SpaceshipFactory(IInstantiator instantiator, SpaceshipView prefab, Transform parentTransform) : 
             base(instantiator, prefab, parentTransform) { }
 
         public override SpaceshipFacade Create(SpaceshipSpawnData data)
         {
-            MovableView view = _viewPool.Get();
+            SpaceshipView view = (SpaceshipView)_viewPool.Get();
+            MuzzleView muzzleView = view.GetMuzzleView();
             InitialMovementData initialMovementData = data.InitialMovementData;
             MovementModel movementModel = CreateComponent<MovementModel>(initialMovementData);
             IDrawable drawable = view;
@@ -29,6 +31,10 @@ namespace _Project.Infrastructure.Factories
             HealthModel healthModel = CreateComponent<HealthModel>(data.initialHp);
             HealthController healthController = CreateComponent<HealthController>(healthModel);
             StunController stunController = CreateComponent<StunController>(movementModel, collidable);
+
+            IReadOnlyPositionable muzzlePositionable = muzzleView;
+            Weapon weapon = CreateComponent<Weapon>(muzzlePositionable);
+            
             SpaceshipFacade facade = CreateComponent<SpaceshipFacade>(
                 movementModel,
                 movable,
@@ -38,7 +44,8 @@ namespace _Project.Infrastructure.Factories
                 drawable,
                 healthController,
                 collidable,
-                stunController);
+                stunController,
+                weapon);
             return facade;
         }
     }

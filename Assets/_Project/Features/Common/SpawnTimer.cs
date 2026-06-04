@@ -41,7 +41,7 @@ namespace _Project.Features.Common
             _timeFromLastRequest += _timeService.DeltaTime;
         }
 
-        private void Start() => _isEnabled = true;
+        public void Start() => _isEnabled = true;
 
         private void Stop() => _isEnabled = false;
 

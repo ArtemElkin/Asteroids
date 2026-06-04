@@ -1,10 +1,15 @@
-using _Project.Core.Math;
+using _Project.Core.Physics;
 
 namespace _Project.Features.Projectile
 {
     public struct ProjectileSpawnData
     {
-        public Vector2 initialPosition;
-        public Vector2 initialDirection;
+        public InitialMovementData initialMovementData;
+
+
+        public ProjectileSpawnData(InitialMovementData initialMovementData)
+        {
+            this.initialMovementData = initialMovementData;
+        }
     }
 }

@@ -3,8 +3,9 @@ using _Project.Core.Physics;
 
 namespace _Project.Features.Common.Bounds
 {
-    public class BoundsChecker : IDisposable
+    public class BoundsChecker
     {
+        public event Action OutOfBounds;
         private bool _isEnteredGameAreaAfterSpawn;
         private readonly IWarpable _warpable;
         private readonly IReadOnlyPositionable _positionable;
@@ -29,15 +30,12 @@ namespace _Project.Features.Common.Bounds
             if (_boundsService.IsOutOfBounds(_positionable.Position) && _isEnteredGameAreaAfterSpawn)
             {
                 _boundsWarper.Warp(_warpable, _positionable.Position);
+                OutOfBounds?.Invoke();
             }
             else if (!_isEnteredGameAreaAfterSpawn && !_boundsService.IsOutOfBounds(_positionable.Position))
             {
                 _isEnteredGameAreaAfterSpawn = true;
             }
-        }
-
-        public void Dispose()
-        {
         }
     }
 }
