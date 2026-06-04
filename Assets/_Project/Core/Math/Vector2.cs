@@ -52,6 +52,15 @@ namespace _Project.Core.Math
             float num3 = (float) System.Math.Sqrt((double) d);
             return new Vector2(current.x + num1 / num3 * maxDistanceDelta, current.y + num2 / num3 * maxDistanceDelta);
         }
+
+        public static Vector2 ClampMagnitude(Vector2 vector, float maxMagnitude)
+        {
+            if (vector.magnitude > maxMagnitude)
+            {
+                return vector.normalized * maxMagnitude;
+            }
+            return vector;
+        }
         
         public static Vector2 operator +(Vector2 a, Vector2 b) => new (a.x + b.x, a.y + b.y);
         public static Vector2 operator -(Vector2 a, Vector2 b) => new (a.x - b.x, a.y - b.y);

@@ -34,22 +34,19 @@ namespace _Project.Features.Spaceship
         protected override void UpdateVelocityOnMove(float deltaTime)
         {
             var input = _movementInputService.GetAxis();
+            Vector2 currentVelocity = _movementModel.Velocity;
+            Vector2 newVelocity;
             if (input.sqrMagnitude > 0.001f && !_movementModel.IsStunned)
             {
-                var currentVelocity = _movementModel.Velocity;
                 var targetVelocity = Physics.ApplyAcceleration(currentVelocity, _movementModel.MoveDirection, _movementConfig.accelerationMultiplier, deltaTime);
-                if (targetVelocity.magnitude > _movementConfig.maxSpeed)
-                {
-                    targetVelocity = targetVelocity.normalized * _movementConfig.maxSpeed;
-                }
-                var newVelocity = Vector2.MoveTowards(currentVelocity, targetVelocity, 15 * deltaTime);
-                _movementModel.UpdateVelocity(newVelocity);
+                targetVelocity = Vector2.ClampMagnitude(targetVelocity, _movementConfig.maxSpeed);
+                newVelocity = Vector2.MoveTowards(currentVelocity, targetVelocity, 15 * deltaTime);
             }
             else
             {
-                var velocity = Physics.ApplyInertia(_movementModel.Velocity, _movementConfig.inertiaMultiplier, deltaTime);
-                _movementModel.UpdateVelocity(velocity);
+                newVelocity = Physics.ApplyInertia(currentVelocity, _movementConfig.inertiaMultiplier, deltaTime);
             }
+            _movementModel.UpdateVelocity(newVelocity);
         }
     }
 }
