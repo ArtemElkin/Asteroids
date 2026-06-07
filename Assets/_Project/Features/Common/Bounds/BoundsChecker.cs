@@ -6,35 +6,32 @@ namespace _Project.Features.Common.Bounds
     public class BoundsChecker
     {
         public event Action OutOfBounds;
-        private bool _isEnteredGameAreaAfterSpawn;
-        private readonly IWarpable _warpable;
+        public event Action EnteredGameAreaAfterSpawn;
+        public bool IsEnteredGameAreaAfterSpawn { get; private set; }
         private readonly IReadOnlyPositionable _positionable;
         private readonly BoundsService _boundsService;
-        private readonly BoundsWarper _boundsWarper;
 
 
         public BoundsChecker(
             BoundsService boundsService,
-            BoundsWarper boundsWarper,
             IReadOnlyPositionable positionable,
-            IWarpable warpable)
+            bool isEnteredGameAreaAfterSpawn = false)
         {
             _boundsService = boundsService;
-            _boundsWarper = boundsWarper;
             _positionable = positionable;
-            _warpable = warpable;
+            IsEnteredGameAreaAfterSpawn = isEnteredGameAreaAfterSpawn;
         }
 
         public void CheckOutOfBounds()
         {
-            if (_boundsService.IsOutOfBounds(_positionable.Position) && _isEnteredGameAreaAfterSpawn)
+            if (_boundsService.IsOutOfBounds(_positionable.Position) && IsEnteredGameAreaAfterSpawn)
             {
-                _boundsWarper.Warp(_warpable, _positionable.Position);
                 OutOfBounds?.Invoke();
             }
-            else if (!_isEnteredGameAreaAfterSpawn && !_boundsService.IsOutOfBounds(_positionable.Position))
+            else if (!IsEnteredGameAreaAfterSpawn && !_boundsService.IsOutOfBounds(_positionable.Position))
             {
-                _isEnteredGameAreaAfterSpawn = true;
+                IsEnteredGameAreaAfterSpawn = true;
+                EnteredGameAreaAfterSpawn?.Invoke();
             }
         }
     }

@@ -27,13 +27,13 @@ namespace _Project.Infrastructure.Factories
             IMovable movable = CreateComponent<SpaceshipMovementController>(movementModel, data.movementConfig);
             IRotatable rotatable = CreateComponent<SpaceshipRotationController>(movementModel);
             IBouncable bouncable = CreateComponent<BounceController>(movementModel);
-            BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel, movable);
+            BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel);
             HealthModel healthModel = CreateComponent<HealthModel>(data.initialHp);
             HealthController healthController = CreateComponent<HealthController>(healthModel);
             StunController stunController = CreateComponent<StunController>(movementModel, collidable);
 
             IReadOnlyPositionable muzzlePositionable = muzzleView;
-            Weapon weapon = CreateComponent<Weapon>(muzzlePositionable);
+            Weapon weapon = CreateComponent<Weapon>(muzzlePositionable, movementModel);
             
             SpaceshipFacade facade = CreateComponent<SpaceshipFacade>(
                 movementModel,

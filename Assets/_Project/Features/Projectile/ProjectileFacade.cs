@@ -10,6 +10,7 @@ namespace _Project.Features.Projectile
 {
     public class ProjectileFacade : IFacade
     {
+        private readonly MovementModel _movementModel;
         private readonly IDrawable _drawable;
         private readonly ICollidable _collidable;
         private readonly IMovable _movable;
@@ -19,6 +20,7 @@ namespace _Project.Features.Projectile
 
 
         public ProjectileFacade(
+            MovementModel movementModel,
             IDrawable drawable,
             ICollidable collidable,
             IMovable movable,
@@ -26,6 +28,7 @@ namespace _Project.Features.Projectile
             ITimeService timeService,
             ISignalBus signalBus)
         {
+            _movementModel = movementModel;
             _drawable = drawable;
             _collidable = collidable;
             _movable = movable;
@@ -37,9 +40,9 @@ namespace _Project.Features.Projectile
             _boundsChecker.OutOfBounds += OnOutOfBounds;
         }
 
-        private void OnFixedTick()
+        private void OnFixedTick(float fixedDeltaTime)
         {
-            _movable.Move(_timeService.FixedDeltaTime);
+            _movable.Move(fixedDeltaTime);
             _boundsChecker.CheckOutOfBounds();
             _drawable.Draw();
         }
@@ -55,6 +58,8 @@ namespace _Project.Features.Projectile
         }
         
         public IDrawable GetDrawable() => _drawable;
+        public IReadOnlyPositionable GetPositionable() => _movementModel;
+        public IReadOnlyRotationable GetRotationable() => _movementModel;
         
         public void Dispose()
         {

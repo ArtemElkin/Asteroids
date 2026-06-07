@@ -27,9 +27,9 @@ namespace _Project.Features.Asteroid
 
         private void OnDespawnRequested(DespawnRequestedSignal<AsteroidFacade> signal)
         {
-            var asteroidToDespawn = signal.facade;
-            _asteroidFactory.Release((AsteroidFacade)asteroidToDespawn);
-            _asteroidStorage.Remove((AsteroidFacade)asteroidToDespawn);
+            var asteroidToDespawn = (AsteroidFacade)signal.facade;
+            _asteroidFactory.Release(asteroidToDespawn);
+            _asteroidStorage.Remove(asteroidToDespawn);
         }
 
         public void Dispose()

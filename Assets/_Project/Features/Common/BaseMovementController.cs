@@ -3,7 +3,7 @@ using _Project.Core.Physics;
 
 namespace _Project.Features.Common
 {
-    public abstract class BaseMovementController : IMovable, IWarpable
+    public abstract class BaseMovementController : IMovable
     {
         protected readonly MovementModel _movementModel;
 
@@ -18,11 +18,6 @@ namespace _Project.Features.Common
             UpdateDirectionOnMove();
             UpdateVelocityOnMove(deltaTime);
             UpdatePositionOnMove(deltaTime);
-        }
-
-        public void Warp(Vector2 position)
-        {
-            _movementModel.UpdatePosition(position);
         }
 
         protected virtual void UpdateDirectionOnMove() { }

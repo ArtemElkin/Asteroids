@@ -1,5 +1,10 @@
 {
   "fragmentsCount": 3,
   "minSpeed": 2.0,
-  "maxSpeed": 3.0
+  "maxSpeed": 3.0,
+  "minFragmentSpeed": 4.0,
+  "maxFragmentSpeed": 6.0,
+  "radius": 6.0,
+  "fragmentRadius": 3.0,
+  "maxfragmentMoveDirectionAgleOffsetFromAsteroid": 45.0
 }

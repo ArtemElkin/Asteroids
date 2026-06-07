@@ -26,6 +26,14 @@ namespace _Project.Core.Math
                 return zero;
             }
         }
+
+        public static Vector2 Rotate(Vector2 vector, float degrees)
+        {
+            var radians = Math.DegreesToRadians(degrees);
+            float x = vector.x * (float)System.Math.Cos(radians) - vector.y * (float)System.Math.Sin(radians);
+            float y = vector.x * (float)System.Math.Sin(radians) + vector.y * (float)System.Math.Cos(radians);
+            return new Vector2(x, y);
+        }
         
         public static Vector2 Reflect(Vector2 inDirection, Vector2 inNormal)
         {

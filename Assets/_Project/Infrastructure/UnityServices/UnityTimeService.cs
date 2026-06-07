@@ -6,20 +6,18 @@ namespace _Project.Infrastructure.UnityServices
 {
     public class UnityTimeService : MonoBehaviour, ITimeService
     {
-        public float DeltaTime => Time.deltaTime;
-        public float FixedDeltaTime => Time.fixedDeltaTime;
-        public event Action OnTick;
-        public event Action OnFixedTick;
+        public event Action<float> OnTick;
+        public event Action<float> OnFixedTick;
 
         
         private void Update()
         {
-            OnTick?.Invoke();
+            OnTick?.Invoke(Time.deltaTime);
         }
 
         private void FixedUpdate()
         {
-            OnFixedTick?.Invoke();
+            OnFixedTick?.Invoke(Time.fixedDeltaTime);
         }
     }
 }

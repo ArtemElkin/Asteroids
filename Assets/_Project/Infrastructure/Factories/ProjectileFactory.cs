@@ -24,8 +24,9 @@ namespace _Project.Infrastructure.Factories
             drawable.Setup(movementModel);
             ICollidable collidable = view.GetComponent<ICollidable>();
             IMovable movable = CreateComponent<ProjectileMovementController>(movementModel);
-            BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel, movable);
+            BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel);
             ProjectileFacade facade = CreateComponent<ProjectileFacade>(
+                movementModel,
                 drawable,
                 collidable,
                 movable,

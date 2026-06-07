@@ -18,16 +18,17 @@ namespace _Project.Features.Common.Bounds
             _boundsService = boundsService;
         }
 
-        public void Warp(IWarpable warpable, Vector2 oldPos)
+        public void Warp(IPositionable positionable)
         {
-            var newPos = oldPos;
+            var oldPos = positionable.Position;
             if (_boundsService.TryGetCrossedBounds(oldPos, out var crossedBounds))
             {
+                var newPos = oldPos;
                 if ((crossedBounds & BoundType.Top) != 0) newPos.y = _screenService.BottomEdgeY;
                 if ((crossedBounds & BoundType.Bottom) != 0) newPos.y = _screenService.TopEdgeY;
                 if ((crossedBounds & BoundType.Left) != 0) newPos.x = _screenService.RightEdgeX;
                 if((crossedBounds & BoundType.Right) != 0) newPos.x = _screenService.LeftEdgeX;
-                warpable.Warp(newPos);
+                positionable.UpdatePosition(newPos);
             }
         }
     }

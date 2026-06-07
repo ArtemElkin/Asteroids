@@ -7,5 +7,7 @@ namespace _Project.Features.Common
         void Setup(MovementModel model);
         void Draw();
         void Reset();
+        void Show();
+        void Hide();
     }
 }

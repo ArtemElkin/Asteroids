@@ -37,5 +37,9 @@ namespace _Project.Infrastructure.UnityRender
             _rb = null;
             _movementModel = null;
         }
+
+        public void Show() => gameObject.SetActive(true);
+
+        public void Hide() =>  gameObject.SetActive(false);
     }
 }

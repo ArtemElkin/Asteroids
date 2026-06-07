@@ -1,7 +1,6 @@
 using _Project.Core.Tools;
-using _Project.Features.Projectile;
+using _Project.Features.Common.Clone;
 using _Project.Features.Spaceship;
-using _Project.Features.Spaceship.SpaceshipClone;
 using _Project.Infrastructure.Factories;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;
@@ -18,25 +17,20 @@ namespace _Project.Infrastructure.DI
         public override void InstallBindings()
         {
             BindSpaceshipStorage();
-            BindSpaceshipCloneStorage();
             BindSpaceshipFactory(_spaceshipPrefab, _spaceshipParentTransform);
-            BindSpaceshipCloneFactory(_spaceshipPrefab, _spaceshipParentTransform);
             BindSpaceshipSpawner();
             BindSpaceshipDespawner();
+            
+            BindSpaceshipCloneStorage();
+            BindSpaceshipCloneFactory(_spaceshipPrefab, _spaceshipParentTransform);
+            BindSpaceshipCloneSpawner();
+            BindSpaceshipCloneDespawner();
         }
 
         private void BindSpaceshipStorage()
         {
             Container
                 .Bind<Storage<SpaceshipFacade>>()
-                .AsSingle()
-                .NonLazy();
-        }
-
-        private void BindSpaceshipCloneStorage()
-        {
-            Container
-                .Bind<Storage<SpaceshipCloneFacade>>()
                 .AsSingle()
                 .NonLazy();
         }
@@ -48,18 +42,6 @@ namespace _Project.Infrastructure.DI
             Container
                 .Bind<Core.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade>>()
                 .To<SpaceshipFactory>()
-                .AsSingle()
-                .WithArguments(spaceshipPrefab, spaceshipParentTransform)
-                .NonLazy();
-        }
-
-        private void BindSpaceshipCloneFactory(
-            MovableView spaceshipPrefab,
-            Transform spaceshipParentTransform)
-        {
-            Container
-                .Bind<Core.Factories.IFactory<SpaceshipCloneSpawnData, SpaceshipCloneFacade>>()
-                .To<SpaceshipCloneFactory>()
                 .AsSingle()
                 .WithArguments(spaceshipPrefab, spaceshipParentTransform)
                 .NonLazy();
@@ -77,6 +59,42 @@ namespace _Project.Infrastructure.DI
         {
             Container
                 .BindInterfacesAndSelfTo<SpaceshipDespawner>()
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindSpaceshipCloneStorage()
+        {
+            Container
+                .Bind<CloneStorage<SpaceshipFacade>>()
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindSpaceshipCloneFactory(
+            MovableView spaceshipPrefab,
+            Transform spaceshipParentTransform)
+        {
+            Container
+                .Bind<Core.Factories.IFactory<CloneSpawnData, CloneFacade<SpaceshipFacade>>>()
+                .To<CloneFactory<SpaceshipFacade>>()
+                .AsSingle()
+                .WithArguments(spaceshipPrefab, spaceshipParentTransform)
+                .NonLazy();
+        }
+
+        private void BindSpaceshipCloneSpawner()
+        {
+            Container
+                .BindInterfacesAndSelfTo<CloneSpawner<SpaceshipFacade>>()
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindSpaceshipCloneDespawner()
+        {
+            Container
+                .BindInterfacesAndSelfTo<CloneDespawner<SpaceshipFacade>>()
                 .AsSingle()
                 .NonLazy();
         }

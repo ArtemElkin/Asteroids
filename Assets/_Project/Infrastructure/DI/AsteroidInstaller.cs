@@ -1,5 +1,6 @@
 using _Project.Core.Tools;
 using _Project.Features.Asteroid;
+using _Project.Features.Common.Clone;
 using _Project.Infrastructure.Factories;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;
@@ -19,6 +20,11 @@ namespace _Project.Infrastructure.DI
             BindAsteroidFactory(_asteroidPrefab, _asteroidsParentTransform);
             BindAsteroidSpawner();
             BindAsteroidDespawner();
+
+            BindAsteroidCloneStorage();
+            BindAsteroidCloneFactory(_asteroidPrefab, _asteroidsParentTransform);
+            BindAsteroidCloneSpawner();
+            BindAsteroidCloneDespawner();
         }
 
         private void BindAsteroidsStorage()
@@ -49,6 +55,42 @@ namespace _Project.Infrastructure.DI
         {
             Container
                 .BindInterfacesAndSelfTo<AsteroidDespawner>()
+                .AsSingle()
+                .NonLazy();
+        }
+        
+        private void BindAsteroidCloneStorage()
+        {
+            Container
+                .Bind<CloneStorage<AsteroidFacade>>()
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindAsteroidCloneFactory(
+            MovableView clonePrefab,
+            Transform clonesParentTransform)
+        {
+            Container
+                .Bind<Core.Factories.IFactory<CloneSpawnData, CloneFacade<AsteroidFacade>>>()
+                .To<CloneFactory<AsteroidFacade>>()
+                .AsSingle()
+                .WithArguments(clonePrefab, clonesParentTransform)
+                .NonLazy();
+        }
+
+        private void BindAsteroidCloneSpawner()
+        {
+            Container
+                .BindInterfacesAndSelfTo<CloneSpawner<AsteroidFacade>>()
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindAsteroidCloneDespawner()
+        {
+            Container
+                .BindInterfacesAndSelfTo<CloneDespawner<AsteroidFacade>>()
                 .AsSingle()
                 .NonLazy();
         }

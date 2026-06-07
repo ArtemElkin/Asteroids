@@ -27,8 +27,9 @@ namespace _Project.Infrastructure.Factories
             IRotatable rotatable = CreateComponent<UFORotationController>(movementModel);
             IBouncable bouncable = CreateComponent<BounceController>(movementModel);
             UFOTargetFollower targetFollower = CreateComponent<UFOTargetFollower>(movementModel);
-            BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel, movable);
+            BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel);
             UFOFacade facade = CreateComponent<UFOFacade>(
+                movementModel,
                 movable,
                 rotatable,
                 bouncable,

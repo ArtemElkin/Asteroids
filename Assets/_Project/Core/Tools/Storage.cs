@@ -21,7 +21,7 @@ namespace _Project.Core.Tools
             return false;
         }
 
-        public IReadOnlyList<T> GetAll() => _storage.AsReadOnly();
+        public IReadOnlyCollection<T> GetAll() => _storage.AsReadOnly();
         public bool IsEmpty => _storage.Count == 0;
         public void Clear() => _storage.Clear();
     }

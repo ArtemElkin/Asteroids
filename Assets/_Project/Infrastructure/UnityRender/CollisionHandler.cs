@@ -1,5 +1,6 @@
 using System;
 using _Project.Core.Physics;
+using _Project.Features.Projectile;
 using _Project.Infrastructure.UnityServices;
 using UnityEngine;
 using Vector2 = _Project.Core.Math.Vector2;
@@ -43,6 +44,7 @@ namespace _Project.Infrastructure.UnityRender
             {
                 if (collision.gameObject.TryGetComponent(out ICollidable _))
                 {
+                    if (collision.gameObject.TryGetComponent(out IProjectile _)) return;
                     var normal = collision.contacts[0].normal;
                     OnCollided?.Invoke(normal.ToCore());
                 }

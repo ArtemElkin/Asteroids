@@ -34,12 +34,20 @@ namespace _Project.Infrastructure.DI
             Container.DeclareSignal<MenuClickedSignal>();
             
             Container.DeclareSignal<DespawnRequestedSignal<SpaceshipFacade>>();
+            Container.DeclareSignal<CloneSpawnRequestedSignal<SpaceshipFacade>>();
+            Container.DeclareSignal<CloneDespawnRequestedSignal<SpaceshipFacade>>();
+            Container.DeclareSignal<SpawnRequestedSignal<AsteroidFacade>>();
             Container.DeclareSignal<DespawnRequestedSignal<AsteroidFacade>>();
+            Container.DeclareSignal<CloneSpawnRequestedSignal<AsteroidFacade>>();
+            Container.DeclareSignal<CloneDespawnRequestedSignal<AsteroidFacade>>();
             Container.DeclareSignal<DespawnRequestedSignal<UFOFacade>>();
             Container.DeclareSignal<SpawnRequestedSignal<ProjectileFacade>>();
             Container.DeclareSignal<DespawnRequestedSignal<ProjectileFacade>>();
+            Container.DeclareSignal<CloneCollidedSignal<SpaceshipFacade>>();
+            Container.DeclareSignal<CloneCollidedSignal<AsteroidFacade>>();
 
             BindTimeService();
+            BindTimer();
             BindRandomService();
             BindSaveService();
             BindConfigProviders();
@@ -58,6 +66,13 @@ namespace _Project.Infrastructure.DI
                 .FromNewComponentOnNewGameObject()
                 .AsSingle()
                 .NonLazy();
+        }
+
+        private void BindTimer()
+        {
+            Container
+                .BindInterfacesAndSelfTo<Timer>()
+                .AsTransient();
         }
 
         private void BindSignalBus()

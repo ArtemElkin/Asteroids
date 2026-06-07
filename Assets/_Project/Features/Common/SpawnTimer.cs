@@ -1,55 +1,44 @@
 using System;
 using _Project.Core.Services;
-using _Project.Core.Signals;
 
 namespace _Project.Features.Common
 {
     public class SpawnTimer : IDisposable
     {
         public event Action OnSpawnRequested;
-        private bool _isEnabled;
-        private float _timeFromLastRequest;
         private float _spawnInterval;
-        private readonly ISignalBus _signalBus;
-        private readonly ITimeService _timeService;
+        private readonly Timer _timer;
 
 
         public SpawnTimer(
-            ITimeService timeService,
-            ISignalBus signalBus)
+            Timer timer)
         {
-            _timeService = timeService;
-            _signalBus =  signalBus;
-            _signalBus.Subscribe<GameStartSignal>(Start);
-            _signalBus.Subscribe<GameStopSignal>(Stop);
-            _timeService.OnTick += OnTick;
+            _timer = timer;
+            _timer.Elapsed += OnTimerElapsed;
         }
 
         public void Setup(float spawnInterval)
         {
             _spawnInterval = spawnInterval;
         }
-        
-        private void OnTick()
+
+        private void OnTimerElapsed()
         {
-            if (!_isEnabled) return;
-            if (_timeFromLastRequest >= _spawnInterval)
-            {
-                OnSpawnRequested?.Invoke();
-                _timeFromLastRequest = 0;
-            }
-            _timeFromLastRequest += _timeService.DeltaTime;
+            OnSpawnRequested?.Invoke();
+            _timer.Start(_spawnInterval);
         }
 
-        public void Start() => _isEnabled = true;
+        public void Start()
+        {
+            OnSpawnRequested?.Invoke();
+            _timer.Start(_spawnInterval);
+        }
 
-        private void Stop() => _isEnabled = false;
+        public void Stop() => _timer.Stop();
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<GameStartSignal>(Start);
-            _signalBus.Unsubscribe<GameStopSignal>(Stop);
-            _timeService.OnTick -= OnTick;
+            _timer.Elapsed -= OnTimerElapsed;
         }
     }
 }

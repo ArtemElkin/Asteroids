@@ -4,7 +4,9 @@ using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
-using _Project.Features.Spaceship.SpaceshipClone;
+using _Project.Features.Common.Clone;
+using _Project.Features.Common.Signals;
+using UnityEngine;
 using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Features.Spaceship
@@ -14,9 +16,8 @@ namespace _Project.Features.Spaceship
         private SpaceshipConfig _spaceshipConfig;
         private SpaceshipMovementConfig _spaceshipMovementConfig;
         private readonly Core.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade> _spaceshipFactory;
-        private readonly Core.Factories.IFactory<SpaceshipCloneSpawnData, SpaceshipCloneFacade> _spaceshipCloneFactory;
+        private readonly Core.Factories.IFactory<CloneSpawnData, CloneFacade<SpaceshipFacade>> _cloneFactory;
         private readonly Storage<SpaceshipFacade> _spaceshipStorage;
-        private readonly Storage<SpaceshipCloneFacade> _spaceshipCloneStorage;
         private readonly ISignalBus _signalBus;
         private readonly IScreenService _screenService;
         private readonly IConfigProvider _configProvider;
@@ -24,17 +25,15 @@ namespace _Project.Features.Spaceship
         
         public SpaceshipSpawner(
             Core.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade> spaceshipFactory, 
-            Core.Factories.IFactory<SpaceshipCloneSpawnData, SpaceshipCloneFacade> spaceshipCloneFactory,
+            Core.Factories.IFactory<CloneSpawnData, CloneFacade<SpaceshipFacade>> cloneFactory,
             Storage<SpaceshipFacade> spaceshipStorage,
-            Storage<SpaceshipCloneFacade> spaceshipCloneStorage,
             ISignalBus signalBus,
             IScreenService screenService,
             IConfigProvider configProvider)
         {
             _spaceshipFactory = spaceshipFactory;
-            _spaceshipCloneFactory =  spaceshipCloneFactory;
+            _cloneFactory =  cloneFactory;
             _spaceshipStorage = spaceshipStorage;
-            _spaceshipCloneStorage = spaceshipCloneStorage;
             _signalBus = signalBus;
             _screenService = screenService;
             _configProvider = configProvider;
@@ -51,7 +50,6 @@ namespace _Project.Features.Spaceship
         private void OnGameStarted()
         {
             SpawnSpaceship();
-            SpawnSpaceshipClones();
         }
 
         private void SpawnSpaceship()
@@ -59,33 +57,9 @@ namespace _Project.Features.Spaceship
             InitialMovementData initialMovementData = new  InitialMovementData(Vector2.zero, Vector2.zero);
             var spawnData = new SpaceshipSpawnData(initialMovementData, _spaceshipMovementConfig, _spaceshipConfig.maxHp);
             var spaceship = _spaceshipFactory.Create(spawnData);
-            
+            Debug.Log("Firing clone spawn reqest for spaceship");
+            _signalBus.Fire(new CloneSpawnRequestedSignal<SpaceshipFacade>(spaceship));
             _spaceshipStorage.Add(spaceship);
-        }
-
-        private void SpawnSpaceshipClones()
-        {
-            var width = _screenService.ScreenWidth;
-            var height = _screenService.ScreenHeight;
-
-            Vector2[] cloneOffsets = 
-            {
-                new (0, height),
-                new (width, height),
-                new (width, 0),
-                new (width, -height),
-                new (0, -height),
-                new (-width, -height),
-                new (-width, 0),
-                new (-width, height)
-            };
-
-            foreach (var offset in cloneOffsets)
-            {
-                var spawnData = new SpaceshipCloneSpawnData(offset);
-                var clone = _spaceshipCloneFactory.Create(spawnData);
-                _spaceshipCloneStorage.Add(clone);
-            }
         }
 
         public void Dispose()

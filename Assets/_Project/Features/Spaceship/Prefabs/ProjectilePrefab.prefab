@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 709724834079221332}
   - component: {fileID: 879544749419982947}
   - component: {fileID: 7147212638869039155}
-  - component: {fileID: 5793323579918839881}
+  - component: {fileID: 2885883624203288868}
   m_Layer: 6
   m_Name: ProjectilePrefab
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -162,7 +162,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &5793323579918839881
+--- !u!114 &2885883624203288868
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
