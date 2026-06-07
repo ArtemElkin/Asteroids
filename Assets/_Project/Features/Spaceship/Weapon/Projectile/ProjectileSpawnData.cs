@@ -1,6 +1,6 @@
 using _Project.Core.Physics;
 
-namespace _Project.Features.Projectile
+namespace _Project.Features.Spaceship.Weapon.Projectile
 {
     public struct ProjectileSpawnData
     {

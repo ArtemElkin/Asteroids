@@ -81,9 +81,6 @@ namespace _Project.Features.UFO
         }
         
         public IDrawable GetDrawable() => _drawable;
-        public IReadOnlyPositionable GetPositionable() => MovementModel;
-        public IReadOnlyRotationable GetRotationable() => MovementModel;
-        public float GetMass() => MovementModel.Mass;
 
         public void Dispose()
         {

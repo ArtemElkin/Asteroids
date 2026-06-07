@@ -1,4 +1,4 @@
-using _Project.Features.Projectile;
+using _Project.Features.Spaceship.Weapon.Projectile;
 using _Project.Infrastructure.Factories;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;

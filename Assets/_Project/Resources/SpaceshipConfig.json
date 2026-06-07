@@ -5,8 +5,8 @@
   {
     "mass": 1000,
     "maxSpeed": 10,
-    "accelerationMultiplier": 20,
-    "inertiaMultiplier": 5
+    "thrust": 20,
+    "friction": 5
   },
   "weaponConfig":
   {

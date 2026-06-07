@@ -1,12 +1,12 @@
 using _Project.Core.Config;
 
-namespace _Project.Features.Spaceship
+namespace _Project.Features.Spaceship.Config
 {
     public class SpaceshipMovementConfig : IConfig
     {
         public float mass;
         public float maxSpeed;
-        public float accelerationMultiplier;
-        public float inertiaMultiplier;
+        public float thrust;
+        public float friction;
     }
 }

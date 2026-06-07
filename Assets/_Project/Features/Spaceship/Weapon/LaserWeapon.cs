@@ -1,7 +1,7 @@
 namespace _Project.Features.Spaceship.Weapon
 {
-    public interface IWeapon
+    public class LaserWeapon
     {
-        void Fire();
+        
     }
 }

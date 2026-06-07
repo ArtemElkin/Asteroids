@@ -40,8 +40,8 @@ namespace _Project.Features.UFO
             var hasTarget = _spaceshipStorage.TryGetFirst(out var spaceship);
             if (hasTarget)
             {
-                targetPositionable = spaceship.GetPositionable();
-                targetStunable = spaceship.GetStunable();
+                targetPositionable = spaceship.MovementModel;
+                targetStunable = spaceship.MovementModel;
                 return true;
             }
             return false;

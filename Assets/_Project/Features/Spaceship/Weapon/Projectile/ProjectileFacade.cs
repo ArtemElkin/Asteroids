@@ -6,7 +6,7 @@ using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
 using _Project.Features.Common.Signals;
 
-namespace _Project.Features.Projectile
+namespace _Project.Features.Spaceship.Weapon.Projectile
 {
     public class ProjectileFacade : IFacade
     {
@@ -58,10 +58,6 @@ namespace _Project.Features.Projectile
         }
         
         public IDrawable GetDrawable() => _drawable;
-        public IReadOnlyPositionable GetPositionable() => MovementModel;
-        public IReadOnlyRotationable GetRotationable() => MovementModel;
-        
-        public float GetMass() => MovementModel.Mass;
         
         public void Dispose()
         {

@@ -2,7 +2,7 @@ using _Project.Core.Physics;
 using _Project.Features.Asteroid;
 using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
-using _Project.Features.Projectile;
+using _Project.Features.Spaceship.Weapon.Projectile;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;
 using Zenject;

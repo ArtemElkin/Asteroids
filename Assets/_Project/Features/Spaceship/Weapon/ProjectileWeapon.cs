@@ -4,11 +4,12 @@ using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Features.Common.Signals;
-using _Project.Features.Projectile;
+using _Project.Features.Spaceship.Weapon.Config;
+using _Project.Features.Spaceship.Weapon.Projectile;
 
 namespace _Project.Features.Spaceship.Weapon
 {
-    public class Weapon : IDisposable
+    public class ProjectileWeapon : IShootable, IDisposable
     {
         private float _cooldown;
         private float _timeFromLastShot;
@@ -20,7 +21,7 @@ namespace _Project.Features.Spaceship.Weapon
         private readonly IScreenService _screenService;
 
 
-        public Weapon(
+        public ProjectileWeapon(
             WeaponConfig weaponConfig,
             MovementModel spaceshipMovementModel,
             IReadOnlyPositionable muzzlePositionable,
@@ -41,7 +42,7 @@ namespace _Project.Features.Spaceship.Weapon
             _cooldown = 1 / weaponConfig.projectilesPerSecond;
         }
 
-        private void Shoot()
+        public void Shoot()
         {
             var initialPosition = _muzzlePositionable.Position;
             var targetPosition = _screenService.ScreenPointToWorldPoint(_fireInputService.GetScreenPointerPosition());

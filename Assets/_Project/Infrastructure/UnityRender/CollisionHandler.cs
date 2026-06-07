@@ -1,6 +1,6 @@
 using System;
 using _Project.Core.Physics;
-using _Project.Features.Projectile;
+using _Project.Features.Common;
 using _Project.Infrastructure.UnityServices;
 using UnityEngine;
 using Vector2 = _Project.Core.Math.Vector2;

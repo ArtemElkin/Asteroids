@@ -1,4 +1,4 @@
-using _Project.Features.Projectile;
+using _Project.Features.Common;
 
 namespace _Project.Infrastructure.UnityRender
 {

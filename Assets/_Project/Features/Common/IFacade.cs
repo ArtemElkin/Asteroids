@@ -7,8 +7,5 @@ namespace _Project.Features.Common
     {
         MovementModel MovementModel { get; }
         IDrawable GetDrawable();
-        IReadOnlyPositionable GetPositionable();
-        IReadOnlyRotationable GetRotationable();
-        float GetMass();
     }
 }

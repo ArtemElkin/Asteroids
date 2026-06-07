@@ -2,6 +2,7 @@ using _Project.Core.Input;
 using _Project.Core.Math;
 using _Project.Core.Physics;
 using _Project.Features.Common;
+using _Project.Features.Spaceship.Config;
 
 namespace _Project.Features.Spaceship
 {
@@ -38,13 +39,13 @@ namespace _Project.Features.Spaceship
             Vector2 newVelocity;
             if (input.sqrMagnitude > 0.001f && !_movementModel.IsStunned)
             {
-                var targetVelocity = Physics.ApplyAcceleration(currentVelocity, _movementModel.MoveDirection, _movementConfig.accelerationMultiplier, deltaTime);
+                var targetVelocity = Physics.ApplyAcceleration(currentVelocity, _movementModel.MoveDirection, _movementConfig.thrust, deltaTime);
                 targetVelocity = Vector2.ClampMagnitude(targetVelocity, _movementConfig.maxSpeed);
                 newVelocity = Vector2.MoveTowards(currentVelocity, targetVelocity, 15 * deltaTime);
             }
             else
             {
-                newVelocity = Physics.ApplyInertia(currentVelocity, _movementConfig.inertiaMultiplier, deltaTime);
+                newVelocity = Physics.ApplyInertia(currentVelocity, _movementConfig.friction, deltaTime);
             }
             _movementModel.UpdateVelocity(newVelocity);
         }

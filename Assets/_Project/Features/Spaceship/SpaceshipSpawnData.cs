@@ -1,4 +1,5 @@
 using _Project.Core.Physics;
+using _Project.Features.Spaceship.Config;
 
 namespace _Project.Features.Spaceship
 {
@@ -6,14 +7,12 @@ namespace _Project.Features.Spaceship
     {
         public InitialMovementData initialMovementData;
         public SpaceshipConfig config;
-        public int initialHp;
 
 
-        public SpaceshipSpawnData(InitialMovementData initialMovementData, SpaceshipConfig config, int initialHp)
+        public SpaceshipSpawnData(InitialMovementData initialMovementData, SpaceshipConfig config)
         {
             this.initialMovementData =  initialMovementData;
             this.config = config;
-            this.initialHp = initialHp;
         }
     }
 }

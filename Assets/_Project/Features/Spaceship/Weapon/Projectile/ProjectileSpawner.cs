@@ -3,7 +3,7 @@ using _Project.Core.Factories;
 using _Project.Core.Signals;
 using _Project.Features.Common.Signals;
 
-namespace _Project.Features.Projectile
+namespace _Project.Features.Spaceship.Weapon.Projectile
 {
     public class ProjectileSpawner : IDisposable
     {

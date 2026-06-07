@@ -28,12 +28,12 @@ namespace _Project.Infrastructure.Factories
             IMovable movable = CreateComponent<SpaceshipMovementController>(movementModel, data.config.movementConfig);
             IRotatable rotatable = CreateComponent<SpaceshipRotationController>(movementModel);
             BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel);
-            HealthModel healthModel = CreateComponent<HealthModel>(data.initialHp);
+            HealthModel healthModel = CreateComponent<HealthModel>(data.config.maxHp);
             HealthController healthController = CreateComponent<HealthController>(healthModel);
             StunController stunController = CreateComponent<StunController>(movementModel, collidable);
 
             IReadOnlyPositionable muzzlePositionable = muzzleView;
-            Weapon weapon = CreateComponent<Weapon>(muzzlePositionable, movementModel, data.config.weaponConfig);
+            ProjectileWeapon projectileWeapon = CreateComponent<ProjectileWeapon>(muzzlePositionable, movementModel, data.config.weaponConfig);
             
             SpaceshipFacade facade = CreateComponent<SpaceshipFacade>(
                 movementModel,
@@ -44,7 +44,7 @@ namespace _Project.Infrastructure.Factories
                 healthController,
                 collidable,
                 stunController,
-                weapon);
+                projectileWeapon);
             return facade;
         }
     }

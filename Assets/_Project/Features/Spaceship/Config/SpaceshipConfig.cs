@@ -1,7 +1,7 @@
 using _Project.Core.Config;
-using _Project.Features.Spaceship.Weapon;
+using _Project.Features.Spaceship.Weapon.Config;
 
-namespace _Project.Features.Spaceship
+namespace _Project.Features.Spaceship.Config
 {
     public class SpaceshipConfig : IConfig
     {

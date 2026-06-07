@@ -52,10 +52,6 @@ namespace _Project.Features.Asteroid
         }
 
         public IDrawable GetDrawable() => _drawable;
-        public IReadOnlyPositionable GetPositionable() => MovementModel;
-        public IReadOnlyRotationable GetRotationable() => MovementModel;
-        
-        public float GetMass() => MovementModel.Mass;
 
         private void OnFixedTick(float fixedDeltaTime)
         {

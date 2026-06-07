@@ -6,6 +6,7 @@ using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
 using _Project.Features.Common.Signals;
 using _Project.Features.Spaceship.Health;
+using _Project.Features.Spaceship.Weapon;
 
 namespace _Project.Features.Spaceship
 {
@@ -20,7 +21,7 @@ namespace _Project.Features.Spaceship
         private readonly HealthController _healthController;
         private readonly StunController _stunController;
         private readonly ICollidable _collidable;
-        private readonly Weapon.Weapon _weapon;
+        private readonly ProjectileWeapon _projectileWeapon;
         private readonly ITimeService _timeService;
         private readonly ISignalBus _signalBus;
 
@@ -36,7 +37,7 @@ namespace _Project.Features.Spaceship
             BoundsChecker boundsChecker,
             BoundsWarper boundsWarper,
             StunController stunController,
-            Weapon.Weapon weapon,
+            ProjectileWeapon projectileWeapon,
             ISignalBus signalBus)
         {
             _timeService = timeService;
@@ -49,7 +50,7 @@ namespace _Project.Features.Spaceship
             _boundsChecker = boundsChecker;
             _boundsWarper = boundsWarper;
             _stunController = stunController;
-            _weapon = weapon;
+            _projectileWeapon = projectileWeapon;
             _signalBus = signalBus;
             
             _timeService.OnFixedTick += OnFixedTick;
@@ -84,21 +85,15 @@ namespace _Project.Features.Spaceship
             _signalBus.Fire(new DespawnRequestedSignal<SpaceshipFacade>(this));
         }
 
-        public IReadOnlyPositionable GetPositionable() => MovementModel;
-        public IReadOnlyRotationable GetRotationable() => MovementModel;
-        public IStunable GetStunable() => MovementModel;
-        
         public IDrawable GetDrawable() => _drawable;
         
-        public float GetMass() => MovementModel.Mass;
-
         public void Dispose()
         {
             _timeService.OnFixedTick -= OnFixedTick;
             _healthController.OnDeath -= OnDeath;
             _collidable.OnCollided -= OnCollided;
             _healthController.Dispose();
-            _weapon.Dispose();
+            _projectileWeapon.Dispose();
         }
     }
 }
