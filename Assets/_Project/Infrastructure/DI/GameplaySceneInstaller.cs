@@ -37,7 +37,7 @@ namespace _Project.Infrastructure.DI
         private void BindCollisionService()
         {
             Container
-                .BindInterfacesAndSelfTo<CollisionService>()
+                .BindInterfacesAndSelfTo<ElasticCollisionService>()
                 .AsSingle();
         }
 

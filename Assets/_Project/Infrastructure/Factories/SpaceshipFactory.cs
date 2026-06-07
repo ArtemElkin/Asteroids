@@ -25,7 +25,7 @@ namespace _Project.Infrastructure.Factories
             drawable.Setup(data.initialMovementData.initialPosition, 0);
             ICollidable collidable = view.GetComponent<ICollidable>();
             collidable.Setup(movementModel);
-            IMovable movable = CreateComponent<SpaceshipMovementController>(movementModel, data.movementConfig);
+            IMovable movable = CreateComponent<SpaceshipMovementController>(movementModel, data.config.movementConfig);
             IRotatable rotatable = CreateComponent<SpaceshipRotationController>(movementModel);
             BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel);
             HealthModel healthModel = CreateComponent<HealthModel>(data.initialHp);
@@ -33,7 +33,7 @@ namespace _Project.Infrastructure.Factories
             StunController stunController = CreateComponent<StunController>(movementModel, collidable);
 
             IReadOnlyPositionable muzzlePositionable = muzzleView;
-            Weapon weapon = CreateComponent<Weapon>(muzzlePositionable, movementModel);
+            Weapon weapon = CreateComponent<Weapon>(muzzlePositionable, movementModel, data.config.weaponConfig);
             
             SpaceshipFacade facade = CreateComponent<SpaceshipFacade>(
                 movementModel,

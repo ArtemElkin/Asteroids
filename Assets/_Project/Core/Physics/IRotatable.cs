@@ -1,4 +1,4 @@
-namespace _Project.Features.Common
+namespace _Project.Core.Physics
 {
     public interface IRotatable
     {

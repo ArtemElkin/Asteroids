@@ -1,3 +1,15 @@
 {
-  "maxHp": 3
+  "maxHp": 3,
+  "hasClones": true,
+  "movementConfig":
+  {
+    "mass": 1000,
+    "maxSpeed": 10,
+    "accelerationMultiplier": 20,
+    "inertiaMultiplier": 5
+  },
+  "weaponConfig":
+  {
+    "projectilesPerSecond": 4
+  }
 }

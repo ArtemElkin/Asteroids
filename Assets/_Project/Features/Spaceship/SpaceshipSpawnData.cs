@@ -1,4 +1,3 @@
-using _Project.Core.Math;
 using _Project.Core.Physics;
 
 namespace _Project.Features.Spaceship
@@ -6,14 +5,14 @@ namespace _Project.Features.Spaceship
     public struct SpaceshipSpawnData
     {
         public InitialMovementData initialMovementData;
-        public SpaceshipMovementConfig movementConfig;
+        public SpaceshipConfig config;
         public int initialHp;
 
 
-        public SpaceshipSpawnData(InitialMovementData initialMovementData, SpaceshipMovementConfig movementConfig, int initialHp)
+        public SpaceshipSpawnData(InitialMovementData initialMovementData, SpaceshipConfig config, int initialHp)
         {
             this.initialMovementData =  initialMovementData;
-            this.movementConfig = movementConfig;
+            this.config = config;
             this.initialHp = initialHp;
         }
     }

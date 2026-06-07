@@ -8,14 +8,14 @@ using Physics = _Project.Core.Physics.Physics;
 
 namespace _Project.Features.Common
 {
-    public class CollisionService : ICollisionService, IDisposable
+    public class ElasticCollisionService : ICollisionService, IDisposable
     {
         private readonly HashSet<int> _hashes = new();
         private readonly ISignalBus _signalBus;
         private readonly ITimeService _timeService;
         
 
-        public CollisionService(ISignalBus signalBus, ITimeService timeService)
+        public ElasticCollisionService(ISignalBus signalBus, ITimeService timeService)
         {
             _signalBus = signalBus;
             _timeService = timeService;

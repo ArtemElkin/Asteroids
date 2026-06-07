@@ -36,6 +36,9 @@ namespace _Project.Core.Services
             _isEnabled = true;
         }
 
+        public void Pause() => _isEnabled = false;
+        public void Continue() => _isEnabled = true;
+
         public void Stop()
         {
             _isEnabled = false;
