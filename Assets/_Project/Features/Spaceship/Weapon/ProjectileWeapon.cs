@@ -11,8 +11,8 @@ namespace _Project.Features.Spaceship.Weapon
 {
     public class ProjectileWeapon : IShootable, IDisposable
     {
-        private float _cooldown;
         private float _timeFromLastShot;
+        private readonly WeaponConfig _config;
         private readonly MovementModel _spaceshipMovementModel;
         private readonly IReadOnlyPositionable _muzzlePositionable;
         private readonly ISignalBus _signalBus;
@@ -22,7 +22,7 @@ namespace _Project.Features.Spaceship.Weapon
 
 
         public ProjectileWeapon(
-            WeaponConfig weaponConfig,
+            WeaponConfig config,
             MovementModel spaceshipMovementModel,
             IReadOnlyPositionable muzzlePositionable,
             ISignalBus signalBus,
@@ -30,16 +30,14 @@ namespace _Project.Features.Spaceship.Weapon
             ITimeService timeService,
             IScreenService screenService)
         {
+            _config = config;
             _spaceshipMovementModel = spaceshipMovementModel;
             _muzzlePositionable = muzzlePositionable;
             _signalBus = signalBus;
             _fireInputService = fireInputService;
             _timeService = timeService;
             _screenService = screenService;
-            
             _timeService.OnTick += OnTick;
-
-            _cooldown = 1 / weaponConfig.projectilesPerSecond;
         }
 
         public void Shoot()
@@ -55,7 +53,8 @@ namespace _Project.Features.Spaceship.Weapon
 
         private void OnTick(float deltaTime)
         {
-            bool fireAllowed = _timeFromLastShot >= _cooldown;
+            var cooldown = 1 / _config.projectilesPerSecond;
+            bool fireAllowed = _timeFromLastShot >= cooldown;
             
             if (!fireAllowed) _timeFromLastShot += deltaTime;
 

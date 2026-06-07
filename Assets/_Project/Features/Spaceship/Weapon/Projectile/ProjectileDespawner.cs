@@ -7,15 +7,15 @@ namespace _Project.Features.Spaceship.Weapon.Projectile
 {
     public class ProjectileDespawner : IDisposable
     {
-        private readonly IFactory<ProjectileSpawnData, ProjectileFacade> _projectileFactory;
+        private readonly IFactory<ProjectileSpawnData, ProjectileFacade> _factory;
         private readonly ISignalBus _signalBus;
 
 
         public ProjectileDespawner(
-            IFactory<ProjectileSpawnData, ProjectileFacade> projectileFactory,
+            IFactory<ProjectileSpawnData, ProjectileFacade> factory,
             ISignalBus signalBus)
         {
-            _projectileFactory =  projectileFactory;
+            _factory =  factory;
             _signalBus = signalBus;
             
             _signalBus.Subscribe<DespawnRequestedSignal<ProjectileFacade>>(OnDespawnRequested);
@@ -24,7 +24,7 @@ namespace _Project.Features.Spaceship.Weapon.Projectile
         private void OnDespawnRequested(DespawnRequestedSignal<ProjectileFacade> signal)
         {
             var projectileToDespawn = signal.facade;
-            _projectileFactory.Release((ProjectileFacade)projectileToDespawn);
+            _factory.Release((ProjectileFacade)projectileToDespawn);
         }
 
         public void Dispose()
