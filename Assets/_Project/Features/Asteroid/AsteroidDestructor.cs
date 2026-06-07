@@ -28,7 +28,8 @@ namespace _Project.Features.Asteroid
             {
                 var initialPosition = _movementModel.Position;
                 var initialVelocity = _movementModel.Velocity;
-                var initialMovementData = new InitialMovementData(initialPosition, initialVelocity);
+                var fragmentMass = _movementModel.Mass / _fragmentsCount;
+                var initialMovementData = new InitialMovementData(fragmentMass, initialPosition, initialVelocity);
                 _signalBus.Fire(new SpawnRequestedSignal<AsteroidFacade>(initialMovementData));
             }
 

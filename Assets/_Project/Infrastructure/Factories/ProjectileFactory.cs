@@ -21,8 +21,9 @@ namespace _Project.Infrastructure.Factories
             InitialMovementData initialMovementData = data.initialMovementData;
             MovementModel movementModel = CreateComponent<MovementModel>(initialMovementData);
             IDrawable drawable = view;
-            drawable.Setup(movementModel);
+            drawable.Setup(data.initialMovementData.initialPosition, 0);
             ICollidable collidable = view.GetComponent<ICollidable>();
+            collidable.Setup(movementModel);
             IMovable movable = CreateComponent<ProjectileMovementController>(movementModel);
             BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel);
             ProjectileFacade facade = CreateComponent<ProjectileFacade>(

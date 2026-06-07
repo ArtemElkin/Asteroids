@@ -60,7 +60,8 @@ namespace _Project.Features.UFO
         {
             var initialPosition = GetRandomInitialUFOPosition();
             var initialSpeed = GetRandomInitialUFOSpeed();
-            var initialMovementData = new InitialMovementData(initialPosition, Vector2.zero);
+            // TODO: mass
+            var initialMovementData = new InitialMovementData(1000, initialPosition, Vector2.zero);
             var spawnData = new UFOSpawnData(
                 initialMovementData,
                 initialSpeed,

@@ -10,9 +10,7 @@ namespace _Project.Features.Common.Clone
     public class CloneFacade<TOriginFacade> : IFacade where TOriginFacade : IFacade
     {
         private readonly Vector2 _cloneOffset;
-        private readonly MovementModel _cloneMovementModel;
-        private readonly IReadOnlyPositionable _originPositionable;
-        private readonly IReadOnlyRotationable _originRotationable;
+        public MovementModel MovementModel { get; }
         private readonly IDrawable _drawable;
         private readonly BoundsChecker _originBoundsChecker;
         private readonly ICollidable _collidable;
@@ -22,10 +20,8 @@ namespace _Project.Features.Common.Clone
 
         public CloneFacade(
             ITimeService timeService,
-            MovementModel cloneMovementModel,
+            MovementModel originMovementModel,
             ICollidable collidable,
-            IReadOnlyPositionable originPositionable,
-            IReadOnlyRotationable originRotationable,
             BoundsChecker originBoundsChecker,
             IDrawable drawable,
             Vector2 cloneOffset,
@@ -34,40 +30,36 @@ namespace _Project.Features.Common.Clone
             _originBoundsChecker = originBoundsChecker;
             _timeService = timeService;
             _collidable = collidable;
-            _cloneMovementModel = cloneMovementModel;
-            _originPositionable = originPositionable;
-            _originRotationable = originRotationable;
+            MovementModel = originMovementModel;
             _drawable = drawable;
             _cloneOffset = cloneOffset;
             _signalBus = signalBus;
             
             _timeService.OnFixedTick += OnFixedTick;
             _collidable.OnCollided += OnCollided;
-            _originBoundsChecker.EnteredGameAreaAfterSpawn += OnOriginEnteredGameAreaAfterSpawn;
-        }
-
-        private void OnOriginEnteredGameAreaAfterSpawn()
-        {
-            _drawable.Show();
         }
 
         private void OnFixedTick(float fixedDeltaTime)
         {
-            _cloneMovementModel.UpdatePosition(_originPositionable.Position + _cloneOffset);
-            _cloneMovementModel.UpdateRotationAngle(_originRotationable.RotationAngle);
             _originBoundsChecker.CheckOutOfBounds();
-            _drawable.Draw();
+            if (_originBoundsChecker.IsEnteredGameAreaAfterSpawn)
+            {
+                _drawable.Draw(MovementModel.Position + _cloneOffset, MovementModel.RotationAngle);
+            }
         }
 
-        private void OnCollided(Vector2 normal)
+        private void OnCollided(ICollidable other, Vector2 collisionNormal)
         {
-            _signalBus.Fire(new CloneCollidedSignal<TOriginFacade>(normal));
+            var collisionData = new CollisionData(MovementModel, other.MovementModel, collisionNormal);
+            _signalBus.Fire(new CollisionDetectedSignal(collisionData));
         }
         
         public IDrawable GetDrawable() => _drawable;
-        public IReadOnlyPositionable GetPositionable() => _cloneMovementModel;
+        public IReadOnlyPositionable GetPositionable() => MovementModel;
 
-        public IReadOnlyRotationable GetRotationable() => _cloneMovementModel;
+        public IReadOnlyRotationable GetRotationable() => MovementModel;
+        
+        public float GetMass() => MovementModel.Mass;
 
         public void Dispose()
         {

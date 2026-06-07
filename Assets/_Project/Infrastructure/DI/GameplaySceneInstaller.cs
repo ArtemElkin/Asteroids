@@ -17,6 +17,7 @@ namespace _Project.Infrastructure.DI
         public override void InstallBindings()
         {
             BindScreenService(_camera);
+            BindCollisionService();
             BindPositionGenerator();
             BindGameplayAdsController();
             BindSpawnTimer();
@@ -31,6 +32,13 @@ namespace _Project.Infrastructure.DI
                 .AsSingle()
                 .WithArguments(mainCamera)
                 .NonLazy();
+        }
+
+        private void BindCollisionService()
+        {
+            Container
+                .BindInterfacesAndSelfTo<CollisionService>()
+                .AsSingle();
         }
 
         private void BindPositionGenerator()

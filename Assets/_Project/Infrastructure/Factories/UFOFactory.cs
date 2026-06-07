@@ -20,19 +20,18 @@ namespace _Project.Infrastructure.Factories
             InitialMovementData initialMovementData = data.initialMovementData;
             MovementModel movementModel = CreateComponent<MovementModel>(initialMovementData);
             IDrawable drawable = view;
-            drawable.Setup(movementModel);
+            drawable.Setup(data.initialMovementData.initialPosition, 0);
             ICollidable collidable = view.GetComponent<ICollidable>();
+            collidable.Setup(movementModel);
             IHitable hitable = view.GetComponent<IHitable>();
             IMovable movable = CreateComponent<UFOMovementController>(movementModel, data.speed);
             IRotatable rotatable = CreateComponent<UFORotationController>(movementModel);
-            IBouncable bouncable = CreateComponent<BounceController>(movementModel);
             UFOTargetFollower targetFollower = CreateComponent<UFOTargetFollower>(movementModel);
             BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel);
             UFOFacade facade = CreateComponent<UFOFacade>(
                 movementModel,
                 movable,
                 rotatable,
-                bouncable,
                 targetFollower,
                 boundsChecker,
                 view,

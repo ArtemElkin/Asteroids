@@ -16,26 +16,19 @@ namespace _Project.Infrastructure.Factories
 
         public override CloneFacade<TOriginFacade> Create(CloneSpawnData data)
         {
-            Debug.Log("Creating clone"); 
-            MovementModel movementModel = CreateComponent<MovementModel>(new InitialMovementData(data.cloneOffset));
-            var originView = (MovableView)data.drawable;
+            var originView = (MovableView)data.originDrawable;
             var view = _viewPool.Get();
-            view.transform.localScale = originView.transform.localScale;
             IDrawable drawable = view;
-            drawable.Setup(movementModel);
-            
+            view.Setup(data.originMovementModel.Position + data.cloneOffset, data.originMovementModel.RotationAngle);
+            view.transform.localScale = originView.transform.localScale;
             ICollidable collidable = view.GetComponent<ICollidable>();
-                
-            IReadOnlyPositionable originPositionable = data._originPositionable;
-            IReadOnlyRotationable originRotationable = data._originRotationable;
+            collidable.Setup(data.originMovementModel);
             
-            BoundsChecker originBoundsChecker = CreateComponent<BoundsChecker>(data._originPositionable); 
+            BoundsChecker originBoundsChecker = CreateComponent<BoundsChecker>(data.originMovementModel); 
             
             var facade = CreateComponent<CloneFacade<TOriginFacade>>(
                 drawable,
-                movementModel,
-                originPositionable,
-                originRotationable,
+                data.originMovementModel,
                 originBoundsChecker,
                 collidable,
                 data.cloneOffset);

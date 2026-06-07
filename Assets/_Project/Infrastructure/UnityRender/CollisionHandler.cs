@@ -10,7 +10,8 @@ namespace _Project.Infrastructure.UnityRender
     [RequireComponent(typeof(Collider2D))]
     public class CollisionHandler : MonoBehaviour, ICollidable
     {
-        public event Action<Vector2> OnCollided;
+        public MovementModel MovementModel { get; private set; }
+        public event Action<ICollidable, Vector2> OnCollided;
         private const float CooldownTime = 0.5f;
         private float _timeLeftAfterLastCollision;
         private Collider2D _collider;
@@ -26,6 +27,16 @@ namespace _Project.Infrastructure.UnityRender
             if (_timeLeftAfterLastCollision < CooldownTime)
                 _timeLeftAfterLastCollision += Time.deltaTime;
         }
+        
+        public void Setup(MovementModel movementModel)
+        {
+            MovementModel = movementModel;
+        }
+
+        public void Reset()
+        {
+            MovementModel = null;
+        }
 
         public void ActivateCollision()
         {
@@ -40,13 +51,14 @@ namespace _Project.Infrastructure.UnityRender
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
+            if (MovementModel == null) return;
+            
             if (_timeLeftAfterLastCollision > CooldownTime)
             {
-                if (collision.gameObject.TryGetComponent(out ICollidable _))
+                if (collision.gameObject.TryGetComponent(out ICollidable other))
                 {
                     if (collision.gameObject.TryGetComponent(out IProjectile _)) return;
-                    var normal = collision.contacts[0].normal;
-                    OnCollided?.Invoke(normal.ToCore());
+                    OnCollided?.Invoke(other, collision.contacts[0].normal.ToCore());
                 }
             }
         }

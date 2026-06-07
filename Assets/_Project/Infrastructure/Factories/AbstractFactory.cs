@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Project.Core.Physics;
 using _Project.Features.Common;
 using _Project.Infrastructure.UnityRender;
 using UnityEngine;
@@ -35,6 +36,9 @@ namespace _Project.Infrastructure.Factories
             
             var view = (MovableView)drawable;
             _viewPool.Release(view);
+            
+            ICollidable collidable = view.GetComponent<ICollidable>();
+            collidable.Reset();
             
             facade.Dispose();
         }

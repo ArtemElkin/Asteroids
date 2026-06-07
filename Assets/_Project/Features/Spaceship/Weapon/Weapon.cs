@@ -51,7 +51,7 @@ namespace _Project.Features.Spaceship.Weapon
                 var initialDirection = (targetPosition - initialPosition).normalized;
                 var initialSpeed = 30f;
                 var initialVelocity = _spaceshipMovementModel.Velocity + initialDirection * initialSpeed;
-                var initialMovementData = new InitialMovementData(initialPosition, initialVelocity);
+                var initialMovementData = new InitialMovementData(1f, initialPosition, initialVelocity);
                 _signalBus.Fire(new SpawnRequestedSignal<ProjectileFacade>(initialMovementData));
             }
         }

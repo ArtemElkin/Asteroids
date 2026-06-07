@@ -5,8 +5,10 @@ namespace _Project.Features.Common
 {
     public interface IFacade : IDisposable
     {
+        MovementModel MovementModel { get; }
         IDrawable GetDrawable();
         IReadOnlyPositionable GetPositionable();
         IReadOnlyRotationable GetRotationable();
+        float GetMass();
     }
 }

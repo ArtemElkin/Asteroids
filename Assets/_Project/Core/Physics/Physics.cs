@@ -17,5 +17,15 @@ namespace _Project.Core.Physics
         {
             return velocity + moveDirection * acceleration * deltaTime;
         }
+
+        public static Vector2 CalculateCollisionVelocity(Vector2 v1, Vector2 v2, float m1, float m2, Vector2 collisionNormal)
+        {
+            // to avoid division on null
+            if (collisionNormal.magnitude == 0) return v1;
+            
+            return v1 - (2*m2 / (m1 + m2)) 
+                * (Vector2.Dot(v1 - v2, collisionNormal) / collisionNormal.sqrMagnitude) 
+                * collisionNormal;
+        }
     }
 }

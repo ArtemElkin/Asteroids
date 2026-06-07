@@ -65,7 +65,7 @@ namespace _Project.Features.Asteroid
             var initialSpeed = GetRandomSpeed(_asteroidConfig.minSpeed, _asteroidConfig.maxSpeed);
             var initialDirection = GetRandomDirectionToGameArea(initialPosition);
             var initialVelocity = initialDirection * initialSpeed;
-            InitialMovementData initialMovementData = new (initialPosition, initialVelocity);
+            InitialMovementData initialMovementData = new (_asteroidConfig.mass, initialPosition, initialVelocity);
             var spawnData = new AsteroidSpawnData(initialMovementData, _asteroidConfig.radius, _asteroidConfig.fragmentsCount);
             var asteroid = _asteroidFactory.Create(spawnData);
             // _signalBus.Fire(new CloneSpawnRequestedSignal<AsteroidFacade>(asteroid));
@@ -74,13 +74,14 @@ namespace _Project.Features.Asteroid
         
         private void OnAsteroidFragmentSpawnRequested(SpawnRequestedSignal<AsteroidFacade> signal)
         {
+            var mass = signal.initialMovementData.mass;
             var originPosition = signal.initialMovementData.initialPosition;
             var initialSpeed = GetRandomSpeed(_asteroidConfig.minFragmentSpeed, _asteroidConfig.maxFragmentSpeed);
             var originDirection = signal.initialMovementData.initialVelocity.normalized;
             var initialDirection = GetRandomDirectionFromOriginDirection(originDirection);
             var initialVelocity = initialDirection * initialSpeed;
             var initialPosition = originPosition + initialDirection * _asteroidConfig.fragmentRadius;
-            InitialMovementData initialMovementData = new (initialPosition, initialVelocity);
+            InitialMovementData initialMovementData = new (mass, initialPosition, initialVelocity);
             var spawnData = new AsteroidSpawnData(initialMovementData, _asteroidConfig.fragmentRadius);
             _asteroidFactory.Create(spawnData);
         }

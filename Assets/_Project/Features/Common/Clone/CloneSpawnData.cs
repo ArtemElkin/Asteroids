@@ -5,21 +5,18 @@ namespace _Project.Features.Common.Clone
 {
     public struct CloneSpawnData
     {
+        public readonly MovementModel originMovementModel;
         public readonly Vector2 cloneOffset;
-        public readonly IReadOnlyPositionable _originPositionable;
-        public readonly IReadOnlyRotationable _originRotationable;
-        public readonly IDrawable drawable;
+        public readonly IDrawable originDrawable;
 
         public CloneSpawnData(
+            MovementModel originMovementModel,
             Vector2 cloneOffset,
-            IReadOnlyPositionable originPositionable,
-            IReadOnlyRotationable originRotationable,
-            IDrawable drawable)
+            IDrawable originDrawable)
         {
+            this.originMovementModel = originMovementModel;
             this.cloneOffset = cloneOffset;
-            this._originPositionable = originPositionable;
-            this._originRotationable = originRotationable;
-            this.drawable = drawable;
+            this.originDrawable = originDrawable;
         }
     }
 }

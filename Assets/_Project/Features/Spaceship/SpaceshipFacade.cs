@@ -11,9 +11,8 @@ namespace _Project.Features.Spaceship
 {
     public class SpaceshipFacade : IFacade
     {
-        private readonly MovementModel _movementModel;
+        public MovementModel MovementModel { get; }
         private readonly IMovable _movable;
-        private readonly IBouncable _bouncable;
         private readonly IRotatable _rotationController;
         private readonly BoundsChecker _boundsChecker;
         private readonly BoundsWarper _boundsWarper;
@@ -30,7 +29,6 @@ namespace _Project.Features.Spaceship
             ITimeService timeService,
             MovementModel movementModel,
             IMovable movable,
-            IBouncable bouncable,
             IRotatable rotationController,
             IDrawable drawable,
             HealthController healthController,
@@ -42,9 +40,8 @@ namespace _Project.Features.Spaceship
             ISignalBus signalBus)
         {
             _timeService = timeService;
-            _movementModel = movementModel;
+            MovementModel = movementModel;
             _movable = movable;
-            _bouncable = bouncable;
             _rotationController = rotationController;
             _drawable = drawable;
             _healthController = healthController;
@@ -59,7 +56,6 @@ namespace _Project.Features.Spaceship
             _healthController.OnDeath += OnDeath;
             _collidable.OnCollided += OnCollided;
             _boundsChecker.OutOfBounds += OnOutOfBounds;
-            _signalBus.Subscribe<CloneCollidedSignal<SpaceshipFacade>>(OnCloneCollided);
         }
 
         private void OnFixedTick(float fixedDeltaTime)
@@ -67,24 +63,20 @@ namespace _Project.Features.Spaceship
             _movable.Move(fixedDeltaTime);
             _rotationController.Rotate();
             _boundsChecker.CheckOutOfBounds();
-            _drawable.Draw();
+            _drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
         }
 
-        private void OnCollided(Vector2 normal)
+        private void OnCollided(ICollidable other, Vector2 collisionNormal)
         {
-            _bouncable.Bounce(normal);
+            var collisionData = new CollisionData(MovementModel, other.MovementModel, collisionNormal);
+            _signalBus.Fire(new CollisionDetectedSignal(collisionData));
             _healthController.ApplyDamage(1);
             _ = _stunController.ApplyStun(3f);
         }
 
-        private void OnCloneCollided(CloneCollidedSignal<SpaceshipFacade> signal)
-        {
-            OnCollided(signal.normal);
-        }
-
         private void OnOutOfBounds()
         {
-            _boundsWarper.Warp(_movementModel);
+            _boundsWarper.Warp(MovementModel);
         }
 
         private void OnDeath()
@@ -92,18 +84,19 @@ namespace _Project.Features.Spaceship
             _signalBus.Fire(new DespawnRequestedSignal<SpaceshipFacade>(this));
         }
 
-        public IReadOnlyPositionable GetPositionable() => _movementModel;
-        public IReadOnlyRotationable GetRotationable() => _movementModel;
-        public IStunable GetStunable() => _movementModel;
+        public IReadOnlyPositionable GetPositionable() => MovementModel;
+        public IReadOnlyRotationable GetRotationable() => MovementModel;
+        public IStunable GetStunable() => MovementModel;
         
         public IDrawable GetDrawable() => _drawable;
+        
+        public float GetMass() => MovementModel.Mass;
 
         public void Dispose()
         {
             _timeService.OnFixedTick -= OnFixedTick;
             _healthController.OnDeath -= OnDeath;
             _collidable.OnCollided -= OnCollided;
-            _signalBus.Unsubscribe<CloneCollidedSignal<SpaceshipFacade>>(OnCloneCollided);
             _healthController.Dispose();
             _weapon.Dispose();
         }

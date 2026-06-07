@@ -17,14 +17,13 @@ namespace _Project.Infrastructure.Factories
         {
             MovableView view = _viewPool.Get();
             view.transform.localScale = new Vector3(data.radius, data.radius, 1f);
-            InitialMovementData initialMovementData = data.initialMovementData;
-            MovementModel movementModel = CreateComponent<MovementModel>(initialMovementData);
+            MovementModel movementModel = CreateComponent<MovementModel>(data.initialMovementData);
             IDrawable drawable = view;
-            drawable.Setup(movementModel);
+            drawable.Setup(data.initialMovementData.initialPosition, 0);
             ICollidable collidable = view.GetComponent<ICollidable>();
+            collidable.Setup(movementModel);
             IHitable hitable = view.GetComponent<IHitable>();
             IMovable movable = CreateComponent<AsteroidMovementController>(movementModel);
-            IBouncable bouncable = CreateComponent<BounceController>(movementModel);
             bool isFragment = data.fragmentsCount == 0;
             bool enteredGameAreaOnSpawn = isFragment;
             BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel, enteredGameAreaOnSpawn);
@@ -32,7 +31,6 @@ namespace _Project.Infrastructure.Factories
             AsteroidFacade facade = CreateComponent<AsteroidFacade>(
                 movementModel,
                 movable,
-                bouncable,
                 boundsChecker,
                 drawable,
                 collidable,

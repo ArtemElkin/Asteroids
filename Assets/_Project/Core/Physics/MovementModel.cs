@@ -4,6 +4,7 @@ namespace _Project.Core.Physics
 {
     public class MovementModel : IPositionable, IRotationable, IStunable
     {
+        public float Mass { get; private set; }
         public Vector2 Position { get; private set; }
         public float RotationAngle { get; private set; }
         public Vector2 Velocity {  get; private set; }
@@ -13,6 +14,7 @@ namespace _Project.Core.Physics
 
         public MovementModel(InitialMovementData data)
         {
+            Mass = data.mass;
             Position = data.initialPosition;
             Velocity = data.initialVelocity;
         }

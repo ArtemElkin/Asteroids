@@ -2,44 +2,44 @@ using _Project.Core.Physics;
 using _Project.Features.Common;
 using _Project.Infrastructure.UnityServices;
 using UnityEngine;
+using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Infrastructure.UnityRender
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class MovableView : MonoBehaviour, IDrawable
     {
-        private bool _isSetup;
         private Rigidbody2D _rb;
-        private MovementModel _movementModel;
 
-        
-        public void Setup(MovementModel movementModel)
+
+        private void Awake()
         {
-            _movementModel = movementModel;
             _rb = GetComponent<Rigidbody2D>();
-            transform.position = movementModel.Position.ToUnity();
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
             _rb.position = transform.position;
-            _isSetup = true;
+            _rb.MoveRotation(transform.localRotation);
         }
 
-        public void Draw()
+        public void Setup(Vector2 position, float rotationAngle)
         {
-            if (!_isSetup) return;
-            
-            _rb.MovePosition(_movementModel.Position.ToUnity());
-            var rotation = Quaternion.Euler(0, 0, _movementModel.RotationAngle);
-            _rb.MoveRotation(rotation);
+            transform.position = position.ToUnity();
+            _rb.MovePosition(transform.position);
+            _rb.MoveRotation(rotationAngle);
+        }
+        
+        public void Draw(Vector2 position, float rotationAngle)
+        {
+            _rb.MovePosition(position.ToUnity());
+            _rb.MoveRotation(rotationAngle);
         }
 
         public void Reset()
         {
-            _isSetup = false;
-            _rb = null;
-            _movementModel = null;
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+            _rb.position = transform.position;
+            _rb.rotation = 0;
         }
-
-        public void Show() => gameObject.SetActive(true);
-
-        public void Hide() =>  gameObject.SetActive(false);
     }
 }

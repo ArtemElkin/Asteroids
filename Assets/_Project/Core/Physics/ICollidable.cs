@@ -5,7 +5,10 @@ namespace _Project.Core.Physics
 {
     public interface ICollidable
     {
-        event Action<Vector2> OnCollided;
+        void Setup(MovementModel movementModel);
+        void Reset();
+        MovementModel MovementModel { get; }
+        event Action<ICollidable, Vector2> OnCollided;
         void ActivateCollision();
         void DeactivateCollision();
     }

@@ -1,19 +1,19 @@
-using _Project.Core.Math;
 using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
 using _Project.Features.Common.Signals;
+using UnityEngine;
+using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Features.UFO
 {
     public class UFOFacade : IFacade
     {
-        private readonly MovementModel _movementModel;
+        public MovementModel MovementModel { get; }
         private readonly IMovable _movable;
         private readonly IRotatable _rotatable;
-        private readonly IBouncable _bouncable;
         private readonly UFOTargetFollower _targetFollower;
         private readonly BoundsChecker _boundsChecker;
         private readonly BoundsWarper _boundsWarper;
@@ -28,7 +28,6 @@ namespace _Project.Features.UFO
             MovementModel movementModel,
             IMovable movable,
             IRotatable rotatable,
-            IBouncable bouncable,
             UFOTargetFollower targetFollower,
             BoundsChecker boundsChecker,
             BoundsWarper boundsWarper,
@@ -38,10 +37,9 @@ namespace _Project.Features.UFO
             ITimeService timeService,
             ISignalBus signalBus)
         {
-            _movementModel = movementModel;
+            MovementModel = movementModel;
             _movable = movable;
             _rotatable = rotatable;
-            _bouncable = bouncable;
             _targetFollower = targetFollower;
             _boundsChecker = boundsChecker;
             _boundsWarper = boundsWarper;
@@ -63,17 +61,18 @@ namespace _Project.Features.UFO
             _movable.Move(fixedDeltaTime);
             _rotatable.Rotate();
             _boundsChecker.CheckOutOfBounds();
-            _drawable.Draw();
+            _drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
         }
 
-        private void OnCollided(Vector2 normal)
+        private void OnCollided(ICollidable other, Vector2 collisionNormal)
         {
-            _bouncable.Bounce(normal);
+            var collisionData = new CollisionData(MovementModel, other.MovementModel, collisionNormal);
+            _signalBus.Fire(new CollisionDetectedSignal(collisionData));
         }
 
         private void OnOutOfBounds()
         {
-            _boundsWarper.Warp(_movementModel);
+            _boundsWarper.Warp(MovementModel);
         }
 
         private void Destruct()
@@ -82,8 +81,9 @@ namespace _Project.Features.UFO
         }
         
         public IDrawable GetDrawable() => _drawable;
-        public IReadOnlyPositionable GetPositionable() => _movementModel;
-        public IReadOnlyRotationable GetRotationable() => _movementModel;
+        public IReadOnlyPositionable GetPositionable() => MovementModel;
+        public IReadOnlyRotationable GetRotationable() => MovementModel;
+        public float GetMass() => MovementModel.Mass;
 
         public void Dispose()
         {

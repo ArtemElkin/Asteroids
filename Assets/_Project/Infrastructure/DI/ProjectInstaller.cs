@@ -43,8 +43,7 @@ namespace _Project.Infrastructure.DI
             Container.DeclareSignal<DespawnRequestedSignal<UFOFacade>>();
             Container.DeclareSignal<SpawnRequestedSignal<ProjectileFacade>>();
             Container.DeclareSignal<DespawnRequestedSignal<ProjectileFacade>>();
-            Container.DeclareSignal<CloneCollidedSignal<SpaceshipFacade>>();
-            Container.DeclareSignal<CloneCollidedSignal<AsteroidFacade>>();
+            Container.DeclareSignal<CollisionDetectedSignal>();
 
             BindTimeService();
             BindTimer();

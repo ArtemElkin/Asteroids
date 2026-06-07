@@ -4,6 +4,7 @@ namespace _Project.Features.Asteroid
 {
     public class AsteroidConfig : IConfig
     {
+        public float mass;
         public int fragmentsCount;
         public float minSpeed;
         public float maxSpeed;

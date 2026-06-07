@@ -48,15 +48,9 @@ namespace _Project.Features.Common.Clone
                 
             foreach (var offset in cloneOffsets)
             {
-                var spawnData = new CloneSpawnData(offset, origin.GetPositionable(), origin.GetRotationable(), origin.GetDrawable());
+                var spawnData = new CloneSpawnData(origin.MovementModel, offset, origin.GetDrawable());
                 var clone = _cloneFactory.Create(spawnData);
                 _storage.AddClone(origin, clone);
-            }
-
-            var clones = _storage.GetAllClones(origin);
-            foreach (var clone in clones)
-            {
-                clone.GetDrawable().Hide();
             }
         }
 

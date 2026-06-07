@@ -19,14 +19,14 @@ namespace _Project.Infrastructure.Factories
         {
             SpaceshipView view = (SpaceshipView)_viewPool.Get();
             MuzzleView muzzleView = view.GetMuzzleView();
-            InitialMovementData initialMovementData = data.InitialMovementData;
+            InitialMovementData initialMovementData = data.initialMovementData;
             MovementModel movementModel = CreateComponent<MovementModel>(initialMovementData);
             IDrawable drawable = view;
-            drawable.Setup(movementModel);
+            drawable.Setup(data.initialMovementData.initialPosition, 0);
             ICollidable collidable = view.GetComponent<ICollidable>();
+            collidable.Setup(movementModel);
             IMovable movable = CreateComponent<SpaceshipMovementController>(movementModel, data.movementConfig);
             IRotatable rotatable = CreateComponent<SpaceshipRotationController>(movementModel);
-            IBouncable bouncable = CreateComponent<BounceController>(movementModel);
             BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel);
             HealthModel healthModel = CreateComponent<HealthModel>(data.initialHp);
             HealthController healthController = CreateComponent<HealthController>(healthModel);
@@ -39,7 +39,6 @@ namespace _Project.Infrastructure.Factories
                 movementModel,
                 movable,
                 rotatable,
-                bouncable,
                 boundsChecker,
                 drawable,
                 healthController,

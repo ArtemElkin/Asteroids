@@ -54,7 +54,8 @@ namespace _Project.Features.Spaceship
 
         private void SpawnSpaceship()
         {
-            InitialMovementData initialMovementData = new  InitialMovementData(Vector2.zero, Vector2.zero);
+            // TODO: mass
+            InitialMovementData initialMovementData = new  InitialMovementData(1000, Vector2.zero, Vector2.zero);
             var spawnData = new SpaceshipSpawnData(initialMovementData, _spaceshipMovementConfig, _spaceshipConfig.maxHp);
             var spaceship = _spaceshipFactory.Create(spawnData);
             Debug.Log("Firing clone spawn reqest for spaceship");

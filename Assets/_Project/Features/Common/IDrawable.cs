@@ -1,13 +1,11 @@
-using _Project.Core.Physics;
+using _Project.Core.Math;
 
 namespace _Project.Features.Common
 {
     public interface IDrawable
     {
-        void Setup(MovementModel model);
-        void Draw();
+        void Setup(Vector2 initialPosition, float initialRotationAngle);
+        void Draw(Vector2 position, float rotationAngle);
         void Reset();
-        void Show();
-        void Hide();
     }
 }
