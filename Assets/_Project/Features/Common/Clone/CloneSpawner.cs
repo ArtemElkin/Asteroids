@@ -9,19 +9,19 @@ namespace _Project.Features.Common.Clone
 {
     public class CloneSpawner<TOriginFacade> : IDisposable where TOriginFacade : IFacade
     {
-        private readonly IFactory<CloneSpawnData, CloneFacade<TOriginFacade>> _cloneFactory;
+        private readonly IFactory<CloneSpawnData, CloneFacade<TOriginFacade>> _factory;
         private readonly CloneStorage<TOriginFacade> _storage;
         private readonly ISignalBus _signalBus;
         private readonly IScreenService _screenService;
 
 
         public CloneSpawner(
-            IFactory<CloneSpawnData, CloneFacade<TOriginFacade>> cloneFactory,
+            IFactory<CloneSpawnData, CloneFacade<TOriginFacade>> factory,
             CloneStorage<TOriginFacade> storage,
             ISignalBus signalBus,
             IScreenService screenService)
         {
-            _cloneFactory = cloneFactory;
+            _factory = factory;
             _storage = storage;
             _signalBus = signalBus;
             _screenService = screenService;
@@ -49,7 +49,7 @@ namespace _Project.Features.Common.Clone
             foreach (var offset in cloneOffsets)
             {
                 var spawnData = new CloneSpawnData(origin.MovementModel, offset, origin.GetDrawable());
-                var clone = _cloneFactory.Create(spawnData);
+                var clone = _factory.Create(spawnData);
                 _storage.AddClone(origin, clone);
             }
         }

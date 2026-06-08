@@ -21,18 +21,14 @@ namespace _Project.Features.Common.Clone
         {
             _storage[originFacade]?.Remove(cloneFacade);
         }
-        public void RemoveClones(TOriginFacade originFacade) => _storage[originFacade].Clear();
 
         public IReadOnlyCollection<CloneFacade<TOriginFacade>> GetAllClones(TOriginFacade originFacade)
         {
-            if (_storage.ContainsKey(originFacade))
+            if (_storage.TryGetValue(originFacade, out var value))
             {
-                return new List<CloneFacade<TOriginFacade>>(_storage[originFacade]);
+                return new List<CloneFacade<TOriginFacade>>(value);
             }
             return  new List<CloneFacade<TOriginFacade>>();
         }
-
-        public bool IsEmpty => _storage.Count == 0;
-        public void Clear() => _storage.Clear();
     }
 }

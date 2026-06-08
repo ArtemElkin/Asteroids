@@ -9,8 +9,8 @@ namespace _Project.Features.Common.Clone
 {
     public class CloneFacade<TOriginFacade> : IFacade where TOriginFacade : IFacade
     {
-        private readonly Vector2 _cloneOffset;
         public MovementModel MovementModel { get; }
+        private readonly Vector2 _cloneOffset;
         private readonly IDrawable _drawable;
         private readonly BoundsChecker _originBoundsChecker;
         private readonly ICollidable _collidable;
@@ -19,20 +19,20 @@ namespace _Project.Features.Common.Clone
 
 
         public CloneFacade(
-            ITimeService timeService,
             MovementModel originMovementModel,
-            ICollidable collidable,
-            BoundsChecker originBoundsChecker,
-            IDrawable drawable,
             Vector2 cloneOffset,
+            IDrawable drawable,
+            BoundsChecker originBoundsChecker,
+            ICollidable collidable,
+            ITimeService timeService,
             ISignalBus signalBus)
         {
-            _originBoundsChecker = originBoundsChecker;
-            _timeService = timeService;
-            _collidable = collidable;
             MovementModel = originMovementModel;
-            _drawable = drawable;
             _cloneOffset = cloneOffset;
+            _drawable = drawable;
+            _originBoundsChecker = originBoundsChecker;
+            _collidable = collidable;
+            _timeService = timeService;
             _signalBus = signalBus;
             
             _timeService.OnFixedTick += OnFixedTick;

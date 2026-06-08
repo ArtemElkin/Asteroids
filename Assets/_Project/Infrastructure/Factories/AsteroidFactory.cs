@@ -16,7 +16,7 @@ namespace _Project.Infrastructure.Factories
         public override AsteroidFacade Create(AsteroidSpawnData data)
         {
             MovableView view = _viewPool.Get();
-            view.transform.localScale = new Vector3(data.config.radius, data.config.radius, 1f);
+            view.transform.localScale = new Vector3(data.radius, data.radius, 1f);
             MovementModel movementModel = CreateComponent<MovementModel>(data.initialMovementData);
             IDrawable drawable = view;
             drawable.Setup(data.initialMovementData.initialPosition, 0);
@@ -27,7 +27,7 @@ namespace _Project.Infrastructure.Factories
             bool isFragment = data.config.fragmentsCount == 0;
             bool enteredGameAreaOnSpawn = isFragment;
             BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel, enteredGameAreaOnSpawn);
-            AsteroidDestructor destructor = CreateComponent<AsteroidDestructor>(movementModel, data.config);
+            AsteroidDestructor destructor = CreateComponent<AsteroidDestructor>(movementModel, data.config, data.fragmentsCount);
             AsteroidFacade facade = CreateComponent<AsteroidFacade>(
                 movementModel,
                 movable,
