@@ -1,19 +1,18 @@
 using _Project.Core.Physics;
+using _Project.Features.Asteroid.Config;
 
 namespace _Project.Features.Asteroid
 {
     public struct AsteroidSpawnData
     {
         public readonly InitialMovementData initialMovementData;
-        public readonly float radius;
-        public readonly int fragmentsCount;
+        public readonly AsteroidConfig config;
 
 
-        public AsteroidSpawnData(InitialMovementData initialMovementData, float radius, int fragmentsCount = 0)
+        public AsteroidSpawnData(InitialMovementData initialMovementData, AsteroidConfig config)
         {
             this.initialMovementData = initialMovementData;
-            this.radius = radius;
-            this.fragmentsCount = fragmentsCount;
+            this.config = config;
         }
     }
 }

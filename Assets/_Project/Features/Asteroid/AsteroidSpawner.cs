@@ -63,7 +63,7 @@ namespace _Project.Features.Asteroid
             var initialDirection = GetRandomDirectionToGameArea(initialPosition);
             var initialVelocity = initialDirection * initialSpeed;
             InitialMovementData initialMovementData = new (_asteroidConfig.movementConfig.mass, initialPosition, initialVelocity);
-            var spawnData = new AsteroidSpawnData(initialMovementData, _asteroidConfig.radius, _asteroidConfig.fragmentsCount);
+            var spawnData = new AsteroidSpawnData(initialMovementData, _asteroidConfig);
             var asteroid = _factory.Create(spawnData);
             if (_asteroidConfig.hasClones)
             {
@@ -82,7 +82,7 @@ namespace _Project.Features.Asteroid
             var initialVelocity = initialDirection * initialSpeed;
             var initialPosition = originPosition + initialDirection * _asteroidConfig.fragmentRadius;
             InitialMovementData initialMovementData = new (mass, initialPosition, initialVelocity);
-            var spawnData = new AsteroidSpawnData(initialMovementData, _asteroidConfig.fragmentRadius);
+            var spawnData = new AsteroidSpawnData(initialMovementData, _asteroidConfig);
             _factory.Create(spawnData);
         }
         
