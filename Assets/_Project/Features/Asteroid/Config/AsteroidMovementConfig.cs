@@ -1,17 +1,12 @@
-using _Project.Core.Config;
-
-namespace _Project.Features.Asteroid
+namespace _Project.Features.Asteroid.Config
 {
-    public class AsteroidConfig : IConfig
+    public class AsteroidMovementConfig
     {
         public float mass;
-        public int fragmentsCount;
         public float minSpeed;
         public float maxSpeed;
         public float minFragmentSpeed;
         public float maxFragmentSpeed;
-        public float radius;
-        public float fragmentRadius;
         public float maxfragmentMoveDirectionAgleOffsetFromAsteroid;
     }
 }

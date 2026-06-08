@@ -8,18 +8,18 @@ namespace _Project.Features.Asteroid
 {
     public class AsteroidDespawner : IDisposable
     {
-        private readonly IFactory<AsteroidSpawnData, AsteroidFacade> _asteroidFactory;
-        private readonly Storage<AsteroidFacade> _asteroidStorage;
+        private readonly IFactory<AsteroidSpawnData, AsteroidFacade> _factory;
+        private readonly Storage<AsteroidFacade> _storage;
         private readonly ISignalBus _signalBus;
 
 
         public AsteroidDespawner(
-            IFactory<AsteroidSpawnData, AsteroidFacade> asteroidFactory,
-            Storage<AsteroidFacade> asteroidStorage,
+            IFactory<AsteroidSpawnData, AsteroidFacade> factory,
+            Storage<AsteroidFacade> storage,
             ISignalBus signalBus)
         {
-            _asteroidFactory =  asteroidFactory;
-            _asteroidStorage = asteroidStorage;
+            _factory =  factory;
+            _storage = storage;
             _signalBus = signalBus;
             
             _signalBus.Subscribe<DespawnRequestedSignal<AsteroidFacade>>(OnDespawnRequested);
@@ -28,8 +28,8 @@ namespace _Project.Features.Asteroid
         private void OnDespawnRequested(DespawnRequestedSignal<AsteroidFacade> signal)
         {
             var asteroidToDespawn = (AsteroidFacade)signal.facade;
-            _asteroidFactory.Release(asteroidToDespawn);
-            _asteroidStorage.Remove(asteroidToDespawn);
+            _factory.Release(asteroidToDespawn);
+            _storage.Remove(asteroidToDespawn);
         }
 
         public void Dispose()

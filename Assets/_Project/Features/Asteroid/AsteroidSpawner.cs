@@ -5,8 +5,8 @@ using _Project.Core.Physics;
 using _Project.Core.Services;
 using _Project.Core.Signals;
 using _Project.Core.Tools;
+using _Project.Features.Asteroid.Config;
 using _Project.Features.Common;
-using _Project.Features.Common.Clone;
 using _Project.Features.Common.Signals;
 
 namespace _Project.Features.Asteroid
@@ -15,33 +15,30 @@ namespace _Project.Features.Asteroid
     {
         private GameConfig _gameConfig;
         private AsteroidConfig _asteroidConfig;
-        private readonly IFactory<AsteroidSpawnData, AsteroidFacade> _asteroidFactory;
-        private readonly IFactory<CloneSpawnData, CloneFacade<AsteroidFacade>> _cloneFactory;
-        private readonly IConfigProvider _configProvider;
+        private readonly IFactory<AsteroidSpawnData, AsteroidFacade> _factory;
         private readonly PositionGenerator _positionGenerator;
+        private readonly IConfigProvider _configProvider;
         private readonly IRandomService _randomService;
 
-
         public AsteroidSpawner(
-            Storage<AsteroidFacade> asteroidsStorage,
-            SpawnTimer spawnTimer,
-            ISignalBus signalBus,
-            IFactory<AsteroidSpawnData, AsteroidFacade> asteroidFactory,
-            IFactory<CloneSpawnData, CloneFacade<AsteroidFacade>> cloneFactory,
-            IConfigProvider configProvider,
+            IFactory<AsteroidSpawnData, AsteroidFacade> factory,
             PositionGenerator positionGenerator,
-            IRandomService randomService) : base(
-            asteroidsStorage,
+            IConfigProvider configProvider,
+            IRandomService randomService,
+            Storage<AsteroidFacade> storage,
+            SpawnTimer spawnTimer,
+            ISignalBus signalBus) : base(
+            storage,
             spawnTimer,
             signalBus)
         {
-            _asteroidFactory = asteroidFactory;
-            _cloneFactory =  cloneFactory;
-            _configProvider = configProvider;
+            _factory = factory;
             _positionGenerator = positionGenerator;
+            _configProvider = configProvider;
             _randomService =  randomService;
             _signalBus.Subscribe<SpawnRequestedSignal<AsteroidFacade>>(OnAsteroidFragmentSpawnRequested);
         }
+
 
         protected override void OnInitialize()
         {
@@ -62,13 +59,16 @@ namespace _Project.Features.Asteroid
         protected override AsteroidFacade Spawn()
         {
             var initialPosition = GetRandomPosition();
-            var initialSpeed = GetRandomSpeed(_asteroidConfig.minSpeed, _asteroidConfig.maxSpeed);
+            var initialSpeed = GetRandomSpeed(_asteroidConfig.movementConfig.minSpeed, _asteroidConfig.movementConfig.maxSpeed);
             var initialDirection = GetRandomDirectionToGameArea(initialPosition);
             var initialVelocity = initialDirection * initialSpeed;
-            InitialMovementData initialMovementData = new (_asteroidConfig.mass, initialPosition, initialVelocity);
+            InitialMovementData initialMovementData = new (_asteroidConfig.movementConfig.mass, initialPosition, initialVelocity);
             var spawnData = new AsteroidSpawnData(initialMovementData, _asteroidConfig.radius, _asteroidConfig.fragmentsCount);
-            var asteroid = _asteroidFactory.Create(spawnData);
-            // _signalBus.Fire(new CloneSpawnRequestedSignal<AsteroidFacade>(asteroid));
+            var asteroid = _factory.Create(spawnData);
+            if (_asteroidConfig.hasClones)
+            {
+                _signalBus.Fire(new CloneSpawnRequestedSignal<AsteroidFacade>(asteroid));
+            }
             return asteroid;
         }
         
@@ -76,14 +76,14 @@ namespace _Project.Features.Asteroid
         {
             var mass = signal.initialMovementData.mass;
             var originPosition = signal.initialMovementData.initialPosition;
-            var initialSpeed = GetRandomSpeed(_asteroidConfig.minFragmentSpeed, _asteroidConfig.maxFragmentSpeed);
+            var initialSpeed = GetRandomSpeed(_asteroidConfig.movementConfig.minFragmentSpeed, _asteroidConfig.movementConfig.maxFragmentSpeed);
             var originDirection = signal.initialMovementData.initialVelocity.normalized;
             var initialDirection = GetRandomDirectionFromOriginDirection(originDirection);
             var initialVelocity = initialDirection * initialSpeed;
             var initialPosition = originPosition + initialDirection * _asteroidConfig.fragmentRadius;
             InitialMovementData initialMovementData = new (mass, initialPosition, initialVelocity);
             var spawnData = new AsteroidSpawnData(initialMovementData, _asteroidConfig.fragmentRadius);
-            _asteroidFactory.Create(spawnData);
+            _factory.Create(spawnData);
         }
         
         private Vector2 GetRandomPosition()
@@ -105,8 +105,8 @@ namespace _Project.Features.Asteroid
         private Vector2 GetRandomDirectionFromOriginDirection(Vector2 originDirection)
         {
             var randomAngle = _randomService.GetRandomFloat(
-                -_asteroidConfig.maxfragmentMoveDirectionAgleOffsetFromAsteroid, 
-                _asteroidConfig.maxfragmentMoveDirectionAgleOffsetFromAsteroid);
+                -_asteroidConfig.movementConfig.maxfragmentMoveDirectionAgleOffsetFromAsteroid, 
+                _asteroidConfig.movementConfig.maxfragmentMoveDirectionAgleOffsetFromAsteroid);
             return Vector2.Rotate(originDirection, randomAngle);
         }
 
