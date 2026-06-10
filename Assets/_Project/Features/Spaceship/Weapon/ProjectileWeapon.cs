@@ -1,9 +1,9 @@
 using System;
+using _Project.Core.EventBus;
 using _Project.Core.Input;
 using _Project.Core.Physics;
 using _Project.Core.Services;
-using _Project.Core.Signals;
-using _Project.Features.Common.Signals;
+using _Project.Features.Common.Event;
 using _Project.Features.Spaceship.Weapon.Config;
 using _Project.Features.Spaceship.Weapon.Projectile;
 
@@ -15,7 +15,7 @@ namespace _Project.Features.Spaceship.Weapon
         private readonly WeaponConfig _config;
         private readonly MovementModel _spaceshipMovementModel;
         private readonly IReadOnlyPositionable _muzzlePositionable;
-        private readonly ISignalBus _signalBus;
+        private readonly IEventBus _eventBus;
         private readonly IFireInputService _fireInputService;
         private readonly ITimeService _timeService;
         private readonly IScreenService _screenService;
@@ -25,7 +25,7 @@ namespace _Project.Features.Spaceship.Weapon
             WeaponConfig config,
             MovementModel spaceshipMovementModel,
             IReadOnlyPositionable muzzlePositionable,
-            ISignalBus signalBus,
+            IEventBus eventBus,
             IFireInputService fireInputService,
             ITimeService timeService,
             IScreenService screenService)
@@ -33,7 +33,7 @@ namespace _Project.Features.Spaceship.Weapon
             _config = config;
             _spaceshipMovementModel = spaceshipMovementModel;
             _muzzlePositionable = muzzlePositionable;
-            _signalBus = signalBus;
+            _eventBus = eventBus;
             _fireInputService = fireInputService;
             _timeService = timeService;
             _screenService = screenService;
@@ -48,7 +48,7 @@ namespace _Project.Features.Spaceship.Weapon
             var initialSpeed = 30f;
             var initialVelocity = _spaceshipMovementModel.Velocity + initialDirection * initialSpeed;
             var initialMovementData = new InitialMovementData(1f, initialPosition, initialVelocity);
-            _signalBus.Fire(new SpawnRequestedSignal<ProjectileFacade>(initialMovementData));
+            _eventBus.Publish(new SpawnRequestedEvent<ProjectileFacade>(initialMovementData));
         }
 
         private void OnTick(float deltaTime)

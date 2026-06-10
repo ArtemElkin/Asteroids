@@ -189,7 +189,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 920d3347acf54e669dd0a3c79e93cfac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spaceshipPrefab: {fileID: 5556431761806497158, guid: 95c23640d5cc02dc1851ec8cd7977859, type: 3}
+  _spaceshipPrefab: {fileID: 2484752557168592073, guid: 33034e4cab5e21bb898147cd84f699c5, type: 3}
+  _spaceshipScreenWrapClonePrefab: {fileID: 4581843616795063870, guid: 95c23640d5cc02dc1851ec8cd7977859, type: 3}
   _spaceshipParentTransform: {fileID: 1798339293}
 --- !u!4 &43507831
 Transform:
@@ -231,8 +232,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63fb1aa6b46d407183d9668606530104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _asteroidPrefab: {fileID: 5220412529629322873, guid: 991fa8040fcd6a384bc548e20bb7734b, type: 3}
+  _asteroidScreenWrapClonePrefab: {fileID: -8817198810754502048, guid: 267c99e27207e76659890aa56fc57947, type: 3}
   _asteroidsParentTransform: {fileID: 1875763359}
-  _asteroidPrefab: {fileID: 7623577070740433406, guid: 267c99e27207e76659890aa56fc57947, type: 3}
 --- !u!114 &43507835
 MonoBehaviour:
   m_ObjectHideFlags: 0

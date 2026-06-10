@@ -1,4 +1,4 @@
-using _Project.Core.Signals;
+using _Project.Core.EventBus;
 using UnityEngine;
 using Zenject;
 
@@ -6,19 +6,19 @@ namespace _Project.Infrastructure.Lifecycle
 {
     public class GameplayStarter : MonoBehaviour
     {
-        private ISignalBus _signalBus;
+        private IEventBus _eventBus;
 
 
         private void Start()
         {
-            _signalBus.Fire<GameInitializeSignal>();
-            _signalBus.Fire<GameStartSignal>();
+            _eventBus.Publish<GameInitializeEvent>();
+            _eventBus.Publish<GameStartEvent>();
         }
 
         [Inject]
-        private void Construct(ISignalBus signalBus)
+        private void Construct(IEventBus eventBus)
         {
-            _signalBus = signalBus;
+            _eventBus = eventBus;
         }
     }
 }

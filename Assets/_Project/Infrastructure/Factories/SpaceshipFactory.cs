@@ -1,10 +1,12 @@
 using _Project.Core.Physics;
+using _Project.Core.Render;
 using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
+using _Project.Features.Common.ScreenWrapClone;
 using _Project.Features.Spaceship;
 using _Project.Features.Spaceship.Health;
 using _Project.Features.Spaceship.Weapon;
-using _Project.Infrastructure.UnityRender;
+using _Project.Infrastructure.Render;
 using UnityEngine;
 using Zenject;
 
@@ -31,7 +33,12 @@ namespace _Project.Infrastructure.Factories
             HealthModel healthModel = CreateComponent<HealthModel>(data.config.maxHp);
             HealthController healthController = CreateComponent<HealthController>(healthModel);
             StunController stunController = CreateComponent<StunController>(movementModel, collidable);
-
+            IScreenWrapCloneSet screenWrapCloneSet = data.config.hasClones
+                ? CreateComponent<ScreenWrapCloneSet<SpaceshipFacade>>(
+                    movementModel,
+                    boundsChecker,
+                    drawable)
+                : new NullScreenWrapCloneSet();
             IReadOnlyPositionable muzzlePositionable = muzzleView;
             ProjectileWeapon projectileWeapon = CreateComponent<ProjectileWeapon>(muzzlePositionable, movementModel, data.config.weaponConfig);
             
@@ -44,7 +51,8 @@ namespace _Project.Infrastructure.Factories
                 healthController,
                 collidable,
                 stunController,
-                projectileWeapon);
+                projectileWeapon,
+                screenWrapCloneSet);
             return facade;
         }
     }

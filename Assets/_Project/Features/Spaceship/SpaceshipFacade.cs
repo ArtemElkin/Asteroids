@@ -1,10 +1,12 @@
+using _Project.Core.EventBus;
 using _Project.Core.Math;
 using _Project.Core.Physics;
+using _Project.Core.Render;
 using _Project.Core.Services;
-using _Project.Core.Signals;
 using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
-using _Project.Features.Common.Signals;
+using _Project.Features.Common.Event;
+using _Project.Features.Common.ScreenWrapClone;
 using _Project.Features.Spaceship.Health;
 using _Project.Features.Spaceship.Weapon;
 
@@ -13,45 +15,48 @@ namespace _Project.Features.Spaceship
     public class SpaceshipFacade : IFacade
     {
         public MovementModel MovementModel { get; }
+        public IDrawable Drawable { get; }
         private readonly IMovable _movable;
-        private readonly IRotatable _rotationController;
+        private readonly IRotatable _rotatable;
         private readonly BoundsChecker _boundsChecker;
         private readonly BoundsWarper _boundsWarper;
-        private readonly IDrawable _drawable;
         private readonly HealthController _healthController;
         private readonly StunController _stunController;
         private readonly ICollidable _collidable;
         private readonly ProjectileWeapon _projectileWeapon;
+        private readonly IScreenWrapCloneSet _screeWrapCloneSet;
         private readonly ITimeService _timeService;
-        private readonly ISignalBus _signalBus;
+        private readonly IEventBus _eventBus;
 
 
         public SpaceshipFacade(
-            ITimeService timeService,
             MovementModel movementModel,
-            IMovable movable,
-            IRotatable rotationController,
             IDrawable drawable,
-            HealthController healthController,
-            ICollidable collidable,
+            IMovable movable,
+            IRotatable rotatable,
             BoundsChecker boundsChecker,
             BoundsWarper boundsWarper,
+            HealthController healthController,
             StunController stunController,
+            ICollidable collidable,
             ProjectileWeapon projectileWeapon,
-            ISignalBus signalBus)
+            IScreenWrapCloneSet screeWrapCloneSet,
+            ITimeService timeService,
+            IEventBus eventBus)
         {
-            _timeService = timeService;
             MovementModel = movementModel;
+            Drawable = drawable;
             _movable = movable;
-            _rotationController = rotationController;
-            _drawable = drawable;
-            _healthController = healthController;
-            _collidable = collidable;
+            _rotatable = rotatable;
             _boundsChecker = boundsChecker;
             _boundsWarper = boundsWarper;
+            _healthController = healthController;
             _stunController = stunController;
+            _collidable = collidable;
             _projectileWeapon = projectileWeapon;
-            _signalBus = signalBus;
+            _screeWrapCloneSet = screeWrapCloneSet;
+            _timeService = timeService;
+            _eventBus = eventBus;
             
             _timeService.OnFixedTick += OnFixedTick;
             _healthController.OnDeath += OnDeath;
@@ -62,15 +67,16 @@ namespace _Project.Features.Spaceship
         private void OnFixedTick(float fixedDeltaTime)
         {
             _movable.Move(fixedDeltaTime);
-            _rotationController.Rotate();
+            _rotatable.Rotate();
             _boundsChecker.CheckOutOfBounds();
-            _drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
+            Drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
+            _screeWrapCloneSet.UpdateClones();
         }
 
         private void OnCollided(ICollidable other, Vector2 collisionNormal)
         {
             var collisionData = new CollisionData(MovementModel, other.MovementModel, collisionNormal);
-            _signalBus.Fire(new CollisionDetectedSignal(collisionData));
+            _eventBus.Publish(new CollisionDetectedEvent(collisionData));
             _healthController.ApplyDamage(1);
             _ = _stunController.ApplyStun(3f);
         }
@@ -82,18 +88,18 @@ namespace _Project.Features.Spaceship
 
         private void OnDeath()
         {
-            _signalBus.Fire(new DespawnRequestedSignal<SpaceshipFacade>(this));
+            _eventBus.Publish(new DespawnRequestedEvent<SpaceshipFacade>(this));
         }
 
-        public IDrawable GetDrawable() => _drawable;
-        
         public void Dispose()
         {
             _timeService.OnFixedTick -= OnFixedTick;
             _healthController.OnDeath -= OnDeath;
             _collidable.OnCollided -= OnCollided;
+            _boundsChecker.OutOfBounds -= OnOutOfBounds;
             _healthController.Dispose();
             _projectileWeapon.Dispose();
+            _screeWrapCloneSet.Dispose();
         }
     }
 }

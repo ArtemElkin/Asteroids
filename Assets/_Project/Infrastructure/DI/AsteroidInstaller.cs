@@ -1,8 +1,10 @@
+using _Project.Core.Factories;
 using _Project.Core.Tools;
 using _Project.Features.Asteroid;
-using _Project.Features.Common.Clone;
+using _Project.Features.Common;
+using _Project.Features.Common.ScreenWrapClone;
 using _Project.Infrastructure.Factories;
-using _Project.Infrastructure.UnityRender;
+using _Project.Infrastructure.Render;
 using UnityEngine;
 using Zenject;
 
@@ -10,8 +12,9 @@ namespace _Project.Infrastructure.DI
 {
     public class AsteroidInstaller : MonoInstaller
     {
-        [SerializeField] private Transform _asteroidsParentTransform;
         [SerializeField] MovableView _asteroidPrefab;
+        [SerializeField] TransformView _asteroidScreenWrapClonePrefab;
+        [SerializeField] private Transform _asteroidsParentTransform;
         
         
         public override void InstallBindings()
@@ -21,10 +24,7 @@ namespace _Project.Infrastructure.DI
             BindAsteroidSpawner();
             BindAsteroidDespawner();
 
-            BindAsteroidCloneStorage();
-            BindAsteroidCloneFactory(_asteroidPrefab, _asteroidsParentTransform);
-            BindAsteroidCloneSpawner();
-            BindAsteroidCloneDespawner();
+            BindAsteroidCloneFactory(_asteroidScreenWrapClonePrefab, _asteroidsParentTransform);
         }
 
         private void BindAsteroidsStorage()
@@ -37,7 +37,9 @@ namespace _Project.Infrastructure.DI
         private void BindAsteroidFactory(MovableView asteroidPrefab, Transform asteroidsParentTransform)
         {
             Container
-                .Bind<Core.Factories.IFactory<AsteroidSpawnData, AsteroidFacade>>()
+                .Bind(
+                    typeof(Core.Factories.IFactory<AsteroidSpawnData, AsteroidFacade>),
+                    typeof(IReleaser<AsteroidFacade>))
                 .To<AsteroidFactory>()
                 .AsSingle()
                 .WithArguments(asteroidPrefab, asteroidsParentTransform)
@@ -48,50 +50,27 @@ namespace _Project.Infrastructure.DI
         {
             Container
                 .BindInterfacesAndSelfTo<AsteroidSpawner>()
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
         }
 
         private void BindAsteroidDespawner()
         {
             Container
-                .BindInterfacesAndSelfTo<AsteroidDespawner>()
-                .AsSingle()
-                .NonLazy();
-        }
-        
-        private void BindAsteroidCloneStorage()
-        {
-            Container
-                .Bind<CloneStorage<AsteroidFacade>>()
+                .BindInterfacesAndSelfTo<Despawner<AsteroidFacade>>()
                 .AsSingle()
                 .NonLazy();
         }
 
         private void BindAsteroidCloneFactory(
-            MovableView clonePrefab,
+            TransformView clonePrefab,
             Transform clonesParentTransform)
         {
             Container
-                .Bind<Core.Factories.IFactory<CloneSpawnData, CloneFacade<AsteroidFacade>>>()
-                .To<CloneFactory<AsteroidFacade>>()
+                .Bind<IScreenWrapCloneFactory<ScreenWrapCloneSpawnData, AsteroidFacade>>()
+                .To<ScreenWrapCloneFactory<AsteroidFacade>>()
                 .AsSingle()
                 .WithArguments(clonePrefab, clonesParentTransform)
-                .NonLazy();
-        }
-
-        private void BindAsteroidCloneSpawner()
-        {
-            Container
-                .BindInterfacesAndSelfTo<CloneSpawner<AsteroidFacade>>()
-                .AsSingle()
-                .NonLazy();
-        }
-
-        private void BindAsteroidCloneDespawner()
-        {
-            Container
-                .BindInterfacesAndSelfTo<CloneDespawner<AsteroidFacade>>()
-                .AsSingle()
                 .NonLazy();
         }
     }

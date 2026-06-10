@@ -8,14 +8,20 @@ namespace _Project.Features.Asteroid
         public readonly InitialMovementData initialMovementData;
         public readonly float radius;
         public readonly int fragmentsCount;
+        public readonly bool hasClones;
         public readonly AsteroidConfig config;
 
 
-        public AsteroidSpawnData(InitialMovementData initialMovementData, float radius, int fragmentsCount, AsteroidConfig config)
+        public AsteroidSpawnData(
+            InitialMovementData initialMovementData,
+            float radius, int fragmentsCount, 
+            bool hasClones,
+            AsteroidConfig config)
         {
             this.initialMovementData = initialMovementData;
             this.radius = radius;
             this.fragmentsCount = fragmentsCount;
+            this.hasClones = hasClones;
             this.config = config;
         }
     }

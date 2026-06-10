@@ -1,5 +1,5 @@
 using System;
-using _Project.Core.Signals;
+using _Project.Core.EventBus;
 using UnityEngine.SceneManagement;
 
 namespace _Project.Infrastructure.UnityServices
@@ -8,14 +8,14 @@ namespace _Project.Infrastructure.UnityServices
     {
         private const string GameplaySceneName = "Game";
         private const string MainMenuSceneName = "MainMenu";
-        private readonly ISignalBus _signalBus;
+        private readonly IEventBus _eventBus;
         
         
-        public SceneLoadService(ISignalBus signalBus)
+        public SceneLoadService(IEventBus eventBus)
         {
-            _signalBus = signalBus;
-            _signalBus.Subscribe<StartGameClickedSignal>(LoadGameScene);
-            _signalBus.Subscribe<MenuClickedSignal>(LoadMenuScene);
+            _eventBus = eventBus;
+            _eventBus.Subscribe<StartGameClickedEvent>(LoadGameScene);
+            _eventBus.Subscribe<MenuClickedEvent>(LoadMenuScene);
         }
         
         private void LoadScene(string sceneName)
@@ -35,8 +35,8 @@ namespace _Project.Infrastructure.UnityServices
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<StartGameClickedSignal>(LoadGameScene);
-            _signalBus.Unsubscribe<MenuClickedSignal>(LoadMenuScene);
+            _eventBus.Unsubscribe<StartGameClickedEvent>(LoadGameScene);
+            _eventBus.Unsubscribe<MenuClickedEvent>(LoadMenuScene);
         }
     }
 }

@@ -1,9 +1,9 @@
 using System;
 using _Project.Core.Ads;
 using _Project.Core.Config;
+using _Project.Core.EventBus;
 using _Project.Core.Player;
 using _Project.Core.Save;
-using _Project.Core.Signals;
 using _Project.Infrastructure.UnityServices;
 
 namespace _Project.Infrastructure.Lifecycle
@@ -15,7 +15,7 @@ namespace _Project.Infrastructure.Lifecycle
         private readonly ISaveService _saveService;
         private readonly IAdsService _adsService;
         private readonly IConfigProvider _configProvider;
-        private readonly ISignalBus _signalBus;
+        private readonly IEventBus _eventBus;
         
         
         public Bootstrapper(
@@ -24,15 +24,15 @@ namespace _Project.Infrastructure.Lifecycle
             PlayerModel playerModel,
             IAdsService  adsService,
             IConfigProvider configProvider,
-            ISignalBus  signalBus)
+            IEventBus  eventBus)
         {
             _sceneLoadService = sceneLoadService;
             _saveService = saveService;
             _playerModel = playerModel;
             _adsService = adsService;
             _configProvider = configProvider;
-            _signalBus = signalBus;
-            _signalBus.Subscribe<GameInitializeSignal>(Initialize);
+            _eventBus = eventBus;
+            _eventBus.Subscribe<GameInitializeEvent>(Initialize);
         }
 
         private void Initialize()
@@ -51,7 +51,7 @@ namespace _Project.Infrastructure.Lifecycle
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<GameInitializeSignal>(Initialize);
+            _eventBus.Unsubscribe<GameInitializeEvent>(Initialize);
         }
     }
 }

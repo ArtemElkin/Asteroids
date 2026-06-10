@@ -1,11 +1,10 @@
 using System;
-using _Project.Core.Physics;
+using _Project.Core.Render;
 
 namespace _Project.Features.Common
 {
     public interface IFacade : IDisposable
     {
-        MovementModel MovementModel { get; }
-        IDrawable GetDrawable();
+        IDrawable Drawable { get; }
     }
 }

@@ -32,5 +32,15 @@ namespace _Project.Features.Common.Bounds
             if (pos.x < LeftBoundX) crossedBounds |= BoundType.Left;
             return crossedBounds != BoundType.None;
         }
+
+        public BoundType GetSides(Vector2 pos)
+        {
+            BoundType sides = BoundType.None;
+            if (pos.y > 0) sides |= BoundType.Top;
+            if (pos.y < 0) sides |= BoundType.Bottom;
+            if (pos.x > 0) sides |= BoundType.Right;
+            if (pos.x < 0) sides |= BoundType.Left;
+            return sides;
+        }
     }
 }

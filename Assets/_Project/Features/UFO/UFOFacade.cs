@@ -1,10 +1,10 @@
+using _Project.Core.EventBus;
 using _Project.Core.Physics;
+using _Project.Core.Render;
 using _Project.Core.Services;
-using _Project.Core.Signals;
 using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
-using _Project.Features.Common.Signals;
-using UnityEngine;
+using _Project.Features.Common.Event;
 using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Features.UFO
@@ -12,42 +12,42 @@ namespace _Project.Features.UFO
     public class UFOFacade : IFacade
     {
         public MovementModel MovementModel { get; }
+        public IDrawable Drawable { get; }
         private readonly IMovable _movable;
         private readonly IRotatable _rotatable;
+        private readonly BoundsWarper _boundsWarper;
         private readonly UFOTargetFollower _targetFollower;
         private readonly BoundsChecker _boundsChecker;
-        private readonly BoundsWarper _boundsWarper;
-        private readonly IDrawable _drawable;
         private readonly ICollidable _collidable;
         private readonly IHitable _hitable;
         private readonly ITimeService _timeService;
-        private readonly ISignalBus _signalBus;
+        private readonly IEventBus _eventBus;
 
 
         public UFOFacade(
             MovementModel movementModel,
+            IDrawable drawable,
             IMovable movable,
             IRotatable rotatable,
             UFOTargetFollower targetFollower,
             BoundsChecker boundsChecker,
             BoundsWarper boundsWarper,
-            IDrawable drawable,
             ICollidable collidable,
             IHitable hitable,
             ITimeService timeService,
-            ISignalBus signalBus)
+            IEventBus eventBus)
         {
             MovementModel = movementModel;
+            Drawable = drawable;
             _movable = movable;
             _rotatable = rotatable;
             _targetFollower = targetFollower;
             _boundsChecker = boundsChecker;
             _boundsWarper = boundsWarper;
-            _drawable = drawable;
             _collidable = collidable;
             _hitable = hitable;
             _timeService = timeService;
-            _signalBus = signalBus;
+            _eventBus = eventBus;
             
             _timeService.OnFixedTick += OnFixedTick;
             _collidable.OnCollided += OnCollided;
@@ -61,13 +61,13 @@ namespace _Project.Features.UFO
             _movable.Move(fixedDeltaTime);
             _rotatable.Rotate();
             _boundsChecker.CheckOutOfBounds();
-            _drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
+            Drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
         }
 
         private void OnCollided(ICollidable other, Vector2 collisionNormal)
         {
             var collisionData = new CollisionData(MovementModel, other.MovementModel, collisionNormal);
-            _signalBus.Fire(new CollisionDetectedSignal(collisionData));
+            _eventBus.Publish(new CollisionDetectedEvent(collisionData));
         }
 
         private void OnOutOfBounds()
@@ -77,16 +77,15 @@ namespace _Project.Features.UFO
 
         private void Destruct()
         {
-            _signalBus.Fire(new DespawnRequestedSignal<UFOFacade>(this));
+            _eventBus.Publish(new DespawnRequestedEvent<UFOFacade>(this));
         }
         
-        public IDrawable GetDrawable() => _drawable;
-
         public void Dispose()
         {
             _timeService.OnFixedTick -= OnFixedTick;
             _collidable.OnCollided -= OnCollided;
             _hitable.OnHit -= Destruct;
+            _boundsChecker.OutOfBounds -= OnOutOfBounds;
         }
     }
 }

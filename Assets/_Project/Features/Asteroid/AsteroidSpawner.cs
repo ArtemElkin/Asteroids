@@ -1,13 +1,13 @@
 using _Project.Core.Config;
+using _Project.Core.EventBus;
 using _Project.Core.Factories;
 using _Project.Core.Math;
 using _Project.Core.Physics;
 using _Project.Core.Services;
-using _Project.Core.Signals;
 using _Project.Core.Tools;
 using _Project.Features.Asteroid.Config;
 using _Project.Features.Common;
-using _Project.Features.Common.Signals;
+using _Project.Features.Common.Event;
 
 namespace _Project.Features.Asteroid
 {
@@ -27,16 +27,16 @@ namespace _Project.Features.Asteroid
             IRandomService randomService,
             Storage<AsteroidFacade> storage,
             SpawnTimer spawnTimer,
-            ISignalBus signalBus) : base(
+            IEventBus eventBus) : base(
             storage,
             spawnTimer,
-            signalBus)
+            eventBus)
         {
             _factory = factory;
             _positionGenerator = positionGenerator;
             _configProvider = configProvider;
             _randomService =  randomService;
-            _signalBus.Subscribe<SpawnRequestedSignal<AsteroidFacade>>(OnAsteroidFragmentSpawnRequested);
+            _signalBus.Subscribe<SpawnRequestedEvent<AsteroidFacade>>(OnAsteroidFragmentSpawnRequested);
         }
 
 
@@ -63,26 +63,32 @@ namespace _Project.Features.Asteroid
             var initialDirection = GetRandomDirectionToGameArea(initialPosition);
             var initialVelocity = initialDirection * initialSpeed;
             InitialMovementData initialMovementData = new (_asteroidConfig.movementConfig.mass, initialPosition, initialVelocity);
-            var spawnData = new AsteroidSpawnData(initialMovementData, _asteroidConfig.radius, _asteroidConfig.fragmentsCount, _asteroidConfig);
+            var spawnData = new AsteroidSpawnData(
+                initialMovementData,
+                _asteroidConfig.radius,
+                _asteroidConfig.fragmentsCount,
+                _asteroidConfig.hasClones,
+                _asteroidConfig);
             var asteroid = _factory.Create(spawnData);
-            if (_asteroidConfig.hasClones)
-            {
-                _signalBus.Fire(new CloneSpawnRequestedSignal<AsteroidFacade>(asteroid));
-            }
             return asteroid;
         }
         
-        private void OnAsteroidFragmentSpawnRequested(SpawnRequestedSignal<AsteroidFacade> signal)
+        private void OnAsteroidFragmentSpawnRequested(SpawnRequestedEvent<AsteroidFacade> @event)
         {
-            var mass = signal.initialMovementData.mass;
-            var originPosition = signal.initialMovementData.initialPosition;
+            var mass = @event.initialMovementData.mass;
+            var originPosition = @event.initialMovementData.initialPosition;
             var initialSpeed = GetRandomSpeed(_asteroidConfig.movementConfig.minFragmentSpeed, _asteroidConfig.movementConfig.maxFragmentSpeed);
-            var originDirection = signal.initialMovementData.initialVelocity.normalized;
+            var originDirection = @event.initialMovementData.initialVelocity.normalized;
             var initialDirection = GetRandomDirectionFromOriginDirection(originDirection);
             var initialVelocity = initialDirection * initialSpeed;
             var initialPosition = originPosition + initialDirection * _asteroidConfig.fragmentRadius;
             InitialMovementData initialMovementData = new (mass, initialPosition, initialVelocity);
-            var spawnData = new AsteroidSpawnData(initialMovementData, _asteroidConfig.fragmentRadius, 0, _asteroidConfig);
+            var spawnData = new AsteroidSpawnData(
+                initialMovementData, 
+                _asteroidConfig.fragmentRadius, 
+                0,
+                false,
+                _asteroidConfig);
             _factory.Create(spawnData);
         }
         
@@ -112,7 +118,7 @@ namespace _Project.Features.Asteroid
 
         public override void Dispose()
         {
-            _signalBus.Unsubscribe<SpawnRequestedSignal<AsteroidFacade>>(OnAsteroidFragmentSpawnRequested);
+            _signalBus.Unsubscribe<SpawnRequestedEvent<AsteroidFacade>>(OnAsteroidFragmentSpawnRequested);
             base.Dispose();
         }
     }

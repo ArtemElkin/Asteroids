@@ -1,8 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 
 namespace _Project.Core.Tools
 {
-    public class Storage<T> where T : class
+    public class Storage<T> : IEnumerable<T> where T : class
     {
         private readonly List<T> _storage = new ();
         
@@ -24,5 +25,14 @@ namespace _Project.Core.Tools
         public IReadOnlyCollection<T> GetAll() => _storage.AsReadOnly();
         public bool IsEmpty => _storage.Count == 0;
         public void Clear() => _storage.Clear();
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _storage.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

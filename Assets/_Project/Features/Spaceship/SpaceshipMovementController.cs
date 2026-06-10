@@ -8,17 +8,17 @@ namespace _Project.Features.Spaceship
 {
     public class SpaceshipMovementController : BaseMovementController
     {
-        private readonly SpaceshipMovementConfig _movementConfig;
+        private readonly SpaceshipMovementConfig _config;
         private readonly IMovementInputService _movementInputService;
 
 
         public SpaceshipMovementController(
             MovementModel movementModel,
             IMovementInputService movementInputService,
-            SpaceshipMovementConfig movementConfig) : base (movementModel)
+            SpaceshipMovementConfig config) : base (movementModel)
         {
             _movementInputService = movementInputService;
-            _movementConfig = movementConfig;
+            _config = config;
         }
         
         protected override void UpdateDirectionOnMove()
@@ -39,13 +39,13 @@ namespace _Project.Features.Spaceship
             Vector2 newVelocity;
             if (input.sqrMagnitude > 0.001f && !_movementModel.IsStunned)
             {
-                var targetVelocity = Physics.ApplyAcceleration(currentVelocity, _movementModel.MoveDirection, _movementConfig.thrust, deltaTime);
-                targetVelocity = Vector2.ClampMagnitude(targetVelocity, _movementConfig.maxSpeed);
+                var targetVelocity = Physics.ApplyAcceleration(currentVelocity, _movementModel.MoveDirection, _config.thrust, deltaTime);
+                targetVelocity = Vector2.ClampMagnitude(targetVelocity, _config.maxSpeed);
                 newVelocity = Vector2.MoveTowards(currentVelocity, targetVelocity, 15 * deltaTime);
             }
             else
             {
-                newVelocity = Physics.ApplyInertia(currentVelocity, _movementConfig.friction, deltaTime);
+                newVelocity = Physics.ApplyInertia(currentVelocity, _config.friction, deltaTime);
             }
             _movementModel.UpdateVelocity(newVelocity);
         }

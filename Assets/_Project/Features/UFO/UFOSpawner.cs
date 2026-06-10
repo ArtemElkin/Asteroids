@@ -1,9 +1,9 @@
 using _Project.Core.Config;
+using _Project.Core.EventBus;
 using _Project.Core.Factories;
 using _Project.Core.Math;
 using _Project.Core.Physics;
 using _Project.Core.Services;
-using _Project.Core.Signals;
 using _Project.Core.Tools;
 using _Project.Features.Common;
 using _Project.Features.Spaceship;
@@ -22,7 +22,7 @@ namespace _Project.Features.UFO
         public UFOSpawner(
             Storage<UFOFacade> ufoStorage,
             SpawnTimer spawnTimer,
-            ISignalBus signalBus,
+            IEventBus eventBus,
             IFactory<UFOSpawnData, UFOFacade> ufoFactory,
             PositionGenerator positionGenerator,
             IRandomService randomService,
@@ -30,7 +30,7 @@ namespace _Project.Features.UFO
             IConfigProvider configProvider) : base (
             ufoStorage,
             spawnTimer,
-            signalBus)
+            eventBus)
         {
             _ufoFactory = ufoFactory;
             _positionGenerator = positionGenerator;

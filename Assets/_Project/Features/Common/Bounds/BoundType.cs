@@ -9,6 +9,7 @@ namespace _Project.Features.Common.Bounds
         Top = 1 << 0,
         Bottom = 1 << 1,
         Left = 1 << 2,
-        Right = 1 << 3
+        Right = 1 << 3,
+        All = Top | Bottom | Left | Right
     }
 }

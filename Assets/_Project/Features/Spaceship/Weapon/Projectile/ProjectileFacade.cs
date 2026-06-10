@@ -1,22 +1,23 @@
+using _Project.Core.EventBus;
 using _Project.Core.Math;
 using _Project.Core.Physics;
+using _Project.Core.Render;
 using _Project.Core.Services;
-using _Project.Core.Signals;
 using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
-using _Project.Features.Common.Signals;
+using _Project.Features.Common.Event;
 
 namespace _Project.Features.Spaceship.Weapon.Projectile
 {
     public class ProjectileFacade : IFacade
     {
         public MovementModel MovementModel { get; }
-        private readonly IDrawable _drawable;
+        public IDrawable Drawable { get; }
         private readonly ICollidable _collidable;
         private readonly IMovable _movable;
         private readonly BoundsChecker _boundsChecker;
         private readonly ITimeService _timeService;
-        private readonly ISignalBus _signalBus;
+        private readonly IEventBus _eventBus;
 
 
         public ProjectileFacade(
@@ -26,15 +27,15 @@ namespace _Project.Features.Spaceship.Weapon.Projectile
             IMovable movable,
             BoundsChecker boundsChecker,
             ITimeService timeService,
-            ISignalBus signalBus)
+            IEventBus eventBus)
         {
             MovementModel = movementModel;
-            _drawable = drawable;
+            Drawable = drawable;
             _collidable = collidable;
             _movable = movable;
             _boundsChecker = boundsChecker;
             _timeService = timeService;
-            _signalBus = signalBus;
+            _eventBus = eventBus;
             _timeService.OnFixedTick += OnFixedTick;
             _collidable.OnCollided += OnCollided;
             _boundsChecker.OutOfBounds += OnOutOfBounds;
@@ -44,20 +45,18 @@ namespace _Project.Features.Spaceship.Weapon.Projectile
         {
             _movable.Move(fixedDeltaTime);
             _boundsChecker.CheckOutOfBounds();
-            _drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
+            Drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
         }
 
         private void OnCollided(ICollidable other, Vector2 collisionNormal)
         {
-            _signalBus.Fire(new DespawnRequestedSignal<ProjectileFacade>(this));
+            _eventBus.Publish(new DespawnRequestedEvent<ProjectileFacade>(this));
         }
 
         private void OnOutOfBounds()
         {
-            _signalBus.Fire(new DespawnRequestedSignal<ProjectileFacade>(this));
+            _eventBus.Publish(new DespawnRequestedEvent<ProjectileFacade>(this));
         }
-        
-        public IDrawable GetDrawable() => _drawable;
         
         public void Dispose()
         {

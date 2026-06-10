@@ -1,6 +1,9 @@
+using _Project.Core.Factories;
+using _Project.Core.Tools;
+using _Project.Features.Common;
 using _Project.Features.Spaceship.Weapon.Projectile;
 using _Project.Infrastructure.Factories;
-using _Project.Infrastructure.UnityRender;
+using _Project.Infrastructure.Render;
 using UnityEngine;
 using Zenject;
 
@@ -13,15 +16,25 @@ namespace _Project.Infrastructure.DI
         
         public override void InstallBindings()
         {
+            BindProjectileStorage();
             BindProjectileFactory(_projectilePrefab, _projectileParentTransform);
             BindProjectileSpawner();
             BindProjectileDespawner();
         }
 
+        private void BindProjectileStorage()
+        {
+            Container
+                .Bind<Storage<ProjectileFacade>>()
+                .AsSingle();
+        }
+
         private void BindProjectileFactory(ProjectileView projectileView, Transform projectileParentTransform)
         {
             Container
-                .Bind<Core.Factories.IFactory<ProjectileSpawnData, ProjectileFacade>>()
+                .Bind(
+                    typeof(Core.Factories.IFactory<ProjectileSpawnData, ProjectileFacade>),
+                    typeof(IReleaser<ProjectileFacade>))
                 .To<ProjectileFactory>()
                 .AsSingle()
                 .WithArguments(projectileView,  projectileParentTransform)
@@ -38,7 +51,7 @@ namespace _Project.Infrastructure.DI
         private void BindProjectileDespawner()
         {
             Container
-                .BindInterfacesAndSelfTo<ProjectileDespawner>()
+                .BindInterfacesAndSelfTo<Despawner<ProjectileFacade>>()
                 .AsSingle()
                 .NonLazy();
         }

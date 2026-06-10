@@ -1,13 +1,17 @@
-using System.Collections.Generic;
+using _Project.Core.Factories;
 using _Project.Core.Physics;
+using _Project.Core.Render;
 using _Project.Features.Common;
-using _Project.Infrastructure.UnityRender;
+using _Project.Infrastructure.Render;
 using UnityEngine;
 using Zenject;
 
 namespace _Project.Infrastructure.Factories
 {
-    public abstract class AbstractFactory<TSpawnData, TFacade> : Core.Factories.IFactory<TSpawnData, TFacade> where TFacade : IFacade
+    public abstract class AbstractFactory<TSpawnData, TFacade> 
+        : Core.Factories.IFactory<TSpawnData, TFacade>, 
+            IReleaser<TFacade> 
+        where TFacade : IFacade
     {
         protected readonly CustomPool<MovableView> _viewPool;
         protected readonly IInstantiator _instantiator;
@@ -31,7 +35,7 @@ namespace _Project.Infrastructure.Factories
 
         public void Release(TFacade facade)
         {
-            IDrawable drawable = facade.GetDrawable();
+            IDrawable drawable = facade.Drawable;
             drawable.Reset();
             
             var view = (MovableView)drawable;

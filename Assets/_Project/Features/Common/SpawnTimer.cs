@@ -39,6 +39,7 @@ namespace _Project.Features.Common
         public void Dispose()
         {
             _timer.Elapsed -= OnTimerElapsed;
+            _timer.Dispose();
         }
     }
 }

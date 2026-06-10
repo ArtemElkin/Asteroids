@@ -1,6 +1,6 @@
 using System;
 using _Project.Core.Ads;
-using _Project.Core.Signals;
+using _Project.Core.EventBus;
 
 namespace _Project.Features.Common.Ads
 {
@@ -8,18 +8,18 @@ namespace _Project.Features.Common.Ads
     {
         private const int DeathsPerAdInterval = 3;
         private int _deathsFromLastAd;
-        private ISignalBus _signalBus;
+        private IEventBus _eventBus;
         private IAdsService _adsService;
 
         
-        public GameplayAdsController(ISignalBus signalBus, IAdsService adsService)
+        public GameplayAdsController(IEventBus eventBus, IAdsService adsService)
         {
-            _signalBus = signalBus;
+            _eventBus = eventBus;
             _adsService = adsService;
             
-            _signalBus.Subscribe<GameStopSignal>(OnGameOver);
-            _signalBus.Subscribe<GameRestartSignal>(OnGameRestarted);
-            _signalBus.Subscribe<MenuClickedSignal>(OnMenuClicked);
+            _eventBus.Subscribe<GameStopEvent>(OnGameOver);
+            _eventBus.Subscribe<GameRestartEvent>(OnGameRestarted);
+            _eventBus.Subscribe<MenuClickedEvent>(OnMenuClicked);
             _deathsFromLastAd = 0;
         }
 
@@ -46,9 +46,9 @@ namespace _Project.Features.Common.Ads
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<GameStopSignal>(OnGameOver);
-            _signalBus.Unsubscribe<GameRestartSignal>(OnGameRestarted);
-            _signalBus.Unsubscribe<MenuClickedSignal>(OnMenuClicked);
+            _eventBus.Unsubscribe<GameStopEvent>(OnGameOver);
+            _eventBus.Unsubscribe<GameRestartEvent>(OnGameRestarted);
+            _eventBus.Unsubscribe<MenuClickedEvent>(OnMenuClicked);
         }
     }
 }

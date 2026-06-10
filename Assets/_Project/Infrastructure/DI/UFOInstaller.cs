@@ -1,7 +1,9 @@
+using _Project.Core.Factories;
 using _Project.Core.Tools;
+using _Project.Features.Common;
 using _Project.Features.UFO;
 using _Project.Infrastructure.Factories;
-using _Project.Infrastructure.UnityRender;
+using _Project.Infrastructure.Render;
 using UnityEngine;
 using Zenject;
 
@@ -32,7 +34,9 @@ namespace _Project.Infrastructure.DI
         private void BindUFOFactory(MovableView ufoPrefab, Transform parentTransform)
         {
             Container
-                .Bind<Core.Factories.IFactory<UFOSpawnData, UFOFacade>>()
+                .Bind(
+                    typeof(Core.Factories.IFactory<UFOSpawnData, UFOFacade>),
+                    typeof(IReleaser<UFOFacade>))
                 .To<UFOFactory>()
                 .AsSingle()
                 .WithArguments(ufoPrefab, parentTransform)
@@ -43,14 +47,16 @@ namespace _Project.Infrastructure.DI
         {
             Container
                 .BindInterfacesAndSelfTo<UFOSpawner>()
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
         }
 
         private void BindUFODespawner()
         {
             Container
-                .BindInterfacesAndSelfTo<UFODespawner>()
-                .AsSingle();
+                .BindInterfacesAndSelfTo<Despawner<UFOFacade>>()
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

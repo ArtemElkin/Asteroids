@@ -1,8 +1,10 @@
+using _Project.Core.Factories;
 using _Project.Core.Tools;
-using _Project.Features.Common.Clone;
+using _Project.Features.Common;
+using _Project.Features.Common.ScreenWrapClone;
 using _Project.Features.Spaceship;
 using _Project.Infrastructure.Factories;
-using _Project.Infrastructure.UnityRender;
+using _Project.Infrastructure.Render;
 using UnityEngine;
 using Zenject;
 
@@ -11,6 +13,7 @@ namespace _Project.Infrastructure.DI
     public class SpaceshipInstaller : MonoInstaller
     {
         [SerializeField] private MovableView _spaceshipPrefab;
+        [SerializeField] private TransformView _spaceshipScreenWrapClonePrefab;
         [SerializeField] private Transform _spaceshipParentTransform;
         
         
@@ -21,10 +24,7 @@ namespace _Project.Infrastructure.DI
             BindSpaceshipSpawner();
             BindSpaceshipDespawner();
             
-            BindSpaceshipCloneStorage();
-            BindSpaceshipCloneFactory(_spaceshipPrefab, _spaceshipParentTransform);
-            BindSpaceshipCloneSpawner();
-            BindSpaceshipCloneDespawner();
+            BindSpaceshipCloneFactory(_spaceshipScreenWrapClonePrefab, _spaceshipParentTransform);
         }
 
         private void BindSpaceshipStorage()
@@ -40,7 +40,9 @@ namespace _Project.Infrastructure.DI
             Transform spaceshipParentTransform)
         {
             Container
-                .Bind<Core.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade>>()
+                .Bind(
+                    typeof(Core.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade>),
+                    typeof(IReleaser<SpaceshipFacade>))
                 .To<SpaceshipFactory>()
                 .AsSingle()
                 .WithArguments(spaceshipPrefab, spaceshipParentTransform)
@@ -58,44 +60,20 @@ namespace _Project.Infrastructure.DI
         private void BindSpaceshipDespawner()
         {
             Container
-                .BindInterfacesAndSelfTo<SpaceshipDespawner>()
-                .AsSingle()
-                .NonLazy();
-        }
-
-        private void BindSpaceshipCloneStorage()
-        {
-            Container
-                .Bind<CloneStorage<SpaceshipFacade>>()
+                .BindInterfacesAndSelfTo<Despawner<SpaceshipFacade>>()
                 .AsSingle()
                 .NonLazy();
         }
 
         private void BindSpaceshipCloneFactory(
-            MovableView spaceshipPrefab,
+            TransformView spaceshipPrefab,
             Transform spaceshipParentTransform)
         {
             Container
-                .Bind<Core.Factories.IFactory<CloneSpawnData, CloneFacade<SpaceshipFacade>>>()
-                .To<CloneFactory<SpaceshipFacade>>()
+                .Bind<Core.Factories.IScreenWrapCloneFactory<ScreenWrapCloneSpawnData, SpaceshipFacade>>()
+                .To<ScreenWrapCloneFactory<SpaceshipFacade>>()
                 .AsSingle()
                 .WithArguments(spaceshipPrefab, spaceshipParentTransform)
-                .NonLazy();
-        }
-
-        private void BindSpaceshipCloneSpawner()
-        {
-            Container
-                .BindInterfacesAndSelfTo<CloneSpawner<SpaceshipFacade>>()
-                .AsSingle()
-                .NonLazy();
-        }
-
-        private void BindSpaceshipCloneDespawner()
-        {
-            Container
-                .BindInterfacesAndSelfTo<CloneDespawner<SpaceshipFacade>>()
-                .AsSingle()
                 .NonLazy();
         }
     }

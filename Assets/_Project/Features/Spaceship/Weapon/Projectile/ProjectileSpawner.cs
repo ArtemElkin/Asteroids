@@ -1,35 +1,35 @@
 using System;
+using _Project.Core.EventBus;
 using _Project.Core.Factories;
-using _Project.Core.Signals;
-using _Project.Features.Common.Signals;
+using _Project.Features.Common.Event;
 
 namespace _Project.Features.Spaceship.Weapon.Projectile
 {
     public class ProjectileSpawner : IDisposable
     {
         private readonly IFactory<ProjectileSpawnData, ProjectileFacade> _factory;
-        private readonly ISignalBus _signalBus;
+        private readonly IEventBus _eventBus;
 
 
         public ProjectileSpawner(
             IFactory<ProjectileSpawnData, ProjectileFacade> factory,
-            ISignalBus signalBus)
+            IEventBus eventBus)
         {
             _factory = factory;
-            _signalBus = signalBus;
-            _signalBus.Subscribe<SpawnRequestedSignal<ProjectileFacade>>(OnSpawnRequested);
+            _eventBus = eventBus;
+            _eventBus.Subscribe<SpawnRequestedEvent<ProjectileFacade>>(OnSpawnRequested);
         }
 
-        private void OnSpawnRequested(SpawnRequestedSignal<ProjectileFacade> signal)
+        private void OnSpawnRequested(SpawnRequestedEvent<ProjectileFacade> @event)
         {
-            var initialMovementData = signal.initialMovementData;
+            var initialMovementData = @event.initialMovementData;
             var spawnData = new ProjectileSpawnData(initialMovementData);
             _factory.Create(spawnData);
         }
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<SpawnRequestedSignal<ProjectileFacade>>(OnSpawnRequested);
+            _eventBus.Unsubscribe<SpawnRequestedEvent<ProjectileFacade>>(OnSpawnRequested);
         }
     }
 }

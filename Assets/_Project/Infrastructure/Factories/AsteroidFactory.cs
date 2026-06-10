@@ -1,8 +1,10 @@
 using _Project.Core.Physics;
+using _Project.Core.Render;
 using _Project.Features.Asteroid;
 using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
-using _Project.Infrastructure.UnityRender;
+using _Project.Features.Common.ScreenWrapClone;
+using _Project.Infrastructure.Render;
 using UnityEngine;
 using Zenject;
 
@@ -24,10 +26,16 @@ namespace _Project.Infrastructure.Factories
             collidable.Setup(movementModel);
             IHitable hitable = view.GetComponent<IHitable>();
             IMovable movable = CreateComponent<AsteroidMovementController>(movementModel);
-            bool isFragment = data.config.fragmentsCount == 0;
+            bool isFragment = data.fragmentsCount == 0;
             bool enteredGameAreaOnSpawn = isFragment;
             BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel, enteredGameAreaOnSpawn);
-            AsteroidDestructor destructor = CreateComponent<AsteroidDestructor>(movementModel, data.config, data.fragmentsCount);
+            AsteroidDestructor destructor = CreateComponent<AsteroidDestructor>(movementModel, data.fragmentsCount);
+            IScreenWrapCloneSet screenWrapCloneSet = data.hasClones
+                ? CreateComponent<ScreenWrapCloneSet<AsteroidFacade>>(
+                    movementModel,
+                    boundsChecker,
+                    drawable)
+                : new NullScreenWrapCloneSet();
             AsteroidFacade facade = CreateComponent<AsteroidFacade>(
                 movementModel,
                 movable,
@@ -35,7 +43,8 @@ namespace _Project.Infrastructure.Factories
                 drawable,
                 collidable,
                 hitable,
-                destructor);
+                destructor,
+                screenWrapCloneSet);
             return facade;
         }
     }

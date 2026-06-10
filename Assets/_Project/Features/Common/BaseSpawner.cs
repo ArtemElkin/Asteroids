@@ -1,5 +1,5 @@
 using System;
-using _Project.Core.Signals;
+using _Project.Core.EventBus;
 using _Project.Core.Tools;
 
 namespace _Project.Features.Common
@@ -9,19 +9,19 @@ namespace _Project.Features.Common
         private int _maxCount;
         private readonly Storage<T> _storage;
         private readonly SpawnTimer _spawnTimer;
-        protected readonly ISignalBus _signalBus;
+        protected readonly IEventBus _signalBus;
 
         protected BaseSpawner(
             Storage<T> storage,
             SpawnTimer spawnTimer,
-            ISignalBus signalBus)
+            IEventBus eventBus)
         {
             _storage = storage;
             _spawnTimer =  spawnTimer;
-            _signalBus = signalBus;
-            _signalBus.Subscribe<GameInitializeSignal>(Initialize);
-            _signalBus.Subscribe<GameStartSignal>(OnGameStart);
-            _signalBus.Subscribe<GameStopSignal>(OnGameStop);
+            _signalBus = eventBus;
+            _signalBus.Subscribe<GameInitializeEvent>(Initialize);
+            _signalBus.Subscribe<GameStartEvent>(OnGameStart);
+            _signalBus.Subscribe<GameStopEvent>(OnGameStop);
             _spawnTimer.OnSpawnRequested += OnSpawnRequested;
         }
 
@@ -60,12 +60,12 @@ namespace _Project.Features.Common
 
         public virtual void Dispose()
         {
-            _storage.Clear();
             _maxCount = 0;
             _spawnTimer.OnSpawnRequested -= OnSpawnRequested;
-            _signalBus.Unsubscribe<GameInitializeSignal>(Initialize);
-            _signalBus.Unsubscribe<GameStartSignal>(OnGameStart);
-            _signalBus.Unsubscribe<GameStopSignal>(OnGameStop);
+            _spawnTimer.Dispose();
+            _signalBus.Unsubscribe<GameInitializeEvent>(Initialize);
+            _signalBus.Unsubscribe<GameStartEvent>(OnGameStart);
+            _signalBus.Unsubscribe<GameStopEvent>(OnGameStop);
         }
     }
 }

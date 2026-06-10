@@ -6,12 +6,14 @@ namespace _Project.Infrastructure.UnityServices
 {
     public class UnityTimeService : MonoBehaviour, ITimeService
     {
+        [SerializeField] private float _timeScale = 1f;
         public event Action<float> OnTick;
         public event Action<float> OnFixedTick;
 
         
         private void Update()
         {
+            Time.timeScale = _timeScale;
             OnTick?.Invoke(Time.deltaTime);
         }
 

@@ -1,11 +1,11 @@
 using _Project.Core.Ads;
 using _Project.Core.Config;
+using _Project.Core.EventBus;
 using _Project.Core.Player;
 using _Project.Core.Save;
 using _Project.Core.Services;
-using _Project.Core.Signals;
 using _Project.Features.Asteroid;
-using _Project.Features.Common.Signals;
+using _Project.Features.Common.Event;
 using _Project.Features.Spaceship;
 using _Project.Features.Spaceship.Weapon.Projectile;
 using _Project.Features.UFO;
@@ -26,24 +26,21 @@ namespace _Project.Infrastructure.DI
         {
             BindSignalBus();
             
-            Container.DeclareSignal<GameInitializeSignal>();
-            Container.DeclareSignal<GameStartSignal>();
-            Container.DeclareSignal<GameStopSignal>();
-            Container.DeclareSignal<GameRestartSignal>();
-            Container.DeclareSignal<StartGameClickedSignal>();
-            Container.DeclareSignal<MenuClickedSignal>();
+            Container.DeclareSignal<GameInitializeEvent>();
+            Container.DeclareSignal<GameStartEvent>();
+            Container.DeclareSignal<GameStopEvent>();
+            Container.DeclareSignal<GameRestartEvent>();
+            Container.DeclareSignal<StartGameClickedEvent>();
+            Container.DeclareSignal<MenuClickedEvent>();
             
-            Container.DeclareSignal<DespawnRequestedSignal<SpaceshipFacade>>();
-            Container.DeclareSignal<CloneSpawnRequestedSignal<SpaceshipFacade>>();
-            Container.DeclareSignal<CloneDespawnRequestedSignal<SpaceshipFacade>>();
-            Container.DeclareSignal<SpawnRequestedSignal<AsteroidFacade>>();
-            Container.DeclareSignal<DespawnRequestedSignal<AsteroidFacade>>();
-            Container.DeclareSignal<CloneSpawnRequestedSignal<AsteroidFacade>>();
-            Container.DeclareSignal<CloneDespawnRequestedSignal<AsteroidFacade>>();
-            Container.DeclareSignal<DespawnRequestedSignal<UFOFacade>>();
-            Container.DeclareSignal<SpawnRequestedSignal<ProjectileFacade>>();
-            Container.DeclareSignal<DespawnRequestedSignal<ProjectileFacade>>();
-            Container.DeclareSignal<CollisionDetectedSignal>();
+            Container.DeclareSignal<DespawnRequestedEvent<SpaceshipFacade>>();
+            Container.DeclareSignal<SpawnRequestedEvent<AsteroidFacade>>();
+            Container.DeclareSignal<DespawnRequestedEvent<AsteroidFacade>>();
+            Container.DeclareSignal<DespawnRequestedEvent<UFOFacade>>();
+            Container.DeclareSignal<SpawnRequestedEvent<ProjectileFacade>>();
+            Container.DeclareSignal<DespawnRequestedEvent<ProjectileFacade>>();
+            
+            Container.DeclareSignal<CollisionDetectedEvent>();
 
             BindTimeService();
             BindTimer();
@@ -79,7 +76,7 @@ namespace _Project.Infrastructure.DI
             SignalBusInstaller.Install(Container);
             
             Container
-                .Bind<ISignalBus>()
+                .Bind<IEventBus>()
                 .To<ZenjectSignalBus>()
                 .AsSingle()
                 .NonLazy();

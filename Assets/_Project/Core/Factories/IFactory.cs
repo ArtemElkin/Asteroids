@@ -1,8 +1,7 @@
 namespace _Project.Core.Factories
 {
-    public interface IFactory<in TData, TEntity>
+    public interface IFactory<in TSpawnData, out TEntity>
     {
-        TEntity Create(TData data);
-        void Release(TEntity facade);
+        TEntity Create(TSpawnData data);
     }
 }

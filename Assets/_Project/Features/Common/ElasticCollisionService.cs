@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using _Project.Core.EventBus;
 using _Project.Core.Physics;
 using _Project.Core.Services;
-using _Project.Core.Signals;
-using _Project.Features.Common.Signals;
+using _Project.Features.Common.Event;
 using Physics = _Project.Core.Physics.Physics;
 
 namespace _Project.Features.Common
@@ -11,15 +11,15 @@ namespace _Project.Features.Common
     public class ElasticCollisionService : ICollisionService, IDisposable
     {
         private readonly HashSet<int> _hashes = new();
-        private readonly ISignalBus _signalBus;
+        private readonly IEventBus _eventBus;
         private readonly ITimeService _timeService;
         
 
-        public ElasticCollisionService(ISignalBus signalBus, ITimeService timeService)
+        public ElasticCollisionService(IEventBus eventBus, ITimeService timeService)
         {
-            _signalBus = signalBus;
+            _eventBus = eventBus;
             _timeService = timeService;
-            _signalBus.Subscribe<CollisionDetectedSignal>(OnCollisionDetected);
+            _eventBus.Subscribe<CollisionDetectedEvent>(OnCollisionDetected);
             _timeService.OnFixedTick += OnFixedTick;
         }
 
@@ -53,14 +53,14 @@ namespace _Project.Features.Common
             _hashes.Add(hash);
         }
 
-        private void OnCollisionDetected(CollisionDetectedSignal signal)
+        private void OnCollisionDetected(CollisionDetectedEvent @event)
         {
-            ProcessCollision(signal.collisionData);
+            ProcessCollision(@event.collisionData);
         }
 
         public void Dispose()
         {
-            _signalBus.Unsubscribe<CollisionDetectedSignal>(OnCollisionDetected);
+            _eventBus.Unsubscribe<CollisionDetectedEvent>(OnCollisionDetected);
             _timeService.OnFixedTick -= OnFixedTick;
         }
     }
