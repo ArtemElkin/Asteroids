@@ -17,7 +17,7 @@ namespace _Project.Infrastructure.Factories
 
         public override ProjectileFacade Create(ProjectileSpawnData data)
         {
-            MovableView view = _viewPool.Get();
+            MovableView view = (MovableView)_viewPool.Get();
             
             InitialMovementData initialMovementData = data.initialMovementData;
             MovementModel movementModel = CreateComponent<MovementModel>(initialMovementData);

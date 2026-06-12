@@ -23,7 +23,7 @@ namespace _Project.Features.Spaceship
         private readonly HealthController _healthController;
         private readonly StunController _stunController;
         private readonly ICollidable _collidable;
-        private readonly ProjectileWeapon _projectileWeapon;
+        private readonly BaseWeapon _weapon;
         private readonly IScreenWrapCloneSet _screenWrapCloneSet;
         private readonly ITimeService _timeService;
         private readonly IEventBus _eventBus;
@@ -39,7 +39,7 @@ namespace _Project.Features.Spaceship
             HealthController healthController,
             StunController stunController,
             ICollidable collidable,
-            ProjectileWeapon projectileWeapon,
+            BaseWeapon weapon,
             IScreenWrapCloneSet screenWrapCloneSet,
             ITimeService timeService,
             IEventBus eventBus)
@@ -53,7 +53,7 @@ namespace _Project.Features.Spaceship
             _healthController = healthController;
             _stunController = stunController;
             _collidable = collidable;
-            _projectileWeapon = projectileWeapon;
+            _weapon = weapon;
             _screenWrapCloneSet = screenWrapCloneSet;
             _timeService = timeService;
             _eventBus = eventBus;
@@ -99,7 +99,7 @@ namespace _Project.Features.Spaceship
             _boundsChecker.OutOfBounds -= OnOutOfBounds;
             _collidable.Reset();
             _healthController.Dispose();
-            _projectileWeapon.Dispose();
+            _weapon.Dispose();
         }
     }
 }

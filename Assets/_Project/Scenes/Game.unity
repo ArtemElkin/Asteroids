@@ -170,6 +170,7 @@ GameObject:
   - component: {fileID: 43507836}
   - component: {fileID: 43507837}
   - component: {fileID: 43507838}
+  - component: {fileID: 43507839}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -189,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 920d3347acf54e669dd0a3c79e93cfac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spaceshipPrefab: {fileID: 2484752557168592073, guid: 33034e4cab5e21bb898147cd84f699c5, type: 3}
+  _spaceshipPrefab: {fileID: 1566713283834706958, guid: 33034e4cab5e21bb898147cd84f699c5, type: 3}
   _spaceshipScreenWrapClonePrefab: {fileID: 4581843616795063870, guid: 95c23640d5cc02dc1851ec8cd7977859, type: 3}
   _spaceshipParentTransform: {fileID: 1798339293}
 --- !u!4 &43507831
@@ -232,7 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63fb1aa6b46d407183d9668606530104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _asteroidPrefab: {fileID: 5220412529629322873, guid: 991fa8040fcd6a384bc548e20bb7734b, type: 3}
+  _asteroidPrefab: {fileID: 545238433657434983, guid: 991fa8040fcd6a384bc548e20bb7734b, type: 3}
   _asteroidScreenWrapClonePrefab: {fileID: -8817198810754502048, guid: 267c99e27207e76659890aa56fc57947, type: 3}
   _asteroidsParentTransform: {fileID: 1875763359}
 --- !u!114 &43507835
@@ -255,6 +256,7 @@ MonoBehaviour:
   - {fileID: 43507829}
   - {fileID: 43507836}
   - {fileID: 43507838}
+  - {fileID: 43507839}
   _installerPrefabs: []
   _findSiblingMonoInstallers: 0
   _autoRun: 1
@@ -313,6 +315,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _projectilePrefab: {fileID: 4665087022204060925, guid: d21fa12d3fbbb0ce1a3de05cbc9bbc91, type: 3}
   _projectileParentTransform: {fileID: 6672684}
+--- !u!114 &43507839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43507828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3a99087ae094cf89394a930e57f04dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _laserBeamPrefab: {fileID: 5442051033876108190, guid: 5f4f43f0ac76f7e85ae8ae5dbd5d9768, type: 3}
+  _laserBeamParentTransform: {fileID: 1236056603}
 --- !u!1 &118967100
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,6 +452,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1236056602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1236056603}
+  m_Layer: 0
+  m_Name: LaserBeams
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1236056603
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236056602}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1798339292
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,3 +555,4 @@ SceneRoots:
   - {fileID: 1213199478}
   - {fileID: 1798339293}
   - {fileID: 6672684}
+  - {fileID: 1236056603}

@@ -17,7 +17,7 @@ namespace _Project.Infrastructure.Factories
 
         public override AsteroidFacade Create(AsteroidSpawnData data)
         {
-            MovableView view = _viewPool.Get();
+            MovableView view = (MovableView)_viewPool.Get();
             view.transform.localScale = new Vector3(data.radius, data.radius, 1f);
             MovementModel movementModel = CreateComponent<MovementModel>(data.initialMovementData);
             IDrawable drawable = view;

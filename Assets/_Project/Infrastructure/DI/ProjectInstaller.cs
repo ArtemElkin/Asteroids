@@ -7,6 +7,7 @@ using _Project.Core.Services;
 using _Project.Features.Asteroid;
 using _Project.Features.Common.Event;
 using _Project.Features.Spaceship;
+using _Project.Features.Spaceship.Weapon.LaserBeam;
 using _Project.Features.Spaceship.Weapon.Projectile;
 using _Project.Features.UFO;
 using _Project.Infrastructure.Input;
@@ -39,6 +40,7 @@ namespace _Project.Infrastructure.DI
             Container.DeclareSignal<DespawnRequestedEvent<UFOFacade>>();
             Container.DeclareSignal<SpawnRequestedEvent<ProjectileFacade>>();
             Container.DeclareSignal<DespawnRequestedEvent<ProjectileFacade>>();
+            Container.DeclareSignal<DespawnRequestedEvent<LaserBeamFacade>>();
             
             Container.DeclareSignal<CollisionDetectedEvent>();
 

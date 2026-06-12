@@ -8,6 +8,7 @@ namespace _Project.Features.Spaceship.Config
         public int maxHp;
         public bool hasClones;
         public SpaceshipMovementConfig movementConfig;
-        public WeaponConfig weaponConfig;
+        public ProjectileWeaponConfig projectileWeaponConfig;
+        public LaserWeaponConfig laserWeaponConfig;
     }
 }

@@ -40,8 +40,9 @@ namespace _Project.Infrastructure.Factories
                     drawable)
                 : new NullScreenWrapCloneSet();
             IReadOnlyPositionable muzzlePositionable = muzzleView;
-            ProjectileWeapon projectileWeapon = CreateComponent<ProjectileWeapon>(muzzlePositionable, movementModel, data.config.weaponConfig);
-            
+            ProjectileWeapon projectileWeapon = CreateComponent<ProjectileWeapon>(muzzlePositionable, movementModel, data.config.projectileWeaponConfig);
+            LaserWeapon laserWeapon =
+                CreateComponent<LaserWeapon>(data.config.laserWeaponConfig, movementModel, muzzlePositionable);
             SpaceshipFacade facade = CreateComponent<SpaceshipFacade>(
                 movementModel,
                 movable,
@@ -51,7 +52,7 @@ namespace _Project.Infrastructure.Factories
                 healthController,
                 collidable,
                 stunController,
-                projectileWeapon,
+                laserWeapon,
                 screenWrapCloneSet);
             return facade;
         }

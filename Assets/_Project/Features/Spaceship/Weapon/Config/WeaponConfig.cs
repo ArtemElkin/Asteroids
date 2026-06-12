@@ -4,6 +4,7 @@ namespace _Project.Features.Spaceship.Weapon.Config
 {
     public class WeaponConfig : IConfig
     {
-        public float projectilesPerSecond;
+        public float shootsPerSecond;
+        public int mouseButtonId;
     }
 }

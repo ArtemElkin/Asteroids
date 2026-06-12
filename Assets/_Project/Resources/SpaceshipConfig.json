@@ -8,8 +8,16 @@
     "thrust": 20,
     "friction": 5
   },
-  "weaponConfig":
+  "projectileWeaponConfig":
   {
-    "projectilesPerSecond": 4
+    "shootsPerSecond": 4,
+    "mouseButtonId": 0
+  },
+  "laserWeaponConfig":
+  {
+    "shootsPerSecond": 0.5,
+    "mouseButtonId": 1,
+    "aliveTime": 0.1,
+    "rechargeTime": 3.0
   }
 }

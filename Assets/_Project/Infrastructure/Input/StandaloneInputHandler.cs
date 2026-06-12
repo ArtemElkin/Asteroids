@@ -11,7 +11,7 @@ namespace _Project.Infrastructure.Input
         private const string HorizontalAxisName = "Horizontal";
         private const string VerticalAxisName = "Vertical";
         public event Action<bool> FireStateChanged;
-        public bool FireState => UnityEngine.Input.GetMouseButton(0);
+        public bool FireState(int buttonId) => UnityEngine.Input.GetMouseButton(buttonId);
         
         
         private void Update()

@@ -6,7 +6,7 @@ using Vector2 = _Project.Core.Math.Vector2;
 namespace _Project.Infrastructure.Render
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class MovableView : MonoBehaviour, IDrawable
+    public class MovableView : BaseGameEntityView
     {
         private bool _isSetup;
         private Rigidbody2D _rb;
@@ -21,7 +21,7 @@ namespace _Project.Infrastructure.Render
             _rb.MoveRotation(transform.localRotation);
         }
 
-        public void Setup(Vector2 position, float rotationAngle)
+        public override void Setup(Vector2 position, float rotationAngle)
         {
             transform.position = position.ToUnity();
             _rb.position = transform.position;
@@ -29,14 +29,14 @@ namespace _Project.Infrastructure.Render
             _isSetup = true;
         }
         
-        public void Draw(Vector2 position, float rotationAngle)
+        public override void Draw(Vector2 position, float rotationAngle)
         {
             if (!_isSetup) return;
             _rb.MovePosition(position.ToUnity());
             _rb.MoveRotation(rotationAngle);
         }
 
-        public void Reset()
+        public override void Reset()
         {
             _isSetup = false;
             transform.localPosition = Vector3.zero;

@@ -13,17 +13,17 @@ namespace _Project.Infrastructure.Factories
             IReleaser<TFacade> 
         where TFacade : IFacade
     {
-        protected readonly CustomPool<MovableView> _viewPool;
+        protected readonly CustomPool<BaseGameEntityView> _viewPool;
         protected readonly IInstantiator _instantiator;
 
 
         public AbstractFactory(
             IInstantiator instantiator,
-            MovableView prefab,
+            BaseGameEntityView prefab,
             Transform parentTransform)
         {
             _instantiator = instantiator;
-            _viewPool = new CustomPool<MovableView>(instantiator, prefab, defaultParentTransform: parentTransform);
+            _viewPool = new CustomPool<BaseGameEntityView>(instantiator, prefab, defaultParentTransform: parentTransform);
         }
 
         public abstract TFacade Create(TSpawnData data);
@@ -38,7 +38,7 @@ namespace _Project.Infrastructure.Factories
             IDrawable drawable = facade.Drawable;
             drawable.Reset();
             
-            var view = (MovableView)drawable;
+            var view = (BaseGameEntityView)drawable;
             _viewPool.Release(view);
             
             facade.Dispose();
