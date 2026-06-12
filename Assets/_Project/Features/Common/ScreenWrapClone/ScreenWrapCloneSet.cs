@@ -70,14 +70,5 @@ namespace _Project.Features.Common.ScreenWrapClone
             offsets[2] = new Vector2(0, y);
             return offsets;
         }
-
-        public void Dispose()
-        {
-            foreach (var clone in _clonesDrawables)
-            {
-                _factory.Release(clone);
-            }
-            _clonesDrawables.Clear();
-        }
     }
 }

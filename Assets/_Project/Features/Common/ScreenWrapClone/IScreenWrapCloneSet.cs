@@ -2,7 +2,7 @@ using System;
 
 namespace _Project.Features.Common.ScreenWrapClone
 {
-    public interface IScreenWrapCloneSet : IDisposable
+    public interface IScreenWrapCloneSet
     {
         void UpdateClones();
     }

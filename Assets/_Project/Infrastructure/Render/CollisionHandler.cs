@@ -57,7 +57,7 @@ namespace _Project.Infrastructure.Render
             {
                 if (collision.gameObject.TryGetComponent(out ICollidable other))
                 {
-                    if (collision.gameObject.TryGetComponent(out IProjectile _)) return;
+                    if (collision.gameObject.TryGetComponent(out IHitSource _)) return;
                     OnCollided?.Invoke(other, collision.contacts[0].normal.ToCore());
                 }
             }

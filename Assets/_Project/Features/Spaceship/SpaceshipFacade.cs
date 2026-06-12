@@ -24,7 +24,7 @@ namespace _Project.Features.Spaceship
         private readonly StunController _stunController;
         private readonly ICollidable _collidable;
         private readonly ProjectileWeapon _projectileWeapon;
-        private readonly IScreenWrapCloneSet _screeWrapCloneSet;
+        private readonly IScreenWrapCloneSet _screenWrapCloneSet;
         private readonly ITimeService _timeService;
         private readonly IEventBus _eventBus;
 
@@ -40,7 +40,7 @@ namespace _Project.Features.Spaceship
             StunController stunController,
             ICollidable collidable,
             ProjectileWeapon projectileWeapon,
-            IScreenWrapCloneSet screeWrapCloneSet,
+            IScreenWrapCloneSet screenWrapCloneSet,
             ITimeService timeService,
             IEventBus eventBus)
         {
@@ -54,7 +54,7 @@ namespace _Project.Features.Spaceship
             _stunController = stunController;
             _collidable = collidable;
             _projectileWeapon = projectileWeapon;
-            _screeWrapCloneSet = screeWrapCloneSet;
+            _screenWrapCloneSet = screenWrapCloneSet;
             _timeService = timeService;
             _eventBus = eventBus;
             
@@ -70,7 +70,7 @@ namespace _Project.Features.Spaceship
             _rotatable.Rotate();
             _boundsChecker.CheckOutOfBounds();
             Drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
-            _screeWrapCloneSet.UpdateClones();
+            _screenWrapCloneSet.UpdateClones();
         }
 
         private void OnCollided(ICollidable other, Vector2 collisionNormal)
@@ -97,9 +97,9 @@ namespace _Project.Features.Spaceship
             _healthController.OnDeath -= OnDeath;
             _collidable.OnCollided -= OnCollided;
             _boundsChecker.OutOfBounds -= OnOutOfBounds;
+            _collidable.Reset();
             _healthController.Dispose();
             _projectileWeapon.Dispose();
-            _screeWrapCloneSet.Dispose();
         }
     }
 }

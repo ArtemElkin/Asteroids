@@ -41,9 +41,6 @@ namespace _Project.Infrastructure.Factories
             var view = (MovableView)drawable;
             _viewPool.Release(view);
             
-            ICollidable collidable = view.GetComponent<ICollidable>();
-            collidable.Reset();
-            
             facade.Dispose();
         }
     }

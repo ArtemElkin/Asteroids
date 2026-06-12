@@ -5,6 +5,7 @@ using _Project.Core.Services;
 using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
 using _Project.Features.Common.Event;
+using _Project.Features.Spaceship.Weapon;
 using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Features.UFO
@@ -51,7 +52,7 @@ namespace _Project.Features.UFO
             
             _timeService.OnFixedTick += OnFixedTick;
             _collidable.OnCollided += OnCollided;
-            _hitable.OnHit += Destruct;
+            _hitable.OnHit += OnHit;
             _boundsChecker.OutOfBounds += OnOutOfBounds;
         }
 
@@ -75,7 +76,7 @@ namespace _Project.Features.UFO
             _boundsWarper.Warp(MovementModel);
         }
 
-        private void Destruct()
+        private void OnHit(HitInfo hitInfo)
         {
             _eventBus.Publish(new DespawnRequestedEvent<UFOFacade>(this));
         }
@@ -84,8 +85,9 @@ namespace _Project.Features.UFO
         {
             _timeService.OnFixedTick -= OnFixedTick;
             _collidable.OnCollided -= OnCollided;
-            _hitable.OnHit -= Destruct;
+            _hitable.OnHit -= OnHit;
             _boundsChecker.OutOfBounds -= OnOutOfBounds;
+            _collidable.Reset();
         }
     }
 }

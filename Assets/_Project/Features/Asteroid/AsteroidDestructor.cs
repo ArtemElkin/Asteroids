@@ -22,15 +22,18 @@ namespace _Project.Features.Asteroid
             _eventBus = eventBus;
         }
 
-        public void Destruct(AsteroidFacade self)
+        public void Destruct(AsteroidFacade self, bool fullDestruct)
         {
-            for (int i = 0; i < _fragmentsCount; i++)
+            if (!fullDestruct)
             {
-                var initialPosition = _movementModel.Position;
-                var initialVelocity = _movementModel.Velocity;
-                var fragmentMass = _movementModel.Mass / _fragmentsCount;
-                var initialMovementData = new InitialMovementData(fragmentMass, initialPosition, initialVelocity);
-                _eventBus.Publish(new SpawnRequestedEvent<AsteroidFacade>(initialMovementData));
+                for (int i = 0; i < _fragmentsCount; i++)
+                {
+                    var initialPosition = _movementModel.Position;
+                    var initialVelocity = _movementModel.Velocity;
+                    var fragmentMass = _movementModel.Mass / _fragmentsCount;
+                    var initialMovementData = new InitialMovementData(fragmentMass, initialPosition, initialVelocity);
+                    _eventBus.Publish(new SpawnRequestedEvent<AsteroidFacade>(initialMovementData));
+                }
             }
             _eventBus.Publish(new DespawnRequestedEvent<AsteroidFacade>(self));
         }

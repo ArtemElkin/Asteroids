@@ -13,7 +13,7 @@ namespace _Project.Features.Spaceship.Weapon.Projectile
     {
         public MovementModel MovementModel { get; }
         public IDrawable Drawable { get; }
-        private readonly ICollidable _collidable;
+        private readonly IHitSource _hitSource;
         private readonly IMovable _movable;
         private readonly BoundsChecker _boundsChecker;
         private readonly ITimeService _timeService;
@@ -23,7 +23,7 @@ namespace _Project.Features.Spaceship.Weapon.Projectile
         public ProjectileFacade(
             MovementModel movementModel,
             IDrawable drawable,
-            ICollidable collidable,
+            IHitSource hitSource,
             IMovable movable,
             BoundsChecker boundsChecker,
             ITimeService timeService,
@@ -31,13 +31,13 @@ namespace _Project.Features.Spaceship.Weapon.Projectile
         {
             MovementModel = movementModel;
             Drawable = drawable;
-            _collidable = collidable;
+            _hitSource = hitSource;
             _movable = movable;
             _boundsChecker = boundsChecker;
             _timeService = timeService;
             _eventBus = eventBus;
             _timeService.OnFixedTick += OnFixedTick;
-            _collidable.OnCollided += OnCollided;
+            _hitSource.OnHit += OnHit;
             _boundsChecker.OutOfBounds += OnOutOfBounds;
         }
 
@@ -48,7 +48,7 @@ namespace _Project.Features.Spaceship.Weapon.Projectile
             Drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
         }
 
-        private void OnCollided(ICollidable other, Vector2 collisionNormal)
+        private void OnHit()
         {
             _eventBus.Publish(new DespawnRequestedEvent<ProjectileFacade>(this));
         }
@@ -61,7 +61,7 @@ namespace _Project.Features.Spaceship.Weapon.Projectile
         public void Dispose()
         {
             _timeService.OnFixedTick -= OnFixedTick;
-            _collidable.OnCollided -= OnCollided;
+            _hitSource.OnHit -= OnHit;
             _boundsChecker.OutOfBounds -= OnOutOfBounds;
         }
     }

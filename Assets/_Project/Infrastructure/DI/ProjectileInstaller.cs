@@ -11,14 +11,13 @@ namespace _Project.Infrastructure.DI
 {
     public class ProjectileInstaller : MonoInstaller
     {
-        [SerializeField] private ProjectileView _projectilePrefab;
+        [SerializeField] private MovableView _projectilePrefab;
         [SerializeField] private Transform _projectileParentTransform;
         
         public override void InstallBindings()
         {
             BindProjectileStorage();
             BindProjectileFactory(_projectilePrefab, _projectileParentTransform);
-            BindProjectileSpawner();
             BindProjectileDespawner();
         }
 
@@ -29,7 +28,7 @@ namespace _Project.Infrastructure.DI
                 .AsSingle();
         }
 
-        private void BindProjectileFactory(ProjectileView projectileView, Transform projectileParentTransform)
+        private void BindProjectileFactory(MovableView projectileView, Transform projectileParentTransform)
         {
             Container
                 .Bind(
@@ -38,13 +37,6 @@ namespace _Project.Infrastructure.DI
                 .To<ProjectileFactory>()
                 .AsSingle()
                 .WithArguments(projectileView,  projectileParentTransform)
-                .NonLazy();
-        }
-        private void BindProjectileSpawner()
-        {
-            Container
-                .BindInterfacesAndSelfTo<ProjectileSpawner>()
-                .AsSingle()
                 .NonLazy();
         }
 

@@ -36,7 +36,7 @@ namespace _Project.Features.Common
         {
             foreach (var facade in _storage)
             {
-                _releaser.Release(facade);
+                facade.Dispose();
             }
             _storage.Clear();
             _eventBus.Unsubscribe<DespawnRequestedEvent<TFacade>>(OnDespawnRequested);;

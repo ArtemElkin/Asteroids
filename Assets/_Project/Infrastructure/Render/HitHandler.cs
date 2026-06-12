@@ -1,12 +1,13 @@
 using System;
 using _Project.Features.Common;
+using _Project.Features.Spaceship.Weapon;
 using UnityEngine;
 
 namespace _Project.Infrastructure.Render
 {
     public class HitHandler : MonoBehaviour, IHitable
     {
-        public event Action OnHit;
+        public event Action<HitInfo> OnHit;
         private const float CooldownTime = 0.5f;
         private float _timeLeftAfterLastHit;
         
@@ -21,9 +22,10 @@ namespace _Project.Infrastructure.Render
         {
             if (_timeLeftAfterLastHit > CooldownTime)
             {
-                if (collision.gameObject.TryGetComponent(out IProjectile _))
+                if (collision.gameObject.TryGetComponent(out IHitSource hitSource))
                 {
-                    OnHit?.Invoke();
+                    bool isFullDestroyHitSource = hitSource is IFullDestroyHitSource;
+                    OnHit?.Invoke(new HitInfo(isFullDestroyHitSource));
                 }
             }
         }

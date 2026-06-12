@@ -6,6 +6,7 @@ using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
 using _Project.Features.Common.Event;
 using _Project.Features.Common.ScreenWrapClone;
+using _Project.Features.Spaceship.Weapon;
 using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Features.Asteroid
@@ -52,8 +53,13 @@ namespace _Project.Features.Asteroid
             
             _timeService.OnFixedTick += OnFixedTick;
             _collidable.OnCollided += OnCollided;
-            _hitable.OnHit += Destruct;
+            if (!_boundsChecker.IsEnteredGameAreaAfterSpawn)
+            {
+                _collidable.DeactivateCollision();
+            }
+            _hitable.OnHit += OnHit;
             _boundsChecker.OutOfBounds += OnOutOfBounds;
+            _boundsChecker.EnteredGameArea += OnEnteredGameArea;
         }
 
         private void OnFixedTick(float fixedDeltaTime)
@@ -78,18 +84,24 @@ namespace _Project.Features.Asteroid
             _boundsWarper.Warp(MovementModel);
         }
 
-        private void Destruct()
+        private void OnEnteredGameArea()
         {
-            _destructor.Destruct(this);
+            _collidable.ActivateCollision();
+        }
+
+        private void OnHit(HitInfo hitInfo)
+        {
+            _destructor.Destruct(this, hitInfo.fullDestroy);
         }
 
         public void Dispose()
         {
             _timeService.OnFixedTick -= OnFixedTick;
             _collidable.OnCollided -= OnCollided;
-            _hitable.OnHit -= Destruct;
+            _hitable.OnHit -= OnHit;
             _boundsChecker.OutOfBounds -= OnOutOfBounds;
-            _screenWrapCloneSet.Dispose();
+            _boundsChecker.EnteredGameArea -= OnEnteredGameArea;
+            _collidable.Reset();
         }
     }
 }

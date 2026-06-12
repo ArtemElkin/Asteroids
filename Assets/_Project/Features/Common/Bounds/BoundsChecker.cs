@@ -6,6 +6,7 @@ namespace _Project.Features.Common.Bounds
     public class BoundsChecker
     {
         public event Action OutOfBounds;
+        public event Action EnteredGameArea;
         public bool IsEnteredGameAreaAfterSpawn { get; private set; }
         private readonly IReadOnlyPositionable _positionable;
         private readonly BoundsService _boundsService;
@@ -30,6 +31,7 @@ namespace _Project.Features.Common.Bounds
             else if (!IsEnteredGameAreaAfterSpawn && !_boundsService.IsOutOfBounds(_positionable.Position))
             {
                 IsEnteredGameAreaAfterSpawn = true;
+                EnteredGameArea?.Invoke();
             }
         }
     }

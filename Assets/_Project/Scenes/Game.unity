@@ -311,7 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0131bc03da5d4525b95043462615eaff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectilePrefab: {fileID: 709724834079221332, guid: d21fa12d3fbbb0ce1a3de05cbc9bbc91, type: 3}
+  _projectilePrefab: {fileID: 4665087022204060925, guid: d21fa12d3fbbb0ce1a3de05cbc9bbc91, type: 3}
   _projectileParentTransform: {fileID: 6672684}
 --- !u!1 &118967100
 GameObject:

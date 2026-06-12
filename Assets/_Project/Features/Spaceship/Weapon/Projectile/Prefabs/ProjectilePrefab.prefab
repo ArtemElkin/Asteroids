@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6122358432528599676}
   - component: {fileID: 3443443735896580542}
-  - component: {fileID: 709724834079221332}
   - component: {fileID: 879544749419982947}
   - component: {fileID: 7147212638869039155}
-  - component: {fileID: 2885883624203288868}
+  - component: {fileID: -2223057641012770763}
+  - component: {fileID: 4665087022204060925}
   m_Layer: 6
   m_Name: ProjectilePrefab
   m_TagString: Untagged
@@ -88,18 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &709724834079221332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1542376707559446995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de263ca06815c12989ed0105dc30c5ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &879544749419982947
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -162,7 +150,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &2885883624203288868
+--- !u!114 &-2223057641012770763
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -171,6 +159,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1542376707559446995}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc8b69afc8aa4139ba3530ecb7d45747, type: 3}
+  m_Script: {fileID: 11500000, guid: 9013873301c54f3aa95c8041cd60db5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4665087022204060925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542376707559446995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7c46a13f93247b4819bb2d0a3fdd0f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
