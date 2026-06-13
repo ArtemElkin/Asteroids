@@ -6,6 +6,7 @@ namespace _Project.Core.Player
     {
         public int maxScore = 0;
 
+        
         public PlayerSave Clone()
         {
             return new PlayerSave

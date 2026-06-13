@@ -1,7 +1,5 @@
 using System;
-using _Project.Core.Physics;
 using UnityEngine;
-using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Features.Spaceship.Health
 {
@@ -10,6 +8,7 @@ namespace _Project.Features.Spaceship.Health
         private readonly HealthModel _healthModel;
         public event Action OnDeath;
 
+        
         public HealthController(HealthModel healthModel)
         {
             _healthModel = healthModel;

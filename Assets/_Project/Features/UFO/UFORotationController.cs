@@ -1,7 +1,5 @@
 using _Project.Core.Math;
-using _Project.Core.Physics;
 using _Project.Core.Physics.Movement;
-using _Project.Features.Common;
 using _Project.Features.Common.Movement;
 
 namespace _Project.Features.UFO

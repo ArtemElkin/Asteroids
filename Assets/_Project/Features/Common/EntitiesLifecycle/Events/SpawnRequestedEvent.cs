@@ -7,6 +7,7 @@ namespace _Project.Features.Common.EntitiesLifecycle.Events
     {
         public readonly InitialMovementData initialMovementData;
 
+        
         public SpawnRequestedEvent()
         {
             initialMovementData = new InitialMovementData();

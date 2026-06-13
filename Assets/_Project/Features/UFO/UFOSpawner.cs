@@ -2,11 +2,9 @@ using _Project.Core.Config;
 using _Project.Core.EventBus;
 using _Project.Core.Factories;
 using _Project.Core.Math;
-using _Project.Core.Physics;
 using _Project.Core.Physics.Movement;
 using _Project.Core.Services;
 using _Project.Core.Tools;
-using _Project.Features.Common;
 using _Project.Features.Common.Config;
 using _Project.Features.Common.EntitiesLifecycle;
 using _Project.Features.Spaceship;
@@ -63,13 +61,10 @@ namespace _Project.Features.UFO
         {
             var initialPosition = GetRandomInitialUFOPosition();
             var initialSpeed = GetRandomInitialUFOSpeed();
-            // TODO: mass
-            var initialMovementData = new InitialMovementData(1000, initialPosition, Vector2.zero);
+            var initialMovementData = new InitialMovementData(_ufoConfig.mass, initialPosition, Vector2.zero);
             var spawnData = new UFOSpawnData(
                 initialMovementData,
-                initialSpeed,
-                _ufoConfig.accelerationMultiplier,
-                _ufoConfig.inertiaMultiplier);
+                initialSpeed);
             var ufo = _ufoFactory.Create(spawnData);
             return ufo;
         }

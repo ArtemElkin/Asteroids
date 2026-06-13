@@ -1,6 +1,5 @@
 using System;
 using _Project.Core.EventBus;
-using _Project.Features.Common.EntitiesLifecycle;
 
 namespace _Project.Infrastructure.EventBus
 {

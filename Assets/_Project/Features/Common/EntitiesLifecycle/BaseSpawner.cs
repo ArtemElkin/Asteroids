@@ -12,6 +12,7 @@ namespace _Project.Features.Common.EntitiesLifecycle
         private readonly SpawnTimer _spawnTimer;
         protected readonly IEventBus _signalBus;
 
+        
         protected BaseSpawner(
             Storage<T> storage,
             SpawnTimer spawnTimer,
@@ -61,7 +62,6 @@ namespace _Project.Features.Common.EntitiesLifecycle
 
         public virtual void Dispose()
         {
-            _maxCount = 0;
             _spawnTimer.OnSpawnRequested -= OnSpawnRequested;
             _spawnTimer.Dispose();
             _signalBus.Unsubscribe<GameInitializeEvent>(Initialize);

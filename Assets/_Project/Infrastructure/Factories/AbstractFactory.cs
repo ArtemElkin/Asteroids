@@ -1,7 +1,5 @@
 using _Project.Core.Factories;
-using _Project.Core.Physics;
 using _Project.Core.Render;
-using _Project.Features.Common;
 using _Project.Features.Common.EntitiesLifecycle;
 using _Project.Infrastructure.Render;
 using UnityEngine;
@@ -15,10 +13,10 @@ namespace _Project.Infrastructure.Factories
         where TFacade : IFacade
     {
         protected readonly CustomPool<BaseGameEntityView> _viewPool;
-        protected readonly IInstantiator _instantiator;
+        private readonly IInstantiator _instantiator;
 
 
-        public AbstractFactory(
+        protected AbstractFactory(
             IInstantiator instantiator,
             BaseGameEntityView prefab,
             Transform parentTransform)

@@ -1,9 +1,8 @@
 using System;
-using _Project.Features.Common;
 using _Project.Features.Common.Hit;
 using UnityEngine;
 
-namespace _Project.Infrastructure.Render
+namespace _Project.Infrastructure.Collision
 {
     public class HitSource : MonoBehaviour, IHitSource
     {

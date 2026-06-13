@@ -5,14 +5,15 @@ namespace _Project.Core.Math
         public float x;
         public float y;
         public float sqrMagnitude => x * x + y * y;
-        public float magnitude => (float)System.Math.Sqrt(sqrMagnitude);
+        public float magnitude => System.MathF.Sqrt(sqrMagnitude);
+        
         
         public Vector2(float x, float y)
         {
             this.x = x;
             this.y = y;
         }
-        public static Vector2 zero => new Vector2(0f, 0f);
+        public static Vector2 zero => new (0f, 0f);
         public Vector2 normalized
         {
             get
@@ -30,8 +31,8 @@ namespace _Project.Core.Math
         public static Vector2 Rotate(Vector2 vector, float degrees)
         {
             var radians = Math.DegreesToRadians(degrees);
-            float x = vector.x * (float)System.Math.Cos(radians) - vector.y * (float)System.Math.Sin(radians);
-            float y = vector.x * (float)System.Math.Sin(radians) + vector.y * (float)System.Math.Cos(radians);
+            float x = vector.x * System.MathF.Cos(radians) - vector.y * System.MathF.Sin(radians);
+            float y = vector.x * System.MathF.Sin(radians) + vector.y * System.MathF.Cos(radians);
             return new Vector2(x, y);
         }
         
@@ -54,10 +55,10 @@ namespace _Project.Core.Math
         {
             float num1 = target.x - current.x;
             float num2 = target.y - current.y;
-            float d = (float) ((double) num1 * (double) num1 + (double) num2 * (double) num2);
-            if ((double) d == 0.0 || (double) maxDistanceDelta >= 0.0 && (double) d <= (double) maxDistanceDelta * (double) maxDistanceDelta)
+            float d = num1 * num1 + num2 * num2;
+            if (d == 0.0 || maxDistanceDelta >= 0.0 && d <= maxDistanceDelta * maxDistanceDelta)
                 return target;
-            float num3 = (float) System.Math.Sqrt((double) d);
+            float num3 = System.MathF.Sqrt(d);
             return new Vector2(current.x + num1 / num3 * maxDistanceDelta, current.y + num2 / num3 * maxDistanceDelta);
         }
 

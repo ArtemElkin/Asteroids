@@ -22,7 +22,6 @@ namespace _Project.Core.Physics
         {
             // to avoid division on null
             if (collisionNormal.magnitude == 0) return v1;
-            
             return v1 - (2*m2 / (m1 + m2)) 
                 * (Vector2.Dot(v1 - v2, collisionNormal) / collisionNormal.sqrMagnitude) 
                 * collisionNormal;

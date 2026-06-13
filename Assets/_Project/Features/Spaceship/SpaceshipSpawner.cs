@@ -2,7 +2,6 @@ using System;
 using _Project.Core.Config;
 using _Project.Core.EventBus;
 using _Project.Core.GameLifecycle.Events;
-using _Project.Core.Physics;
 using _Project.Core.Physics.Movement;
 using _Project.Core.Tools;
 using _Project.Features.Spaceship.Config;

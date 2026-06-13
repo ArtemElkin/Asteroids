@@ -5,7 +5,7 @@ using _Project.Features.Spaceship.Weapon.Config;
 
 namespace _Project.Features.Spaceship.Weapon
 {
-    public abstract class BaseWeapon : IShootable, IDisposable
+    public abstract class BaseWeapon : IDisposable
     {
         private float _timeFromLastShot;
         protected readonly IFireInputService _fireInputService;

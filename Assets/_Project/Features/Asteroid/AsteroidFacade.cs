@@ -1,11 +1,9 @@
 using _Project.Core.EventBus;
-using _Project.Core.Physics;
 using _Project.Core.Physics.Collision;
 using _Project.Core.Physics.Collision.Events;
 using _Project.Core.Physics.Movement;
 using _Project.Core.Render;
 using _Project.Core.Services;
-using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
 using _Project.Features.Common.EntitiesLifecycle;
 using _Project.Features.Common.Hit;
@@ -16,8 +14,8 @@ namespace _Project.Features.Asteroid
 {
     public class AsteroidFacade : IFacade
     {
-        public MovementModel MovementModel { get; }
         public IDrawable Drawable { get; }
+        private MovementModel MovementModel { get; }
         private readonly IMovable _movable;
         private readonly BoundsChecker _boundsChecker;
         private readonly BoundsWarper  _boundsWarper;
