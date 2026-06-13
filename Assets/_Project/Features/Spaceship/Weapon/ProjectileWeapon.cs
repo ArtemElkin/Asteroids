@@ -10,6 +10,7 @@ namespace _Project.Features.Spaceship.Weapon
 {
     public class ProjectileWeapon : BaseWeapon
     {
+        private readonly ProjectileWeaponConfig _config;
         private readonly MovementModel _spaceshipMovementModel;
         private readonly IReadOnlyPositionable _muzzlePositionable;
         private readonly IFactory<ProjectileSpawnData, ProjectileFacade> _projectileFactory;
@@ -25,6 +26,7 @@ namespace _Project.Features.Spaceship.Weapon
             IFactory<ProjectileSpawnData, ProjectileFacade> projectileFactory,
             IScreenService screenService) : base(config, fireInputService, timeService)
         {
+            _config = config;
             _spaceshipMovementModel = spaceshipMovementModel;
             _muzzlePositionable = muzzlePositionable;
             _projectileFactory = projectileFactory;
@@ -38,7 +40,7 @@ namespace _Project.Features.Spaceship.Weapon
             var initialDirection = (targetPosition - initialPosition).normalized;
             var initialSpeed = 30f;
             var initialVelocity = _spaceshipMovementModel.Velocity + initialDirection * initialSpeed;
-            var spawnData = new ProjectileSpawnData(new InitialMovementData(1f, initialPosition, initialVelocity));
+            var spawnData = new ProjectileSpawnData(new InitialMovementData(1f, initialPosition, initialVelocity), _config.aliveTime);
             _projectileFactory.Create(spawnData);
         }
     }

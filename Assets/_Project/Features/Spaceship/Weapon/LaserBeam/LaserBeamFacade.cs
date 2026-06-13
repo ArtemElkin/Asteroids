@@ -25,18 +25,18 @@ namespace _Project.Features.Spaceship.Weapon.LaserBeam
             _timer = timer;
             _eventBus = eventBus;
 
-            _timer.Elapsed += Elapsed;
+            _timer.Elapsed += OnTimerElapsed;
             _timer.Start(aliveTime);
         }
 
-        private void Elapsed()
+        private void OnTimerElapsed()
         {
             _eventBus.Publish(new DespawnRequestedEvent<LaserBeamFacade>(this));
         }
 
         public void Dispose()
         {
-            _timer.Elapsed -= Elapsed;
+            _timer.Elapsed -= OnTimerElapsed;
             _timer.Dispose();
         }
     }

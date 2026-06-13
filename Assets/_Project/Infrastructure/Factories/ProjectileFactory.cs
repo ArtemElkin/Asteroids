@@ -29,6 +29,7 @@ namespace _Project.Infrastructure.Factories
             IMovable movable = CreateComponent<ProjectileMovementController>(movementModel);
             BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel);
             ProjectileFacade facade = CreateComponent<ProjectileFacade>(
+                data.aliveTime,
                 movementModel,
                 drawable,
                 hitSource,

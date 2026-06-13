@@ -6,5 +6,6 @@ namespace _Project.Features.Spaceship.Weapon.Config
     {
         public float shootsPerSecond;
         public int mouseButtonId;
+        public float aliveTime;
     }
 }

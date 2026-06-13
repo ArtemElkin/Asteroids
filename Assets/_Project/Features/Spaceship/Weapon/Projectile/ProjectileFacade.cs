@@ -19,17 +19,22 @@ namespace _Project.Features.Spaceship.Weapon.Projectile
         private readonly IHitSource _hitSource;
         private readonly IMovable _movable;
         private readonly BoundsChecker _boundsChecker;
+        private readonly BoundsWarper _boundsWarper;
         private readonly ITimeService _timeService;
+        private readonly Timer _timer;
         private readonly IEventBus _eventBus;
 
 
         public ProjectileFacade(
+            float aliveTime,
             MovementModel movementModel,
             IDrawable drawable,
             IHitSource hitSource,
             IMovable movable,
             BoundsChecker boundsChecker,
+            BoundsWarper boundsWarper,
             ITimeService timeService,
+            Timer timer,
             IEventBus eventBus)
         {
             MovementModel = movementModel;
@@ -37,11 +42,16 @@ namespace _Project.Features.Spaceship.Weapon.Projectile
             _hitSource = hitSource;
             _movable = movable;
             _boundsChecker = boundsChecker;
+            _boundsWarper = boundsWarper;
             _timeService = timeService;
+            _timer = timer;
+            
             _eventBus = eventBus;
             _timeService.OnFixedTick += OnFixedTick;
             _hitSource.OnHit += OnHit;
             _boundsChecker.OutOfBounds += OnOutOfBounds;
+            _timer.Elapsed += OnTimerElapsed;
+            _timer.Start(aliveTime);
         }
 
         private void OnFixedTick(float fixedDeltaTime)
@@ -58,6 +68,11 @@ namespace _Project.Features.Spaceship.Weapon.Projectile
 
         private void OnOutOfBounds()
         {
+            _boundsWarper.Warp(MovementModel);
+        }
+
+        private void OnTimerElapsed()
+        {
             _eventBus.Publish(new DespawnRequestedEvent<ProjectileFacade>(this));
         }
         
@@ -66,6 +81,8 @@ namespace _Project.Features.Spaceship.Weapon.Projectile
             _timeService.OnFixedTick -= OnFixedTick;
             _hitSource.OnHit -= OnHit;
             _boundsChecker.OutOfBounds -= OnOutOfBounds;
+            _timer.Elapsed -= OnTimerElapsed;
+            _timer.Dispose();
         }
     }
 }
