@@ -1,4 +1,5 @@
 using _Project.Core.Physics;
+using _Project.Core.Physics.Movement;
 using _Project.Features.Asteroid.Config;
 
 namespace _Project.Features.Asteroid

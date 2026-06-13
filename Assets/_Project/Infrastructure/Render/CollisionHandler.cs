@@ -1,6 +1,9 @@
 using System;
 using _Project.Core.Physics;
+using _Project.Core.Physics.Collision;
+using _Project.Core.Physics.Movement;
 using _Project.Features.Common;
+using _Project.Features.Common.Hit;
 using _Project.Infrastructure.UnityServices;
 using UnityEngine;
 using Vector2 = _Project.Core.Math.Vector2;
@@ -55,7 +58,7 @@ namespace _Project.Infrastructure.Render
             
             if (_timeLeftAfterLastCollision > CooldownTime)
             {
-                if (collision.gameObject.TryGetComponent(out ICollidable other))
+                if (collision.gameObject.TryGetComponent(out ICollidable other) && other.MovementModel != null)
                 {
                     if (collision.gameObject.TryGetComponent(out IHitSource _)) return;
                     OnCollided?.Invoke(other, collision.contacts[0].normal.ToCore());

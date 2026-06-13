@@ -1,7 +1,8 @@
 using System;
 using _Project.Core.EventBus;
+using _Project.Features.Common.EntitiesLifecycle;
 
-namespace _Project.Infrastructure.Signals
+namespace _Project.Infrastructure.EventBus
 {
     public class ZenjectSignalBus : IEventBus
     {
@@ -11,22 +12,22 @@ namespace _Project.Infrastructure.Signals
         public ZenjectSignalBus(Zenject.SignalBus signalBus) =>
             _signalBus = signalBus;
 
-        public void Subscribe<TSignal>(Action callback) =>
-            _signalBus.Subscribe<TSignal>(callback);
+        public void Subscribe<TEvent>(Action callback) where TEvent : IEvent =>
+            _signalBus.Subscribe<TEvent>(callback);
         
-        public void Subscribe<TSignal>(Action<TSignal> callback) => 
+        public void Subscribe<TEvent>(Action<TEvent> callback) where TEvent : IEvent => 
             _signalBus.Subscribe(callback);
         
-        public void Unsubscribe<TSignal>(Action callback) =>
-            _signalBus.Unsubscribe<TSignal>(callback);
+        public void Unsubscribe<TEvent>(Action callback) where TEvent : IEvent =>
+            _signalBus.Unsubscribe<TEvent>(callback);
         
-        public void Unsubscribe<TSignal>(Action<TSignal> callback) =>
+        public void Unsubscribe<TEvent>(Action<TEvent> callback) where TEvent : IEvent =>
             _signalBus.Unsubscribe(callback);
         
-        public void Publish<TSignal>() => 
-            _signalBus.Fire<TSignal>();
+        public void Publish<TEvent>() where TEvent : IEvent => 
+            _signalBus.Fire<TEvent>();
 
-        public void Publish<TSignal>(TSignal signal) => 
+        public void Publish<TEvent>(TEvent signal) where TEvent : IEvent => 
             _signalBus.Fire(signal);
     }
 }

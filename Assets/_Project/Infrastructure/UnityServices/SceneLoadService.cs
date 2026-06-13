@@ -14,8 +14,8 @@ namespace _Project.Infrastructure.UnityServices
         public SceneLoadService(IEventBus eventBus)
         {
             _eventBus = eventBus;
-            _eventBus.Subscribe<StartGameClickedEvent>(LoadGameScene);
-            _eventBus.Subscribe<MenuClickedEvent>(LoadMenuScene);
+            // _eventBus.Subscribe<StartGameClickedEvent>(LoadGameScene);
+            // _eventBus.Subscribe<MenuClickedEvent>(LoadMenuScene);
         }
         
         private void LoadScene(string sceneName)
@@ -35,8 +35,8 @@ namespace _Project.Infrastructure.UnityServices
 
         public void Dispose()
         {
-            _eventBus.Unsubscribe<StartGameClickedEvent>(LoadGameScene);
-            _eventBus.Unsubscribe<MenuClickedEvent>(LoadMenuScene);
+            // _eventBus.Unsubscribe<StartGameClickedEvent>(LoadGameScene);
+            // _eventBus.Unsubscribe<MenuClickedEvent>(LoadMenuScene);
         }
     }
 }

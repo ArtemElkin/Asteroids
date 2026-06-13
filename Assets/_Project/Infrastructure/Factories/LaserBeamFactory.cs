@@ -1,4 +1,3 @@
-using _Project.Core.Physics;
 using _Project.Core.Render;
 using _Project.Features.Spaceship.Weapon.LaserBeam;
 using _Project.Infrastructure.Render;
@@ -9,9 +8,8 @@ namespace _Project.Infrastructure.Factories
 {
     public class LaserBeamFactory : AbstractFactory<LaserBeamSpawnData, LaserBeamFacade>
     {
-        public LaserBeamFactory(IInstantiator instantiator, TransformView prefab, Transform parentTransform) : base(instantiator, prefab, parentTransform)
-        {
-        }
+        public LaserBeamFactory(IInstantiator instantiator, TransformView prefab, Transform parentTransform) : 
+            base(instantiator, prefab, parentTransform) { }
         
         public override LaserBeamFacade Create(LaserBeamSpawnData data)
         {

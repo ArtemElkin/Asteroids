@@ -1,17 +1,19 @@
 using _Project.Core.Ads;
 using _Project.Core.Config;
 using _Project.Core.EventBus;
+using _Project.Core.GameLifecycle.Events;
+using _Project.Core.Physics.Collision.Events;
 using _Project.Core.Player;
 using _Project.Core.Save;
 using _Project.Core.Services;
 using _Project.Features.Asteroid;
-using _Project.Features.Common.Event;
+using _Project.Features.Common.EntitiesLifecycle.Events;
 using _Project.Features.Spaceship;
 using _Project.Features.Spaceship.Weapon.LaserBeam;
 using _Project.Features.Spaceship.Weapon.Projectile;
 using _Project.Features.UFO;
+using _Project.Infrastructure.EventBus;
 using _Project.Infrastructure.Input;
-using _Project.Infrastructure.Signals;
 using _Project.Infrastructure.UnityServices;
 using UnityEngine;
 using Zenject;
@@ -31,8 +33,8 @@ namespace _Project.Infrastructure.DI
             Container.DeclareSignal<GameStartEvent>();
             Container.DeclareSignal<GameStopEvent>();
             Container.DeclareSignal<GameRestartEvent>();
-            Container.DeclareSignal<StartGameClickedEvent>();
-            Container.DeclareSignal<MenuClickedEvent>();
+            // Container.DeclareSignal<StartGameClickedEvent>();
+            // Container.DeclareSignal<MenuClickedEvent>();
             
             Container.DeclareSignal<DespawnRequestedEvent<SpaceshipFacade>>();
             Container.DeclareSignal<SpawnRequestedEvent<AsteroidFacade>>();

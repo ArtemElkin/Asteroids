@@ -1,6 +1,7 @@
 using _Project.Core.Factories;
 using _Project.Core.Input;
 using _Project.Core.Physics;
+using _Project.Core.Physics.Movement;
 using _Project.Core.Services;
 using _Project.Features.Spaceship.Weapon.Config;
 using _Project.Features.Spaceship.Weapon.LaserBeam;

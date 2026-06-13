@@ -1,11 +1,14 @@
 using _Project.Core.EventBus;
 using _Project.Core.Math;
 using _Project.Core.Physics;
+using _Project.Core.Physics.Movement;
 using _Project.Core.Render;
 using _Project.Core.Services;
 using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
-using _Project.Features.Common.Event;
+using _Project.Features.Common.EntitiesLifecycle;
+using _Project.Features.Common.EntitiesLifecycle.Events;
+using _Project.Features.Common.Hit;
 
 namespace _Project.Features.Spaceship.Weapon.Projectile
 {

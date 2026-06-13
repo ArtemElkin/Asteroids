@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using _Project.Core.Physics;
+using _Project.Core.Physics.Collision;
+using _Project.Core.Physics.Movement;
 using _Project.Core.Render;
 using _Project.Features.Common;
 using _Project.Features.Common.Bounds;
@@ -40,9 +43,12 @@ namespace _Project.Infrastructure.Factories
                     drawable)
                 : new NullScreenWrapCloneSet();
             IReadOnlyPositionable muzzlePositionable = muzzleView;
+            
             ProjectileWeapon projectileWeapon = CreateComponent<ProjectileWeapon>(muzzlePositionable, movementModel, data.config.projectileWeaponConfig);
             LaserWeapon laserWeapon =
                 CreateComponent<LaserWeapon>(data.config.laserWeaponConfig, movementModel, muzzlePositionable);
+            var weapons = new BaseWeapon[] { projectileWeapon, laserWeapon };
+            
             SpaceshipFacade facade = CreateComponent<SpaceshipFacade>(
                 movementModel,
                 movable,
@@ -52,7 +58,7 @@ namespace _Project.Infrastructure.Factories
                 healthController,
                 collidable,
                 stunController,
-                laserWeapon,
+                weapons,
                 screenWrapCloneSet);
             return facade;
         }

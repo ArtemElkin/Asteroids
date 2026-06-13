@@ -2,7 +2,8 @@ using _Project.Core.EventBus;
 using _Project.Core.Render;
 using _Project.Core.Services;
 using _Project.Features.Common;
-using _Project.Features.Common.Event;
+using _Project.Features.Common.EntitiesLifecycle;
+using _Project.Features.Common.EntitiesLifecycle.Events;
 using _Project.Features.Spaceship.Weapon.Config;
 
 namespace _Project.Features.Spaceship.Weapon.LaserBeam

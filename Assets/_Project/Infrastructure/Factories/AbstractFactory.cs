@@ -2,6 +2,7 @@ using _Project.Core.Factories;
 using _Project.Core.Physics;
 using _Project.Core.Render;
 using _Project.Features.Common;
+using _Project.Features.Common.EntitiesLifecycle;
 using _Project.Infrastructure.Render;
 using UnityEngine;
 using Zenject;

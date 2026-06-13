@@ -1,8 +1,11 @@
+using _Project.Core.Physics.Collision;
 using _Project.Core.Services;
 using _Project.Core.Tools;
+using _Project.Features.Ads;
 using _Project.Features.Common;
-using _Project.Features.Common.Ads;
-using _Project.Infrastructure.Lifecycle;
+using _Project.Features.Common.Collision;
+using _Project.Features.Common.EntitiesLifecycle;
+using _Project.Infrastructure.GameLifecycle;
 using _Project.Infrastructure.UnityServices;
 using UnityEngine;
 using Zenject;
@@ -37,7 +40,7 @@ namespace _Project.Infrastructure.DI
         private void BindCollisionService()
         {
             Container
-                .BindInterfacesAndSelfTo<ElasticCollisionService>()
+                .Bind<ElasticCollisionService>()
                 .AsSingle();
         }
 

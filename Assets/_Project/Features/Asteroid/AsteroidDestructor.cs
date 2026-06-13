@@ -1,7 +1,8 @@
 using _Project.Core.EventBus;
 using _Project.Core.Physics;
+using _Project.Core.Physics.Movement;
 using _Project.Features.Asteroid.Config;
-using _Project.Features.Common.Event;
+using _Project.Features.Common.EntitiesLifecycle.Events;
 
 namespace _Project.Features.Asteroid
 {

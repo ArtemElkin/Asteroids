@@ -1,0 +1,16 @@
+using System;
+using _Project.Core.Math;
+using _Project.Core.Physics.Movement;
+
+namespace _Project.Core.Physics.Collision
+{
+    public interface ICollidable
+    {
+        void Setup(MovementModel movementModel);
+        void Reset();
+        MovementModel MovementModel { get; }
+        event Action<ICollidable, Vector2> OnCollided;
+        void ActivateCollision();
+        void DeactivateCollision();
+    }
+}
