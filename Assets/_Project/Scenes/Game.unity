@@ -193,6 +193,7 @@ MonoBehaviour:
   _spaceshipPrefab: {fileID: 1566713283834706958, guid: 33034e4cab5e21bb898147cd84f699c5, type: 3}
   _spaceshipScreenWrapClonePrefab: {fileID: 4581843616795063870, guid: 95c23640d5cc02dc1851ec8cd7977859, type: 3}
   _spaceshipParentTransform: {fileID: 1798339293}
+  _stunEffectPrefab: {fileID: 469551950101887731, guid: b87ff9ef358c8bf31a797cbc80380305, type: 3}
 --- !u!4 &43507831
 Transform:
   m_ObjectHideFlags: 0

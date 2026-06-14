@@ -1,5 +1,6 @@
 using _Project.Core.Factories;
 using _Project.Core.Render;
+using _Project.Features.Common.Effect;
 using _Project.Features.Common.ScreenWrapClone;
 using _Project.Infrastructure.Render;
 using UnityEngine;

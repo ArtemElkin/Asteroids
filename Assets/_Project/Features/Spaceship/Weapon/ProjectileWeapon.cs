@@ -24,7 +24,7 @@ namespace _Project.Features.Spaceship.Weapon
             MovementModel spaceshipMovementModel,
             IReadOnlyPositionable muzzlePositionable,
             IFactory<ProjectileSpawnData, ProjectileFacade> projectileFactory,
-            IScreenService screenService) : base(config, fireInputService, timeService)
+            IScreenService screenService) : base(config, fireInputService, spaceshipMovementModel, timeService)
         {
             _config = config;
             _spaceshipMovementModel = spaceshipMovementModel;

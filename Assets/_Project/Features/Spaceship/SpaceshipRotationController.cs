@@ -23,6 +23,8 @@ namespace _Project.Features.Spaceship
         
         protected override void UpdateAngleOnRotate()
         {
+            if (_movementModel.IsStunned) return;
+            
             var lookPoint = _screenService.ScreenPointToWorldPoint(_fireInputService.GetScreenPointerPosition());
             var rotateDirection = lookPoint - _movementModel.Position;
             var rotateAngleRad = Math.Atan2(rotateDirection.y, rotateDirection.x);

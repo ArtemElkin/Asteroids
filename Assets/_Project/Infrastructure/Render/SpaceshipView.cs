@@ -7,6 +7,5 @@ namespace _Project.Infrastructure.Render
         [SerializeField] private MuzzleView _muzzleView;
 
         public MuzzleView GetMuzzleView() => _muzzleView;
-
     }
 }

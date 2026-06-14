@@ -22,7 +22,7 @@ namespace _Project.Features.Spaceship.Weapon
             MovementModel spaceshipMovementModel,
             IReadOnlyPositionable muzzlePositionable,
             IFactory<LaserBeamSpawnData, LaserBeamFacade> laserBeamFactory) 
-            : base(config, fireInputService, timeService)
+            : base(config, fireInputService, spaceshipMovementModel, timeService)
         {
             _spaceshipMovementModel = spaceshipMovementModel;
             _muzzlePositionable = muzzlePositionable;

@@ -10,6 +10,7 @@ namespace _Project.Features.Common.ScreenWrapClone
 {
     public class ScreenWrapCloneSet<TOriginFacade> : IScreenWrapCloneSet
     {
+        public IReadOnlyCollection<IDrawable> ClonesDrawables => _clonesDrawables;
         private readonly List<IDrawable> _clonesDrawables;
         private readonly MovementModel _originMovementModel;
         private readonly BoundsChecker _originBoundsChecker;
@@ -69,6 +70,14 @@ namespace _Project.Features.Common.ScreenWrapClone
             offsets[1] = new Vector2(x, 0);
             offsets[2] = new Vector2(0, y);
             return offsets;
+        }
+
+        public void Dispose()
+        {
+            foreach (var drawable in _clonesDrawables)
+            {
+                _factory.Release(drawable);
+            }
         }
     }
 }

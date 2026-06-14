@@ -39,7 +39,8 @@ namespace _Project.Infrastructure.DI
         {
             Container
                 .Bind<ElasticCollisionService>()
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
         }
 
         private void BindPositionGenerator()
