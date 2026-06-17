@@ -2,7 +2,7 @@ using _Project.Core.EventBus;
 
 namespace _Project.Core.Physics.Collision.Events
 {
-    public class CollisionDetectedEvent : IEvent
+    public sealed class CollisionDetectedEvent : IEvent
     {
         public readonly CollisionData collisionData;
 
@@ -11,6 +11,5 @@ namespace _Project.Core.Physics.Collision.Events
         {
             this.collisionData = collisionData;
         }
-        
     }
 }

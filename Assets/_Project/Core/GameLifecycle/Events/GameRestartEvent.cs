@@ -2,7 +2,7 @@ using _Project.Core.EventBus;
 
 namespace _Project.Core.GameLifecycle.Events
 {
-    public class GameRestartEvent : IEvent
+    public sealed class GameRestartEvent : IEvent
     {
         
     }

@@ -3,11 +3,13 @@ using _Project.Core.Physics.Movement;
 
 namespace _Project.Features.Common.EntitiesLifecycle.Events
 {
-    public class SpawnRequestedEvent<T> : IEvent where T : IFacade
+    public sealed class SpawnRequestedEvent<T> : ISpawnEvent<InitialMovementData> where T : IFacade
     {
         public readonly InitialMovementData initialMovementData;
+        public InitialMovementData SpawnData => initialMovementData;
 
-        
+
+
         public SpawnRequestedEvent()
         {
             initialMovementData = new InitialMovementData();

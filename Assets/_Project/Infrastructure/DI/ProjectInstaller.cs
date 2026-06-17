@@ -8,6 +8,7 @@ using _Project.Core.Save;
 using _Project.Core.Services;
 using _Project.Features.Asteroid;
 using _Project.Features.Common.EntitiesLifecycle.Events;
+using _Project.Features.Common.Hit.Events;
 using _Project.Features.Spaceship;
 using _Project.Features.Spaceship.Weapon.LaserBeam;
 using _Project.Features.Spaceship.Weapon.Projectile;
@@ -45,6 +46,8 @@ namespace _Project.Infrastructure.DI
             Container.DeclareSignal<DespawnRequestedEvent<LaserBeamFacade>>();
             
             Container.DeclareSignal<CollisionDetectedEvent>();
+            Container.DeclareSignal<CollisionProcessedEvent>();
+            Container.DeclareSignal<HitEvent>();
 
             BindTimeService();
             BindTimer();

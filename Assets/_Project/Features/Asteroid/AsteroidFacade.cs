@@ -7,6 +7,7 @@ using _Project.Core.Services;
 using _Project.Features.Common.Bounds;
 using _Project.Features.Common.EntitiesLifecycle;
 using _Project.Features.Common.Hit;
+using _Project.Features.Common.Hit.Events;
 using _Project.Features.Common.ScreenWrapClone;
 using Vector2 = _Project.Core.Math.Vector2;
 
@@ -71,11 +72,10 @@ namespace _Project.Features.Asteroid
             _screenWrapCloneSet.UpdateClones();
         }
 
-        private void OnCollided(ICollidable other, Vector2 collisionNormal)
+        private void OnCollided(CollisionData collisionData)
         {
             if (_boundsChecker.IsEnteredGameAreaAfterSpawn)
             {
-                var collisionData = new CollisionData(MovementModel, other.MovementModel, collisionNormal);
                 _eventBus.Publish(new CollisionDetectedEvent(collisionData));
             }
         }
@@ -92,6 +92,7 @@ namespace _Project.Features.Asteroid
 
         private void OnHit(HitInfo hitInfo)
         {
+            _eventBus.Publish(new HitEvent(hitInfo));
             _destructor.Destruct(this, hitInfo.fullDestroy);
         }
 

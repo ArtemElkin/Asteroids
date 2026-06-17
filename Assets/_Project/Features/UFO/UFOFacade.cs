@@ -9,6 +9,7 @@ using _Project.Features.Common.Bounds;
 using _Project.Features.Common.EntitiesLifecycle;
 using _Project.Features.Common.EntitiesLifecycle.Events;
 using _Project.Features.Common.Hit;
+using _Project.Features.Common.Hit.Events;
 using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Features.UFO
@@ -68,9 +69,8 @@ namespace _Project.Features.UFO
             Drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
         }
 
-        private void OnCollided(ICollidable other, Vector2 collisionNormal)
+        private void OnCollided(CollisionData collisionData)
         {
-            var collisionData = new CollisionData(MovementModel, other.MovementModel, collisionNormal);
             _eventBus.Publish(new CollisionDetectedEvent(collisionData));
         }
 
@@ -81,6 +81,7 @@ namespace _Project.Features.UFO
 
         private void OnHit(HitInfo hitInfo)
         {
+            _eventBus.Publish(new HitEvent(hitInfo));
             _eventBus.Publish(new DespawnRequestedEvent<UFOFacade>(this));
         }
         

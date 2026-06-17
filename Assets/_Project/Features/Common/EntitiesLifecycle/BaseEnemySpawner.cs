@@ -5,7 +5,7 @@ using _Project.Core.Tools;
 
 namespace _Project.Features.Common.EntitiesLifecycle
 {
-    public abstract class BaseSpawner<T> : IDisposable where T : class
+    public abstract class BaseEnemySpawner<T> : IDisposable where T : class
     {
         private int _maxCount;
         private readonly Storage<T> _storage;
@@ -13,7 +13,7 @@ namespace _Project.Features.Common.EntitiesLifecycle
         protected readonly IEventBus _signalBus;
 
         
-        protected BaseSpawner(
+        protected BaseEnemySpawner(
             Storage<T> storage,
             SpawnTimer spawnTimer,
             IEventBus eventBus)

@@ -9,7 +9,7 @@ namespace _Project.Core.Physics.Collision
         void Setup(MovementModel movementModel);
         void Reset();
         MovementModel MovementModel { get; }
-        event Action<ICollidable, Vector2> OnCollided;
+        event Action<CollisionData> OnCollided;
         void ActivateCollision();
         void DeactivateCollision();
     }

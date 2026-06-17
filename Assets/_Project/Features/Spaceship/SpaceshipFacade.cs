@@ -77,10 +77,9 @@ namespace _Project.Features.Spaceship
             _screenWrapCloneSet.UpdateClones();
         }
 
-        private void OnCollided(ICollidable other, Vector2 collisionNormal)
+        private void OnCollided(CollisionData collisionData)
         {
             _healthController.ApplyDamage(1);
-            var collisionData = new CollisionData(MovementModel, other.MovementModel, collisionNormal);
             _eventBus.Publish(new CollisionDetectedEvent(collisionData));
             _ = _stunController.ApplyStun(3f);
         }

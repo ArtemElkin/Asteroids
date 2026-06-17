@@ -6,14 +6,14 @@ using Zenject;
 
 namespace _Project.Infrastructure.Factories
 {
-    public class LaserBeamFactory : AbstractFactory<LaserBeamSpawnData, LaserBeamFacade>
+    public class LaserBeamFactory : AbstractFacadeFactory<LaserBeamSpawnData, LaserBeamFacade, TransformView>
     {
         public LaserBeamFactory(IInstantiator instantiator, TransformView prefab, Transform parentTransform) : 
             base(instantiator, prefab, parentTransform) { }
         
         public override LaserBeamFacade Create(LaserBeamSpawnData data)
         {
-            TransformView view = (TransformView)_viewPool.Get();
+            TransformView view = _pool.Get();
             IDrawable drawable = view;
             drawable.Setup(data.initialPosition, data.initialRotationAngle);
             LaserBeamFacade facade = CreateComponent<LaserBeamFacade>(drawable, data.aliveTime);

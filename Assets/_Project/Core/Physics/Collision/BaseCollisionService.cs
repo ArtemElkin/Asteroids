@@ -37,7 +37,7 @@ namespace _Project.Core.Physics.Collision
             if (_hashes.Contains(hash)) return;
             
             OnProcessCollision(collisionData);
-            
+            _eventBus.Publish(new CollisionProcessedEvent(collisionData));
             _hashes.Add(hash);
         }
 

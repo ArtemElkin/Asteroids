@@ -1,5 +1,6 @@
 using System;
 using _Project.Features.Common.Hit;
+using _Project.Infrastructure.UnityServices;
 using UnityEngine;
 
 namespace _Project.Infrastructure.Collision
@@ -24,7 +25,9 @@ namespace _Project.Infrastructure.Collision
                 if (collision.gameObject.TryGetComponent(out IHitSource hitSource))
                 {
                     bool isFullDestroyHitSource = hitSource is IFullDestroyHitSource;
-                    OnHit?.Invoke(new HitInfo(isFullDestroyHitSource));
+                    OnHit?.Invoke(new HitInfo(
+                        isFullDestroyHitSource,
+                        collision.contacts[0].point.ToCore()));
                 }
             }
         }

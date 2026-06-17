@@ -12,7 +12,7 @@ using _Project.Features.Common.EntitiesLifecycle.Events;
 
 namespace _Project.Features.Asteroid
 {
-    public class AsteroidSpawner : BaseSpawner<AsteroidFacade>
+    public class AsteroidSpawner : BaseEnemySpawner<AsteroidFacade>
     {
         private GameConfig _gameConfig;
         private AsteroidConfig _asteroidConfig;

@@ -11,14 +11,14 @@ using Zenject;
 
 namespace _Project.Infrastructure.Factories
 {
-    public class AsteroidFactory : AbstractFactory<AsteroidSpawnData, AsteroidFacade>
+    public class AsteroidFactory : AbstractFacadeFactory<AsteroidSpawnData, AsteroidFacade, MovableView>
     {
         public AsteroidFactory(IInstantiator instantiator, MovableView prefab, Transform parentTransform) : 
             base(instantiator, prefab, parentTransform) { }
 
         public override AsteroidFacade Create(AsteroidSpawnData data)
         {
-            MovableView view = (MovableView)_viewPool.Get();
+            MovableView view = _pool.Get();
             view.transform.localScale = new Vector3(data.radius, data.radius, 1f);
             MovementModel movementModel = CreateComponent<MovementModel>(data.initialMovementData);
             IDrawable drawable = view;

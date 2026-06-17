@@ -9,14 +9,14 @@ using Zenject;
 
 namespace _Project.Infrastructure.Factories
 {
-    public class ProjectileFactory : AbstractFactory<ProjectileSpawnData, ProjectileFacade>
+    public class ProjectileFactory : AbstractFacadeFactory<ProjectileSpawnData, ProjectileFacade, MovableView>
     {
         public ProjectileFactory(IInstantiator instantiator, MovableView prefab, Transform parentTransform) : 
             base(instantiator, prefab, parentTransform) { }
 
         public override ProjectileFacade Create(ProjectileSpawnData data)
         {
-            MovableView view = (MovableView)_viewPool.Get();
+            MovableView view = _pool.Get();
             
             InitialMovementData initialMovementData = data.initialMovementData;
             MovementModel movementModel = CreateComponent<MovementModel>(initialMovementData);

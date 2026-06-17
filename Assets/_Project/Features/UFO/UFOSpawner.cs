@@ -11,7 +11,7 @@ using _Project.Features.Spaceship;
 
 namespace _Project.Features.UFO
 {
-    public class UFOSpawner : BaseSpawner<UFOFacade>
+    public class UFOSpawner : BaseEnemySpawner<UFOFacade>
     {
         private GameConfig _gameConfig;
         private UFOConfig _ufoConfig;

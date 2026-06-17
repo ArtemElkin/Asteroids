@@ -12,7 +12,7 @@ namespace _Project.Infrastructure.Collision
     public class CollisionHandler : MonoBehaviour, ICollidable
     {
         public MovementModel MovementModel { get; private set; }
-        public event Action<ICollidable, Vector2> OnCollided;
+        public event Action<CollisionData> OnCollided;
         private const float CooldownTime = 0.5f;
         private float _timeLeftAfterLastCollision;
         private Collider2D _collider;
@@ -59,7 +59,12 @@ namespace _Project.Infrastructure.Collision
                 if (collision.gameObject.TryGetComponent(out ICollidable other) && other.MovementModel != null)
                 {
                     if (collision.gameObject.TryGetComponent(out IHitSource _)) return;
-                    OnCollided?.Invoke(other, collision.contacts[0].normal.ToCore());
+                    var collisionData = new CollisionData(
+                        MovementModel, 
+                        other.MovementModel, 
+                        collision.contacts[0].normal.ToCore(), 
+                        collision.contacts[0].point.ToCore());
+                    OnCollided?.Invoke(collisionData);
                 }
             }
         }

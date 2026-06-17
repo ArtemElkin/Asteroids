@@ -11,14 +11,14 @@ using Zenject;
 
 namespace _Project.Infrastructure.Factories
 {
-    public class UFOFactory : AbstractFactory<UFOSpawnData, UFOFacade>
+    public class UFOFactory : AbstractFacadeFactory<UFOSpawnData, UFOFacade, MovableView>
     {
         public UFOFactory(IInstantiator instantiator, MovableView prefab, Transform parentTransform) :
             base(instantiator, prefab, parentTransform) { }
 
         public override UFOFacade Create(UFOSpawnData data)
         {
-            MovableView view = (MovableView)_viewPool.Get();
+            MovableView view = _pool.Get();
             InitialMovementData initialMovementData = data.initialMovementData;
             MovementModel movementModel = CreateComponent<MovementModel>(initialMovementData);
             IDrawable drawable = view;

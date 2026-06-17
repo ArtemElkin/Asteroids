@@ -15,14 +15,14 @@ using Zenject;
 
 namespace _Project.Infrastructure.Factories
 {
-    public class SpaceshipFactory : AbstractFactory<SpaceshipSpawnData, SpaceshipFacade>
+    public class SpaceshipFactory : AbstractFacadeFactory<SpaceshipSpawnData, SpaceshipFacade, SpaceshipView>
     {
         public SpaceshipFactory(IInstantiator instantiator, SpaceshipView prefab, Transform parentTransform) :
             base(instantiator, prefab, parentTransform) { }
 
         public override SpaceshipFacade Create(SpaceshipSpawnData data)
         {
-            SpaceshipView view = (SpaceshipView)_viewPool.Get();
+            SpaceshipView view = _pool.Get();
             MuzzleView muzzleView = view.GetMuzzleView();
             InitialMovementData initialMovementData = data.initialMovementData;
             MovementModel movementModel = CreateComponent<MovementModel>(initialMovementData);

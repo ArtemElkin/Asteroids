@@ -171,6 +171,7 @@ GameObject:
   - component: {fileID: 43507837}
   - component: {fileID: 43507838}
   - component: {fileID: 43507839}
+  - component: {fileID: 43507840}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -193,7 +194,6 @@ MonoBehaviour:
   _spaceshipPrefab: {fileID: 1566713283834706958, guid: 33034e4cab5e21bb898147cd84f699c5, type: 3}
   _spaceshipScreenWrapClonePrefab: {fileID: 4581843616795063870, guid: 95c23640d5cc02dc1851ec8cd7977859, type: 3}
   _spaceshipParentTransform: {fileID: 1798339293}
-  _stunEffectPrefab: {fileID: 469551950101887731, guid: b87ff9ef358c8bf31a797cbc80380305, type: 3}
 --- !u!4 &43507831
 Transform:
   m_ObjectHideFlags: 0
@@ -258,6 +258,7 @@ MonoBehaviour:
   - {fileID: 43507836}
   - {fileID: 43507838}
   - {fileID: 43507839}
+  - {fileID: 43507840}
   _installerPrefabs: []
   _findSiblingMonoInstallers: 0
   _autoRun: 1
@@ -330,6 +331,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _laserBeamPrefab: {fileID: 5442051033876108190, guid: 5f4f43f0ac76f7e85ae8ae5dbd5d9768, type: 3}
   _laserBeamParentTransform: {fileID: 1236056603}
+--- !u!114 &43507840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43507828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a104bca41b4ad0ac116088b6a10828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _collisionEffect: {fileID: 7557771181261995415, guid: 1a89207e82ef8e7a69c2d127add2b4b4, type: 3}
+  _hitEffect: {fileID: 7557771181261995415, guid: 1a89207e82ef8e7a69c2d127add2b4b4, type: 3}
+  _vfxParentTransform: {fileID: 773718640}
 --- !u!1 &118967100
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,6 +433,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &773718639
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 773718640}
+  m_Layer: 0
+  m_Name: VFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &773718640
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773718639}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -557,3 +604,4 @@ SceneRoots:
   - {fileID: 1798339293}
   - {fileID: 6672684}
   - {fileID: 1236056603}
+  - {fileID: 773718640}
