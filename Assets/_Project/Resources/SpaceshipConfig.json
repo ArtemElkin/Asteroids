@@ -16,9 +16,10 @@
   },
   "laserWeaponConfig":
   {
-    "shootsPerSecond": 0.5,
+    "shootsPerSecond": 4,
     "mouseButtonId": 1,
     "aliveTime": 0.1,
-    "rechargeTime": 3.0
+    "maxBeamCount": 4,
+    "oneBeamRechargeTime": 3.0
   }
 }

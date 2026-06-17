@@ -1,4 +1,5 @@
 using _Project.Core.EventBus;
+using _Project.Core.GameLifecycle.Events;
 using _Project.Core.Physics;
 using _Project.Core.Physics.Collision;
 using _Project.Core.Physics.Collision.Events;
@@ -27,7 +28,7 @@ namespace _Project.Features.Spaceship
         private readonly HealthController _healthController;
         private readonly StunController _stunController;
         private readonly ICollidable _collidable;
-        private readonly BaseWeapon[] _weapons;
+        private readonly IWeapon[] _weapons;
         private readonly IScreenWrapCloneSet _screenWrapCloneSet;
         private readonly ITimeService _timeService;
         private readonly IEventBus _eventBus;
@@ -43,7 +44,7 @@ namespace _Project.Features.Spaceship
             HealthController healthController,
             StunController stunController,
             ICollidable collidable,
-            BaseWeapon[] weapons,
+            IWeapon[] weapons,
             IScreenWrapCloneSet screenWrapCloneSet,
             ITimeService timeService,
             IEventBus eventBus)
@@ -92,6 +93,7 @@ namespace _Project.Features.Spaceship
         private void OnDeath()
         {
             _eventBus.Publish(new DespawnRequestedEvent<SpaceshipFacade>(this));
+            _eventBus.Publish<GameStopEvent>();
         }
 
         public void Dispose()

@@ -8,7 +8,7 @@ using _Project.Features.Spaceship.Weapon.Projectile;
 
 namespace _Project.Features.Spaceship.Weapon
 {
-    public class ProjectileWeapon : BaseWeapon
+    public class ProjectileWeapon : BaseWeapon<ProjectileWeaponConfig>
     {
         private readonly ProjectileWeaponConfig _config;
         private readonly MovementModel _spaceshipMovementModel;
@@ -33,7 +33,7 @@ namespace _Project.Features.Spaceship.Weapon
             _screenService = screenService;
         }
 
-        public override void Shoot()
+        protected override void Shoot()
         {
             var initialPosition = _muzzlePositionable.Position;
             var targetPosition = _screenService.ScreenPointToWorldPoint(_fireInputService.GetScreenPointerPosition());

@@ -35,6 +35,7 @@ namespace _Project.Infrastructure.Factories
         public void Release(IDrawable screenWrapCloneDrawable)
         {
             var cloneView = (TransformView)screenWrapCloneDrawable;
+            if (cloneView == null) return;
             screenWrapCloneDrawable.Reset();
             _viewPool.Release(cloneView);
         }

@@ -51,7 +51,7 @@ namespace _Project.Infrastructure.Factories
             ProjectileWeapon projectileWeapon = CreateComponent<ProjectileWeapon>(muzzlePositionable, movementModel, data.config.projectileWeaponConfig);
             LaserWeapon laserWeapon =
                 CreateComponent<LaserWeapon>(data.config.laserWeaponConfig, movementModel, muzzlePositionable);
-            var weapons = new BaseWeapon[] { projectileWeapon, laserWeapon };
+            var weapons = new IWeapon[] { projectileWeapon, laserWeapon };
             
             SpaceshipFacade facade = CreateComponent<SpaceshipFacade>(
                 movementModel,

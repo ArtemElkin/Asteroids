@@ -1,6 +1,8 @@
+using System;
+
 namespace _Project.Features.Spaceship.Weapon
 {
-    public class Weapon
+    public interface IWeapon : IDisposable
     {
         
     }

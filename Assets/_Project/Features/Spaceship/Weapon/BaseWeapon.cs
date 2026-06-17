@@ -6,17 +6,19 @@ using _Project.Features.Spaceship.Weapon.Config;
 
 namespace _Project.Features.Spaceship.Weapon
 {
-    public abstract class BaseWeapon : IDisposable
+    public abstract class BaseWeapon<TWeaponConfig> : IWeapon where TWeaponConfig : WeaponConfig
     {
         private float _timeFromLastShot;
         protected readonly IFireInputService _fireInputService;
-        private readonly WeaponConfig _config;
+        protected readonly TWeaponConfig _config;
+        private readonly float _cooldown;
         private readonly IStunable _stundable;
         private readonly ITimeService _timeService;
+        protected virtual bool OptionalConditionToAllowFire => true;
         
         
         protected BaseWeapon(
-            WeaponConfig config,
+            TWeaponConfig config,
             IFireInputService fireInputService,
             IStunable stundable,
             ITimeService timeService)
@@ -26,23 +28,25 @@ namespace _Project.Features.Spaceship.Weapon
             _stundable = stundable;
             _timeService = timeService;
             _timeService.OnTick += OnTick;
+            _cooldown = 1 / _config.shootsPerSecond;
+            _timeFromLastShot = _cooldown;
         }
 
         private void OnTick(float deltaTime)
         {
-            var cooldown = 1 / _config.shootsPerSecond;
-            bool fireAllowed = _timeFromLastShot >= cooldown;
+            bool fireAllowed = _timeFromLastShot >= _cooldown;
             
             if (!fireAllowed) _timeFromLastShot += deltaTime;
 
-            if (_fireInputService.FireState(_config.mouseButtonId) && fireAllowed && !_stundable.IsStunned)
+            if (_fireInputService.FireState(_config.mouseButtonId) && fireAllowed && !_stundable.IsStunned && OptionalConditionToAllowFire)
             {
                 Shoot();
                 _timeFromLastShot = 0;
             }
         }
 
-        public abstract void Shoot();
+
+        protected abstract void Shoot();
         
         public void Dispose()
         {

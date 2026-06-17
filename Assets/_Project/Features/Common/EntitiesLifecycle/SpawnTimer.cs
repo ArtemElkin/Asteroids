@@ -25,13 +25,12 @@ namespace _Project.Features.Common.EntitiesLifecycle
         private void OnTimerElapsed()
         {
             OnSpawnRequested?.Invoke();
-            _timer.Start(_spawnInterval);
         }
 
         public void Start()
         {
             OnSpawnRequested?.Invoke();
-            _timer.Start(_spawnInterval);
+            _timer.Start(_spawnInterval, true);
         }
 
         public void Stop() => _timer.Stop();
