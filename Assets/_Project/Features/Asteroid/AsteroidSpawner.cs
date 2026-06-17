@@ -76,10 +76,10 @@ namespace _Project.Features.Asteroid
         
         private void OnAsteroidFragmentSpawnRequested(SpawnRequestedEvent<AsteroidFacade> @event)
         {
-            var mass = @event.initialMovementData.mass;
-            var originPosition = @event.initialMovementData.initialPosition;
+            var mass = @event.SpawnData.mass;
+            var originPosition = @event.SpawnData.initialPosition;
             var initialSpeed = GetRandomSpeed(_asteroidConfig.movementConfig.minFragmentSpeed, _asteroidConfig.movementConfig.maxFragmentSpeed);
-            var originDirection = @event.initialMovementData.initialVelocity.normalized;
+            var originDirection = @event.SpawnData.initialVelocity.normalized;
             var initialDirection = GetRandomDirectionFromOriginDirection(originDirection);
             var initialVelocity = initialDirection * initialSpeed;
             var initialPosition = originPosition + initialDirection * _asteroidConfig.fragmentRadius;
