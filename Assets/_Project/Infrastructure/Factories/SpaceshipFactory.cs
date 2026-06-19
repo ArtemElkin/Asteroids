@@ -2,14 +2,15 @@ using _Project.Core.Physics;
 using _Project.Core.Physics.Collision;
 using _Project.Core.Physics.Movement;
 using _Project.Core.Render;
+using _Project.Core.Render.VFX;
 using _Project.Features.Common.Bounds;
-using _Project.Features.Common.Effect;
 using _Project.Features.Common.ScreenWrapClone;
 using _Project.Features.Spaceship;
 using _Project.Features.Spaceship.Health;
 using _Project.Features.Spaceship.Stun;
 using _Project.Features.Spaceship.Weapon;
 using _Project.Infrastructure.Render;
+using _Project.Infrastructure.Render.VFX;
 using UnityEngine;
 using Zenject;
 

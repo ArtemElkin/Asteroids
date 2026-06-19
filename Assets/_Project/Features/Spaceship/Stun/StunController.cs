@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using _Project.Core.Physics;
 using _Project.Core.Physics.Collision;
-using _Project.Features.Common.Effect;
+using _Project.Core.Render.VFX;
 
 namespace _Project.Features.Spaceship.Stun
 {

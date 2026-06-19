@@ -1,7 +1,7 @@
 using System;
 using _Project.Core.EventBus;
 using _Project.Core.Factories;
-using _Project.Features.Common.Effect;
+using _Project.Core.Render.VFX;
 using _Project.Features.Common.EntitiesLifecycle.Events;
 
 namespace _Project.Features.Common.EntitiesLifecycle

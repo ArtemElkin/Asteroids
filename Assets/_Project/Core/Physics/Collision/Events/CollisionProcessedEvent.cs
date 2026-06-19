@@ -1,4 +1,4 @@
-using _Project.Features.Common.EntitiesLifecycle.Events;
+using _Project.Core.EventBus;
 
 namespace _Project.Core.Physics.Collision.Events
 {

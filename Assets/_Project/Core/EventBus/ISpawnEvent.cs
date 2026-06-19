@@ -1,6 +1,4 @@
-using _Project.Core.EventBus;
-
-namespace _Project.Features.Common.EntitiesLifecycle.Events
+namespace _Project.Core.EventBus
 {
     public interface ISpawnEvent<out TSpawnData> : IEvent
     {

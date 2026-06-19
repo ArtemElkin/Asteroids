@@ -10,7 +10,7 @@ namespace _Project.Features.Common.EntitiesLifecycle
         private int _maxCount;
         private readonly Storage<T> _storage;
         private readonly SpawnTimer _spawnTimer;
-        protected readonly IEventBus _signalBus;
+        protected readonly IEventBus _eventBus;
 
         
         protected BaseEnemySpawner(
@@ -20,10 +20,10 @@ namespace _Project.Features.Common.EntitiesLifecycle
         {
             _storage = storage;
             _spawnTimer =  spawnTimer;
-            _signalBus = eventBus;
-            _signalBus.Subscribe<GameInitializeEvent>(Initialize);
-            _signalBus.Subscribe<GameStartEvent>(OnGameStart);
-            _signalBus.Subscribe<GameStopEvent>(OnGameStop);
+            _eventBus = eventBus;
+            _eventBus.Subscribe<GameInitializeEvent>(Initialize);
+            _eventBus.Subscribe<GameStartEvent>(OnGameStart);
+            _eventBus.Subscribe<GameStopEvent>(OnGameStop);
             _spawnTimer.OnSpawnRequested += OnSpawnRequested;
         }
 
@@ -64,9 +64,9 @@ namespace _Project.Features.Common.EntitiesLifecycle
         {
             _spawnTimer.OnSpawnRequested -= OnSpawnRequested;
             _spawnTimer.Dispose();
-            _signalBus.Unsubscribe<GameInitializeEvent>(Initialize);
-            _signalBus.Unsubscribe<GameStartEvent>(OnGameStart);
-            _signalBus.Unsubscribe<GameStopEvent>(OnGameStop);
+            _eventBus.Unsubscribe<GameInitializeEvent>(Initialize);
+            _eventBus.Unsubscribe<GameStartEvent>(OnGameStart);
+            _eventBus.Unsubscribe<GameStopEvent>(OnGameStop);
         }
     }
 }

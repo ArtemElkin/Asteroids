@@ -37,7 +37,7 @@ namespace _Project.Features.Asteroid
             _positionGenerator = positionGenerator;
             _configProvider = configProvider;
             _randomService =  randomService;
-            _signalBus.Subscribe<SpawnRequestedEvent<AsteroidFacade>>(OnAsteroidFragmentSpawnRequested);
+            _eventBus.Subscribe<SpawnRequestedEvent<AsteroidFacade>>(OnAsteroidFragmentSpawnRequested);
         }
 
 
@@ -119,7 +119,7 @@ namespace _Project.Features.Asteroid
 
         public override void Dispose()
         {
-            _signalBus.Unsubscribe<SpawnRequestedEvent<AsteroidFacade>>(OnAsteroidFragmentSpawnRequested);
+            _eventBus.Unsubscribe<SpawnRequestedEvent<AsteroidFacade>>(OnAsteroidFragmentSpawnRequested);
             base.Dispose();
         }
     }

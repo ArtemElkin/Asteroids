@@ -1,3 +1,4 @@
+using _Project.Core.EventBus;
 using _Project.Core.Physics.Movement;
 
 namespace _Project.Features.Common.EntitiesLifecycle.Events

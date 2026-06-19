@@ -1,3 +1,4 @@
+using _Project.Core.EventBus;
 using _Project.Features.Common.EntitiesLifecycle.Events;
 
 namespace _Project.Features.Common.Hit.Events

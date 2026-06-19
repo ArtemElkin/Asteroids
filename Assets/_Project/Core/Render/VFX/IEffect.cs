@@ -1,4 +1,4 @@
-namespace _Project.Features.Common.Effect
+namespace _Project.Core.Render.VFX
 {
     public interface IEffect
     {

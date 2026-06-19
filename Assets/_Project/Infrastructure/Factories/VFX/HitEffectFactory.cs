@@ -1,6 +1,7 @@
-using _Project.Features.Common.Effect;
+using _Project.Core.Render.VFX;
 using _Project.Features.Common.Hit;
 using _Project.Infrastructure.Render;
+using _Project.Infrastructure.Render.VFX;
 using _Project.Infrastructure.UnityServices;
 using UnityEngine;
 using Zenject;

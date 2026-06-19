@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using _Project.Features.Common.Effect;
+using _Project.Core.Render.VFX;
 using _Project.Features.Common.ScreenWrapClone;
 
-namespace _Project.Infrastructure.Render
+namespace _Project.Infrastructure.Render.VFX
 {
     public class SyncedSpaceshipStunEffect : IEffect
     {
