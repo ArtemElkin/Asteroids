@@ -4,7 +4,7 @@ using _Project.Core.Services;
 using _Project.Features.Common.EntitiesLifecycle;
 using _Project.Features.Common.EntitiesLifecycle.Events;
 
-namespace _Project.Features.Spaceship.Weapon.LaserBeam
+namespace _Project.Features.Spaceship.Weapon.LaserWeapon.LaserBeam
 {
     public class LaserBeamFacade : IFacade
     {

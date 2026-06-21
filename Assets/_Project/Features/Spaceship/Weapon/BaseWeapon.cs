@@ -12,15 +12,15 @@ namespace _Project.Features.Spaceship.Weapon
         protected readonly IFireInputService _fireInputService;
         protected readonly TWeaponConfig _config;
         private readonly float _cooldown;
-        private readonly IStunable _stundable;
-        private readonly ITimeService _timeService;
+        private readonly IStunnable _stundable;
+        protected readonly ITimeService _timeService;
         protected virtual bool OptionalConditionToAllowFire => true;
         
         
         protected BaseWeapon(
             TWeaponConfig config,
             IFireInputService fireInputService,
-            IStunable stundable,
+            IStunnable stundable,
             ITimeService timeService)
         {
             _config = config;
@@ -48,7 +48,7 @@ namespace _Project.Features.Spaceship.Weapon
 
         protected abstract void Shoot();
         
-        public void Dispose()
+        public virtual void Dispose()
         {
             _timeService.OnTick -= OnTick;
         }

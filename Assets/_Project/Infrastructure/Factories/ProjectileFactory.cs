@@ -2,7 +2,7 @@ using _Project.Core.Physics.Movement;
 using _Project.Core.Render;
 using _Project.Features.Common.Bounds;
 using _Project.Features.Common.Hit;
-using _Project.Features.Spaceship.Weapon.Projectile;
+using _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile;
 using _Project.Infrastructure.Render;
 using UnityEngine;
 using Zenject;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using _Project.Core.Physics;
 using _Project.Core.Physics.Collision;
 using _Project.Core.Physics.Movement;
@@ -9,6 +10,8 @@ using _Project.Features.Spaceship;
 using _Project.Features.Spaceship.Health;
 using _Project.Features.Spaceship.Stun;
 using _Project.Features.Spaceship.Weapon;
+using _Project.Features.Spaceship.Weapon.LaserWeapon;
+using _Project.Features.Spaceship.Weapon.ProjectileWeapon;
 using _Project.Infrastructure.Render;
 using _Project.Infrastructure.Render.VFX;
 using UnityEngine;
@@ -43,16 +46,18 @@ namespace _Project.Infrastructure.Factories
                     boundsChecker,
                     drawable)
                 : new NullScreenWrapCloneSet();
-            IReadOnlyPositionable muzzlePositionable = muzzleView;
+            IReadOnlyPosition muzzlePosition = muzzleView;
 
             IEffect originStunEffect = view.GetComponentInChildren<IEffect>();
             IEffect syncedStunEffect = CreateComponent<SyncedSpaceshipStunEffect>(originStunEffect, screenWrapCloneSet);
             StunController stunController = CreateComponent<StunController>(movementModel, collidable, syncedStunEffect);
-            
-            ProjectileWeapon projectileWeapon = CreateComponent<ProjectileWeapon>(muzzlePositionable, movementModel, data.config.projectileWeaponConfig);
+
+            var weapons = new Dictionary<WeaponType, IWeapon>();
+            ProjectileWeapon projectileWeapon = CreateComponent<ProjectileWeapon>(muzzlePosition, movementModel, data.config.projectileWeaponConfig);
+            weapons.Add(WeaponType.ProjectileWeapon, projectileWeapon);
             LaserWeapon laserWeapon =
-                CreateComponent<LaserWeapon>(data.config.laserWeaponConfig, movementModel, muzzlePositionable);
-            var weapons = new IWeapon[] { projectileWeapon, laserWeapon };
+                CreateComponent<LaserWeapon>(data.config.laserWeaponConfig, movementModel, muzzlePosition);
+            weapons.Add(WeaponType.LaserWeapon, laserWeapon);
             
             SpaceshipFacade facade = CreateComponent<SpaceshipFacade>(
                 movementModel,

@@ -1,7 +1,7 @@
 using _Project.Core.Physics.Movement;
 using _Project.Features.Common.Movement;
 
-namespace _Project.Features.Spaceship.Weapon.Projectile
+namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile
 {
     public class ProjectileMovementController : BaseMovementController
     {

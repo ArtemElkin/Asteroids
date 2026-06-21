@@ -1,6 +1,5 @@
 using _Project.Core.Math;
 using _Project.Core.Physics.Movement;
-using _Project.Features.Common.EntitiesLifecycle;
 
 namespace _Project.Core.Physics.Collision
 {

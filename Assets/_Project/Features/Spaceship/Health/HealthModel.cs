@@ -2,22 +2,22 @@ using System;
 
 namespace _Project.Features.Spaceship.Health
 {
-    public class HealthModel
+    public class HealthModel : IReadOnlyHealthModel
     {
         public int MaxHp { get; }
         private int _hp;
         public int Hp
         {
             get => _hp;
-            set
+            private set
             {
                 _hp = value;
-                OnHealthChanged?.Invoke();
+                OnHpChanged?.Invoke(_hp);
                 if (_hp <= 0) OnDeath?.Invoke();
             }
         }
         
-        public event Action OnHealthChanged;
+        public event Action<int> OnHpChanged;
         public event Action OnDeath;
 
         public HealthModel(int maxHp)

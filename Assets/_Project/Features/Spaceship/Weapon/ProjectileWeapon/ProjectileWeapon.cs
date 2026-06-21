@@ -3,16 +3,16 @@ using _Project.Core.Input;
 using _Project.Core.Physics;
 using _Project.Core.Physics.Movement;
 using _Project.Core.Services;
-using _Project.Features.Spaceship.Weapon.Config;
-using _Project.Features.Spaceship.Weapon.Projectile;
+using _Project.Features.Spaceship.Weapon.ProjectileWeapon.Config;
+using _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile;
 
-namespace _Project.Features.Spaceship.Weapon
+namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon
 {
     public class ProjectileWeapon : BaseWeapon<ProjectileWeaponConfig>
     {
         private readonly ProjectileWeaponConfig _config;
         private readonly MovementModel _spaceshipMovementModel;
-        private readonly IReadOnlyPositionable _muzzlePositionable;
+        private readonly IReadOnlyPosition _muzzlePosition;
         private readonly IFactory<ProjectileSpawnData, ProjectileFacade> _projectileFactory;
         private readonly IScreenService _screenService;
 
@@ -22,20 +22,20 @@ namespace _Project.Features.Spaceship.Weapon
             IFireInputService fireInputService,
             ITimeService timeService,
             MovementModel spaceshipMovementModel,
-            IReadOnlyPositionable muzzlePositionable,
+            IReadOnlyPosition muzzlePosition,
             IFactory<ProjectileSpawnData, ProjectileFacade> projectileFactory,
             IScreenService screenService) : base(config, fireInputService, spaceshipMovementModel, timeService)
         {
             _config = config;
             _spaceshipMovementModel = spaceshipMovementModel;
-            _muzzlePositionable = muzzlePositionable;
+            _muzzlePosition = muzzlePosition;
             _projectileFactory = projectileFactory;
             _screenService = screenService;
         }
 
         protected override void Shoot()
         {
-            var initialPosition = _muzzlePositionable.Position;
+            var initialPosition = _muzzlePosition.Position;
             var targetPosition = _screenService.ScreenPointToWorldPoint(_fireInputService.GetScreenPointerPosition());
             var initialDirection = (targetPosition - initialPosition).normalized;
             var initialSpeed = 30f;

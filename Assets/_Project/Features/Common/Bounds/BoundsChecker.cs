@@ -8,27 +8,27 @@ namespace _Project.Features.Common.Bounds
         public event Action OutOfBounds;
         public event Action EnteredGameArea;
         public bool IsEnteredGameAreaAfterSpawn { get; private set; }
-        private readonly IReadOnlyPositionable _positionable;
+        private readonly IReadOnlyPosition _position;
         private readonly BoundsService _boundsService;
 
 
         public BoundsChecker(
             BoundsService boundsService,
-            IReadOnlyPositionable positionable,
+            IReadOnlyPosition position,
             bool isEnteredGameAreaAfterSpawn = false)
         {
             _boundsService = boundsService;
-            _positionable = positionable;
+            _position = position;
             IsEnteredGameAreaAfterSpawn = isEnteredGameAreaAfterSpawn;
         }
 
         public void CheckOutOfBounds()
         {
-            if (_boundsService.IsOutOfBounds(_positionable.Position) && IsEnteredGameAreaAfterSpawn)
+            if (_boundsService.IsOutOfBounds(_position.Position) && IsEnteredGameAreaAfterSpawn)
             {
                 OutOfBounds?.Invoke();
             }
-            else if (!IsEnteredGameAreaAfterSpawn && !_boundsService.IsOutOfBounds(_positionable.Position))
+            else if (!IsEnteredGameAreaAfterSpawn && !_boundsService.IsOutOfBounds(_position.Position))
             {
                 IsEnteredGameAreaAfterSpawn = true;
                 EnteredGameArea?.Invoke();

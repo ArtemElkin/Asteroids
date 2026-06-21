@@ -10,8 +10,9 @@ using _Project.Features.Asteroid;
 using _Project.Features.Common.EntitiesLifecycle.Events;
 using _Project.Features.Common.Hit.Events;
 using _Project.Features.Spaceship;
-using _Project.Features.Spaceship.Weapon.LaserBeam;
-using _Project.Features.Spaceship.Weapon.Projectile;
+using _Project.Features.Spaceship.Events;
+using _Project.Features.Spaceship.Weapon.LaserWeapon.LaserBeam;
+using _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile;
 using _Project.Features.UFO;
 using _Project.Infrastructure.EventBus;
 using _Project.Infrastructure.Input;
@@ -48,6 +49,8 @@ namespace _Project.Infrastructure.DI
             Container.DeclareSignal<CollisionDetectedEvent>();
             Container.DeclareSignal<CollisionProcessedEvent>();
             Container.DeclareSignal<HitEvent>();
+
+            Container.DeclareSignal<SpaceshipSpawnedEvent>();
 
             BindTimeService();
             BindTimer();

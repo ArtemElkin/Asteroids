@@ -6,6 +6,7 @@ namespace _Project.Core.Services
     public class Timer : IDisposable
     {
         public event Action Elapsed;
+        public event Action<float> OnTimeLeftChanged;
         private bool _loop;
         private bool _isEnabled;
         private float _elapsedTime;
@@ -36,6 +37,7 @@ namespace _Project.Core.Services
                     _isEnabled = false;
                 }
             }
+            OnTimeLeftChanged?.Invoke(_duration -  _elapsedTime);;
         }
 
         public void Start(float duration, bool loop = false)

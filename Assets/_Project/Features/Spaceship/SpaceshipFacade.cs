@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using _Project.Core.EventBus;
 using _Project.Core.GameLifecycle.Events;
 using _Project.Core.Physics;
@@ -10,9 +11,11 @@ using _Project.Features.Common.Bounds;
 using _Project.Features.Common.EntitiesLifecycle;
 using _Project.Features.Common.EntitiesLifecycle.Events;
 using _Project.Features.Common.ScreenWrapClone;
+using _Project.Features.Spaceship.Events;
 using _Project.Features.Spaceship.Health;
 using _Project.Features.Spaceship.Stun;
 using _Project.Features.Spaceship.Weapon;
+using _Project.Features.Spaceship.Weapon.LaserWeapon;
 using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Features.Spaceship
@@ -28,7 +31,7 @@ namespace _Project.Features.Spaceship
         private readonly HealthController _healthController;
         private readonly StunController _stunController;
         private readonly ICollidable _collidable;
-        private readonly IWeapon[] _weapons;
+        private readonly Dictionary<WeaponType, IWeapon> _weapons;
         private readonly IScreenWrapCloneSet _screenWrapCloneSet;
         private readonly ITimeService _timeService;
         private readonly IEventBus _eventBus;
@@ -44,7 +47,7 @@ namespace _Project.Features.Spaceship
             HealthController healthController,
             StunController stunController,
             ICollidable collidable,
-            IWeapon[] weapons,
+            Dictionary<WeaponType, IWeapon> weapons,
             IScreenWrapCloneSet screenWrapCloneSet,
             ITimeService timeService,
             IEventBus eventBus)
@@ -67,6 +70,10 @@ namespace _Project.Features.Spaceship
             _healthController.OnDeath += OnDeath;
             _collidable.OnCollided += OnCollided;
             _boundsChecker.OutOfBounds += OnOutOfBounds;
+
+            var laserWeaponState = _weapons[WeaponType.LaserWeapon] as IReadOnlyLaserWeaponState;
+            var spaceshipInfo = new SpaceshipReadOnlyInfo(MovementModel, MovementModel, MovementModel, _healthController.HealthModel, laserWeaponState);
+            _eventBus.Publish(new SpaceshipSpawnedEvent(spaceshipInfo));
         }
 
         private void OnFixedTick(float fixedDeltaTime)
@@ -105,7 +112,7 @@ namespace _Project.Features.Spaceship
             _collidable.Reset();
             _healthController.Dispose();
             _screenWrapCloneSet.Dispose();
-            foreach (var weapon in _weapons)
+            foreach (var weapon in _weapons.Values)
             {
                 weapon.Dispose();
             }

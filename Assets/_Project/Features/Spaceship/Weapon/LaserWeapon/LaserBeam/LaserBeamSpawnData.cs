@@ -1,6 +1,6 @@
 using _Project.Core.Math;
 
-namespace _Project.Features.Spaceship.Weapon.LaserBeam
+namespace _Project.Features.Spaceship.Weapon.LaserWeapon.LaserBeam
 {
     public class LaserBeamSpawnData
     {

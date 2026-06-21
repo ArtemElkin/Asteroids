@@ -5,7 +5,8 @@ namespace _Project.Features.Spaceship.Health
 {
     public class HealthController : IDisposable
     {
-        private readonly HealthModel _healthModel;
+        public IReadOnlyHealthModel HealthModel => _healthModel;
+        private HealthModel _healthModel;
         public bool IsAlive => _healthModel.Hp != 0;
         public event Action OnDeath;
 

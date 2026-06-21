@@ -1,5 +1,7 @@
 using _Project.Core.Config;
 using _Project.Features.Spaceship.Weapon.Config;
+using _Project.Features.Spaceship.Weapon.LaserWeapon.Config;
+using _Project.Features.Spaceship.Weapon.ProjectileWeapon.Config;
 
 namespace _Project.Features.Spaceship.Config
 {

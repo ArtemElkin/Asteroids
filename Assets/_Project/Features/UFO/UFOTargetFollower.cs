@@ -34,15 +34,15 @@ namespace _Project.Features.UFO
             }
         }
 
-        private bool TryGetTarget(out IReadOnlyPositionable targetPositionable, out IReadOnlyStunable targetStunable)
+        private bool TryGetTarget(out IReadOnlyPosition targetPosition, out IReadOnlyStunState targetStunState)
         {
-            targetPositionable = null;
-            targetStunable = null;
+            targetPosition = null;
+            targetStunState = null;
             var hasTarget = _spaceshipStorage.TryGetFirst(out var spaceship);
             if (hasTarget)
             {
-                targetPositionable = spaceship.MovementModel;
-                targetStunable = spaceship.MovementModel;
+                targetPosition = spaceship.MovementModel;
+                targetStunState = spaceship.MovementModel;
                 return true;
             }
             return false;

@@ -1,5 +1,5 @@
 using _Project.Core.Render;
-using _Project.Features.Spaceship.Weapon.LaserBeam;
+using _Project.Features.Spaceship.Weapon.LaserWeapon.LaserBeam;
 using _Project.Infrastructure.Render;
 using UnityEngine;
 using Zenject;

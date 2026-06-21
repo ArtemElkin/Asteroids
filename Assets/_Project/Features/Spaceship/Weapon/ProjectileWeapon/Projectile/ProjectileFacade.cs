@@ -7,7 +7,7 @@ using _Project.Features.Common.EntitiesLifecycle;
 using _Project.Features.Common.EntitiesLifecycle.Events;
 using _Project.Features.Common.Hit;
 
-namespace _Project.Features.Spaceship.Weapon.Projectile
+namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile
 {
     public class ProjectileFacade : IFacade
     {

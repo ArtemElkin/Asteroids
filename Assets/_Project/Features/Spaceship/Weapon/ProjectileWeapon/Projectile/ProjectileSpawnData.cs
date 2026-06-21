@@ -1,6 +1,6 @@
 using _Project.Core.Physics.Movement;
 
-namespace _Project.Features.Spaceship.Weapon.Projectile
+namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile
 {
     public struct ProjectileSpawnData
     {

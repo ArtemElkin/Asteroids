@@ -4,7 +4,7 @@ namespace _Project.Core.Player
 {
     public class PlayerModel
     {
-        public event Action<int> OnCurrentScoreChanged;
+        public event Action<int> CurrentScoreChanged;
         private int _currentScore;
         private PlayerSave _playerSave = new();
         public int MaxScore => _playerSave.maxScore;
@@ -16,7 +16,7 @@ namespace _Project.Core.Player
                 if (value != _currentScore)
                 {
                     _currentScore = value;
-                    OnCurrentScoreChanged?.Invoke(value);
+                    CurrentScoreChanged?.Invoke(value);
                 }
             }
         }
