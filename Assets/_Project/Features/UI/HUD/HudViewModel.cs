@@ -4,7 +4,6 @@ using _Project.Core.Player;
 using _Project.Features.Spaceship;
 using _Project.Features.Spaceship.Events;
 using Plugins.MVVM;
-using UnityEngine;
 using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Features.UI.HUD
@@ -30,7 +29,17 @@ namespace _Project.Features.UI.HUD
             _eventBus.Subscribe<SpaceshipSpawnedEvent>(OnSpaceshipSpawned);
             _playerModel = playerModel;
             _playerModel.CurrentScoreChanged += OnCurrentScoreChanged;
+        }
+
+        public void Init()
+        {
             OnCurrentScoreChanged(_playerModel.CurrentScore);
+            OnHealthChanged(_info.HealthModel.Hp);
+            OnPositionChanged(_info.Position.Position);
+            OnRotationAngleChanged(_info.Rotation.RotationAngle);
+            OnVelocityChanged(_info.Velocity.Velocity);
+            OnAvailableBeamCountChanged(_info.LaserWeaponState.AvailableBeamCount);
+            OnRechargeTimeLeftChanged(_info.LaserWeaponState.RechargeTimeLeft);
         }
 
         private void OnSpaceshipSpawned(SpaceshipSpawnedEvent @event)
@@ -42,7 +51,8 @@ namespace _Project.Features.UI.HUD
             _info.Velocity.VelocityChanged += OnVelocityChanged;
             _info.LaserWeaponState.AvailableBeamCountChanged +=  OnAvailableBeamCountChanged;
             _info.LaserWeaponState.RechargeTimeLeftChanged += OnRechargeTimeLeftChanged;
-            OnRechargeTimeLeftChanged(_info.LaserWeaponState.RechargeTimeLeft);
+            
+            Init();
         }
 
         private void OnCurrentScoreChanged(int newScore)
