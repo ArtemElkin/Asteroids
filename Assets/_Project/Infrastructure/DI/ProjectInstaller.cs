@@ -51,6 +51,7 @@ namespace _Project.Infrastructure.DI
             Container.DeclareSignal<HitEvent>();
 
             Container.DeclareSignal<SpaceshipSpawnedEvent>();
+            Container.DeclareSignal<EnemyDestroyedEvent>();
 
             BindTimeService();
             BindTimer();

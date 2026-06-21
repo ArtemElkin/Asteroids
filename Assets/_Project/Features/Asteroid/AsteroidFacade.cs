@@ -5,7 +5,9 @@ using _Project.Core.Physics.Movement;
 using _Project.Core.Render;
 using _Project.Core.Services;
 using _Project.Features.Common.Bounds;
+using _Project.Features.Common.EnemyAwardsService;
 using _Project.Features.Common.EntitiesLifecycle;
+using _Project.Features.Common.EntitiesLifecycle.Events;
 using _Project.Features.Common.Hit;
 using _Project.Features.Common.Hit.Events;
 using _Project.Features.Common.ScreenWrapClone;
@@ -15,6 +17,7 @@ namespace _Project.Features.Asteroid
 {
     public class AsteroidFacade : IFacade
     {
+        private readonly EnemyType _type;
         public IDrawable Drawable { get; }
         private MovementModel MovementModel { get; }
         private readonly IMovable _movable;
@@ -29,6 +32,7 @@ namespace _Project.Features.Asteroid
 
 
         public AsteroidFacade(
+            EnemyType type,
             MovementModel movementModel,
             IDrawable drawable,
             IMovable movable,
@@ -41,6 +45,7 @@ namespace _Project.Features.Asteroid
             ITimeService timeService,
             IEventBus eventBus)
         {
+            _type = type;
             MovementModel = movementModel;
             Drawable = drawable;
             _movable = movable;
@@ -94,6 +99,7 @@ namespace _Project.Features.Asteroid
         {
             _eventBus.Publish(new HitEvent(hitInfo));
             _destructor.Destruct(this, hitInfo.fullDestroy);
+            _eventBus.Publish(new EnemyDestroyedEvent(_type));
         }
 
         public void Dispose()

@@ -3,6 +3,7 @@ using _Project.Core.Physics.Movement;
 using _Project.Core.Render;
 using _Project.Features.Asteroid;
 using _Project.Features.Common.Bounds;
+using _Project.Features.Common.EnemyAwardsService;
 using _Project.Features.Common.Hit;
 using _Project.Features.Common.ScreenWrapClone;
 using _Project.Infrastructure.Render;
@@ -28,6 +29,7 @@ namespace _Project.Infrastructure.Factories
             IHitable hitable = view.GetComponent<IHitable>();
             IMovable movable = CreateComponent<AsteroidMovementController>(movementModel);
             bool isFragment = data.fragmentsCount == 0;
+            EnemyType enemyType = isFragment ? EnemyType.AsteroidFragment : EnemyType.Asteroid;
             bool enteredGameAreaOnSpawn = isFragment;
             BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel, enteredGameAreaOnSpawn);
             AsteroidDestructor destructor = CreateComponent<AsteroidDestructor>(movementModel, data.fragmentsCount);
@@ -38,6 +40,7 @@ namespace _Project.Infrastructure.Factories
                     drawable)
                 : new NullScreenWrapCloneSet();
             AsteroidFacade facade = CreateComponent<AsteroidFacade>(
+                enemyType,
                 movementModel,
                 movable,
                 boundsChecker,

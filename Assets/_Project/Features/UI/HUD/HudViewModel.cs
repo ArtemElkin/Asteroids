@@ -30,6 +30,7 @@ namespace _Project.Features.UI.HUD
             _eventBus.Subscribe<SpaceshipSpawnedEvent>(OnSpaceshipSpawned);
             _playerModel = playerModel;
             _playerModel.CurrentScoreChanged += OnCurrentScoreChanged;
+            OnCurrentScoreChanged(_playerModel.CurrentScore);
         }
 
         private void OnSpaceshipSpawned(SpaceshipSpawnedEvent @event)

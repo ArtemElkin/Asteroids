@@ -6,17 +6,18 @@ using _Project.Core.Physics.Movement;
 using _Project.Core.Render;
 using _Project.Core.Services;
 using _Project.Features.Common.Bounds;
+using _Project.Features.Common.EnemyAwardsService;
 using _Project.Features.Common.EntitiesLifecycle;
 using _Project.Features.Common.EntitiesLifecycle.Events;
 using _Project.Features.Common.Hit;
 using _Project.Features.Common.Hit.Events;
-using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Features.UFO
 {
     public class UFOFacade : IFacade
     {
-        public MovementModel MovementModel { get; }
+        private const EnemyType Type = EnemyType.UFO;
+        private MovementModel MovementModel { get; }
         public IDrawable Drawable { get; }
         private readonly IMovable _movable;
         private readonly IRotatable _rotatable;
@@ -83,6 +84,7 @@ namespace _Project.Features.UFO
         {
             _eventBus.Publish(new HitEvent(hitInfo));
             _eventBus.Publish(new DespawnRequestedEvent<UFOFacade>(this));
+            _eventBus.Publish(new EnemyDestroyedEvent(Type));
         }
         
         public void Dispose()

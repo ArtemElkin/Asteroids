@@ -1,6 +1,6 @@
 using _Project.Core.Math;
 
-namespace _Project.Core.Physics.Movement
+namespace _Project.Core.Physics
 {
     public interface IVelocityMutable : IReadOnlyVelocity
     {

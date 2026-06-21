@@ -1,0 +1,8 @@
+{
+  "EnemyAwards":
+  {
+    "Asteroid": 3,
+    "AsteroidFragment": 1,
+    "UFO": 2
+  }
+}

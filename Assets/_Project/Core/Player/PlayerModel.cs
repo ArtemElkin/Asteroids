@@ -21,9 +21,9 @@ namespace _Project.Core.Player
             }
         }
 
-        public void IncreaseCurrentScore()
+        public void IncreaseCurrentScore(int value)
         {
-            CurrentScore++;
+            CurrentScore += value;
         }
 
         public void TryUpdateMaxScore(int newMaxScore)
