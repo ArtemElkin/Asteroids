@@ -3,8 +3,9 @@ using _Project.Core.EventBus;
 using _Project.Core.Player;
 using _Project.Features.Spaceship;
 using _Project.Features.Spaceship.Events;
-using Plugins.MVVM;
+using Plugins.MVVM.Attributes;
 using Vector2 = _Project.Core.Math.Vector2;
+using UniRx;
 
 namespace _Project.Features.UI.HUD
 {
@@ -14,32 +15,28 @@ namespace _Project.Features.UI.HUD
         private readonly PlayerModel _playerModel;
         private readonly IEventBus _eventBus;
 
-        public ReactiveProperty<string> ScoreView = new();
-        public ReactiveProperty<int> HealthView = new();
-        public ReactiveProperty<string> PositionView = new();
-        public ReactiveProperty<string> RotationAngleView = new();
-        public ReactiveProperty<string> SpeedView = new();
-        public ReactiveProperty<string> LaserBeamsView = new();
+        public ReactiveProperty<int> Health = new();
+        [Data("Score")]
+        public ReactiveProperty<string> Score = new();
+        [Data("Position")]
+        public ReactiveProperty<string> Position = new();
+        [Data("RotationAngle")]
+        public ReactiveProperty<string> RotationAngle = new();
+        [Data("Speed")]
+        public ReactiveProperty<string> Speed = new();
+        [Data("LaserBeams")]
+        public ReactiveProperty<string> LaserBeams = new();
+        [Data("LaserRechargeTime")]
         public ReactiveProperty<string> LaserRechargeTime = new();
 
 
         public HudViewModel(PlayerModel playerModel, IEventBus eventBus)
         {
-            _eventBus = eventBus;
-            _eventBus.Subscribe<SpaceshipSpawnedEvent>(OnSpaceshipSpawned);
             _playerModel = playerModel;
+            _eventBus = eventBus;
+            
             _playerModel.CurrentScoreChanged += OnCurrentScoreChanged;
-        }
-
-        public void Init()
-        {
-            OnCurrentScoreChanged(_playerModel.CurrentScore);
-            OnHealthChanged(_info.HealthModel.Hp);
-            OnPositionChanged(_info.Position.Position);
-            OnRotationAngleChanged(_info.Rotation.RotationAngle);
-            OnVelocityChanged(_info.Velocity.Velocity);
-            OnAvailableBeamCountChanged(_info.LaserWeaponState.AvailableBeamCount);
-            OnRechargeTimeLeftChanged(_info.LaserWeaponState.RechargeTimeLeft);
+            _eventBus.Subscribe<SpaceshipSpawnedEvent>(OnSpaceshipSpawned);
         }
 
         private void OnSpaceshipSpawned(SpaceshipSpawnedEvent @event)
@@ -52,43 +49,27 @@ namespace _Project.Features.UI.HUD
             _info.LaserWeaponState.AvailableBeamCountChanged +=  OnAvailableBeamCountChanged;
             _info.LaserWeaponState.RechargeTimeLeftChanged += OnRechargeTimeLeftChanged;
             
-            Init();
+            ApplyInitialValues();
         }
 
-        private void OnCurrentScoreChanged(int newScore)
+        private void ApplyInitialValues()
         {
-            ScoreView.Value = newScore.ToString();
+            OnCurrentScoreChanged(_playerModel.CurrentScore);
+            OnHealthChanged(_info.HealthModel.Hp);
+            OnPositionChanged(_info.Position.Position);
+            OnRotationAngleChanged(_info.Rotation.RotationAngle);
+            OnVelocityChanged(_info.Velocity.Velocity);
+            OnAvailableBeamCountChanged(_info.LaserWeaponState.AvailableBeamCount);
+            OnRechargeTimeLeftChanged(_info.LaserWeaponState.RechargeTimeLeft);
         }
 
-        private void OnHealthChanged(int newHp)
-        {
-            HealthView.Value = newHp;
-        }
-
-        private void OnPositionChanged(Vector2 newPosition)
-        {
-            PositionView.Value = $"Position: [{newPosition.x:F1}; {newPosition.y:F1}]";
-        }
-
-        private void OnRotationAngleChanged(float newAngle)
-        {
-            RotationAngleView.Value = $"Rotation angle: {MathF.Abs(newAngle):F0}";
-        }
-
-        private void OnVelocityChanged(Vector2 newVelocity)
-        {
-            SpeedView.Value = $"Speed: {newVelocity.magnitude:F0} m/s";
-        }
-
-        private void OnAvailableBeamCountChanged(int newCount)
-        {
-            LaserBeamsView.Value = $"Laser beams: {newCount}";
-        }
-
-        private void OnRechargeTimeLeftChanged(float timeLeft)
-        {
-            LaserRechargeTime.Value = $"Laser recharge time: {timeLeft:F1}";
-        }
+        private void OnCurrentScoreChanged(int newScore) => Score.Value = newScore.ToString();
+        private void OnHealthChanged(int newHp) => Health.Value = newHp;
+        private void OnPositionChanged(Vector2 newPos) => Position.Value = $"Position: [{newPos.x:F1}; {newPos.y:F1}]";
+        private void OnRotationAngleChanged(float newAngle) => RotationAngle.Value = $"Rotation angle: {MathF.Abs(newAngle):F0}";
+        private void OnVelocityChanged(Vector2 newVelocity) => Speed.Value = $"Speed: {newVelocity.magnitude:F0} m/s";
+        private void OnAvailableBeamCountChanged(int newCount) => LaserBeams.Value = $"Laser beams: {newCount}";
+        private void OnRechargeTimeLeftChanged(float timeLeft) => LaserRechargeTime.Value = $"Laser recharge time: {timeLeft:F1}";
 
         public void Dispose()
         {

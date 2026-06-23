@@ -1,8 +1,9 @@
 using System;
 using System.Threading.Tasks;
+using _Project.Core.Ads;
 using UnityEngine;
 
-namespace _Project.Core.Ads
+namespace _Project.Infrastructure.Ads
 {
     public class MockAdsService : IAdsService, IDisposable
     {

@@ -1,8 +1,10 @@
+using _Project.Features.UI.Common.Binders;
 using _Project.Features.UI.HUD;
+using _Project.Features.UI.HUD.Binders;
 using Plugins.MVVM;
 using Zenject;
 
-namespace _Project.Infrastructure.DI
+namespace _Project.Infrastructure.DI.UI
 {
     public class UIInstaller : MonoInstaller
     {
@@ -18,7 +20,8 @@ namespace _Project.Infrastructure.DI
                 .AsSingle()
                 .NonLazy();
             
-            BinderFactory.RegisterBinder<HudBinder>();
+            BinderFactory.RegisterBinder<TextBinder>();
+            BinderFactory.RegisterBinder<HpBinder>();
         }
     }
 }

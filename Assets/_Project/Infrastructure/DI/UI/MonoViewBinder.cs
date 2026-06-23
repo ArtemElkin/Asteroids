@@ -6,7 +6,7 @@ using UnityEngine;
 using Zenject;
 using Object = UnityEngine.Object;
 
-namespace _Project.Infrastructure.UI
+namespace _Project.Infrastructure.DI.UI
 {
     public sealed class MonoViewBinder : MonoBehaviour
     {

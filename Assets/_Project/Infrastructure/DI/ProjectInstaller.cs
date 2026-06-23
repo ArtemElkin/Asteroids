@@ -14,6 +14,7 @@ using _Project.Features.Spaceship.Events;
 using _Project.Features.Spaceship.Weapon.LaserWeapon.LaserBeam;
 using _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile;
 using _Project.Features.UFO;
+using _Project.Infrastructure.Ads;
 using _Project.Infrastructure.EventBus;
 using _Project.Infrastructure.Input;
 using _Project.Infrastructure.UnityServices;

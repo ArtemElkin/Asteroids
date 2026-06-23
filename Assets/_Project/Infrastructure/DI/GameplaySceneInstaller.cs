@@ -1,6 +1,7 @@
 using _Project.Core.Services;
 using _Project.Core.Tools;
 using _Project.Features.Ads;
+using _Project.Features.Common.Bounds;
 using _Project.Features.Common.Collision;
 using _Project.Features.Common.EnemyAwardsService;
 using _Project.Features.Common.EntitiesLifecycle;
@@ -19,12 +20,18 @@ namespace _Project.Infrastructure.DI
         public override void InstallBindings()
         {
             BindScreenService(_camera);
+            
             BindCollisionService();
+            
             BindPositionGenerator();
-            BindGameplayAdsController();
             BindSpawnTimer();
             BindGameplayStarter();
+            
+            BindGameplayAdsController();
             BindEnemyAwardsService();
+            
+            BindBoundsService();
+            BindBoundsWarper();
         }
         
         private void BindScreenService(Camera mainCamera)
@@ -80,6 +87,22 @@ namespace _Project.Infrastructure.DI
         {
             Container
                 .BindInterfacesAndSelfTo<EnemyAwardsService>()
+                .AsSingle()
+                .NonLazy();
+        }
+        
+        private void BindBoundsService()
+        {
+            Container
+                .Bind<BoundsService>()
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindBoundsWarper()
+        {
+            Container
+                .BindInterfacesAndSelfTo<BoundsWarper>()
                 .AsSingle()
                 .NonLazy();
         }

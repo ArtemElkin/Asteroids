@@ -168,9 +168,6 @@ GameObject:
   - component: {fileID: 43507829}
   - component: {fileID: 43507834}
   - component: {fileID: 43507836}
-  - component: {fileID: 43507837}
-  - component: {fileID: 43507838}
-  - component: {fileID: 43507839}
   - component: {fileID: 43507840}
   m_Layer: 0
   m_Name: SceneContext
@@ -194,6 +191,10 @@ MonoBehaviour:
   _spaceshipPrefab: {fileID: 1566713283834706958, guid: 33034e4cab5e21bb898147cd84f699c5, type: 3}
   _spaceshipScreenWrapClonePrefab: {fileID: 4581843616795063870, guid: 95c23640d5cc02dc1851ec8cd7977859, type: 3}
   _spaceshipParentTransform: {fileID: 1798339293}
+  _projectilePrefab: {fileID: 4665087022204060925, guid: d21fa12d3fbbb0ce1a3de05cbc9bbc91, type: 3}
+  _projectileParentTransform: {fileID: 6672684}
+  _laserBeamPrefab: {fileID: 5442051033876108190, guid: 5f4f43f0ac76f7e85ae8ae5dbd5d9768, type: 3}
+  _laserBeamParentTransform: {fileID: 1236056603}
 --- !u!4 &43507831
 Transform:
   m_ObjectHideFlags: 0
@@ -252,12 +253,9 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 43507833}
-  - {fileID: 43507837}
-  - {fileID: 43507834}
   - {fileID: 43507829}
+  - {fileID: 43507834}
   - {fileID: 43507836}
-  - {fileID: 43507838}
-  - {fileID: 43507839}
   - {fileID: 43507840}
   - {fileID: 1451565443}
   _installerPrefabs: []
@@ -292,46 +290,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ufoPrefab: {fileID: 3265573660231110551, guid: b77e5d66472431836a026d26f44792d0, type: 3}
   _ufoParentTransform: {fileID: 1213199478}
---- !u!114 &43507837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 43507828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0207391f435b45a2854c97e16e77196e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &43507838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 43507828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0131bc03da5d4525b95043462615eaff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _projectilePrefab: {fileID: 4665087022204060925, guid: d21fa12d3fbbb0ce1a3de05cbc9bbc91, type: 3}
-  _projectileParentTransform: {fileID: 6672684}
---- !u!114 &43507839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 43507828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3a99087ae094cf89394a930e57f04dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _laserBeamPrefab: {fileID: 5442051033876108190, guid: 5f4f43f0ac76f7e85ae8ae5dbd5d9768, type: 3}
-  _laserBeamParentTransform: {fileID: 1236056603}
 --- !u!114 &43507840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -877,7 +835,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -235.26501, y: 111.14502}
+  m_AnchoredPosition: {x: -274, y: 111.14502}
   m_SizeDelta: {x: 470.53003, y: 222.29004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &681091509

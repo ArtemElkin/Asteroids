@@ -1,12 +1,10 @@
 using _Project.Core.Physics.Collision;
 using _Project.Core.Physics.Collision.Events;
 using _Project.Core.Render.VFX;
-using _Project.Features.Common.Collision;
 using _Project.Features.Common.EntitiesLifecycle;
 using _Project.Features.Common.Hit;
 using _Project.Features.Common.Hit.Events;
 using _Project.Infrastructure.Factories.VFX;
-using _Project.Infrastructure.Render;
 using _Project.Infrastructure.Render.VFX;
 using UnityEngine;
 using Zenject;
