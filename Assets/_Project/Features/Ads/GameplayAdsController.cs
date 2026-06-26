@@ -2,7 +2,7 @@ using System;
 using _Project.Core.Ads;
 using _Project.Core.EventBus;
 using _Project.Core.GameLifecycle;
-using _Project.Core.GameLifecycle.Events;
+using _Project.Features.UI.Common.Events;
 
 namespace _Project.Features.Ads
 {
@@ -10,9 +10,9 @@ namespace _Project.Features.Ads
     {
         private const int DeathsPerAdInterval = 3;
         private int _deathsFromLastAd;
-        private IEventBus _eventBus;
+        private readonly IEventBus _eventBus;
         private readonly IGameStateService _gameStateService;
-        private IAdsService _adsService;
+        private readonly IAdsService _adsService;
 
         
         public GameplayAdsController(IEventBus eventBus, IGameStateService gameStateService, IAdsService adsService)
@@ -21,7 +21,7 @@ namespace _Project.Features.Ads
             _gameStateService = gameStateService;
             _adsService = adsService;
             _gameStateService.OnGameStateChanged += OnGameStateChanged;
-            // _eventBus.Subscribe<MenuClickedEvent>(OnMenuClicked);
+            _eventBus.Subscribe<MainMenuClickedEvent>(OnMainMenuClicked);
             _deathsFromLastAd = 0;
         }
 
@@ -47,7 +47,7 @@ namespace _Project.Features.Ads
             }
         }
 
-        private void OnMenuClicked()
+        private void OnMainMenuClicked()
         {
             _adsService.HideBanner();
         }
@@ -55,7 +55,7 @@ namespace _Project.Features.Ads
         public void Dispose()
         {
             _gameStateService.OnGameStateChanged -= OnGameStateChanged;
-            // _eventBus.Unsubscribe<MenuClickedEvent>(OnMenuClicked);
+            _eventBus.Unsubscribe<MainMenuClickedEvent>(OnMainMenuClicked);
         }
     }
 }

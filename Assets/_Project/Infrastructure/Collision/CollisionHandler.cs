@@ -4,7 +4,6 @@ using _Project.Core.Physics.Movement;
 using _Project.Features.Common.Hit;
 using _Project.Infrastructure.UnityServices;
 using UnityEngine;
-using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Infrastructure.Collision
 {

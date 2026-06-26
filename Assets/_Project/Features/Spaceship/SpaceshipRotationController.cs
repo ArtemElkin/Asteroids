@@ -8,8 +8,8 @@ namespace _Project.Features.Spaceship
 {
     public class SpaceshipRotationController : BaseRotationController
     {
-        private IFireInputService _fireInputService;
-        private IScreenService _screenService;
+        private readonly IFireInputService _fireInputService;
+        private readonly IScreenService _screenService;
 
 
         public SpaceshipRotationController(

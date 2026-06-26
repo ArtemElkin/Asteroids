@@ -1,5 +1,4 @@
 using System;
-using _Project.Core.EventBus;
 using _Project.Core.GameLifecycle;
 using _Project.Core.Services;
 using _Project.Core.Tools;

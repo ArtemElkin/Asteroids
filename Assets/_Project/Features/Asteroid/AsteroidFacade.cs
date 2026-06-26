@@ -28,7 +28,7 @@ namespace _Project.Features.Asteroid
         private readonly AsteroidDestructor _destructor;
         private readonly IScreenWrapCloneSet _screenWrapCloneSet;
         private readonly ITimeService _timeService;
-        IGameStateService _gameStateService;
+        private readonly IGameStateService _gameStateService;
         private readonly IEventBus _eventBus;
 
 

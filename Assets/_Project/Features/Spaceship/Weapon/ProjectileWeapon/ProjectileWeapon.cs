@@ -11,7 +11,6 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon
 {
     public class ProjectileWeapon : BaseWeapon<ProjectileWeaponConfig>
     {
-        private readonly ProjectileWeaponConfig _config;
         private readonly MovementModel _spaceshipMovementModel;
         private readonly IReadOnlyPosition _muzzlePosition;
         private readonly IFactory<ProjectileSpawnData, ProjectileFacade> _projectileFactory;
@@ -28,7 +27,6 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon
             IFactory<ProjectileSpawnData, ProjectileFacade> projectileFactory,
             IScreenService screenService) : base(config, fireInputService, spaceshipMovementModel, gameStateService, timeService)
         {
-            _config = config;
             _spaceshipMovementModel = spaceshipMovementModel;
             _muzzlePosition = muzzlePosition;
             _projectileFactory = projectileFactory;

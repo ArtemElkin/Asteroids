@@ -5,8 +5,8 @@ namespace _Project.Features.Spaceship
 {
     public struct SpaceshipSpawnData
     {
-        public InitialMovementData initialMovementData;
-        public SpaceshipConfig config;
+        public readonly InitialMovementData initialMovementData;
+        public readonly SpaceshipConfig config;
 
 
         public SpaceshipSpawnData(InitialMovementData initialMovementData, SpaceshipConfig config)

@@ -5,7 +5,7 @@ namespace _Project.Features.UFO
 {
     public class UFOMovementController : BaseMovementController
     {
-        private float _speed;
+        private readonly float _speed;
         
         public UFOMovementController(MovementModel movementModel, float initialSpeed) : base(movementModel)
         {

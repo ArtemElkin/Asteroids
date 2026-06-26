@@ -2,7 +2,8 @@
     "name": "Ads",
     "rootNamespace": "",
     "references": [
-        "GUID:21d30d6bdca61a75899458d6e163fd8f"
+        "GUID:21d30d6bdca61a75899458d6e163fd8f",
+        "GUID:f820bd20a8f22618ab040b5cde65d86a"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

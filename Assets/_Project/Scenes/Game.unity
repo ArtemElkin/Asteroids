@@ -371,7 +371,6 @@ GameObject:
   - component: {fileID: 43507834}
   - component: {fileID: 43507836}
   - component: {fileID: 43507840}
-  - component: {fileID: 43507841}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -508,18 +507,6 @@ MonoBehaviour:
   _collisionEffect: {fileID: 7557771181261995415, guid: 1a89207e82ef8e7a69c2d127add2b4b4, type: 3}
   _hitEffect: {fileID: 7557771181261995415, guid: 1a89207e82ef8e7a69c2d127add2b4b4, type: 3}
   _vfxParentTransform: {fileID: 773718640}
---- !u!114 &43507841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 43507828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bae79f0ad5e14f6a8f362d4d46f7de6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &105137417
 GameObject:
   m_ObjectHideFlags: 0

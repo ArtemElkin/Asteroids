@@ -5,7 +5,6 @@ using _Project.Features.Ads;
 using _Project.Features.Common.Bounds;
 using _Project.Features.Common.Collision;
 using _Project.Features.Common.EnemyAwardsService;
-using _Project.Features.Common.EntitiesLifecycle;
 using _Project.Infrastructure.GameLifecycle;
 using _Project.Infrastructure.UnityServices;
 using UnityEngine;

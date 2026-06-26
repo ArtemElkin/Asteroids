@@ -1,7 +1,5 @@
-using _Project.Core.Ads;
 using _Project.Core.Config;
 using _Project.Core.EventBus;
-using _Project.Core.GameLifecycle.Events;
 using _Project.Core.Physics.Collision.Events;
 using _Project.Core.Player;
 using _Project.Core.Save;
@@ -32,8 +30,6 @@ namespace _Project.Infrastructure.DI
         public override void InstallBindings()
         {
             BindSignalBus();
-            
-            Container.DeclareSignal<SceneInitializeEvent>();
             
             Container.DeclareSignal<StartGameClickedEvent>();
             Container.DeclareSignal<MainMenuClickedEvent>();

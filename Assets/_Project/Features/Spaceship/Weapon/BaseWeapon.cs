@@ -9,16 +9,16 @@ namespace _Project.Features.Spaceship.Weapon
 {
     public abstract class BaseWeapon<TWeaponConfig> : IWeapon where TWeaponConfig : WeaponConfig
     {
-        private float _timeFromLastShot;
         protected readonly IFireInputService _fireInputService;
         protected readonly TWeaponConfig _config;
+        protected readonly ITimeService _timeService;
+        private float _timeFromLastShot;
         private readonly float _cooldown;
         private readonly IStunnable _stundable;
         private readonly IGameStateService _gameStateService;
-        protected readonly ITimeService _timeService;
         protected virtual bool OptionalConditionToAllowFire => true;
-        
-        
+
+
         protected BaseWeapon(
             TWeaponConfig config,
             IFireInputService fireInputService,

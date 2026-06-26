@@ -6,7 +6,7 @@ using _Project.Features.UI.Common.Events;
 using Plugins.MVVM.Attributes;
 using UniRx;
 
-namespace _Project.Features.UI.Gameplay.GameOverMenu
+namespace _Project.Features.UI.Gameplay.PauseScreen
 {
     public class PauseScreenViewModel : IDisposable
     {

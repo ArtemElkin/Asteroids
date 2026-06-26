@@ -19,10 +19,5 @@ namespace _Project.Infrastructure.UnityServices
         {
             return new CoreVector2(v.x, v.y);
         }
-
-        public static Vector3 ToUnityVector3(this CoreVector2 v, float z = 0f)
-        {
-            return new Vector3(v.x, v.y, z);
-        }
     }
 }

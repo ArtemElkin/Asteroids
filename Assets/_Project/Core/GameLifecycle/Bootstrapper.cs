@@ -1,22 +1,19 @@
-using System;
 using _Project.Core.Ads;
 using _Project.Core.Config;
 using _Project.Core.EventBus;
-using _Project.Core.GameLifecycle.Events;
 using _Project.Core.Player;
 using _Project.Core.Save;
 using _Project.Core.Services;
 
 namespace _Project.Core.GameLifecycle
 {
-    public class Bootstrapper : IDisposable
+    public class Bootstrapper
     {
         private readonly PlayerModel _playerModel;
         private readonly ISceneLoadService _sceneLoadService;
         private readonly ISaveService _saveService;
         private readonly IAdsService _adsService;
         private readonly IConfigProvider _configProvider;
-        private readonly IEventBus _eventBus;
         
         
         public Bootstrapper(
@@ -32,8 +29,8 @@ namespace _Project.Core.GameLifecycle
             _playerModel = playerModel;
             _adsService = adsService;
             _configProvider = configProvider;
-            _eventBus = eventBus;
-            _eventBus.Subscribe<SceneInitializeEvent>(Initialize);
+            
+            Initialize();
         }
 
         private void Initialize()
@@ -48,11 +45,6 @@ namespace _Project.Core.GameLifecycle
             _adsService.Initialize(adsConfig);
             
             _sceneLoadService.LoadGameScene();
-        }
-
-        public void Dispose()
-        {
-            _eventBus.Unsubscribe<SceneInitializeEvent>(Initialize);
         }
     }
 }

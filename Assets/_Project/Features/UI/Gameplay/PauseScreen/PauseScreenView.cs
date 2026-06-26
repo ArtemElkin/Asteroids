@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Project.Features.UI.Gameplay.GameOverMenu
+namespace _Project.Features.UI.Gameplay.PauseScreen
 {
     public class PauseScreenView : MonoBehaviour
     {

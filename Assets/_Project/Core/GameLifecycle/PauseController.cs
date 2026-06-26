@@ -1,6 +1,5 @@
 using System;
 using _Project.Core.EventBus;
-using _Project.Core.GameLifecycle.Events;
 using _Project.Core.Input;
 
 namespace _Project.Core.GameLifecycle
@@ -9,7 +8,6 @@ namespace _Project.Core.GameLifecycle
     {
         private readonly IPauseInputService _pauseInputService;
         private readonly IGameStateService _gameStateService;
-        private readonly IEventBus _eventBus;
 
 
         public PauseController(IPauseInputService pauseInputService, IGameStateService gameStateService)

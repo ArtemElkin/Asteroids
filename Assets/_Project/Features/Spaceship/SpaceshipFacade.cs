@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using _Project.Core.EventBus;
 using _Project.Core.GameLifecycle;
-using _Project.Core.GameLifecycle.Events;
 using _Project.Core.Physics;
 using _Project.Core.Physics.Collision;
 using _Project.Core.Physics.Collision.Events;
@@ -17,7 +16,6 @@ using _Project.Features.Spaceship.Health;
 using _Project.Features.Spaceship.Stun;
 using _Project.Features.Spaceship.Weapon;
 using _Project.Features.Spaceship.Weapon.LaserWeapon;
-using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Features.Spaceship
 {

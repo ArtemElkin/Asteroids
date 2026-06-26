@@ -1,7 +1,6 @@
-using _Project.Features.UI.Common.Binders;
-using _Project.Features.UI.Gameplay.GameOverMenu;
 using _Project.Features.UI.Gameplay.HUD;
 using _Project.Features.UI.Gameplay.HUD.Binders;
+using _Project.Features.UI.Gameplay.PauseScreen;
 using Plugins.MVVM;
 using Zenject;
 

@@ -4,8 +4,8 @@ namespace _Project.Features.UFO
 {
     public struct UFOSpawnData
     {
-        public InitialMovementData initialMovementData;
-        public float speed;
+        public readonly InitialMovementData initialMovementData;
+        public readonly float speed;
 
         public UFOSpawnData(
             InitialMovementData initialMovementData,
