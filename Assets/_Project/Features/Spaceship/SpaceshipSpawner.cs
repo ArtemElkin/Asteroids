@@ -1,6 +1,7 @@
 using System;
 using _Project.Core.Config;
 using _Project.Core.EventBus;
+using _Project.Core.GameLifecycle;
 using _Project.Core.GameLifecycle.Events;
 using _Project.Core.Physics.Movement;
 using _Project.Core.Tools;
@@ -11,10 +12,10 @@ namespace _Project.Features.Spaceship
 {
     public class SpaceshipSpawner : IDisposable
     {
-        private SpaceshipConfig _config;
+        private readonly SpaceshipConfig _config;
         private readonly Core.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade> _factory;
         private readonly Storage<SpaceshipFacade> _storage;
-        private readonly IConfigProvider _configProvider;
+        private readonly IGameStateService _gameStateService;
         private readonly IEventBus _eventBus;
 
         
@@ -22,24 +23,18 @@ namespace _Project.Features.Spaceship
             Core.Factories.IFactory<SpaceshipSpawnData, SpaceshipFacade> factory, 
             Storage<SpaceshipFacade> storage,
             IConfigProvider configProvider,
-            IEventBus eventBus)
+            IGameStateService gameStateService)
         {
             _factory = factory;
             _storage = storage;
-            _configProvider = configProvider;
-            _eventBus = eventBus;
-            _eventBus.Subscribe<GameInitializeEvent>(OnGameInitialize);
-            _eventBus.Subscribe<GameStartEvent>(OnGameStarted);
+            _gameStateService = gameStateService;
+            _config =  configProvider.GetConfig<SpaceshipConfig>("SpaceshipConfig");
+            _gameStateService.OnGameStateChanged += OnGameStateChanged;
         }
 
-        private void OnGameInitialize()
+        private void OnGameStateChanged(GameState gameState)
         {
-            _config =  _configProvider.GetConfig<SpaceshipConfig>("SpaceshipConfig");
-        }
-
-        private void OnGameStarted()
-        {
-            SpawnSpaceship();
+            if (gameState == GameState.Initialize) SpawnSpaceship();
         }
 
         private void SpawnSpaceship()
@@ -55,8 +50,7 @@ namespace _Project.Features.Spaceship
 
         public void Dispose()
         {
-            _eventBus.Unsubscribe<GameInitializeEvent>(OnGameInitialize);
-            _eventBus.Unsubscribe<GameStartEvent>(OnGameStarted);
+            _gameStateService.OnGameStateChanged -= OnGameStateChanged;
         }
     }
 }

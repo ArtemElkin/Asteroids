@@ -1,6 +1,7 @@
 using _Project.Core.Config;
 using _Project.Core.EventBus;
 using _Project.Core.Factories;
+using _Project.Core.GameLifecycle;
 using _Project.Core.Math;
 using _Project.Core.Physics.Movement;
 using _Project.Core.Services;
@@ -13,17 +14,18 @@ namespace _Project.Features.UFO
 {
     public class UFOSpawner : BaseEnemySpawner<UFOFacade>
     {
-        private GameConfig _gameConfig;
-        private UFOConfig _ufoConfig;
+        protected override int MaxCount => _gameConfig.maxUFOsCount;
+        protected override float SpawnInterval => _gameConfig.spawnInterval;
+        private readonly GameConfig _gameConfig;
+        private readonly UFOConfig _ufoConfig;
         private readonly Storage<SpaceshipFacade> _spaceshipStorage;
-        private readonly IConfigProvider _configProvider;
         private readonly IFactory<UFOSpawnData, UFOFacade> _ufoFactory;
         private readonly PositionGenerator _positionGenerator;
         private readonly IRandomService _randomService;
         public UFOSpawner(
             Storage<UFOFacade> ufoStorage,
-            SpawnTimer spawnTimer,
-            IEventBus eventBus,
+            Timer spawnTimer,
+            IGameStateService gameStateService,
             IFactory<UFOSpawnData, UFOFacade> ufoFactory,
             PositionGenerator positionGenerator,
             IRandomService randomService,
@@ -31,30 +33,14 @@ namespace _Project.Features.UFO
             IConfigProvider configProvider) : base (
             ufoStorage,
             spawnTimer,
-            eventBus)
+            gameStateService)
         {
             _ufoFactory = ufoFactory;
             _positionGenerator = positionGenerator;
             _randomService = randomService;
             _spaceshipStorage = spaceshipStorage;
-            _configProvider = configProvider;
-        }
-
-        protected override void OnInitialize()
-        {
-            _gameConfig = _configProvider.GetConfig<GameConfig>("GameConfig");
-            
-            _ufoConfig =  _configProvider.GetConfig<UFOConfig>("UFOConfig");
-        }
-
-        protected override int GetMaxCount()
-        {
-            return _gameConfig.maxUFOsCount;
-        }
-
-        protected override float GetSpawnInterval()
-        {
-            return _gameConfig.spawnInterval;
+            _gameConfig = configProvider.GetConfig<GameConfig>("GameConfig");
+            _ufoConfig =  configProvider.GetConfig<UFOConfig>("UFOConfig");
         }
 
         protected override UFOFacade Spawn()

@@ -1,4 +1,5 @@
 using _Project.Core.EventBus;
+using _Project.Core.GameLifecycle;
 using _Project.Core.Physics.Movement;
 using _Project.Core.Render;
 using _Project.Core.Services;
@@ -19,6 +20,7 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile
         private readonly BoundsWarper _boundsWarper;
         private readonly ITimeService _timeService;
         private readonly Timer _timer;
+        private readonly IGameStateService _gameStateService;
         private readonly IEventBus _eventBus;
 
 
@@ -31,6 +33,7 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile
             BoundsChecker boundsChecker,
             BoundsWarper boundsWarper,
             ITimeService timeService,
+            IGameStateService gameStateService,
             Timer timer,
             IEventBus eventBus)
         {
@@ -41,6 +44,7 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile
             _boundsChecker = boundsChecker;
             _boundsWarper = boundsWarper;
             _timeService = timeService;
+            _gameStateService = gameStateService;
             _timer = timer;
             
             _eventBus = eventBus;
@@ -53,9 +57,12 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile
 
         private void OnFixedTick(float fixedDeltaTime)
         {
-            _movable.Move(fixedDeltaTime);
-            _boundsChecker.CheckOutOfBounds();
-            Drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
+            if (_gameStateService.CurrentState is GameState.Running or GameState.GameOver)
+            {
+                _movable.Move(fixedDeltaTime);
+                _boundsChecker.CheckOutOfBounds();
+                Drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
+            }
         }
 
         private void OnHit()

@@ -1,12 +1,13 @@
 using System;
 using _Project.Core.EventBus;
 using _Project.Core.Factories;
+using _Project.Core.GameLifecycle;
 using _Project.Core.Tools;
 using _Project.Features.Common.EntitiesLifecycle.Events;
 
 namespace _Project.Features.Common.EntitiesLifecycle
 {
-    public class Despawner<TFacade> : IDisposable where TFacade : class, IFacade
+    public class Despawner<TFacade> : IWorldResettable, IDisposable where TFacade : class, IFacade
     {
         private readonly IReleaser<TFacade> _releaser;
         private readonly Storage<TFacade> _storage;
@@ -21,8 +22,16 @@ namespace _Project.Features.Common.EntitiesLifecycle
             _releaser =  releaser;
             _storage = storage;
             _eventBus = eventBus;
-            
             _eventBus.Subscribe<DespawnRequestedEvent<TFacade>>(OnDespawnRequested);
+        }
+
+        private void DespawnAll()
+        {
+            foreach (var facade in _storage)
+            {
+                _releaser.Release(facade);
+            }
+            _storage.Clear();
         }
 
         private void OnDespawnRequested(DespawnRequestedEvent<TFacade> @event)
@@ -32,13 +41,13 @@ namespace _Project.Features.Common.EntitiesLifecycle
             _storage.Remove(facade);
         }
 
+        public void Reset()
+        {
+            DespawnAll();
+        }
+
         public void Dispose()
         {
-            foreach (var facade in _storage)
-            {
-                facade.Dispose();
-            }
-            _storage.Clear();
             _eventBus.Unsubscribe<DespawnRequestedEvent<TFacade>>(OnDespawnRequested);;
         }
     }

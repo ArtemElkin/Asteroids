@@ -4,10 +4,10 @@ using _Project.Core.Player;
 using _Project.Features.Spaceship;
 using _Project.Features.Spaceship.Events;
 using Plugins.MVVM.Attributes;
-using Vector2 = _Project.Core.Math.Vector2;
 using UniRx;
+using Vector2 = _Project.Core.Math.Vector2;
 
-namespace _Project.Features.UI.HUD
+namespace _Project.Features.UI.Gameplay.HUD
 {
     public class HudViewModel : IDisposable
     {
@@ -75,6 +75,7 @@ namespace _Project.Features.UI.HUD
         {
             _eventBus.Unsubscribe<SpaceshipSpawnedEvent>(OnSpaceshipSpawned);
             _playerModel.CurrentScoreChanged -= OnCurrentScoreChanged;
+            if (_info == null) return;
             _info.HealthModel.OnHpChanged -= OnHealthChanged;
             _info.Position.PositionChanged -= OnPositionChanged;
             _info.Rotation.RotationAngleChanged -= OnRotationAngleChanged;

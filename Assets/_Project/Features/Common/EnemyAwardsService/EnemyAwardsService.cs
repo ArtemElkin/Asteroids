@@ -11,19 +11,22 @@ namespace _Project.Features.Common.EnemyAwardsService
     {
         private AwardsConfig _awardsConfig;
         private readonly PlayerModel _playerModel;
+        private readonly PlayerSaveController _playerSaveController;
         private readonly IConfigProvider _configProvider;
         private readonly IEventBus _eventBus;
         
         
         public EnemyAwardsService(
             PlayerModel playerModel,
+            PlayerSaveController playerSaveController,
             IConfigProvider configProvider,
             IEventBus eventBus)
         {
             _playerModel = playerModel;
+            _playerSaveController = playerSaveController;
             _configProvider = configProvider;
             _eventBus = eventBus;
-            _eventBus.Subscribe<GameInitializeEvent>(OnGameInitialize);
+            _eventBus.Subscribe<SceneInitializeEvent>(OnGameInitialize);
             _eventBus.Subscribe<EnemyDestroyedEvent>(OnEnemyDestroyed);
         }
 
@@ -35,6 +38,8 @@ namespace _Project.Features.Common.EnemyAwardsService
                 if (_awardsConfig.EnemyAwards.TryGetValue(type, out var reward))
                 {
                     _playerModel.IncreaseCurrentScore(reward);
+                    _playerModel.TryUpdateMaxScore(_playerModel.CurrentScore);
+                    _playerSaveController.SaveProgress();
                 }
             }
         }
@@ -46,7 +51,7 @@ namespace _Project.Features.Common.EnemyAwardsService
         
         public void Dispose()
         {
-            _eventBus.Unsubscribe<GameInitializeEvent>(OnGameInitialize);
+            _eventBus.Unsubscribe<SceneInitializeEvent>(OnGameInitialize);
             _eventBus.Unsubscribe<EnemyDestroyedEvent>(OnEnemyDestroyed);
         }
     }

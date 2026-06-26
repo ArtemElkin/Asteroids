@@ -1,4 +1,5 @@
 using System;
+using _Project.Core.GameLifecycle;
 using _Project.Core.Input;
 using _Project.Core.Physics;
 using _Project.Core.Services;
@@ -13,6 +14,7 @@ namespace _Project.Features.Spaceship.Weapon
         protected readonly TWeaponConfig _config;
         private readonly float _cooldown;
         private readonly IStunnable _stundable;
+        private readonly IGameStateService _gameStateService;
         protected readonly ITimeService _timeService;
         protected virtual bool OptionalConditionToAllowFire => true;
         
@@ -21,11 +23,13 @@ namespace _Project.Features.Spaceship.Weapon
             TWeaponConfig config,
             IFireInputService fireInputService,
             IStunnable stundable,
+            IGameStateService gameStateService,
             ITimeService timeService)
         {
             _config = config;
             _fireInputService = fireInputService;
             _stundable = stundable;
+            _gameStateService = gameStateService;
             _timeService = timeService;
             _timeService.OnTick += OnTick;
             _cooldown = 1 / _config.shootsPerSecond;
@@ -34,6 +38,8 @@ namespace _Project.Features.Spaceship.Weapon
 
         private void OnTick(float deltaTime)
         {
+            if (_gameStateService.CurrentState != GameState.Running) return;
+            
             bool fireAllowed = _timeFromLastShot >= _cooldown;
             
             if (!fireAllowed) _timeFromLastShot += deltaTime;

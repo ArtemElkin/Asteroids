@@ -2,6 +2,7 @@ using System;
 using _Project.Core.EventBus;
 using _Project.Core.Factories;
 using _Project.Core.Render.VFX;
+using _Project.Core.Tools;
 using _Project.Features.Common.EntitiesLifecycle.Events;
 
 namespace _Project.Features.Common.EntitiesLifecycle
@@ -10,14 +11,17 @@ namespace _Project.Features.Common.EntitiesLifecycle
         where TEvent: ISpawnEvent<TSpawnData>
     {
         private readonly IFactory<TSpawnData, IEffect> _factory;
+        // private readonly Storage<IEffect> _effectStorage;
         private readonly IEventBus _eventBus;
 
 
         public EffectSpawner(
-            IFactory<TSpawnData, IEffect> factory, 
+            IFactory<TSpawnData, IEffect> factory,
+            // Storage<IEffect> effectStorage,
             IEventBus  eventBus)
         {
             _factory = factory;
+            // _effectStorage = effectStorage;
             _eventBus = eventBus;
             
             _eventBus.Subscribe<TEvent>(SpawnEffect);
@@ -25,7 +29,8 @@ namespace _Project.Features.Common.EntitiesLifecycle
 
         private void SpawnEffect(TEvent @event)
         {
-            _factory.Create(@event.SpawnData);
+            var effect = _factory.Create(@event.SpawnData);
+            // _effectStorage.Add(effect);
         }
 
         public void Dispose()

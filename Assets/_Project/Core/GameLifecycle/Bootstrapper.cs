@@ -5,14 +5,14 @@ using _Project.Core.EventBus;
 using _Project.Core.GameLifecycle.Events;
 using _Project.Core.Player;
 using _Project.Core.Save;
-using _Project.Infrastructure.UnityServices;
+using _Project.Core.Services;
 
-namespace _Project.Infrastructure.GameLifecycle
+namespace _Project.Core.GameLifecycle
 {
     public class Bootstrapper : IDisposable
     {
         private readonly PlayerModel _playerModel;
-        private readonly SceneLoadService _sceneLoadService;
+        private readonly ISceneLoadService _sceneLoadService;
         private readonly ISaveService _saveService;
         private readonly IAdsService _adsService;
         private readonly IConfigProvider _configProvider;
@@ -20,7 +20,7 @@ namespace _Project.Infrastructure.GameLifecycle
         
         
         public Bootstrapper(
-            SceneLoadService sceneLoadService,
+            ISceneLoadService sceneLoadService,
             ISaveService saveService,
             PlayerModel playerModel,
             IAdsService  adsService,
@@ -33,7 +33,7 @@ namespace _Project.Infrastructure.GameLifecycle
             _adsService = adsService;
             _configProvider = configProvider;
             _eventBus = eventBus;
-            _eventBus.Subscribe<GameInitializeEvent>(Initialize);
+            _eventBus.Subscribe<SceneInitializeEvent>(Initialize);
         }
 
         private void Initialize()
@@ -47,12 +47,12 @@ namespace _Project.Infrastructure.GameLifecycle
             var adsConfig = _configProvider.GetConfig<AdUnitsIdsConfig>("AdUnitsIdsConfig");
             _adsService.Initialize(adsConfig);
             
-            _sceneLoadService.LoadMenuScene();
+            _sceneLoadService.LoadGameScene();
         }
 
         public void Dispose()
         {
-            _eventBus.Unsubscribe<GameInitializeEvent>(Initialize);
+            _eventBus.Unsubscribe<SceneInitializeEvent>(Initialize);
         }
     }
 }

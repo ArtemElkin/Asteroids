@@ -1,3 +1,4 @@
+using _Project.Core.GameLifecycle;
 using _Project.Core.Services;
 using _Project.Core.Tools;
 using _Project.Features.Ads;
@@ -22,10 +23,13 @@ namespace _Project.Infrastructure.DI
             BindScreenService(_camera);
             
             BindCollisionService();
+
+            BindGameStateService();
             
             BindPositionGenerator();
-            BindSpawnTimer();
             BindGameplayStarter();
+            BindPauseController();
+            BindRestartController();
             
             BindGameplayAdsController();
             BindEnemyAwardsService();
@@ -52,6 +56,14 @@ namespace _Project.Infrastructure.DI
                 .NonLazy();
         }
 
+        private void BindGameStateService()
+        {
+            Container
+                .BindInterfacesAndSelfTo<GameStateService>()
+                .AsSingle()
+                .NonLazy();
+        }
+
         private void BindPositionGenerator()
         {
             Container
@@ -67,18 +79,27 @@ namespace _Project.Infrastructure.DI
                 .AsSingle();
         }
 
-        private void BindSpawnTimer()
-        {
-            Container
-                .BindInterfacesAndSelfTo<SpawnTimer>()
-                .AsTransient();
-        }
-
         private void BindGameplayStarter()
         {
             Container
                 .BindInterfacesAndSelfTo<GameplayStarter>()
                 .FromNewComponentOn(gameObject)
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindPauseController()
+        {
+            Container
+                .BindInterfacesAndSelfTo<PauseController>()
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindRestartController()
+        {
+            Container
+                .BindInterfacesAndSelfTo<RestartController>()
                 .AsSingle()
                 .NonLazy();
         }

@@ -1,6 +1,7 @@
 using _Project.Core.Config;
 using _Project.Core.EventBus;
 using _Project.Core.Factories;
+using _Project.Core.GameLifecycle;
 using _Project.Core.Math;
 using _Project.Core.Physics.Movement;
 using _Project.Core.Services;
@@ -14,12 +15,14 @@ namespace _Project.Features.Asteroid
 {
     public class AsteroidSpawner : BaseEnemySpawner<AsteroidFacade>
     {
-        private GameConfig _gameConfig;
-        private AsteroidConfig _asteroidConfig;
+        protected override int MaxCount => _gameConfig.maxAsteroidsCount;
+        protected override float SpawnInterval => _gameConfig.spawnInterval;
+        private readonly GameConfig _gameConfig;
+        private readonly AsteroidConfig _asteroidConfig;
         private readonly IFactory<AsteroidSpawnData, AsteroidFacade> _factory;
         private readonly PositionGenerator _positionGenerator;
-        private readonly IConfigProvider _configProvider;
         private readonly IRandomService _randomService;
+        private readonly IEventBus _eventBus;
 
         public AsteroidSpawner(
             IFactory<AsteroidSpawnData, AsteroidFacade> factory,
@@ -27,34 +30,20 @@ namespace _Project.Features.Asteroid
             IConfigProvider configProvider,
             IRandomService randomService,
             Storage<AsteroidFacade> storage,
-            SpawnTimer spawnTimer,
+            Timer spawnTimer,
+            IGameStateService gameStateService,
             IEventBus eventBus) : base(
             storage,
             spawnTimer,
-            eventBus)
+            gameStateService)
         {
             _factory = factory;
             _positionGenerator = positionGenerator;
-            _configProvider = configProvider;
             _randomService =  randomService;
+            _eventBus = eventBus;
             _eventBus.Subscribe<SpawnRequestedEvent<AsteroidFacade>>(OnAsteroidFragmentSpawnRequested);
-        }
-
-
-        protected override void OnInitialize()
-        {
-            _gameConfig = _configProvider.GetConfig<GameConfig>("GameConfig");
-            _asteroidConfig =  _configProvider.GetConfig<AsteroidConfig>("AsteroidConfig");
-        }
-
-        protected override int GetMaxCount()
-        {
-            return _gameConfig.maxAsteroidsCount;
-        }
-
-        protected override float GetSpawnInterval()
-        {
-            return _gameConfig.spawnInterval;
+            _gameConfig = configProvider.GetConfig<GameConfig>("GameConfig");
+            _asteroidConfig =  configProvider.GetConfig<AsteroidConfig>("AsteroidConfig");
         }
 
         protected override AsteroidFacade Spawn()
@@ -90,7 +79,8 @@ namespace _Project.Features.Asteroid
                 0,
                 false,
                 _asteroidConfig);
-            _factory.Create(spawnData);
+            var asteroidFragment = _factory.Create(spawnData);
+            _storage.Add(asteroidFragment);
         }
         
         private Vector2 GetRandomPosition()

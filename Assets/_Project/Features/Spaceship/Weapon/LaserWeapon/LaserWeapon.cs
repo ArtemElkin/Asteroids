@@ -1,5 +1,6 @@
 using System;
 using _Project.Core.Factories;
+using _Project.Core.GameLifecycle;
 using _Project.Core.Input;
 using _Project.Core.Physics;
 using _Project.Core.Physics.Movement;
@@ -43,11 +44,12 @@ namespace _Project.Features.Spaceship.Weapon.LaserWeapon
         public LaserWeapon(
             LaserWeaponConfig config,
             IFireInputService fireInputService,
+            IGameStateService gameStateService,
             MovementModel spaceshipMovementModel,
             ITimeService timeService,
             IReadOnlyPosition muzzlePosition,
             IFactory<LaserBeamSpawnData, LaserBeamFacade> laserBeamFactory) 
-            : base(config, fireInputService, spaceshipMovementModel, timeService)
+            : base(config, fireInputService, spaceshipMovementModel, gameStateService, timeService)
         {
             _spaceshipMovementModel = spaceshipMovementModel;
             _muzzlePosition = muzzlePosition;
@@ -94,6 +96,7 @@ namespace _Project.Features.Spaceship.Weapon.LaserWeapon
         public override void Dispose()
         {
             _timeService.OnTick -= OnTick;
+            base.Dispose();
         }
     }
 }

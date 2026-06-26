@@ -1,4 +1,5 @@
 using _Project.Core.EventBus;
+using _Project.Core.GameLifecycle;
 using _Project.Core.Physics.Collision;
 using _Project.Core.Physics.Collision.Events;
 using _Project.Core.Physics.Movement;
@@ -11,7 +12,6 @@ using _Project.Features.Common.EntitiesLifecycle.Events;
 using _Project.Features.Common.Hit;
 using _Project.Features.Common.Hit.Events;
 using _Project.Features.Common.ScreenWrapClone;
-using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Features.Asteroid
 {
@@ -28,6 +28,7 @@ namespace _Project.Features.Asteroid
         private readonly AsteroidDestructor _destructor;
         private readonly IScreenWrapCloneSet _screenWrapCloneSet;
         private readonly ITimeService _timeService;
+        IGameStateService _gameStateService;
         private readonly IEventBus _eventBus;
 
 
@@ -43,6 +44,7 @@ namespace _Project.Features.Asteroid
             AsteroidDestructor destructor,
             IScreenWrapCloneSet screenWrapCloneSet,
             ITimeService timeService,
+            IGameStateService gameStateService,
             IEventBus eventBus)
         {
             _type = type;
@@ -56,6 +58,7 @@ namespace _Project.Features.Asteroid
             _destructor = destructor;
             _screenWrapCloneSet = screenWrapCloneSet;
             _timeService = timeService;
+            _gameStateService = gameStateService;
             _eventBus = eventBus;
             
             _timeService.OnFixedTick += OnFixedTick;
@@ -71,10 +74,13 @@ namespace _Project.Features.Asteroid
 
         private void OnFixedTick(float fixedDeltaTime)
         {
-            _movable.Move(fixedDeltaTime);
-            _boundsChecker.CheckOutOfBounds();
-            Drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
-            _screenWrapCloneSet.UpdateClones();
+            if (_gameStateService.CurrentState is GameState.Running or GameState.GameOver)
+            {
+                _movable.Move(fixedDeltaTime);
+                _boundsChecker.CheckOutOfBounds();
+                Drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
+                _screenWrapCloneSet.UpdateClones();
+            }
         }
 
         private void OnCollided(CollisionData collisionData)

@@ -1,4 +1,5 @@
 using _Project.Core.EventBus;
+using _Project.Core.GameLifecycle;
 using _Project.Core.Physics;
 using _Project.Core.Physics.Collision;
 using _Project.Core.Physics.Collision.Events;
@@ -27,6 +28,7 @@ namespace _Project.Features.UFO
         private readonly ICollidable _collidable;
         private readonly IHitable _hitable;
         private readonly ITimeService _timeService;
+        private readonly IGameStateService _gameStateService;
         private readonly IEventBus _eventBus;
 
 
@@ -41,6 +43,7 @@ namespace _Project.Features.UFO
             ICollidable collidable,
             IHitable hitable,
             ITimeService timeService,
+            IGameStateService gameStateService,
             IEventBus eventBus)
         {
             MovementModel = movementModel;
@@ -53,6 +56,7 @@ namespace _Project.Features.UFO
             _collidable = collidable;
             _hitable = hitable;
             _timeService = timeService;
+            _gameStateService = gameStateService;
             _eventBus = eventBus;
             
             _timeService.OnFixedTick += OnFixedTick;
@@ -63,11 +67,17 @@ namespace _Project.Features.UFO
 
         private void OnFixedTick(float fixedDeltaTime)
         {
-            _targetFollower.UpdateTarget();
-            _movable.Move(fixedDeltaTime);
-            _rotatable.Rotate();
-            _boundsChecker.CheckOutOfBounds();
-            Drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
+            if (_gameStateService.CurrentState is GameState.Running)
+            {
+                _targetFollower.UpdateTarget();
+            }
+            if (_gameStateService.CurrentState is GameState.Running or GameState.GameOver)
+            {
+                _movable.Move(fixedDeltaTime);
+                _rotatable.Rotate();
+                _boundsChecker.CheckOutOfBounds();
+                Drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
+            }
         }
 
         private void OnCollided(CollisionData collisionData)

@@ -1,57 +1,54 @@
 using System;
 using _Project.Core.EventBus;
-using _Project.Core.GameLifecycle.Events;
+using _Project.Core.GameLifecycle;
+using _Project.Core.Services;
 using _Project.Core.Tools;
 
 namespace _Project.Features.Common.EntitiesLifecycle
 {
     public abstract class BaseEnemySpawner<T> : IDisposable where T : class
     {
-        private int _maxCount;
-        private readonly Storage<T> _storage;
-        private readonly SpawnTimer _spawnTimer;
-        protected readonly IEventBus _eventBus;
+        protected abstract int MaxCount { get; }
+        protected abstract float SpawnInterval { get; }
+        protected readonly Storage<T> _storage;
+        private readonly Timer _spawnTimer;
+        private readonly IGameStateService  _gameStateService;
 
         
         protected BaseEnemySpawner(
             Storage<T> storage,
-            SpawnTimer spawnTimer,
-            IEventBus eventBus)
+            Timer spawnTimer,
+            IGameStateService gameStateService)
         {
             _storage = storage;
             _spawnTimer =  spawnTimer;
-            _eventBus = eventBus;
-            _eventBus.Subscribe<GameInitializeEvent>(Initialize);
-            _eventBus.Subscribe<GameStartEvent>(OnGameStart);
-            _eventBus.Subscribe<GameStopEvent>(OnGameStop);
-            _spawnTimer.OnSpawnRequested += OnSpawnRequested;
+            _gameStateService = gameStateService;
+            _gameStateService.OnGameStateChanged += OnGameStateChanged;
+            _spawnTimer.Elapsed += OnSpawnRequested;
         }
 
-        private void Initialize()
+        private void OnGameStateChanged(GameState gameState)
         {
-            OnInitialize();
-            _maxCount = GetMaxCount();
-            _spawnTimer.Setup(GetSpawnInterval());
+            switch (gameState)
+            {
+                case GameState.Initialize:
+                    _spawnTimer.Start(SpawnInterval, true);
+                    break;
+                case GameState.Paused:
+                    _spawnTimer.Pause();
+                    break;
+                case GameState.Running:
+                    _spawnTimer.Resume();
+                    break;
+                case GameState.GameOver:
+                    _spawnTimer.Stop();
+                    break;
+            }
         }
-
-        private void OnGameStart()
-        {
-            _spawnTimer.Start();
-        }
-
-        private void OnGameStop()
-        {
-            _spawnTimer.Stop();
-        }
-
-        protected virtual void OnInitialize() { }
-
-        protected abstract int GetMaxCount();
-        protected abstract float GetSpawnInterval();
 
         private void OnSpawnRequested()
         {
-            if (_storage.Count < _maxCount)
+            if (_storage.Count < MaxCount)
             {
                 T entity = Spawn();
                 _storage.Add(entity);
@@ -62,11 +59,9 @@ namespace _Project.Features.Common.EntitiesLifecycle
 
         public virtual void Dispose()
         {
-            _spawnTimer.OnSpawnRequested -= OnSpawnRequested;
+            _gameStateService.OnGameStateChanged -= OnGameStateChanged;
+            _spawnTimer.Elapsed -= OnSpawnRequested;
             _spawnTimer.Dispose();
-            _eventBus.Unsubscribe<GameInitializeEvent>(Initialize);
-            _eventBus.Unsubscribe<GameStartEvent>(OnGameStart);
-            _eventBus.Unsubscribe<GameStopEvent>(OnGameStop);
         }
     }
 }

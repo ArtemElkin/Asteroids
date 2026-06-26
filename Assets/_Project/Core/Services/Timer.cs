@@ -54,6 +54,9 @@ namespace _Project.Core.Services
             _elapsedTime = 0;
             _duration = 0;
         }
+        
+        public void Pause() => _isEnabled = false;
+        public void Resume() => _isEnabled = true;
 
         public void Dispose()
         {

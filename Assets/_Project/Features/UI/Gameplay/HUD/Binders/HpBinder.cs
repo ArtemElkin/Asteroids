@@ -1,7 +1,7 @@
 using Plugins.MVVM.Binders;
 using UniRx;
 
-namespace _Project.Features.UI.HUD.Binders
+namespace _Project.Features.UI.Gameplay.HUD.Binders
 {
     public class HpBinder : IBinder
     {

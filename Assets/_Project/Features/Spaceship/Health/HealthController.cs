@@ -20,7 +20,6 @@ namespace _Project.Features.Spaceship.Health
         public void ApplyDamage(int damage)
         {
             _healthModel.DecreaseHp(damage);
-            Debug.Log($"Damage applied. Spaceship hp: {_healthModel.Hp}");
         }
         
         private void OnDeathHandler()

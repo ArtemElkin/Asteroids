@@ -1,4 +1,5 @@
 using _Project.Core.Factories;
+using _Project.Core.GameLifecycle;
 using _Project.Core.Input;
 using _Project.Core.Physics;
 using _Project.Core.Physics.Movement;
@@ -20,11 +21,12 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon
         public ProjectileWeapon(
             ProjectileWeaponConfig config,
             IFireInputService fireInputService,
+            IGameStateService gameStateService,
             ITimeService timeService,
             MovementModel spaceshipMovementModel,
             IReadOnlyPosition muzzlePosition,
             IFactory<ProjectileSpawnData, ProjectileFacade> projectileFactory,
-            IScreenService screenService) : base(config, fireInputService, spaceshipMovementModel, timeService)
+            IScreenService screenService) : base(config, fireInputService, spaceshipMovementModel, gameStateService, timeService)
         {
             _config = config;
             _spaceshipMovementModel = spaceshipMovementModel;

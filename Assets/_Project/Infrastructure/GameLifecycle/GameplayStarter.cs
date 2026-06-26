@@ -1,5 +1,4 @@
-using _Project.Core.EventBus;
-using _Project.Core.GameLifecycle.Events;
+using _Project.Core.GameLifecycle;
 using UnityEngine;
 using Zenject;
 
@@ -7,19 +6,19 @@ namespace _Project.Infrastructure.GameLifecycle
 {
     public class GameplayStarter : MonoBehaviour
     {
-        private IEventBus _eventBus;
+        private IGameStateService _gameStateService;
 
 
         private void Start()
         {
-            _eventBus.Publish<GameInitializeEvent>();
-            _eventBus.Publish<GameStartEvent>();
+            _gameStateService.SetState(GameState.Initialize);
+            _gameStateService.SetState(GameState.Running);
         }
 
         [Inject]
-        private void Construct(IEventBus eventBus)
+        private void Construct(IGameStateService gameStateService)
         {
-            _eventBus = eventBus;
+            _gameStateService = gameStateService;
         }
     }
 }

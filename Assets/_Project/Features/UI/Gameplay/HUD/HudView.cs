@@ -3,23 +3,23 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Project.Features.UI.HUD
+namespace _Project.Features.UI.Gameplay.HUD
 {
     public class HudView : MonoBehaviour
     {
-        [SerializeField] public Image[] _hpImages;
+        public Image[] _hpImages;
         [Data("Score")]
-        [SerializeField] public TMP_Text _currentScoreText;
+        public TMP_Text _currentScoreText;
         [Data("Position")]
-        [SerializeField] public TMP_Text _positionText;
+        public TMP_Text _positionText;
         [Data("RotationAngle")]
-        [SerializeField] public TMP_Text _rotationAngleText;
+        public TMP_Text _rotationAngleText;
         [Data("Speed")]
-        [SerializeField] public TMP_Text _speedText;
+        public TMP_Text _speedText;
         [Data("LaserBeams")]
-        [SerializeField] public TMP_Text _laserBeamsText;
+        public TMP_Text _laserBeamsText;
         [Data("LaserRechargeTime")]
-        [SerializeField] public TMP_Text _laserRechargeTimeText;
+        public TMP_Text _laserRechargeTimeText;
 
 
         public void SetHp(int newValue)

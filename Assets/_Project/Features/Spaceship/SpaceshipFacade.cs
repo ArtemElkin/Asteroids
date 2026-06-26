@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Project.Core.EventBus;
+using _Project.Core.GameLifecycle;
 using _Project.Core.GameLifecycle.Events;
 using _Project.Core.Physics;
 using _Project.Core.Physics.Collision;
@@ -34,6 +35,7 @@ namespace _Project.Features.Spaceship
         private readonly Dictionary<WeaponType, IWeapon> _weapons;
         private readonly IScreenWrapCloneSet _screenWrapCloneSet;
         private readonly ITimeService _timeService;
+        private readonly IGameStateService _gameStateService;
         private readonly IEventBus _eventBus;
 
 
@@ -50,6 +52,7 @@ namespace _Project.Features.Spaceship
             Dictionary<WeaponType, IWeapon> weapons,
             IScreenWrapCloneSet screenWrapCloneSet,
             ITimeService timeService,
+            IGameStateService gameStateService,
             IEventBus eventBus)
         {
             MovementModel = movementModel;
@@ -64,6 +67,7 @@ namespace _Project.Features.Spaceship
             _weapons = weapons;
             _screenWrapCloneSet = screenWrapCloneSet;
             _timeService = timeService;
+            _gameStateService = gameStateService;
             _eventBus = eventBus;
             
             _timeService.OnFixedTick += OnFixedTick;
@@ -78,6 +82,8 @@ namespace _Project.Features.Spaceship
 
         private void OnFixedTick(float fixedDeltaTime)
         {
+            if (_gameStateService.CurrentState is not GameState.Running) return;
+            
             _movable.Move(fixedDeltaTime);
             _rotatable.Rotate();
             _boundsChecker.CheckOutOfBounds();
@@ -100,7 +106,8 @@ namespace _Project.Features.Spaceship
         private void OnDeath()
         {
             _eventBus.Publish(new DespawnRequestedEvent<SpaceshipFacade>(this));
-            _eventBus.Publish<GameStopEvent>();
+            _gameStateService.SetState(GameState.GameOver);
+            
         }
 
         public void Dispose()

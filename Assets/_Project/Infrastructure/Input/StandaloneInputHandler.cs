@@ -6,20 +6,21 @@ using Vector2 = _Project.Core.Math.Vector2;
 
 namespace _Project.Infrastructure.Input
 {
-    public class StandaloneInputHandler : MonoBehaviour, IMovementInputService, IFireInputService
+    public class StandaloneInputHandler : MonoBehaviour, IMovementInputService, IFireInputService, IPauseInputService
     {
         private const string HorizontalAxisName = "Horizontal";
         private const string VerticalAxisName = "Vertical";
-        public event Action<bool> FireStateChanged;
         public bool FireState(int buttonId) => UnityEngine.Input.GetMouseButton(buttonId);
-        
-        
+        public event Action OnPause;
+
+
+
         private void Update()
         {
-            if (UnityEngine.Input.GetMouseButtonDown(0))
-                FireStateChanged?.Invoke(true);
-            else if (UnityEngine.Input.GetMouseButtonUp(0))
-                FireStateChanged?.Invoke(false);
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
+            {
+                OnPause?.Invoke();
+            }
         }
 
         public Vector2 GetAxis()
@@ -31,7 +32,7 @@ namespace _Project.Infrastructure.Input
         {
             return UnityEngine.Input.mousePosition.ToCore();
         }
-        
+
         private float GetHorizontalAxis()
         {
             return UnityEngine.Input.GetAxis(HorizontalAxisName);
