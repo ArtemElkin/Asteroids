@@ -7,7 +7,7 @@ namespace _Project.Core.Services
         public event Action Elapsed;
         public event Action<float> OnTimeLeftChanged;
         private bool _loop;
-        private bool _isEnabled;
+        public bool Enabled { get; private set; }
         private float _elapsedTime;
         private float _duration;
         private readonly ITimeService _timeService;
@@ -21,7 +21,7 @@ namespace _Project.Core.Services
 
         private void OnTick(float deltaTime)
         {
-            if (!_isEnabled) return;
+            if (!Enabled) return;
             _elapsedTime += deltaTime;
             if (_elapsedTime >= _duration)
             {
@@ -33,7 +33,7 @@ namespace _Project.Core.Services
                 else
                 {
                     _elapsedTime = 0;
-                    _isEnabled = false;
+                    Enabled = false;
                 }
             }
             OnTimeLeftChanged?.Invoke(_duration -  _elapsedTime);;
@@ -44,18 +44,18 @@ namespace _Project.Core.Services
             _duration = duration;
             _loop = loop;
             _elapsedTime = 0;
-            _isEnabled = true;
+            Enabled = true;
         }
 
         public void Stop()
         {
-            _isEnabled = false;
+            Enabled = false;
             _elapsedTime = 0;
             _duration = 0;
         }
         
-        public void Pause() => _isEnabled = false;
-        public void Resume() => _isEnabled = true;
+        public void Pause() => Enabled = false;
+        public void Resume() => Enabled = true;
 
         public void Dispose()
         {

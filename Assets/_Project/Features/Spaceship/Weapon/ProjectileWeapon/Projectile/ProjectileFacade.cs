@@ -49,15 +49,29 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile
             
             _eventBus = eventBus;
             _timeService.OnFixedTick += OnFixedTick;
+            _gameStateService.OnGameStateChanged += OnGameStateChanged;
             _hitSource.OnHit += OnHit;
             _boundsChecker.OutOfBounds += OnOutOfBounds;
             _timer.Elapsed += OnTimerElapsed;
             _timer.Start(aliveTime);
         }
 
+        private void OnGameStateChanged(GameState gameState)
+        {
+            switch (gameState)
+            {
+                case GameState.Paused:
+                    _timer.Pause();
+                    break;
+                case GameState.Running:
+                    _timer.Resume();
+                    break;
+            }
+        }
+
         private void OnFixedTick(float fixedDeltaTime)
         {
-            if (_gameStateService.CurrentState is GameState.Running or GameState.GameOver)
+            if (_timer.Enabled)
             {
                 _movable.Move(fixedDeltaTime);
                 _boundsChecker.CheckOutOfBounds();
@@ -83,6 +97,7 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile
         public void Dispose()
         {
             _timeService.OnFixedTick -= OnFixedTick;
+            _gameStateService.OnGameStateChanged -= OnGameStateChanged;
             _hitSource.OnHit -= OnHit;
             _boundsChecker.OutOfBounds -= OnOutOfBounds;
             _timer.Elapsed -= OnTimerElapsed;

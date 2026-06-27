@@ -78,12 +78,13 @@ namespace _Project.Features.UI.Gameplay.PauseScreen
         [Method("OnMainMenuClick")]
         public void OnMainMenuClicked()
         {
+            _gameStateService.SetState(GameState.None);
             _eventBus.Publish<MainMenuClickedEvent>();
         }
 
-        private void OnCurrentScoreChanged(int newScore) => Score.Value = newScore.ToString();
+        private void OnCurrentScoreChanged(int newScore) => Score.Value = $"Score: {newScore}";
 
-        private void OnMaxScoreChanged(int newMaxScore) => MaxScore.Value = newMaxScore.ToString();
+        private void OnMaxScoreChanged(int newMaxScore) => MaxScore.Value = $"Max Score: {newMaxScore}";
 
         public void Dispose()
         {

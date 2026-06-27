@@ -21,8 +21,7 @@ namespace _Project.Core.GameLifecycle
             ISaveService saveService,
             PlayerModel playerModel,
             IAdsService  adsService,
-            IConfigProvider configProvider,
-            IEventBus  eventBus)
+            IConfigProvider configProvider)
         {
             _sceneLoadService = sceneLoadService;
             _saveService = saveService;
@@ -44,7 +43,7 @@ namespace _Project.Core.GameLifecycle
             var adsConfig = _configProvider.GetConfig<AdUnitsIdsConfig>("AdUnitsIdsConfig");
             _adsService.Initialize(adsConfig);
             
-            _sceneLoadService.LoadGameScene();
+            _sceneLoadService.LoadMenuScene();
         }
     }
 }
