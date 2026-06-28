@@ -7,7 +7,7 @@ namespace _Project.Features.UI.Gameplay.PauseScreen
 {
     public class PauseScreenView : MonoBehaviour
     {
-        [SerializeField] private Canvas _canvas;
+        [SerializeField] private GameObject _window;
         [Data("Title")]
         public TMP_Text title;
         [Data("Score")]
@@ -24,7 +24,7 @@ namespace _Project.Features.UI.Gameplay.PauseScreen
         [Setter("Active")]
         public bool Active
         {
-            set => _canvas.gameObject.SetActive(value);
+            set => _window.gameObject.SetActive(value);
         }
 
         [Setter("IsGameOver")]

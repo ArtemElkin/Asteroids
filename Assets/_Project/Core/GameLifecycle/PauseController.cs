@@ -29,7 +29,6 @@ namespace _Project.Core.GameLifecycle
             }
         }
 
-
         public void Dispose()
         {
             _pauseInputService.OnPause -= OnPause;

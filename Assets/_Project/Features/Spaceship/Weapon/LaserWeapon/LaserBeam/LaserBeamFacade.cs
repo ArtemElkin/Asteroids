@@ -1,4 +1,5 @@
 using _Project.Core.EventBus;
+using _Project.Core.GameLifecycle;
 using _Project.Core.Render;
 using _Project.Core.Services;
 using _Project.Features.Common.EntitiesLifecycle;
@@ -10,6 +11,7 @@ namespace _Project.Features.Spaceship.Weapon.LaserWeapon.LaserBeam
     {
         public IDrawable Drawable { get; }
         private readonly Timer _timer;
+        private readonly IGameStateService _gameStateService;
         private readonly IEventBus _eventBus;
 
 
@@ -17,14 +19,30 @@ namespace _Project.Features.Spaceship.Weapon.LaserWeapon.LaserBeam
             IDrawable drawable,
             float aliveTime,
             Timer timer,
+            IGameStateService gameStateService,
             IEventBus eventBus)
         {
             Drawable = drawable;
             _timer = timer;
+            _gameStateService = gameStateService;
             _eventBus = eventBus;
 
+            _gameStateService.OnGameStateChanged += OnGameStateChanged;
             _timer.Elapsed += OnTimerElapsed;
             _timer.Start(aliveTime);
+        }
+
+        private void OnGameStateChanged(GameState gameState)
+        {
+            switch (gameState)
+            {
+                case GameState.Paused:
+                    _timer.Pause();
+                    break;
+                case GameState.Running:
+                    _timer.Resume();
+                    break;
+            }
         }
 
         private void OnTimerElapsed()
@@ -34,6 +52,7 @@ namespace _Project.Features.Spaceship.Weapon.LaserWeapon.LaserBeam
 
         public void Dispose()
         {
+            _gameStateService.OnGameStateChanged -= OnGameStateChanged;
             _timer.Elapsed -= OnTimerElapsed;
             _timer.Dispose();
         }

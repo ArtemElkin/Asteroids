@@ -1,8 +1,10 @@
 using System;
 using _Project.Core.EventBus;
+using _Project.Core.GameLifecycle;
 using _Project.Core.Player;
 using _Project.Features.Spaceship;
 using _Project.Features.Spaceship.Events;
+using PlasticPipe.PlasticProtocol.Messages;
 using Plugins.MVVM.Attributes;
 using UniRx;
 using Vector2 = _Project.Core.Math.Vector2;
@@ -13,8 +15,11 @@ namespace _Project.Features.UI.Gameplay.HUD
     {
         private SpaceshipReadOnlyInfo _info;
         private readonly PlayerModel _playerModel;
+        private readonly IGameStateService _gameStateService;
         private readonly IEventBus _eventBus;
-
+        
+        [Data("Active")]
+        public readonly ReactiveProperty<bool> Active = new(false);
         public ReactiveProperty<int> Health = new();
         [Data("Score")]
         public ReactiveProperty<string> Score = new();
@@ -30,13 +35,28 @@ namespace _Project.Features.UI.Gameplay.HUD
         public ReactiveProperty<string> LaserRechargeTime = new();
 
 
-        public HudViewModel(PlayerModel playerModel, IEventBus eventBus)
+        public HudViewModel(PlayerModel playerModel, IGameStateService gameStateService, IEventBus eventBus)
         {
             _playerModel = playerModel;
+            _gameStateService = gameStateService;
             _eventBus = eventBus;
             
             _playerModel.CurrentScoreChanged += OnCurrentScoreChanged;
+            _gameStateService.OnGameStateChanged += OnGameStateChanged;
             _eventBus.Subscribe<SpaceshipSpawnedEvent>(OnSpaceshipSpawned);
+        }
+
+        private void OnGameStateChanged(GameState gameState)
+        {
+            switch (gameState)
+            {
+                case GameState.GameOver:
+                    Active.Value = false;
+                    break;
+                case GameState.Initialize:
+                    Active.Value = true;
+                    break;
+            }
         }
 
         private void OnSpaceshipSpawned(SpaceshipSpawnedEvent @event)
@@ -74,6 +94,7 @@ namespace _Project.Features.UI.Gameplay.HUD
         public void Dispose()
         {
             _eventBus.Unsubscribe<SpaceshipSpawnedEvent>(OnSpaceshipSpawned);
+            _gameStateService.OnGameStateChanged -= OnGameStateChanged;
             _playerModel.CurrentScoreChanged -= OnCurrentScoreChanged;
             if (_info == null) return;
             _info.HealthModel.OnHpChanged -= OnHealthChanged;

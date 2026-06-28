@@ -5,6 +5,7 @@ using _Project.Core.Input;
 using _Project.Core.Physics;
 using _Project.Core.Physics.Movement;
 using _Project.Core.Services;
+using _Project.Core.Tools;
 using _Project.Features.Spaceship.Weapon.LaserWeapon.Config;
 using _Project.Features.Spaceship.Weapon.LaserWeapon.LaserBeam;
 
@@ -17,6 +18,7 @@ namespace _Project.Features.Spaceship.Weapon.LaserWeapon
         private readonly MovementModel _spaceshipMovementModel;
         private readonly IReadOnlyPosition _muzzlePosition;
         private readonly IFactory<LaserBeamSpawnData, LaserBeamFacade> _laserBeamFactory;
+        private readonly Storage<LaserBeamFacade>  _laserBeamStorage;
         public event Action<int> AvailableBeamCountChanged;
         public event Action<float> RechargeTimeLeftChanged;
 
@@ -47,12 +49,14 @@ namespace _Project.Features.Spaceship.Weapon.LaserWeapon
             MovementModel spaceshipMovementModel,
             ITimeService timeService,
             IReadOnlyPosition muzzlePosition,
-            IFactory<LaserBeamSpawnData, LaserBeamFacade> laserBeamFactory) 
+            IFactory<LaserBeamSpawnData, LaserBeamFacade> laserBeamFactory,
+            Storage<LaserBeamFacade> laserBeamStorage) 
             : base(config, fireInputService, spaceshipMovementModel, gameStateService, timeService)
         {
             _spaceshipMovementModel = spaceshipMovementModel;
             _muzzlePosition = muzzlePosition;
             _laserBeamFactory = laserBeamFactory;
+            _laserBeamStorage = laserBeamStorage;
             AvailableBeamCount = _config.maxBeamCount;
             RechargeTimeLeft = _config.oneBeamRechargeTime;
             _timeService.OnTick += OnTick;
@@ -80,7 +84,8 @@ namespace _Project.Features.Spaceship.Weapon.LaserWeapon
                 _muzzlePosition.Position, 
                 _spaceshipMovementModel.RotationAngle,
                 _config.aliveTime);
-            _laserBeamFactory.Create(spawnData);
+            var laserBeam = _laserBeamFactory.Create(spawnData);
+            _laserBeamStorage.Add(laserBeam);
             
             bool wasFull = AvailableBeamCount == _config.maxBeamCount;
             AvailableBeamCount--;

@@ -25,6 +25,11 @@ namespace _Project.Features.Common.EntitiesLifecycle
             _eventBus.Subscribe<DespawnRequestedEvent<TFacade>>(OnDespawnRequested);
         }
 
+        public void Reset()
+        {
+            DespawnAll();
+        }
+
         private void DespawnAll()
         {
             foreach (var facade in _storage)
@@ -39,11 +44,6 @@ namespace _Project.Features.Common.EntitiesLifecycle
             var facade = (TFacade)@event.facade;
             _releaser.Release(facade);
             _storage.Remove(facade);
-        }
-
-        public void Reset()
-        {
-            DespawnAll();
         }
 
         public void Dispose()

@@ -7,6 +7,7 @@ namespace _Project.Features.UI.Gameplay.HUD
 {
     public class HudView : MonoBehaviour
     {
+        [SerializeField] private GameObject _window;
         public Image[] _hpImages;
         [Data("Score")]
         public TMP_Text _currentScoreText;
@@ -20,7 +21,11 @@ namespace _Project.Features.UI.Gameplay.HUD
         public TMP_Text _laserBeamsText;
         [Data("LaserRechargeTime")]
         public TMP_Text _laserRechargeTimeText;
-
+        [Setter("Active")]
+        public bool Active
+        {
+            set => _window.gameObject.SetActive(value);
+        }
 
         public void SetHp(int newValue)
         {

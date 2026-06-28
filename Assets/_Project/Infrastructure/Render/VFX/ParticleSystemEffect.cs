@@ -5,8 +5,8 @@ namespace _Project.Infrastructure.Render.VFX
 {
     public class ParticleSystemEffect : MonoBehaviour, IEffect
     {
-        [SerializeField] private ParticleSystem _particleSystem;
-        
+        [SerializeField] protected ParticleSystem _particleSystem;
+
         
         public void Play()
         {

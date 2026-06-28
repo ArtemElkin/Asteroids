@@ -33,6 +33,8 @@ namespace _Project.Infrastructure.DI
             
             Container.DeclareSignal<StartGameClickedEvent>();
             Container.DeclareSignal<MainMenuClickedEvent>();
+            Container.DeclareSignal<SettingsClickedEvent>();
+            Container.DeclareSignal<BackToMenuClickedEvent>();
             
             Container.DeclareSignal<DespawnRequestedEvent<SpaceshipFacade>>();
             Container.DeclareSignal<SpawnRequestedEvent<AsteroidFacade>>();

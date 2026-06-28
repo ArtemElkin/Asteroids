@@ -1,5 +1,4 @@
 using _Project.Core.Config;
-using _Project.Core.EventBus;
 using _Project.Core.Factories;
 using _Project.Core.GameLifecycle;
 using _Project.Core.Math;
@@ -8,7 +7,6 @@ using _Project.Core.Services;
 using _Project.Core.Tools;
 using _Project.Features.Common.Config;
 using _Project.Features.Common.EntitiesLifecycle;
-using _Project.Features.Spaceship;
 
 namespace _Project.Features.UFO
 {
@@ -18,7 +16,6 @@ namespace _Project.Features.UFO
         protected override float SpawnInterval => _gameConfig.spawnInterval;
         private readonly GameConfig _gameConfig;
         private readonly UFOConfig _ufoConfig;
-        private readonly Storage<SpaceshipFacade> _spaceshipStorage;
         private readonly IFactory<UFOSpawnData, UFOFacade> _ufoFactory;
         private readonly PositionGenerator _positionGenerator;
         private readonly IRandomService _randomService;
@@ -29,7 +26,6 @@ namespace _Project.Features.UFO
             IFactory<UFOSpawnData, UFOFacade> ufoFactory,
             PositionGenerator positionGenerator,
             IRandomService randomService,
-            Storage<SpaceshipFacade> spaceshipStorage,
             IConfigProvider configProvider) : base (
             ufoStorage,
             spawnTimer,
@@ -38,7 +34,6 @@ namespace _Project.Features.UFO
             _ufoFactory = ufoFactory;
             _positionGenerator = positionGenerator;
             _randomService = randomService;
-            _spaceshipStorage = spaceshipStorage;
             _gameConfig = configProvider.GetConfig<GameConfig>("GameConfig");
             _ufoConfig =  configProvider.GetConfig<UFOConfig>("UFOConfig");
         }
@@ -47,7 +42,7 @@ namespace _Project.Features.UFO
         {
             var initialPosition = GetRandomInitialUFOPosition();
             var initialSpeed = GetRandomInitialUFOSpeed();
-            var initialMovementData = new InitialMovementData(_ufoConfig.mass, initialPosition, Vector2.zero);
+            var initialMovementData = new InitialMovementData(_ufoConfig.mass, initialPosition);
             var spawnData = new UFOSpawnData(
                 initialMovementData,
                 initialSpeed);

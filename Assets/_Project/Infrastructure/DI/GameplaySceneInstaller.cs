@@ -50,7 +50,8 @@ namespace _Project.Infrastructure.DI
         private void BindCollisionService()
         {
             Container
-                .Bind<ElasticCollisionService>()
+                // .Bind<ElasticCollisionService>()
+                .Bind<SimpleReflectionCollisionService>()
                 .AsSingle()
                 .NonLazy();
         }
