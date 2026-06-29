@@ -1,23 +1,13 @@
 using _Project.Core.Save;
+using _Project.Core.StaticData;
 
 namespace _Project.Core.Player
 {
-    public class PlayerSaveController
+    public sealed class PlayerSaveController : SaveController<PlayerModel, PlayerSave>
     {
-        private readonly ISaveService _saveService;
-        private readonly PlayerModel _playerModel;
+        protected override string FileName => FileNames.Save.Player;
 
-
-        public PlayerSaveController(ISaveService saveService, PlayerModel playerModel)
-        {
-            _saveService = saveService;
-			_playerModel = playerModel;
-        }
-
-        public void SaveProgress()
-        {
-            _saveService.Save(_playerModel.GetSave());
-        }
-        
+        public PlayerSaveController(ISaveService saveService, PlayerModel playerModel) 
+            : base(saveService, playerModel) { }
     }
 }

@@ -13,6 +13,7 @@ namespace _Project.Features.UI.Settings
         {
             _settingsPages = settingsPages;
             _currentSettingsPage =  _settingsPages[0];
+            _currentSettingsPage.Show();
         }
 
         public void NextPage()

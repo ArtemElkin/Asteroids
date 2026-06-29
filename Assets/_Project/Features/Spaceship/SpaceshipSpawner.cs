@@ -3,6 +3,7 @@ using _Project.Core.Config;
 using _Project.Core.EventBus;
 using _Project.Core.GameLifecycle;
 using _Project.Core.Physics.Movement;
+using _Project.Core.StaticData;
 using _Project.Core.Tools;
 using _Project.Features.Spaceship.Config;
 using Vector2 = _Project.Core.Math.Vector2;
@@ -27,7 +28,7 @@ namespace _Project.Features.Spaceship
             _factory = factory;
             _storage = storage;
             _gameStateService = gameStateService;
-            _config =  configProvider.GetConfig<SpaceshipConfig>("SpaceshipConfig");
+            _config =  configProvider.GetConfig<SpaceshipConfig>(FileNames.Config.Entities.Spaceship);
             _gameStateService.OnGameStateChanged += OnGameStateChanged;
         }
 

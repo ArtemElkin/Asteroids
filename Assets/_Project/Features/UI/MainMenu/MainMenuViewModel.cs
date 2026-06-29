@@ -44,7 +44,8 @@ namespace _Project.Features.UI.MainMenu
             Hide();
             _eventBus.Publish<SettingsClickedEvent>();
         }
-        private void OnMaxScoreChanged(int newMaxScore) => MaxScore.Value = newMaxScore.ToString();
+
+        private void OnMaxScoreChanged(int newMaxScore) => MaxScore.Value = $"MAX SCORE:\n {newMaxScore}";
 
         public void Dispose()
         {

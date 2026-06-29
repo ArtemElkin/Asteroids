@@ -1,16 +1,12 @@
-using _Project.Core.EventBus;
 using _Project.Core.Math;
 using _Project.Core.Physics.Collision;
-using _Project.Core.Services;
 
-namespace _Project.Features.Common.Collision
+namespace _Project.Features.Common.Collision.Resolvers
 {
-    public class SimpleReflectionCollisionService : BaseCollisionService
+    public class SimpleReflectionCollisionResolver : ICollisionResolver
     {
-        public SimpleReflectionCollisionService(IEventBus eventBus, ITimeService timeService) 
-            : base(eventBus, timeService) { }
-        
-        protected override void OnProcessCollision(CollisionData collisionData)
+        public CollisionResolverType ResolverType => CollisionResolverType.SimpleReflection;
+        public void ProcessCollision(CollisionData collisionData)
         {
             var velocityA = collisionData.modelA.Velocity;
             var velocityB = collisionData.modelB.Velocity;

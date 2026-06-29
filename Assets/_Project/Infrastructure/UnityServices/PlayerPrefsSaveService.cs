@@ -6,19 +6,17 @@ namespace _Project.Infrastructure.UnityServices
 {
     public class PlayerPrefsSaveService : ISaveService
     {
-        private const string Path = "save.json";
-        
-        public void Save(ISave save)
+        public void Save(ISave save, string fileName)
         {
             string json =  JsonConvert.SerializeObject(save);
-            PlayerPrefs.SetString(Path, json);
+            PlayerPrefs.SetString(fileName, json);
         }
 
-        public T Load<T>() where T : ISave
+        public T Load<T>(string fileName) where T : ISave
         {
-            if (PlayerPrefs.HasKey(Path))
+            if (PlayerPrefs.HasKey(fileName))
             {
-                string json = PlayerPrefs.GetString(Path);
+                string json = PlayerPrefs.GetString(fileName);
                 T save = JsonConvert.DeserializeObject<T>(json);
                 return save;
             }

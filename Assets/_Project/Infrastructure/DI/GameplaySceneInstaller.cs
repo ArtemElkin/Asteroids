@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using _Project.Core.GameLifecycle;
 using _Project.Core.Services;
 using _Project.Core.Tools;
 using _Project.Features.Ads;
 using _Project.Features.Common.Bounds;
 using _Project.Features.Common.Collision;
+using _Project.Features.Common.Collision.Resolvers;
 using _Project.Features.Common.EnemyAwardsService;
 using _Project.Infrastructure.GameLifecycle;
 using _Project.Infrastructure.UnityServices;
@@ -50,8 +52,16 @@ namespace _Project.Infrastructure.DI
         private void BindCollisionService()
         {
             Container
-                // .Bind<ElasticCollisionService>()
-                .Bind<SimpleReflectionCollisionService>()
+                .BindInterfacesTo<SimpleReflectionCollisionResolver>()
+                .AsSingle()
+                .NonLazy();
+            
+            Container.BindInterfacesTo<ElasticCollisionResolver>()
+                .AsSingle()
+                .NonLazy();
+            
+            Container
+                .Bind<CollisionService>()
                 .AsSingle()
                 .NonLazy();
         }

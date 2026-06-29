@@ -2,6 +2,7 @@ using System;
 using _Project.Core.Config;
 using _Project.Core.EventBus;
 using _Project.Core.Player;
+using _Project.Core.StaticData;
 using _Project.Features.Common.EntitiesLifecycle.Events;
 
 namespace _Project.Features.Common.EnemyAwardsService
@@ -23,7 +24,7 @@ namespace _Project.Features.Common.EnemyAwardsService
             _playerModel = playerModel;
             _playerSaveController = playerSaveController;
             _eventBus = eventBus;
-            _awardsConfig = configProvider.GetConfig<AwardsConfig>("AwardsConfig");
+            _awardsConfig = configProvider.GetConfig<AwardsConfig>(FileNames.Config.Awards);
             _eventBus.Subscribe<EnemyDestroyedEvent>(OnEnemyDestroyed);
         }
 
@@ -36,7 +37,7 @@ namespace _Project.Features.Common.EnemyAwardsService
                 {
                     _playerModel.IncreaseCurrentScore(reward);
                     _playerModel.TryUpdateMaxScore(_playerModel.CurrentScore);
-                    _playerSaveController.SaveProgress();
+                    _playerSaveController.Save();
                 }
             }
         }

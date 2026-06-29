@@ -1,8 +1,9 @@
 using System;
+using _Project.Core.Save;
 
 namespace _Project.Core.Player
 {
-    public class PlayerModel
+    public class PlayerModel : ISaveable<PlayerSave>
     {
         public event Action<int> CurrentScoreChanged;
         public event Action<int> MaxScoreChanged;
@@ -22,6 +23,7 @@ namespace _Project.Core.Player
             }
         }
 
+        
         public void IncreaseCurrentScore(int value)
         {
             CurrentScore += value;

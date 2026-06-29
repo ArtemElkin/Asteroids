@@ -5,6 +5,7 @@ using _Project.Core.GameLifecycle;
 using _Project.Core.Math;
 using _Project.Core.Physics.Movement;
 using _Project.Core.Services;
+using _Project.Core.StaticData;
 using _Project.Core.Tools;
 using _Project.Features.Asteroid.Config;
 using _Project.Features.Common.Config;
@@ -42,8 +43,8 @@ namespace _Project.Features.Asteroid
             _randomService =  randomService;
             _eventBus = eventBus;
             _eventBus.Subscribe<SpawnRequestedEvent<AsteroidFacade>>(OnAsteroidFragmentSpawnRequested);
-            _gameConfig = configProvider.GetConfig<GameConfig>("GameConfig");
-            _asteroidConfig =  configProvider.GetConfig<AsteroidConfig>("AsteroidConfig");
+            _gameConfig = configProvider.GetConfig<GameConfig>(FileNames.Config.Game);
+            _asteroidConfig =  configProvider.GetConfig<AsteroidConfig>(FileNames.Config.Entities.Asteroid);
         }
 
         protected override AsteroidFacade Spawn()

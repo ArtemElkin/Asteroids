@@ -1,16 +1,12 @@
-using _Project.Core.EventBus;
 using _Project.Core.Physics;
 using _Project.Core.Physics.Collision;
-using _Project.Core.Services;
 
-namespace _Project.Features.Common.Collision
+namespace _Project.Features.Common.Collision.Resolvers
 {
-    public class ElasticCollisionService : BaseCollisionService
+    public class ElasticCollisionResolver : ICollisionResolver
     {
-        public ElasticCollisionService(IEventBus eventBus, ITimeService timeService) :
-            base(eventBus, timeService) { }
-
-        protected override void OnProcessCollision(CollisionData collisionData)
+        public CollisionResolverType ResolverType => CollisionResolverType.Elastic;
+        public void ProcessCollision(CollisionData collisionData)
         {
             var massA = collisionData.modelA.Mass;
             var massB = collisionData.modelB.Mass;

@@ -4,6 +4,7 @@ using _Project.Core.GameLifecycle;
 using _Project.Core.Math;
 using _Project.Core.Physics.Movement;
 using _Project.Core.Services;
+using _Project.Core.StaticData;
 using _Project.Core.Tools;
 using _Project.Features.Common.Config;
 using _Project.Features.Common.EntitiesLifecycle;
@@ -34,8 +35,8 @@ namespace _Project.Features.UFO
             _ufoFactory = ufoFactory;
             _positionGenerator = positionGenerator;
             _randomService = randomService;
-            _gameConfig = configProvider.GetConfig<GameConfig>("GameConfig");
-            _ufoConfig =  configProvider.GetConfig<UFOConfig>("UFOConfig");
+            _gameConfig = configProvider.GetConfig<GameConfig>(FileNames.Config.Game);
+            _ufoConfig =  configProvider.GetConfig<UFOConfig>(FileNames.Config.Entities.Ufo);
         }
 
         protected override UFOFacade Spawn()

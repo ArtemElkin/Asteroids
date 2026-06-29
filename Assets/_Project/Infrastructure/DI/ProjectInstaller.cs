@@ -7,6 +7,7 @@ using _Project.Core.Services;
 using _Project.Features.Asteroid;
 using _Project.Features.Common.EntitiesLifecycle.Events;
 using _Project.Features.Common.Hit.Events;
+using _Project.Features.Common.Settings;
 using _Project.Features.Spaceship;
 using _Project.Features.Spaceship.Events;
 using _Project.Features.Spaceship.Weapon.LaserWeapon.LaserBeam;
@@ -58,6 +59,8 @@ namespace _Project.Infrastructure.DI
             BindConfigProviders();
             BindPlayerModel();
             BindPlayerSaveController();
+            BindSettingsModel();
+            BindSettingsSaveController();
             BindInput();
             BindSceneLoadService();
             BindAdsService();
@@ -129,7 +132,23 @@ namespace _Project.Infrastructure.DI
         private void BindPlayerSaveController()
         {
             Container
-                .Bind<PlayerSaveController>()
+                .BindInterfacesAndSelfTo<PlayerSaveController>()
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindSettingsModel()
+        {
+            Container
+                .Bind<SettingsModel>()
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindSettingsSaveController()
+        {
+            Container
+                .BindInterfacesAndSelfTo<SettingsSaveController>()
                 .AsSingle()
                 .NonLazy();
         }
