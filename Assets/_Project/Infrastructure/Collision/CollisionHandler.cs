@@ -31,11 +31,13 @@ namespace _Project.Infrastructure.Collision
         public void Setup(MovementModel movementModel)
         {
             MovementModel = movementModel;
+            _timeLeftAfterLastCollision = CooldownTime;
         }
 
         public void Reset()
         {
             MovementModel = null;
+            ActivateCollision();
         }
 
         public void ActivateCollision()
@@ -53,7 +55,7 @@ namespace _Project.Infrastructure.Collision
         {
             if (MovementModel == null) return;
             
-            if (_timeLeftAfterLastCollision > CooldownTime)
+            if (_timeLeftAfterLastCollision >= CooldownTime)
             {
                 if (collision.gameObject.TryGetComponent(out ICollidable other) && other.MovementModel != null)
                 {

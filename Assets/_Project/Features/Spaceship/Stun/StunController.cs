@@ -7,30 +7,30 @@ namespace _Project.Features.Spaceship.Stun
 {
     public class StunController
     {
-        private readonly IStunnable _stunnable;
+        private readonly IMutableStun _mutableStun;
         private readonly ICollidable _collidable;
         private readonly IEffect _stunEffect;
 
 
         public StunController(
-            IStunnable stunnable, 
+            IMutableStun mutableStun, 
             ICollidable collidable,
             IEffect stunEffect)
         {
-            _stunnable = stunnable;
+            _mutableStun = mutableStun;
             _collidable = collidable;
             _stunEffect = stunEffect;
         }
 
         public async Task ApplyStun(float duration)
         {
-            _stunnable.SetStunned(true);
+            _mutableStun.SetStunned(true);
             _collidable.DeactivateCollision();
             _stunEffect.Play();
             
             await Task.Delay((int)(duration * 1000));
             
-            _stunnable?.SetStunned(false);
+            _mutableStun?.SetStunned(false);
             _collidable?.ActivateCollision();
             _stunEffect?.Stop();
         }

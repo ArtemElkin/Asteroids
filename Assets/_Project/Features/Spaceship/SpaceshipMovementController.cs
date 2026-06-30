@@ -35,10 +35,12 @@ namespace _Project.Features.Spaceship
 
         protected override void UpdateVelocityOnMove(float deltaTime)
         {
+            if (_movementModel.IsStunned) return;
+            
             var input = _movementInputService.GetAxis();
             Vector2 currentVelocity = _movementModel.Velocity;
             Vector2 newVelocity;
-            if (input.sqrMagnitude > 0.001f && !_movementModel.IsStunned)
+            if (input.sqrMagnitude > 0.001f)
             {
                 var targetVelocity = Physics.ApplyAcceleration(currentVelocity, _movementModel.MoveDirection, _config.thrust, deltaTime);
                 targetVelocity = Vector2.ClampMagnitude(targetVelocity, _config.maxSpeed);

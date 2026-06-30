@@ -6,17 +6,17 @@ namespace _Project.Features.Spaceship
 {
     public class SpaceshipReadOnlyInfo
     {
-        public IReadOnlyPosition Position { get; }
-        public IReadOnlyRotation Rotation { get; }
-        public IReadOnlyVelocity Velocity { get; }
+        public IObservablePosition Position { get; }
+        public IObservableRotation Rotation { get; }
+        public IObservableVelocity Velocity { get; }
         public IReadOnlyHealthModel HealthModel { get; }
         public IReadOnlyLaserWeaponState LaserWeaponState { get; }
 
 
         public SpaceshipReadOnlyInfo(
-            IReadOnlyPosition position,
-            IReadOnlyRotation rotation,
-            IReadOnlyVelocity velocity,
+            IObservablePosition position,
+            IObservableRotation rotation,
+            IObservableVelocity velocity,
             IReadOnlyHealthModel healthModel,
             IReadOnlyLaserWeaponState laserWeaponState)
         {

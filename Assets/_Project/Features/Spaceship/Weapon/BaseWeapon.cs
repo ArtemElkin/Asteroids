@@ -14,7 +14,7 @@ namespace _Project.Features.Spaceship.Weapon
         protected readonly ITimeService _timeService;
         private float _timeFromLastShot;
         private readonly float _cooldown;
-        private readonly IStunnable _stundable;
+        private readonly IMutableStun _stundable;
         private readonly IGameStateService _gameStateService;
         protected virtual bool OptionalConditionToAllowFire => true;
 
@@ -22,7 +22,7 @@ namespace _Project.Features.Spaceship.Weapon
         protected BaseWeapon(
             TWeaponConfig config,
             IFireInputService fireInputService,
-            IStunnable stundable,
+            IMutableStun stundable,
             IGameStateService gameStateService,
             ITimeService timeService)
         {

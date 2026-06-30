@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using _Project.Core.GameLifecycle;
 using _Project.Core.Player;
 
-namespace _Project.Infrastructure.GameLifecycle
+namespace _Project.Core.GameLifecycle
 {
     public class RestartController : IDisposable
     {
@@ -34,7 +33,6 @@ namespace _Project.Infrastructure.GameLifecycle
                 _gameStateService.SetState(GameState.Running);
             }
         }
-
 
         public void Dispose()
         {

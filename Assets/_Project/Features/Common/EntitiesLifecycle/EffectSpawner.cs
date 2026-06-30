@@ -1,20 +1,21 @@
 using System;
 using _Project.Core.EventBus;
 using _Project.Core.Factories;
+using _Project.Core.Physics;
 using _Project.Core.Render.VFX;
 
 namespace _Project.Features.Common.EntitiesLifecycle
 {
     public class EffectSpawner<TEvent, TSpawnData> : IDisposable
-        where TEvent: ISpawnEvent<TSpawnData>
+        where TEvent: ISpawnEvent<TSpawnData> where TSpawnData : IHasPosition
     {
-        private readonly IFactory<TSpawnData, IEffect> _factory;
+        private readonly IEffectFactory<TSpawnData> _factory;
         // private readonly Storage<IEffect> _effectStorage;
         private readonly IEventBus _eventBus;
 
 
         public EffectSpawner(
-            IFactory<TSpawnData, IEffect> factory,
+            IEffectFactory<TSpawnData> factory,
             // Storage<IEffect> effectStorage,
             IEventBus  eventBus)
         {
@@ -27,7 +28,8 @@ namespace _Project.Features.Common.EntitiesLifecycle
 
         private void SpawnEffect(TEvent @event)
         {
-            var effect = _factory.Create(@event.SpawnData);
+            var effect = _factory.Create(@event.SpawnData.Position);
+            effect.Play();
             // _effectStorage.Add(effect);
         }
 

@@ -13,7 +13,7 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon
     public class ProjectileWeapon : BaseWeapon<ProjectileWeaponConfig>
     {
         private readonly MovementModel _spaceshipMovementModel;
-        private readonly IReadOnlyPosition _muzzlePosition;
+        private readonly IHasPosition _muzzlePosition;
         private readonly IFactory<ProjectileSpawnData, ProjectileFacade> _projectileFactory;
         private readonly Storage<ProjectileFacade> _projectileStorage;
         private readonly IScreenService _screenService;
@@ -25,7 +25,7 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon
             IGameStateService gameStateService,
             ITimeService timeService,
             MovementModel spaceshipMovementModel,
-            IReadOnlyPosition muzzlePosition,
+            IHasPosition muzzlePosition,
             IFactory<ProjectileSpawnData, ProjectileFacade> projectileFactory,
             Storage<ProjectileFacade> projectileStorage,
             IScreenService screenService) : base(config, fireInputService, spaceshipMovementModel, gameStateService, timeService)

@@ -1,6 +1,5 @@
 using _Project.Core.Physics.Collision;
 using _Project.Core.Physics.Collision.Events;
-using _Project.Core.Render.VFX;
 using _Project.Features.Common.EntitiesLifecycle;
 using _Project.Features.Common.Hit;
 using _Project.Features.Common.Hit.Events;
@@ -11,27 +10,27 @@ using Zenject;
 
 namespace _Project.Infrastructure.DI
 {
-    public class VFXInstaller : MonoInstaller
+    public class EffectsInstaller : MonoInstaller
     {
-        [SerializeField] private ParticleSystemEffect _collisionEffect;
-        [SerializeField] private ParticleSystemEffect _hitEffect;
-        [SerializeField] private Transform _vfxParentTransform;
+        [SerializeField] private CompositeEffect _collisionEffect;
+        [SerializeField] private CompositeEffect _hitEffect;
+        [SerializeField] private Transform _effectParentTransform;
         
         
         public override void InstallBindings()
         {
-            BindCollisionEffectFactory(_collisionEffect, _vfxParentTransform);
+            BindCollisionEffectFactory(_collisionEffect, _effectParentTransform);
             BindCollisionEffectSpawner();
             
-            BindHitEffectFactory(_hitEffect, _vfxParentTransform);
+            BindHitEffectFactory(_hitEffect, _effectParentTransform);
             BindHitEffectSpawner();
         }
 
-        private void BindCollisionEffectFactory(ParticleSystemEffect effect, Transform parentTransform)
+        private void BindCollisionEffectFactory(CompositeEffect effect, Transform parentTransform)
         {
             Container
-                .Bind<Core.Factories.IFactory<CollisionData, IEffect>>()
-                .To<CollisionEffectFactory>()
+                .Bind<Core.Factories.IEffectFactory<CollisionData>>()
+                .To<EffectFactory<CollisionData>>()
                 .AsSingle()
                 .WithArguments(effect, parentTransform)
                 .NonLazy();
@@ -45,11 +44,11 @@ namespace _Project.Infrastructure.DI
                 .NonLazy();
         }
         
-        private void BindHitEffectFactory(ParticleSystemEffect effect, Transform parentTransform)
+        private void BindHitEffectFactory(CompositeEffect effect, Transform parentTransform)
         {
             Container
-                .Bind<Core.Factories.IFactory<HitInfo, IEffect>>()
-                .To<HitEffectFactory>()
+                .Bind<Core.Factories.IEffectFactory<HitInfo>>()
+                .To<EffectFactory<HitInfo>>()
                 .AsSingle()
                 .WithArguments(effect, parentTransform)
                 .NonLazy();

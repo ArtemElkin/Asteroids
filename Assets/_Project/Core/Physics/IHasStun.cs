@@ -1,6 +1,6 @@
 namespace _Project.Core.Physics
 {
-    public interface IReadOnlyStunState
+    public interface IHasStun
     {
         bool IsStunned { get; }
     }

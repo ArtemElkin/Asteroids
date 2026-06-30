@@ -1811,7 +1811,7 @@ GameObject:
   - component: {fileID: 773718640}
   - component: {fileID: 773718641}
   m_Layer: 0
-  m_Name: VFX
+  m_Name: Effects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1844,9 +1844,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a104bca41b4ad0ac116088b6a10828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collisionEffect: {fileID: -1515987036302334196, guid: 1a89207e82ef8e7a69c2d127add2b4b4, type: 3}
-  _hitEffect: {fileID: -1515987036302334196, guid: 1a89207e82ef8e7a69c2d127add2b4b4, type: 3}
-  _vfxParentTransform: {fileID: 773718640}
+  _collisionEffect: {fileID: 4606942279351809545, guid: 1a89207e82ef8e7a69c2d127add2b4b4, type: 3}
+  _hitEffect: {fileID: 6620846496254944389, guid: 12c204cdb5ef5b3f8b651705872919a7, type: 3}
+  _effectParentTransform: {fileID: 773718640}
 --- !u!1 &840516068
 GameObject:
   m_ObjectHideFlags: 0

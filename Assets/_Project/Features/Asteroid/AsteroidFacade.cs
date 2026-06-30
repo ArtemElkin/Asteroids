@@ -111,6 +111,7 @@ namespace _Project.Features.Asteroid
         public void Dispose()
         {
             _timeService.OnFixedTick -= OnFixedTick;
+            _screenWrapCloneSet.Dispose();
             _collidable.OnCollided -= OnCollided;
             _hitable.OnHit -= OnHit;
             _boundsChecker.OutOfBounds -= OnOutOfBounds;

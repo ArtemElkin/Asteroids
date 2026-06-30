@@ -8,13 +8,13 @@ namespace _Project.Features.Common.Bounds
         public event Action OutOfBounds;
         public event Action EnteredGameArea;
         public bool IsEnteredGameAreaAfterSpawn { get; private set; }
-        private readonly IReadOnlyPosition _position;
+        private readonly IHasPosition _position;
         private readonly BoundsService _boundsService;
 
 
         public BoundsChecker(
             BoundsService boundsService,
-            IReadOnlyPosition position,
+            IHasPosition position,
             bool isEnteredGameAreaAfterSpawn = false)
         {
             _boundsService = boundsService;

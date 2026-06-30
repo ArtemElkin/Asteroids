@@ -40,13 +40,13 @@ namespace _Project.Infrastructure.Factories
             HealthModel healthModel = CreateComponent<HealthModel>(data.config.maxHp);
             HealthController healthController = CreateComponent<HealthController>(healthModel);
             
-            IScreenWrapCloneSet screenWrapCloneSet = data.config.hasClones
+            IScreenWrapCloneSet screenWrapCloneSet = data.hasClones
                 ? CreateComponent<ScreenWrapCloneSet<SpaceshipFacade>>(
                     movementModel,
                     boundsChecker,
                     drawable)
                 : new NullScreenWrapCloneSet();
-            IReadOnlyPosition muzzlePosition = muzzleView;
+            IHasPosition muzzlePosition = muzzleView;
 
             IEffect originStunEffect = view.GetComponentInChildren<IEffect>();
             IEffect syncedStunEffect = CreateComponent<SyncedSpaceshipStunEffect>(originStunEffect, screenWrapCloneSet);

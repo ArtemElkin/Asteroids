@@ -3,7 +3,7 @@ using _Project.Core.Math;
 
 namespace _Project.Core.Physics.Movement
 {
-    public class MovementModel : IPositionMutable, IRotationMutable, IVelocityMutable, IStunnable
+    public class MovementModel : IMutablePosition, IMutableRotation, IMutableVelocity, IMutableStun
     {
         public float Mass { get; private set; }
         public Vector2 Position { get; private set; }

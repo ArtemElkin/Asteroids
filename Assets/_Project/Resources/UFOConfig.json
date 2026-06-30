@@ -1,6 +1,5 @@
 {
+  "mass" : 1000,
   "minSpeed": 4.0,
-  "maxSpeed": 7.0,
-  "accelerationMultiplier": 100,
-  "inertiaMultiplier": 0.5
+  "maxSpeed": 7.0
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using _Project.Core.EventBus;
 using _Project.Core.GameLifecycle;
+using _Project.Core.Math;
 using _Project.Core.Physics;
 using _Project.Core.Physics.Collision;
 using _Project.Core.Physics.Collision.Events;
@@ -74,7 +75,12 @@ namespace _Project.Features.Spaceship
             _boundsChecker.OutOfBounds += OnOutOfBounds;
 
             var laserWeaponState = _weapons[WeaponType.LaserWeapon] as IReadOnlyLaserWeaponState;
-            var spaceshipInfo = new SpaceshipReadOnlyInfo(MovementModel, MovementModel, MovementModel, _healthController.HealthModel, laserWeaponState);
+            var spaceshipInfo = new SpaceshipReadOnlyInfo(
+                MovementModel, 
+                MovementModel, 
+                MovementModel, 
+                _healthController.HealthModel, 
+                laserWeaponState);
             _eventBus.Publish(new SpaceshipSpawnedEvent(spaceshipInfo));
         }
 

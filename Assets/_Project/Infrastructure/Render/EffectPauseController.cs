@@ -1,12 +1,20 @@
 using _Project.Core.GameLifecycle;
+using _Project.Core.Render.VFX;
+using UnityEngine;
 using Zenject;
 
-namespace _Project.Infrastructure.Render.VFX
+namespace _Project.Infrastructure.Render
 {
-    public class CollisionVFX : ParticleSystemEffect
+    public class EffectPauseController : MonoBehaviour
     {
         private IGameStateService _gameStateService;
-        
+        private IEffect _effect;
+
+
+        private void Awake()
+        {
+            _effect = GetComponent<IEffect>();
+        }
         
         private void OnEnable()
         {
@@ -24,13 +32,13 @@ namespace _Project.Infrastructure.Render.VFX
             switch (gameState)
             {
                 case GameState.Paused:
-                    _particleSystem.Pause();
+                    _effect.Pause();
                     break;
                 case GameState.Running:
-                    _particleSystem.Play();
+                    if (_effect.IsPaused) _effect.Play();
                     break;
                 case GameState.Restart:
-                    Stop();
+                    _effect.Stop();
                     break;
             }
         }

@@ -17,9 +17,9 @@ namespace _Project.Features.Common.Bounds
             _boundsService = boundsService;
         }
 
-        public void Warp(IPositionMutable positionMutable)
+        public void Warp(IMutablePosition mutablePosition)
         {
-            var oldPos = positionMutable.Position;
+            var oldPos = mutablePosition.Position;
             if (_boundsService.TryGetCrossedBounds(oldPos, out var crossedBounds))
             {
                 var newPos = oldPos;
@@ -27,7 +27,7 @@ namespace _Project.Features.Common.Bounds
                 if ((crossedBounds & BoundType.Bottom) != 0) newPos.y = _screenService.TopEdgeY;
                 if ((crossedBounds & BoundType.Left) != 0) newPos.x = _screenService.RightEdgeX;
                 if((crossedBounds & BoundType.Right) != 0) newPos.x = _screenService.LeftEdgeX;
-                positionMutable.UpdatePosition(newPos);
+                mutablePosition.UpdatePosition(newPos);
             }
         }
     }

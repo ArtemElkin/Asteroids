@@ -16,7 +16,7 @@ namespace _Project.Features.Spaceship.Weapon.LaserWeapon
         private int _availableBeamCount;
         private float _rechargeTimeLeft;
         private readonly MovementModel _spaceshipMovementModel;
-        private readonly IReadOnlyPosition _muzzlePosition;
+        private readonly IHasPosition _muzzlePosition;
         private readonly IFactory<LaserBeamSpawnData, LaserBeamFacade> _laserBeamFactory;
         private readonly Storage<LaserBeamFacade>  _laserBeamStorage;
         public event Action<int> AvailableBeamCountChanged;
@@ -48,7 +48,7 @@ namespace _Project.Features.Spaceship.Weapon.LaserWeapon
             IGameStateService gameStateService,
             MovementModel spaceshipMovementModel,
             ITimeService timeService,
-            IReadOnlyPosition muzzlePosition,
+            IHasPosition muzzlePosition,
             IFactory<LaserBeamSpawnData, LaserBeamFacade> laserBeamFactory,
             Storage<LaserBeamFacade> laserBeamStorage) 
             : base(config, fireInputService, spaceshipMovementModel, gameStateService, timeService)

@@ -2,11 +2,13 @@ using _Project.Core.Math;
 
 namespace _Project.Core.Physics.Movement
 {
-    public struct InitialMovementData
+    public readonly struct InitialMovementData : IHasPosition
     {
         public readonly float mass;
         public readonly Vector2 initialPosition;
         public readonly Vector2 initialVelocity;
+        public Vector2 Position => initialPosition;
+
 
 
         public InitialMovementData(float mass, Vector2 initialPosition)
@@ -15,6 +17,7 @@ namespace _Project.Core.Physics.Movement
             this.initialPosition = initialPosition;
             this.initialVelocity = Vector2.zero;
         }
+
         public InitialMovementData(float mass, Vector2 initialPosition, Vector2 initialVelocity)
         {
             this.mass = mass;
