@@ -23,19 +23,27 @@ namespace _Project.Features.UI.Gameplay.PauseScreen
 
         private readonly PlayerModel _playerModel;
         private readonly IGameStateService _gameStateService;
+        private readonly IPauseService _pauseService;
         private readonly IEventBus _eventBus;
 
 
-        public PauseScreenViewModel(PlayerModel playerModel, IGameStateService gameStateService, IEventBus eventBus)
+        public PauseScreenViewModel(
+            PlayerModel playerModel, 
+            IGameStateService gameStateService,
+            IPauseService pauseService, 
+            IEventBus eventBus)
         {
             _playerModel = playerModel;
             _gameStateService = gameStateService;
+            _pauseService = pauseService;
             _eventBus = eventBus;
+            
             _gameStateService.OnGameStateChanged += OnGameStateChanged;
-            OnCurrentScoreChanged(_playerModel.CurrentScore);
-            OnMaxScoreChanged(_playerModel.MaxScore);
             _playerModel.CurrentScoreChanged += OnCurrentScoreChanged;
             _playerModel.MaxScoreChanged += OnMaxScoreChanged;
+            
+            OnCurrentScoreChanged(_playerModel.CurrentScore);
+            OnMaxScoreChanged(_playerModel.MaxScore);
             Active.Value = false;
             IsGameOver.Value = false;
         }
@@ -63,7 +71,7 @@ namespace _Project.Features.UI.Gameplay.PauseScreen
         [Method("OnResumeClick")]
         public void OnResumeClicked()
         {
-            _gameStateService.SetState(GameState.Resume);
+            _pauseService.Resume();
         }
 
         [Method("OnRestartClick")]

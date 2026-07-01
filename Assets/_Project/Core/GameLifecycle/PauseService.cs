@@ -1,32 +1,41 @@
 using System;
-using _Project.Core.EventBus;
 using _Project.Core.Input;
 
 namespace _Project.Core.GameLifecycle
 {
-    public class PauseController : IDisposable
+    public class PauseService : IPauseService, IDisposable
     {
         private readonly IPauseInputService _pauseInputService;
         private readonly IGameStateService _gameStateService;
 
 
-        public PauseController(IPauseInputService pauseInputService, IGameStateService gameStateService)
+        public PauseService(IPauseInputService pauseInputService, IGameStateService gameStateService)
         {
             _pauseInputService = pauseInputService;
             _gameStateService = gameStateService;
             _pauseInputService.OnPause += OnPause;
         }
 
+        public void Pause()
+        {
+            _gameStateService.SetState(GameState.Paused);
+        }
+
+        public void Resume()
+        {
+            _gameStateService.SetState(GameState.Resume);
+            _gameStateService.SetState(GameState.Running);
+        }
+
         private void OnPause()
         {
             if (_gameStateService.CurrentState is GameState.Running)
             {
-                _gameStateService.SetState(GameState.Paused);
+                Pause();
             }
             else if (_gameStateService.CurrentState is GameState.Paused)
             {
-                _gameStateService.SetState(GameState.Resume);
-                _gameStateService.SetState(GameState.Running);
+                Resume();
             }
         }
 

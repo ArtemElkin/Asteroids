@@ -103,7 +103,7 @@ namespace _Project.Infrastructure.DI
         private void BindPauseController()
         {
             Container
-                .BindInterfacesAndSelfTo<PauseController>()
+                .BindInterfacesAndSelfTo<PauseService>()
                 .AsSingle()
                 .NonLazy();
         }

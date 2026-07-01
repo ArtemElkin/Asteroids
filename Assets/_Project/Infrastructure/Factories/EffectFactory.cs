@@ -24,7 +24,6 @@ namespace _Project.Infrastructure.Factories
         public void Release(IEffect entity)
         {
             var view = (TPrefab) entity;
-            view.Stop();
             view.transform.position = Vector2.zero.ToUnity();
             _pool.Release(view);
         }

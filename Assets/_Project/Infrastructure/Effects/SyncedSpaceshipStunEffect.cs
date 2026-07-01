@@ -23,11 +23,11 @@ namespace _Project.Infrastructure.Effects
             _cloneSet = cloneSet;
             _cloneEffects = new List<IEffect>();
             _effectStorage = effectStorage;
-            _effectStorage.Add(_originEffect);
         }
         public void Play()
         {
             _originEffect.Play();
+            _effectStorage.Add(this);
             
             if (_cloneEffects.Count == 0) SyncClones();
             
@@ -65,14 +65,13 @@ namespace _Project.Infrastructure.Effects
         {
             IsPlaying = false;
             _originEffect.Stop();
-            _effectStorage.Remove(_originEffect);
+            _effectStorage.Remove(this);
             
             // if (_cloneEffects.Count == 0) SyncClones();
             
             foreach (var cloneEffect in _cloneEffects)
             {
                 cloneEffect.Stop();
-                _effectStorage.Remove(cloneEffect);
             }
             OnEnded?.Invoke();
         }
@@ -84,7 +83,6 @@ namespace _Project.Infrastructure.Effects
                 TransformView view = (TransformView)cloneDrawable;
                 IEffect cloneStunEffect = view.GetComponentInChildren<IEffect>();
                 _cloneEffects.Add(cloneStunEffect);
-                _effectStorage.Add(cloneStunEffect);
             }
         }
     }
