@@ -1,6 +1,6 @@
 {
   "maxHp": 3,
-  "hasClones": true,
+  "stunDuration": 3.0,
   "movementConfig":
   {
     "mass": 1000,

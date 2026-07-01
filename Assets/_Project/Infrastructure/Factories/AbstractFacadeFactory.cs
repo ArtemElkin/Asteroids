@@ -22,12 +22,11 @@ namespace _Project.Infrastructure.Factories
         public void Release(TFacade facade)
         {
             IDrawable drawable = facade.Drawable;
+            facade.Dispose();
             drawable.Reset();
             
             var view = (TView)drawable;
             _pool.Release(view);
-            
-            facade.Dispose();
         }
     }
 }

@@ -7,7 +7,6 @@ namespace _Project.Features.Asteroid.Config
         public int fragmentsCount;
         public float radius;
         public float fragmentRadius;
-        public bool hasClones;
         public AsteroidMovementConfig movementConfig;
     }
 }

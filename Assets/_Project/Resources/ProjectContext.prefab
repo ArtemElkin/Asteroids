@@ -79,6 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputHandlerPrefab: {fileID: 8877721737320336241, guid: 92deb7c77e0b44699e224e2468a2aaeb, type: 3}
+  _audioServicePrefab: {fileID: 578582152522740745, guid: c9f6aa489f467ae1993eb1091dcdbd19, type: 3}
 --- !u!114 &8697989727492187498
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -28,16 +28,16 @@ namespace _Project.Infrastructure.Collision
                 _timeLeftAfterLastCollision += Time.deltaTime;
         }
         
-        public void Setup(MovementModel movementModel)
+        public void Setup(MovementModel movementModel, bool initialActiveState)
         {
             MovementModel = movementModel;
             _timeLeftAfterLastCollision = CooldownTime;
+            _collider.enabled = initialActiveState;
         }
 
         public void Reset()
         {
             MovementModel = null;
-            ActivateCollision();
         }
 
         public void ActivateCollision()

@@ -15,11 +15,11 @@ namespace _Project.Features.Common.Bounds
         public BoundsChecker(
             BoundsService boundsService,
             IHasPosition position,
-            bool isEnteredGameAreaAfterSpawn = false)
+            bool isEnteredGameAreaOnSpawn = false)
         {
             _boundsService = boundsService;
             _position = position;
-            IsEnteredGameAreaAfterSpawn = isEnteredGameAreaAfterSpawn;
+            IsEnteredGameAreaAfterSpawn = isEnteredGameAreaOnSpawn;
         }
 
         public void CheckOutOfBounds()

@@ -8,6 +8,7 @@ using _Project.Core.StaticData;
 using _Project.Core.Tools;
 using _Project.Features.Common.Config;
 using _Project.Features.Common.EntitiesLifecycle;
+using _Project.Features.UFO.Config;
 
 namespace _Project.Features.UFO
 {

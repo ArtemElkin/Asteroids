@@ -2,7 +2,6 @@
   "fragmentsCount": 3,
   "radius": 5.0,
   "fragmentRadius": 3.5,
-  "hasClones": false,
   "movementConfig":
   {
     "mass": 5000.0,

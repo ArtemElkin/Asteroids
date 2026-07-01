@@ -5,7 +5,7 @@ namespace _Project.Core.Physics.Collision
 {
     public interface ICollidable
     {
-        void Setup(MovementModel movementModel);
+        void Setup(MovementModel movementModel, bool initialActiveState);
         void Reset();
         MovementModel MovementModel { get; }
         event Action<CollisionData> OnCollided;

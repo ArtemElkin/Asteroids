@@ -63,10 +63,6 @@ namespace _Project.Features.Asteroid
             
             _timeService.OnFixedTick += OnFixedTick;
             _collidable.OnCollided += OnCollided;
-            if (!_boundsChecker.IsEnteredGameAreaAfterSpawn)
-            {
-                _collidable.DeactivateCollision();
-            }
             _hitable.OnHit += OnHit;
             _boundsChecker.OutOfBounds += OnOutOfBounds;
             _boundsChecker.EnteredGameArea += OnEnteredGameArea;

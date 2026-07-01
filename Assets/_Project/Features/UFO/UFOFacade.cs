@@ -63,6 +63,7 @@ namespace _Project.Features.UFO
             _collidable.OnCollided += OnCollided;
             _hitable.OnHit += OnHit;
             _boundsChecker.OutOfBounds += OnOutOfBounds;
+            _boundsChecker.EnteredGameArea += OnEnteredGameArea;
         }
 
         private void OnFixedTick(float fixedDeltaTime)
@@ -78,6 +79,11 @@ namespace _Project.Features.UFO
                 _boundsChecker.CheckOutOfBounds();
                 Drawable.Draw(MovementModel.Position, MovementModel.RotationAngle);
             }
+        }
+
+        private void OnEnteredGameArea()
+        {
+            _collidable.ActivateCollision();
         }
 
         private void OnCollided(CollisionData collisionData)
@@ -103,6 +109,7 @@ namespace _Project.Features.UFO
             _collidable.OnCollided -= OnCollided;
             _hitable.OnHit -= OnHit;
             _boundsChecker.OutOfBounds -= OnOutOfBounds;
+            _boundsChecker.EnteredGameArea -= OnEnteredGameArea;
             _collidable.Reset();
         }
     }

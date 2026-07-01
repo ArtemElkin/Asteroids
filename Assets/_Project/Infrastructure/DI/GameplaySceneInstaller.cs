@@ -7,6 +7,7 @@ using _Project.Features.Common.Bounds;
 using _Project.Features.Common.Collision;
 using _Project.Features.Common.Collision.Resolvers;
 using _Project.Features.Common.EnemyAwardsService;
+using _Project.Infrastructure.Audio;
 using _Project.Infrastructure.GameLifecycle;
 using _Project.Infrastructure.UnityServices;
 using UnityEngine;
@@ -30,6 +31,7 @@ namespace _Project.Infrastructure.DI
             BindPositionGenerator();
             BindGameplayStarter();
             BindPauseController();
+            BindAudioPauseController();
             BindRestartController();
             
             BindGameplayAdsController();
@@ -102,6 +104,14 @@ namespace _Project.Infrastructure.DI
         {
             Container
                 .BindInterfacesAndSelfTo<PauseController>()
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindAudioPauseController()
+        {
+            Container
+                .BindInterfacesAndSelfTo<AudioPauseController>()
                 .AsSingle()
                 .NonLazy();
         }

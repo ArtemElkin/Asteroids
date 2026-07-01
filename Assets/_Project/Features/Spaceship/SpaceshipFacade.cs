@@ -99,7 +99,7 @@ namespace _Project.Features.Spaceship
         {
             _healthController.ApplyDamage(1);
             _eventBus.Publish(new CollisionDetectedEvent(collisionData));
-            _ = _stunController.ApplyStun(3f);
+            _stunController.ApplyStun();
         }
 
         private void OnOutOfBounds()
@@ -120,6 +120,7 @@ namespace _Project.Features.Spaceship
             _healthController.OnDeath -= OnDeath;
             _collidable.OnCollided -= OnCollided;
             _boundsChecker.OutOfBounds -= OnOutOfBounds;
+            _stunController.Dispose();
             _collidable.Reset();
             _healthController.Dispose();
             _screenWrapCloneSet.Dispose();

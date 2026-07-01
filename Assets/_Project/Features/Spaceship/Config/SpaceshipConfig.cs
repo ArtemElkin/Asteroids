@@ -7,7 +7,7 @@ namespace _Project.Features.Spaceship.Config
     public class SpaceshipConfig : IConfig
     {
         public int maxHp;
-        public bool hasClones;
+        public float stunDuration;
         public SpaceshipMovementConfig movementConfig;
         public ProjectileWeaponConfig projectileWeaponConfig;
         public LaserWeaponConfig laserWeaponConfig;

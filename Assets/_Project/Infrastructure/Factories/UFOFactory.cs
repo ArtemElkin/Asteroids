@@ -24,7 +24,7 @@ namespace _Project.Infrastructure.Factories
             IDrawable drawable = view;
             drawable.Setup(data.initialMovementData.initialPosition, 0);
             ICollidable collidable = view.GetComponent<ICollidable>();
-            collidable.Setup(movementModel);
+            collidable.Setup(movementModel, false);
             IHitable hitable = view.GetComponent<IHitable>();
             IMovable movable = CreateComponent<UFOMovementController>(movementModel, data.speed);
             IRotatable rotatable = CreateComponent<UFORotationController>(movementModel);

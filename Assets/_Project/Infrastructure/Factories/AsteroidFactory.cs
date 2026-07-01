@@ -19,18 +19,25 @@ namespace _Project.Infrastructure.Factories
 
         public override AsteroidFacade Create(AsteroidSpawnData data)
         {
+            bool isFragment = data.fragmentsCount == 0;
+            
+            
             MovableView view = _pool.Get();
             view.transform.localScale = new Vector3(data.radius, data.radius, 1f);
             MovementModel movementModel = CreateComponent<MovementModel>(data.initialMovementData);
             IDrawable drawable = view;
             drawable.Setup(data.initialMovementData.initialPosition, 0);
+            
             ICollidable collidable = view.GetComponent<ICollidable>();
-            collidable.Setup(movementModel);
+            bool initialActiveCollisionState = isFragment;
+            collidable.Setup(movementModel, initialActiveCollisionState);
+            
             IHitable hitable = view.GetComponent<IHitable>();
             IMovable movable = CreateComponent<AsteroidMovementController>(movementModel);
-            bool isFragment = data.fragmentsCount == 0;
+            
             EnemyType enemyType = isFragment ? EnemyType.AsteroidFragment : EnemyType.Asteroid;
             bool enteredGameAreaOnSpawn = isFragment;
+            
             BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel, enteredGameAreaOnSpawn);
             AsteroidDestructor destructor = CreateComponent<AsteroidDestructor>(movementModel, data.fragmentsCount);
             IScreenWrapCloneSet screenWrapCloneSet = data.hasClones

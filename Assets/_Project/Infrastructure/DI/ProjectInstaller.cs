@@ -15,6 +15,7 @@ using _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile;
 using _Project.Features.UFO;
 using _Project.Features.UI.Common.Events;
 using _Project.Infrastructure.Ads;
+using _Project.Infrastructure.Audio;
 using _Project.Infrastructure.EventBus;
 using _Project.Infrastructure.Input;
 using _Project.Infrastructure.UnityServices;
@@ -26,6 +27,7 @@ namespace _Project.Infrastructure.DI
     public class ProjectInstaller : MonoInstaller
     {
         [SerializeField] private GameObject _inputHandlerPrefab;
+        [SerializeField] private AudioSource _audioServicePrefab;
         
         
         public override void InstallBindings()
@@ -61,7 +63,8 @@ namespace _Project.Infrastructure.DI
             BindPlayerSaveController();
             BindSettingsModel();
             BindSettingsSaveController();
-            BindInput();
+            BindInput(_inputHandlerPrefab);
+            BindAudioService(_audioServicePrefab);
             BindSceneLoadService();
             BindAdsService();
         }
@@ -153,11 +156,20 @@ namespace _Project.Infrastructure.DI
                 .NonLazy();
         }
 
-        private void BindInput()
+        private void BindInput(GameObject inputHandlerPrefab)
         {
             Container
                 .BindInterfacesTo<StandaloneInputHandler>()
-                .FromComponentInNewPrefab(_inputHandlerPrefab)
+                .FromComponentInNewPrefab(inputHandlerPrefab)
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindAudioService(AudioSource audioServicePrefab)
+        {
+            Container
+                .BindInterfacesAndSelfTo<AudioService>()
+                .FromComponentInNewPrefab(audioServicePrefab)
                 .AsSingle()
                 .NonLazy();
         }
