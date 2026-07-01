@@ -26,18 +26,8 @@ namespace _Project.Infrastructure.Effects
                 case GameState.Paused:
                     foreach(var e in _effectStorage) e.Pause();
                     break;
-                case GameState.Running:
-                    foreach (var e in _effectStorage)
-                    {
-                        if (e.IsPlaying) e.Play();
-                    }
-                    break;
-                case GameState.Restart:
-                    var effects = new List<IEffect>(_effectStorage.GetAll());
-                    foreach (var e in effects)
-                    {
-                        e.Stop();                        
-                    }
+                case GameState.Resume:
+                    foreach (var e in _effectStorage) e.Resume();
                     break;
             }
         }

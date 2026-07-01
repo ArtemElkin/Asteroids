@@ -49,6 +49,18 @@ namespace _Project.Infrastructure.Effects
             }
         }
 
+        public void Resume()
+        {
+            if (!IsPlaying) return;
+            
+            _originEffect.Resume();
+            
+            foreach (var cloneEffect in _cloneEffects)
+            {
+                cloneEffect.Resume();
+            }
+        }
+
         public void Stop()
         {
             IsPlaying = false;

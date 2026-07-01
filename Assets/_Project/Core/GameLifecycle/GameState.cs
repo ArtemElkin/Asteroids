@@ -6,6 +6,7 @@ namespace _Project.Core.GameLifecycle
         Initialize,
         Running,
         Paused,
+        Resume,
         GameOver,
         Restart
     }

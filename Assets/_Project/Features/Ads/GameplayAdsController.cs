@@ -29,11 +29,14 @@ namespace _Project.Features.Ads
         {
             switch (gameState)
             {
-                case GameState.Initialize or GameState.Running:
+                case GameState.Initialize:
                     _adsService.HideBanner();
                     break;
                 case GameState.Paused:
                     _adsService.ShowBanner();
+                    break;
+                case GameState.Resume:
+                    _adsService.HideBanner();
                     break;
                 case GameState.GameOver:
                     _adsService.ShowBanner();

@@ -15,7 +15,7 @@ namespace _Project.Features.Spaceship.Weapon
         private float _timeFromLastShot;
         private readonly float _cooldown;
         private readonly IMutableStun _stundable;
-        private readonly IGameStateService _gameStateService;
+        protected readonly IGameStateService _gameStateService;
         protected virtual bool OptionalConditionToAllowFire => true;
 
 

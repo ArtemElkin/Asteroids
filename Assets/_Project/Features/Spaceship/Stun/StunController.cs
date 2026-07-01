@@ -45,7 +45,7 @@ namespace _Project.Features.Spaceship.Stun
                 case GameState.Paused:
                     _timer.Pause();
                     break;
-                case GameState.Running:
+                case GameState.Resume:
                     _timer.Resume();
                     break;
             }

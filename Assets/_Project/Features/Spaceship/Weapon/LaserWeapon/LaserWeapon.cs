@@ -66,6 +66,8 @@ namespace _Project.Features.Spaceship.Weapon.LaserWeapon
         {
             if (AvailableBeamCount == _config.maxBeamCount) return;
             
+            if (_gameStateService.CurrentState is not GameState.Running) return;
+            
             if (RechargeTimeLeft > 0)
             {
                 RechargeTimeLeft -= deltaTime;

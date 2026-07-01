@@ -6,6 +6,7 @@ namespace _Project.Core.Render.VFX
     {
         void Play();
         void Pause();
+        void Resume();
         bool IsPlaying { get; }
         void Stop();
         event Action OnEnded;

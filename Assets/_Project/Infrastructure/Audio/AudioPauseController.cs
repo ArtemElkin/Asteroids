@@ -29,7 +29,7 @@ namespace _Project.Infrastructure.Audio
                 case GameState.Paused:
                     _audioService.Pause();
                     break;
-                case GameState.Running:
+                case GameState.Resume:
                     _audioService.Resume();
                     break;
             }

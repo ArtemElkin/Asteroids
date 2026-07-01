@@ -29,6 +29,13 @@ namespace _Project.Infrastructure.Effects
             _particleSystem.Pause();
         }
 
+        public void Resume()
+        {
+            if (!IsPlaying) return;
+            
+            _particleSystem.Play();
+        }
+
         public void Stop()
         {
             IsPlaying = false;

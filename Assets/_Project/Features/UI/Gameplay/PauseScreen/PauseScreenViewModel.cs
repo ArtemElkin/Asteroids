@@ -44,7 +44,7 @@ namespace _Project.Features.UI.Gameplay.PauseScreen
         {
             switch (gameState)
             {
-                case GameState.Initialize:
+                case GameState.Initialize or GameState.Resume:
                     Active.Value = false;
                     break;
                 case GameState.Paused:
@@ -57,16 +57,13 @@ namespace _Project.Features.UI.Gameplay.PauseScreen
                     IsGameOver.Value = true;
                     Active.Value = true;
                     break;
-                case GameState.Running:
-                    Active.Value = false;
-                    break;  
             }
         }
         
         [Method("OnResumeClick")]
         public void OnResumeClicked()
         {
-            _gameStateService.SetState(GameState.Running);
+            _gameStateService.SetState(GameState.Resume);
         }
 
         [Method("OnRestartClick")]

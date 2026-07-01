@@ -33,6 +33,7 @@ namespace _Project.Infrastructure.Effects
         }
 
         public void Pause() { }
+        public void Resume() { }
 
         public void Stop()
         {

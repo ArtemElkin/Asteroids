@@ -25,6 +25,7 @@ namespace _Project.Core.GameLifecycle
             }
             else if (_gameStateService.CurrentState is GameState.Paused)
             {
+                _gameStateService.SetState(GameState.Resume);
                 _gameStateService.SetState(GameState.Running);
             }
         }

@@ -60,6 +60,16 @@ namespace _Project.Infrastructure.Effects
             }
         }
 
+        public void Resume()
+        {
+            if (!IsPlaying) return;
+            
+            foreach (var effect in _effects)
+            {
+                effect.Resume();
+            }
+        }
+
         public void Stop()
         {
             foreach (var effect in _effects)

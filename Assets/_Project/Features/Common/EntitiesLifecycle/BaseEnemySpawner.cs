@@ -36,7 +36,7 @@ namespace _Project.Features.Common.EntitiesLifecycle
                 case GameState.Paused:
                     _spawnTimer.Pause();
                     break;
-                case GameState.Running:
+                case GameState.Resume:
                     _spawnTimer.Resume();
                     break;
                 case GameState.GameOver:
