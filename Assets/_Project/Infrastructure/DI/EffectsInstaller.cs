@@ -2,6 +2,7 @@ using _Project.Core.Physics.Collision;
 using _Project.Core.Physics.Collision.Events;
 using _Project.Core.Render.VFX;
 using _Project.Core.Tools;
+using _Project.Features.Common.Effects;
 using _Project.Features.Common.EntitiesLifecycle;
 using _Project.Features.Common.Hit;
 using _Project.Features.Common.Hit.Events;
@@ -42,7 +43,7 @@ namespace _Project.Infrastructure.DI
         private void BindEffectPauseController()
         {
             Container
-                .Bind<EffectPauseController>()
+                .Bind<EffectsManager>()
                 .AsSingle()
                 .NonLazy();
         }

@@ -5,7 +5,7 @@ using _Project.Core.Physics;
 using _Project.Core.Render.VFX;
 using _Project.Core.Tools;
 
-namespace _Project.Features.Common.EntitiesLifecycle
+namespace _Project.Features.Common.Effects
 {
     public class EffectSpawner<TEvent, TSpawnData> : IDisposable
         where TEvent: ISpawnEvent<TSpawnData> where TSpawnData : IHasPosition

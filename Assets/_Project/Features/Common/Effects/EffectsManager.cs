@@ -1,18 +1,17 @@
 using System;
-using System.Collections.Generic;
 using _Project.Core.GameLifecycle;
 using _Project.Core.Render.VFX;
 using _Project.Core.Tools;
 
-namespace _Project.Infrastructure.Effects
+namespace _Project.Features.Common.Effects
 {
-    public class EffectPauseController : IDisposable
+    public class EffectsManager : IWorldResettable, IDisposable
     {
         private readonly IGameStateService _gameStateService;
         private readonly Storage<IEffect> _effectStorage;
 
 
-        public EffectPauseController(Storage<IEffect> effectStorage, IGameStateService gameStateService)
+        public EffectsManager(Storage<IEffect> effectStorage, IGameStateService gameStateService)
         {
             _effectStorage = effectStorage;
             _gameStateService = gameStateService;
@@ -31,7 +30,17 @@ namespace _Project.Infrastructure.Effects
                     break;
             }
         }
-        
+
+        public void Reset()
+        {
+            var effects = _effectStorage.GetAll();
+            foreach (var e in effects)
+            {
+                e.Stop();
+                _effectStorage.Remove(e);
+            }
+        }
+
         public void Dispose()
         {
             _gameStateService.OnGameStateChanged -= OnGameStateChanged;

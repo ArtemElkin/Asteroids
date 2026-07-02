@@ -12,22 +12,19 @@ namespace _Project.Infrastructure.Effects
         private readonly List<IEffect> _cloneEffects;
         private readonly IEffect _originEffect;
         private readonly IScreenWrapCloneSet _cloneSet;
-        private readonly Storage<IEffect> _effectStorage;
         public bool IsPlaying { get; private set; }
         public event Action OnEnded;
 
 
-        public SyncedSpaceshipStunEffect(IEffect originEffect, IScreenWrapCloneSet cloneSet, Storage<IEffect> effectStorage)
+        public SyncedSpaceshipStunEffect(IEffect originEffect, IScreenWrapCloneSet cloneSet)
         {
             _originEffect = originEffect;
             _cloneSet = cloneSet;
             _cloneEffects = new List<IEffect>();
-            _effectStorage = effectStorage;
         }
         public void Play()
         {
             _originEffect.Play();
-            _effectStorage.Add(this);
             
             if (_cloneEffects.Count == 0) SyncClones();
             
@@ -54,7 +51,6 @@ namespace _Project.Infrastructure.Effects
             if (!IsPlaying) return;
             
             _originEffect.Resume();
-            
             foreach (var cloneEffect in _cloneEffects)
             {
                 cloneEffect.Resume();
@@ -65,9 +61,6 @@ namespace _Project.Infrastructure.Effects
         {
             IsPlaying = false;
             _originEffect.Stop();
-            _effectStorage.Remove(this);
-            
-            // if (_cloneEffects.Count == 0) SyncClones();
             
             foreach (var cloneEffect in _cloneEffects)
             {

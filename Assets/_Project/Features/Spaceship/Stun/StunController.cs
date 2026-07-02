@@ -44,9 +44,11 @@ namespace _Project.Features.Spaceship.Stun
             {
                 case GameState.Paused:
                     _timer.Pause();
+                    _stunEffect.Pause();
                     break;
                 case GameState.Resume:
                     _timer.Resume();
+                    _stunEffect.Resume();
                     break;
             }
         }
