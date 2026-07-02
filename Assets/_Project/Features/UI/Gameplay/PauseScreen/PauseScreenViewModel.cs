@@ -24,6 +24,8 @@ namespace _Project.Features.UI.Gameplay.PauseScreen
         private readonly PlayerModel _playerModel;
         private readonly IGameStateService _gameStateService;
         private readonly IPauseService _pauseService;
+        private readonly IRestartService _restartService;
+        private readonly IWorldResetService _resetService;
         private readonly IEventBus _eventBus;
 
 
@@ -31,11 +33,15 @@ namespace _Project.Features.UI.Gameplay.PauseScreen
             PlayerModel playerModel, 
             IGameStateService gameStateService,
             IPauseService pauseService, 
+            IRestartService restartService,
+            IWorldResetService resetService,
             IEventBus eventBus)
         {
             _playerModel = playerModel;
             _gameStateService = gameStateService;
             _pauseService = pauseService;
+            _restartService = restartService;
+            _resetService = resetService;
             _eventBus = eventBus;
             
             _gameStateService.OnGameStateChanged += OnGameStateChanged;
@@ -77,13 +83,13 @@ namespace _Project.Features.UI.Gameplay.PauseScreen
         [Method("OnRestartClick")]
         public void OnRestartClicked()
         {
-            _gameStateService.SetState(GameState.Restart);
+            _restartService.Restart();
         }
 
         [Method("OnMainMenuClick")]
         public void OnMainMenuClicked()
         {
-            _gameStateService.SetState(GameState.None);
+            _resetService.ResetWorld();
             _eventBus.Publish<MainMenuClickedEvent>();
         }
 

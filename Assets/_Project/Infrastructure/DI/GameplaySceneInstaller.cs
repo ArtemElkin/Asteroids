@@ -32,6 +32,7 @@ namespace _Project.Infrastructure.DI
             BindGameplayStarter();
             BindPauseController();
             BindAudioPauseController();
+            BindWorldResetService();
             BindRestartController();
             
             BindGameplayAdsController();
@@ -116,10 +117,18 @@ namespace _Project.Infrastructure.DI
                 .NonLazy();
         }
 
+        private void BindWorldResetService()
+        {
+            Container
+                .BindInterfacesAndSelfTo<WorldResetService>()
+                .AsSingle()
+                .NonLazy();
+        }
+
         private void BindRestartController()
         {
             Container
-                .BindInterfacesAndSelfTo<RestartController>()
+                .BindInterfacesAndSelfTo<RestartService>()
                 .AsSingle()
                 .NonLazy();
         }

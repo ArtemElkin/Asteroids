@@ -38,6 +38,8 @@ namespace _Project.Infrastructure.Effects
 
         public void Stop()
         {
+            if (!IsPlaying) return;
+            
             IsPlaying = false;
             _particleSystem.Stop();
             _particleSystem.Clear();

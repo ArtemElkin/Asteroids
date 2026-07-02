@@ -8,6 +8,5 @@ namespace _Project.Core.GameLifecycle
         Paused,
         Resume,
         GameOver,
-        Restart
     }
 }

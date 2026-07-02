@@ -37,6 +37,8 @@ namespace _Project.Infrastructure.Effects
 
         public void Stop()
         {
+            if (!IsPlaying) return;
+            
             IsPlaying = false;
             _timer.Stop();
             OnEnded?.Invoke();

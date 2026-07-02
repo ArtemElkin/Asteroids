@@ -36,8 +36,7 @@ namespace _Project.Infrastructure.Effects
 
             if (allEnded)
             {
-                IsPlaying = false;
-                OnEnded?.Invoke();
+                Stop();
             }
         }
 
@@ -72,11 +71,14 @@ namespace _Project.Infrastructure.Effects
 
         public void Stop()
         {
+            if (!IsPlaying) return;
+            
             foreach (var effect in _effects)
             {
                 effect.Stop();
             }
             IsPlaying = false;
+            OnEnded?.Invoke();  
         }
 
         private void OnDestroy()
