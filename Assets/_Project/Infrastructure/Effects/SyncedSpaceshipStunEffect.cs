@@ -25,13 +25,9 @@ namespace _Project.Infrastructure.Effects
         public void Play()
         {
             _originEffect.Play();
-            
             if (_cloneEffects.Count == 0) SyncClones();
+            foreach (var cloneEffect in _cloneEffects) cloneEffect.Play();
             
-            foreach (var cloneEffect in _cloneEffects)
-            {
-                cloneEffect.Play();
-            }
             IsPlaying = true;
         }
 
@@ -40,10 +36,7 @@ namespace _Project.Infrastructure.Effects
             if (!IsPlaying) return;
             
             _originEffect.Pause();
-            foreach (var cloneEffect in _cloneEffects)
-            {
-                cloneEffect.Pause();
-            }
+            foreach (var cloneEffect in _cloneEffects) cloneEffect.Pause();
         }
 
         public void Resume()
@@ -51,21 +44,16 @@ namespace _Project.Infrastructure.Effects
             if (!IsPlaying) return;
             
             _originEffect.Resume();
-            foreach (var cloneEffect in _cloneEffects)
-            {
-                cloneEffect.Resume();
-            }
+            foreach (var cloneEffect in _cloneEffects) cloneEffect.Resume();
         }
 
         public void Stop()
         {
             IsPlaying = false;
-            _originEffect.Stop();
             
-            foreach (var cloneEffect in _cloneEffects)
-            {
-                cloneEffect.Stop();
-            }
+            _originEffect.Stop();
+            foreach (var cloneEffect in _cloneEffects) cloneEffect.Stop();
+            
             OnEnded?.Invoke();
         }
         
