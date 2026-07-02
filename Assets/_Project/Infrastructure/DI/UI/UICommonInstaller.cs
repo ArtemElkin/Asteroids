@@ -10,7 +10,9 @@ namespace _Project.Infrastructure.DI.UI
         {
             BinderFactory.RegisterBinder<TextBinder>();
             BinderFactory.RegisterBinder<ButtonBinder>();
+            BinderFactory.RegisterBinder<SliderBinder>();
             BinderFactory.RegisterBinder<ViewSetterBinder<bool>>();
+            BinderFactory.RegisterBinder<ViewSetterBinder<int>>();
         }
     }
 }

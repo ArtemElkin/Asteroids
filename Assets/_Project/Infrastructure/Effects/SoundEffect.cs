@@ -27,7 +27,7 @@ namespace _Project.Infrastructure.Effects
         {
             if (_clip == null) return;
             
-            _audioService.Play(_clip);
+            _audioService.PlaySound(_clip);
             _timer.Start(_clip.length);
             IsPlaying = true;
         }

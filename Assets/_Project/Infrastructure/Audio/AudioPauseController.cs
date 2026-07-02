@@ -24,13 +24,13 @@ namespace _Project.Infrastructure.Audio
             switch (gameState)
             {
                 case GameState.Initialize:
-                    _audioService.StopAll();
+                    _audioService.StopAllSounds();
                     break;
                 case GameState.Paused:
-                    _audioService.Pause();
+                    _audioService.PauseSound();
                     break;
                 case GameState.Resume:
-                    _audioService.Resume();
+                    _audioService.ResumeSound();
                     break;
             }
         }

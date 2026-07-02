@@ -1,8 +1,8 @@
 using _Project.Features.UI.MainMenu;
-using _Project.Features.UI.Settings;
-using _Project.Features.UI.Settings.GameSettings;
-using _Project.Features.UI.Settings.VisualSettings;
-using _Project.Features.UI.Settings.VolumeSettings;
+using _Project.Features.UI.MainMenu.Settings;
+using _Project.Features.UI.MainMenu.Settings.GameSettings;
+using _Project.Features.UI.MainMenu.Settings.VisualSettings;
+using _Project.Features.UI.MainMenu.Settings.VolumeSettings;
 using Zenject;
 
 namespace _Project.Infrastructure.DI.UI

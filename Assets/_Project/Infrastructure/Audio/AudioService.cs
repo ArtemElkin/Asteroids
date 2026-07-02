@@ -5,42 +5,66 @@ using Zenject;
 
 namespace _Project.Infrastructure.Audio
 {
-    [RequireComponent(typeof(AudioSource))]
     public class AudioService : MonoBehaviour, IAudioService<AudioClip>
     {
-        private AudioSource _audioSource;
+        [SerializeField] private AudioSource _soundsAudioSource;
+        [SerializeField] private AudioSource _musicAudioSource;
         private SettingsModel _settingsModel;
 
 
-        private void Awake()
+        private void OnEnable()
         {
-            _audioSource = GetComponent<AudioSource>();
+            _settingsModel.OnSoundsVolumeChanged += OnSoundsVolumeChanged;
+            _settingsModel.OnMusicVolumeChanged += OnMusicVolumeChanged;
         }
 
         [Inject]
         private void Construct(SettingsModel settingsModel)
         {
             _settingsModel = settingsModel;
+            _soundsAudioSource.volume = Convert(settingsModel.SoundsVolume);
+            _musicAudioSource.volume = Convert(settingsModel.MusicVolume);
         }
         
-        public void Play(AudioClip clip)
+        public void PlaySound(AudioClip clip)
         {
-            _audioSource.PlayOneShot(clip);
+            _soundsAudioSource.PlayOneShot(clip);
         }
 
-        public void Pause()
+        public void PauseSound()
         {
-            _audioSource.Pause();
+            _soundsAudioSource.Pause();
         }
 
-        public void Resume()
+        public void ResumeSound()
         {
-            _audioSource.UnPause();
+            _soundsAudioSource.UnPause();
         }
 
-        public void StopAll()
+        public void StopAllSounds()
         {
-            _audioSource.Stop();
+            _soundsAudioSource.Stop();
+        }
+
+        private void OnSoundsVolumeChanged(int value)
+        {
+            _soundsAudioSource.volume = Convert(value);
+        }
+
+        private void OnMusicVolumeChanged(int value)
+        {
+            _musicAudioSource.volume = Convert(value);
+        }
+
+        private static float Convert(int value)
+        {
+            return Mathf.Clamp01((float)value / SettingsSave.MaxVolumeLevel);
+        }
+
+        private void OnDisable()
+        {
+            _settingsModel.OnSoundsVolumeChanged -= OnSoundsVolumeChanged;
+            _settingsModel.OnMusicVolumeChanged -= OnMusicVolumeChanged;
         }
     }
 }

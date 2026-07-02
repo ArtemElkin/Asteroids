@@ -1,3 +1,4 @@
+using _Project.Core.Audio;
 using _Project.Core.Config;
 using _Project.Core.EventBus;
 using _Project.Core.Physics.Collision.Events;
@@ -27,7 +28,7 @@ namespace _Project.Infrastructure.DI
     public class ProjectInstaller : MonoInstaller
     {
         [SerializeField] private GameObject _inputHandlerPrefab;
-        [SerializeField] private AudioSource _audioServicePrefab;
+        [SerializeField] private GameObject _audioServicePrefab;
         
         
         public override void InstallBindings()
@@ -165,7 +166,7 @@ namespace _Project.Infrastructure.DI
                 .NonLazy();
         }
 
-        private void BindAudioService(AudioSource audioServicePrefab)
+        private void BindAudioService(GameObject audioServicePrefab)
         {
             Container
                 .BindInterfacesAndSelfTo<AudioService>()
