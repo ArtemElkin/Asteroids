@@ -5,6 +5,6 @@ namespace _Project.Core.Input
     public interface IFireInputService
     {
         bool FireState(int buttonId);
-        Vector2 GetScreenPointerPosition();
+        Vector2 GetAimDirection(Vector2 from);
     }
 }

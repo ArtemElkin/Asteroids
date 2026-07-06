@@ -40,8 +40,7 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon
         protected override void Shoot()
         {
             var initialPosition = _muzzlePosition.Position;
-            var targetPosition = _screenService.ScreenPointToWorldPoint(_fireInputService.GetScreenPointerPosition());
-            var initialDirection = (targetPosition - initialPosition).normalized;
+            var initialDirection = _fireInputService.GetAimDirection(initialPosition);
             var initialSpeed = 30f;
             var initialVelocity = _spaceshipMovementModel.Velocity + initialDirection * initialSpeed;
             var spawnData = new ProjectileSpawnData(new InitialMovementData(1f, initialPosition, initialVelocity), _config.aliveTime);

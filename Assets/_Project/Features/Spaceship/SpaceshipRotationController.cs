@@ -25,8 +25,7 @@ namespace _Project.Features.Spaceship
         {
             if (_movementModel.IsStunned) return;
             
-            var lookPoint = _screenService.ScreenPointToWorldPoint(_fireInputService.GetScreenPointerPosition());
-            var rotateDirection = lookPoint - _movementModel.Position;
+            var rotateDirection = _fireInputService.GetAimDirection(_movementModel.Position);
             var rotateAngleRad = Math.Atan2(rotateDirection.y, rotateDirection.x);
             var rotationAngleDeg = Math.RadiansToDegrees(rotateAngleRad);
             _movementModel.UpdateRotationAngle(rotationAngleDeg - 90); 

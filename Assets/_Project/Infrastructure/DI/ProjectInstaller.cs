@@ -27,7 +27,6 @@ namespace _Project.Infrastructure.DI
 {
     public class ProjectInstaller : MonoInstaller
     {
-        [SerializeField] private GameObject _inputHandlerPrefab;
         [SerializeField] private GameObject _audioServicePrefab;
         
         
@@ -64,7 +63,6 @@ namespace _Project.Infrastructure.DI
             BindPlayerSaveController();
             BindSettingsModel();
             BindSettingsSaveController();
-            BindInput(_inputHandlerPrefab);
             BindAudioService(_audioServicePrefab);
             BindSceneLoadService();
             BindAdsService();
@@ -153,15 +151,6 @@ namespace _Project.Infrastructure.DI
         {
             Container
                 .BindInterfacesAndSelfTo<SettingsSaveController>()
-                .AsSingle()
-                .NonLazy();
-        }
-
-        private void BindInput(GameObject inputHandlerPrefab)
-        {
-            Container
-                .BindInterfacesTo<StandaloneInputHandler>()
-                .FromComponentInNewPrefab(inputHandlerPrefab)
                 .AsSingle()
                 .NonLazy();
         }
