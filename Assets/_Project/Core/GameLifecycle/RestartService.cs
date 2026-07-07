@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using _Project.Core.Player;
 
 namespace _Project.Core.GameLifecycle

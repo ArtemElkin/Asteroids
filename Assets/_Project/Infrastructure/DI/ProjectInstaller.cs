@@ -16,6 +16,7 @@ using _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile;
 using _Project.Features.UFO;
 using _Project.Features.UI.Common.Events;
 using _Project.Infrastructure.Ads;
+using _Project.Infrastructure.Analytics;
 using _Project.Infrastructure.Audio;
 using _Project.Infrastructure.EventBus;
 using _Project.Infrastructure.Input;
@@ -66,6 +67,7 @@ namespace _Project.Infrastructure.DI
             BindAudioService(_audioServicePrefab);
             BindSceneLoadService();
             BindAdsService();
+            BindAnalyticsService();
         }
 
         private void BindTimeService()
@@ -184,6 +186,21 @@ namespace _Project.Infrastructure.DI
             //     .BindInterfacesfTo<YandexAdsService>()
             //     .AsSingle()
             //     .NonLazy();
+#endif
+        }
+
+        private void BindAnalyticsService()
+        {
+#if UNITY_EDITOR
+            Container
+                .BindInterfacesTo<MockAnalyticsService>()
+                .AsSingle()
+                .NonLazy();
+#else
+            Container
+                .BindInterfacesTo<FirebaseAnalyticsService>()
+                .AsSingle()
+                .NonLazy();
 #endif
         }
     }

@@ -9,9 +9,7 @@ namespace _Project.Core.Physics.Collision
         public readonly MovementModel modelA;
         public readonly MovementModel modelB;
         public readonly Vector2 collisionNormal;
-        public readonly Vector2 contactPointPosition;
-        public Vector2 Position => contactPointPosition;
-        public event Action<Vector2> PositionChanged;
+        public Vector2 Position { get; }
 
 
         public CollisionData(MovementModel modelA, MovementModel modelB, Vector2 collisionNormal, Vector2 contactPointPosition)
@@ -19,8 +17,7 @@ namespace _Project.Core.Physics.Collision
             this.modelA = modelA;
             this.modelB = modelB;
             this.collisionNormal = collisionNormal;
-            this.contactPointPosition = contactPointPosition;
-            PositionChanged = null;
+            Position = contactPointPosition;
         }
     }
 }

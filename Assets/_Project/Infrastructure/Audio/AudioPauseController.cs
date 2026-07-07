@@ -1,7 +1,6 @@
 using System;
 using _Project.Core.Audio;
 using _Project.Core.GameLifecycle;
-using _Project.Features.Common.Settings;
 using UnityEngine;
 
 namespace _Project.Infrastructure.Audio

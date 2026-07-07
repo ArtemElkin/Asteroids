@@ -1,4 +1,4 @@
-using _Project.Core.GameLifecycle;
+using _Project.Infrastructure.GameLifecycle;
 using Zenject;
 
 namespace _Project.Infrastructure.DI
