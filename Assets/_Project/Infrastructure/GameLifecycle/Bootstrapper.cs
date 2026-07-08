@@ -44,6 +44,8 @@ namespace _Project.Infrastructure.GameLifecycle
             
             _analyticsService.Init();
             
+            _analyticsService.LogEvent("Application started");
+            
             _sceneLoadService.LoadMenuScene();
         }
     }

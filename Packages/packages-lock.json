@@ -1,13 +1,14 @@
 {
   "dependencies": {
     "com.google.external-dependency-manager": {
-      "version": "file:/home/artem/Downloads/com.google.external-dependency-manager-1.2.187.tgz",
-      "depth": 0,
-      "source": "local-tarball",
-      "dependencies": {}
+      "version": "1.2.186",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
     },
     "com.google.firebase.analytics": {
-      "version": "file:/home/artem/Downloads/com.google.firebase.analytics-13.13.0.tgz",
+      "version": "file:../GooglePackages/com.google.firebase.analytics-13.13.0.tgz",
       "depth": 0,
       "source": "local-tarball",
       "dependencies": {
@@ -15,7 +16,7 @@
       }
     },
     "com.google.firebase.app": {
-      "version": "file:/home/artem/Downloads/com.google.firebase.app-13.13.0.tgz",
+      "version": "file:../GooglePackages/com.google.firebase.app-13.13.0.tgz",
       "depth": 0,
       "source": "local-tarball",
       "dependencies": {
@@ -281,6 +282,23 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "com.yandex.mobileads": {
+      "version": "8.1.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.google.external-dependency-manager": "1.2.178",
+        "com.yandex.mobileads.appmetrica.adrevenue.adapter": "1.0.0"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.yandex.mobileads.appmetrica.adrevenue.adapter": {
+      "version": "1.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

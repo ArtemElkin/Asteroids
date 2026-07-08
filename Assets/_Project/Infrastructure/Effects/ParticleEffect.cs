@@ -5,7 +5,7 @@ using UnityEngine;
 namespace _Project.Infrastructure.Effects
 {
     [RequireComponent(typeof(ParticleSystem))]
-    public class VisualEffect : MonoBehaviour, IEffect
+    public class ParticleEffect : MonoBehaviour, IEffect
     {
         public bool IsPlaying { get; private set; }
         private ParticleSystem _particleSystem;

@@ -3,7 +3,7 @@ using _Project.Core.StaticData;
 
 namespace _Project.Core.Player
 {
-    public sealed class PlayerSaveController : SaveController<PlayerModel, PlayerSave>
+    public sealed class PlayerSaveController : BaseSaveController<PlayerModel, PlayerSave>
     {
         protected override string FileName => FileNames.Save.Player;
 

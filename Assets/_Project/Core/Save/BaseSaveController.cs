@@ -1,6 +1,6 @@
 namespace _Project.Core.Save
 {
-    public abstract class SaveController<TModel, TSave> : ISaveBootstrap
+    public abstract class BaseSaveController<TModel, TSave> : ISaveBootstrap
         where TModel : ISaveable<TSave>
         where TSave : ISave
     {
@@ -9,7 +9,7 @@ namespace _Project.Core.Save
         protected abstract string FileName { get; }
 
 
-        protected SaveController(ISaveService saveService, TModel model)
+        protected BaseSaveController(ISaveService saveService, TModel model)
         {
             _saveService = saveService;
             _model = model;

@@ -182,10 +182,10 @@ namespace _Project.Infrastructure.DI
                 .AsSingle()
                 .NonLazy();
 #else
-            // Container
-            //     .BindInterfacesfTo<YandexAdsService>()
-            //     .AsSingle()
-            //     .NonLazy();
+            Container
+                .BindInterfacesTo<YandexAdsService>()
+                .AsSingle()
+                .NonLazy();
 #endif
         }
 

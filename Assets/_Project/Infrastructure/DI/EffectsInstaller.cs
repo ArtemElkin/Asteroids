@@ -15,7 +15,7 @@ namespace _Project.Infrastructure.DI
 {
     public class EffectsInstaller : MonoInstaller
     {
-        [SerializeField] private VisualEffect _collisionEffect;
+        [SerializeField] private ParticleEffect _collisionEffect;
         [SerializeField] private CompositeEffect _hitEffect;
         [SerializeField] private Transform _effectParentTransform;
         
@@ -48,11 +48,11 @@ namespace _Project.Infrastructure.DI
                 .NonLazy();
         }
 
-        private void BindCollisionEffectFactory(VisualEffect effect, Transform parentTransform)
+        private void BindCollisionEffectFactory(ParticleEffect effect, Transform parentTransform)
         {
             Container
                 .Bind<Core.Factories.IEffectFactory<CollisionData>>()
-                .To<EffectFactory<CollisionData, VisualEffect>>()
+                .To<EffectFactory<CollisionData, ParticleEffect>>()
                 .AsSingle()
                 .WithArguments(effect, parentTransform)
                 .NonLazy();

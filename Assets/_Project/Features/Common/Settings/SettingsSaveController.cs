@@ -3,7 +3,7 @@ using _Project.Core.StaticData;
 
 namespace _Project.Features.Common.Settings
 {
-    public sealed class SettingsSaveController : SaveController<SettingsModel, SettingsSave>
+    public sealed class SettingsSaveController : BaseSaveController<SettingsModel, SettingsSave>
     {
         protected override string FileName => FileNames.Save.GameSettings;
 
