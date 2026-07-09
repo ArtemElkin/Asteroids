@@ -4,7 +4,6 @@ using _Project.Core.GameLifecycle;
 using _Project.Core.Player;
 using _Project.Features.Spaceship;
 using _Project.Features.Spaceship.Events;
-using PlasticPipe.PlasticProtocol.Messages;
 using Plugins.MVVM.Attributes;
 using UniRx;
 using Vector2 = _Project.Core.Math.Vector2;
