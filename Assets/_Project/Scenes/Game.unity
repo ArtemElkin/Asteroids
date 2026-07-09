@@ -2228,14 +2228,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b78759118cac17889143074f989f6d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewBinding: 0
   view: {fileID: 877384216}
-  viewType: {fileID: 0}
-  viewId: 
-  viewModelBinding: 1
-  viewModel: {fileID: 0}
   viewModelType: {fileID: 11500000, guid: 394fe3cbd6fd46f09d4f613881c7a3c5, type: 3}
-  viewModelId: 
+  viewModelTypeName: _Project.Features.UI.Gameplay.PauseScreen.PauseScreenViewModel,
+    UI, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &953291840
 GameObject:
   m_ObjectHideFlags: 0
@@ -3092,14 +3088,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b78759118cac17889143074f989f6d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewBinding: 0
   view: {fileID: 1451565442}
-  viewType: {fileID: 0}
-  viewId: 
-  viewModelBinding: 1
-  viewModel: {fileID: 0}
   viewModelType: {fileID: 11500000, guid: 8ab07f45d9d3486d9de31feb750f437f, type: 3}
-  viewModelId: 
+  viewModelTypeName: _Project.Features.UI.Gameplay.HUD.HudViewModel, UI, Version=0.0.0.0,
+    Culture=neutral, PublicKeyToken=null
 --- !u!114 &1451565442
 MonoBehaviour:
   m_ObjectHideFlags: 0

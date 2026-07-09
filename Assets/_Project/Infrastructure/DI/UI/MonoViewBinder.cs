@@ -1,7 +1,10 @@
+# if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 using System;
 using Plugins.MVVM;
 using Plugins.MVVM.Binders;
-using UnityEditor;
 using UnityEngine;
 using Zenject;
 using Object = UnityEngine.Object;
@@ -10,38 +13,14 @@ namespace _Project.Infrastructure.DI.UI
 {
     public sealed class MonoViewBinder : MonoBehaviour
     {
-        private enum BindingMode
-        {
-            FromInstance = 0,
-            FromResolve = 1,
-            FromResolveId = 2
-        }
-
-        [SerializeField]
-        private BindingMode viewBinding;
-
-        [SerializeField]
-        private Object view;
-
-        [SerializeField]
-        private MonoScript viewType;
-
-        [SerializeField]
-        private string viewId;
+        [SerializeField] private Object view;
 
         [Space(8)]
-        [SerializeField]
-        private BindingMode viewModelBinding;
-
-        [SerializeField]
-        private Object viewModel;
-
-        [SerializeField]
-        private MonoScript viewModelType;
-
-        [SerializeField]
-        private string viewModelId;
-
+# if UNITY_EDITOR
+        [SerializeField] private MonoScript viewModelType;
+# endif
+        [SerializeField] private string viewModelTypeName;
+        
         [Inject]
         private DiContainer diContainer;
 
@@ -64,23 +43,16 @@ namespace _Project.Infrastructure.DI.UI
 
         private IBinder CreateBinder()
         {
-            object view = this.viewBinding switch
-            {
-                BindingMode.FromInstance => this.view,
-                BindingMode.FromResolve => this.diContainer.Resolve(this.viewType.GetClass()),
-                BindingMode.FromResolveId => this.diContainer.ResolveId(this.viewType.GetClass(), this.viewId),
-                _ => throw new Exception($"Binding type of view {this.viewBinding} is not found!")
-            };
+            object model = this.diContainer.Resolve(Type.GetType(viewModelTypeName));
 
-            object model = this.viewModelBinding switch
-            {
-                BindingMode.FromInstance => this.viewModel,
-                BindingMode.FromResolve => this.diContainer.Resolve(this.viewModelType.GetClass()),
-                BindingMode.FromResolveId => this.diContainer.ResolveId(this.viewModelType.GetClass(), this.viewModelId),
-                _ => throw new Exception($"Binding type of view {this.viewBinding} is not found!")
-            };
-
-            return BinderFactory.CreateComposite(view, model);
+            return BinderFactory.CreateComposite(this.view, model);
         }
+# if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (viewModelType != null)
+                viewModelTypeName = viewModelType.GetClass().AssemblyQualifiedName;
+        }
+# endif
     }
 }
