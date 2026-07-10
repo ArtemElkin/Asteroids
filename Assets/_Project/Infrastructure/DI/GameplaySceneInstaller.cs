@@ -133,7 +133,6 @@ namespace _Project.Infrastructure.DI
         {
             Container
                 .BindInterfacesAndSelfTo<GameplayStarter>()
-                .FromNewComponentOn(gameObject)
                 .AsSingle()
                 .NonLazy();
         }

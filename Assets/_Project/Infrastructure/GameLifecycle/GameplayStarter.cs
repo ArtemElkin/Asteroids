@@ -1,24 +1,22 @@
 using _Project.Core.GameLifecycle;
-using UnityEngine;
 using Zenject;
 
 namespace _Project.Infrastructure.GameLifecycle
 {
-    public class GameplayStarter : MonoBehaviour
+    public class GameplayStarter : IInitializable
     {
-        private IGameStateService _gameStateService;
+        private readonly IGameStateService _gameStateService;
 
+        
+        public GameplayStarter(IGameStateService gameStateService)
+        {
+            _gameStateService = gameStateService;
+        }
 
-        private void Start()
+        public void Initialize()
         {
             _gameStateService.SetState(GameState.Initialize);
             _gameStateService.SetState(GameState.Running);
-        }
-
-        [Inject]
-        private void Construct(IGameStateService gameStateService)
-        {
-            _gameStateService = gameStateService;
         }
     }
 }
