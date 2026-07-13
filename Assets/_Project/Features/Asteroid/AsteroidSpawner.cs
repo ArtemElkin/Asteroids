@@ -1,5 +1,4 @@
 using _Project.Core.Config;
-using _Project.Core.EventBus;
 using _Project.Core.Factories;
 using _Project.Core.GameLifecycle;
 using _Project.Core.Math;
@@ -10,7 +9,6 @@ using _Project.Core.Tools;
 using _Project.Features.Asteroid.Config;
 using _Project.Features.Common.Config;
 using _Project.Features.Common.EntitiesLifecycle;
-using _Project.Features.Common.EntitiesLifecycle.Events;
 using _Project.Features.Common.Settings;
 
 namespace _Project.Features.Asteroid
@@ -25,8 +23,8 @@ namespace _Project.Features.Asteroid
         private readonly PositionGenerator _positionGenerator;
         private readonly SettingsModel _settingsModel;
         private readonly IRandomService _randomService;
-        private readonly IEventBus _eventBus;
 
+        
         public AsteroidSpawner(
             IFactory<AsteroidSpawnData, AsteroidFacade> factory,
             PositionGenerator positionGenerator,
@@ -35,8 +33,7 @@ namespace _Project.Features.Asteroid
             IRandomService randomService,
             Storage<AsteroidFacade> storage,
             Timer spawnTimer,
-            IGameStateService gameStateService,
-            IEventBus eventBus) : base(
+            IGameStateService gameStateService) : base(
             storage,
             spawnTimer,
             gameStateService)
@@ -45,8 +42,6 @@ namespace _Project.Features.Asteroid
             _positionGenerator = positionGenerator;
             _settingsModel = settingsModel;
             _randomService =  randomService;
-            _eventBus = eventBus;
-            _eventBus.Subscribe<SpawnRequestedEvent<AsteroidFacade>>(OnAsteroidFragmentSpawnRequested);
             _gameConfig = configProvider.GetConfig<GameConfig>(FileNames.Config.Game);
             _asteroidConfig =  configProvider.GetConfig<AsteroidConfig>(FileNames.Config.Entities.Asteroid);
         }
@@ -68,25 +63,6 @@ namespace _Project.Features.Asteroid
             return asteroid;
         }
         
-        private void OnAsteroidFragmentSpawnRequested(SpawnRequestedEvent<AsteroidFacade> @event)
-        {
-            var mass = @event.SpawnData.mass;
-            var originPosition = @event.SpawnData.initialPosition;
-            var initialSpeed = GetRandomSpeed(_asteroidConfig.movementConfig.minFragmentSpeed, _asteroidConfig.movementConfig.maxFragmentSpeed);
-            var originDirection = @event.SpawnData.initialVelocity.normalized;
-            var initialDirection = GetRandomDirectionFromOriginDirection(originDirection);
-            var initialVelocity = initialDirection * initialSpeed;
-            var initialPosition = originPosition + initialDirection * _asteroidConfig.fragmentRadius;
-            InitialMovementData initialMovementData = new (mass, initialPosition, initialVelocity);
-            var spawnData = new AsteroidSpawnData(
-                initialMovementData, 
-                _asteroidConfig.fragmentRadius, 
-                0,
-                false,
-                _asteroidConfig);
-            var asteroidFragment = _factory.Create(spawnData);
-            _storage.Add(asteroidFragment);
-        }
         
         private Vector2 GetRandomPosition()
         {
@@ -102,20 +78,6 @@ namespace _Project.Features.Asteroid
         {
             var target = _positionGenerator.GenerateRandomPositionOnScreen();
             return (target - initialPosition).normalized;
-        }
-
-        private Vector2 GetRandomDirectionFromOriginDirection(Vector2 originDirection)
-        {
-            var randomAngle = _randomService.GetRandomFloat(
-                -_asteroidConfig.movementConfig.maxfragmentMoveDirectionAgleOffsetFromAsteroid, 
-                _asteroidConfig.movementConfig.maxfragmentMoveDirectionAgleOffsetFromAsteroid);
-            return Vector2.Rotate(originDirection, randomAngle);
-        }
-
-        public override void Dispose()
-        {
-            _eventBus.Unsubscribe<SpawnRequestedEvent<AsteroidFacade>>(OnAsteroidFragmentSpawnRequested);
-            base.Dispose();
         }
     }
 }

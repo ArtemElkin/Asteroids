@@ -22,6 +22,7 @@ namespace _Project.Infrastructure.DI
             BindAsteroidsStorage();
             BindAsteroidFactory(_asteroidPrefab, _asteroidsParentTransform);
             BindAsteroidSpawner();
+            BindAsteroidFragmentSpawner();
             BindAsteroidDespawner();
 
             BindAsteroidCloneFactory(_asteroidScreenWrapClonePrefab, _asteroidsParentTransform);
@@ -50,6 +51,14 @@ namespace _Project.Infrastructure.DI
         {
             Container
                 .BindInterfacesAndSelfTo<AsteroidSpawner>()
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindAsteroidFragmentSpawner()
+        {
+            Container
+                .BindInterfacesAndSelfTo<AsteroidFragmentSpawner>()
                 .AsSingle()
                 .NonLazy();
         }
