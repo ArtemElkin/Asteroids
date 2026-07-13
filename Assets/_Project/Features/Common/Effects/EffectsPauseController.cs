@@ -5,13 +5,13 @@ using _Project.Core.Tools;
 
 namespace _Project.Features.Common.Effects
 {
-    public class EffectsManager : IWorldResettable, IDisposable
+    public class EffectsPauseController : IWorldResettable, IDisposable
     {
         private readonly IGameStateService _gameStateService;
         private readonly Storage<IEffect> _effectStorage;
 
 
-        public EffectsManager(Storage<IEffect> effectStorage, IGameStateService gameStateService)
+        public EffectsPauseController(Storage<IEffect> effectStorage, IGameStateService gameStateService)
         {
             _effectStorage = effectStorage;
             _gameStateService = gameStateService;
