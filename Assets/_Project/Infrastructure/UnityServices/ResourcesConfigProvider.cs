@@ -18,12 +18,16 @@ namespace _Project.Infrastructure.UnityServices
             try
             {
                 T config = JsonConvert.DeserializeObject<T>(jsonConfig.text);
+
+                if (config == null)
+                {
+                    throw new JsonSerializationException($"Config file \"{path}\" could not be deserialized.");
+                }
                 return config;
             }
             catch (Exception e)
             {
-                Debug.LogError($"Config file \"{path}\" could not be deserialized.");
-                return default;
+                throw new InvalidOperationException($"Config file \"{path}\" could not be deserialized. Check JSON syntax.", e);
             }
         }
     }
