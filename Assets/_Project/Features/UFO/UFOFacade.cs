@@ -27,6 +27,7 @@ namespace _Project.Features.UFO
         private readonly BoundsChecker _boundsChecker;
         private readonly ICollidable _collidable;
         private readonly IHitable _hitable;
+        private readonly UFODeathHandler _deathHandler;
         private readonly ITimeService _timeService;
         private readonly IGameStateService _gameStateService;
         private readonly IEventBus _eventBus;
@@ -42,6 +43,7 @@ namespace _Project.Features.UFO
             BoundsWarper boundsWarper,
             ICollidable collidable,
             IHitable hitable,
+            UFODeathHandler deathHandler,
             ITimeService timeService,
             IGameStateService gameStateService,
             IEventBus eventBus)
@@ -55,6 +57,7 @@ namespace _Project.Features.UFO
             _boundsWarper = boundsWarper;
             _collidable = collidable;
             _hitable = hitable;
+            _deathHandler = deathHandler;
             _timeService = timeService;
             _gameStateService = gameStateService;
             _eventBus = eventBus;
@@ -98,9 +101,7 @@ namespace _Project.Features.UFO
 
         private void OnHit(HitInfo hitInfo)
         {
-            _eventBus.Publish(new HitEvent(hitInfo));
-            _eventBus.Publish(new DespawnRequestedEvent<UFOFacade>(this));
-            _eventBus.Publish(new EnemyDestroyedEvent(Type));
+            _deathHandler.HandleDeath(this, hitInfo, Type);
         }
         
         public void Dispose()

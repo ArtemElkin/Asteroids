@@ -26,6 +26,7 @@ namespace _Project.Infrastructure.Factories
             ICollidable collidable = view.GetComponent<ICollidable>();
             collidable.Setup(movementModel, false);
             IHitable hitable = view.GetComponent<IHitable>();
+            UFODeathHandler deathHandler = CreateComponent<UFODeathHandler>();
             IMovable movable = CreateComponent<UFOMovementController>(movementModel, data.speed);
             IRotatable rotatable = CreateComponent<UFORotationController>(movementModel);
             UFOTargetFollower targetFollower = CreateComponent<UFOTargetFollower>(movementModel);
@@ -38,7 +39,8 @@ namespace _Project.Infrastructure.Factories
                 boundsChecker,
                 view,
                 collidable,
-                hitable);
+                hitable,
+                deathHandler);
             return facade;
         }
     }
