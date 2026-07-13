@@ -29,6 +29,7 @@ namespace _Project.Features.Spaceship
         private readonly BoundsChecker _boundsChecker;
         private readonly BoundsWarper _boundsWarper;
         private readonly HealthController _healthController;
+        private readonly SpaceshipDeathHandler _deathHandler;
         private readonly StunController _stunController;
         private readonly ICollidable _collidable;
         private readonly Dictionary<WeaponType, IWeapon> _weapons;
@@ -46,6 +47,7 @@ namespace _Project.Features.Spaceship
             BoundsChecker boundsChecker,
             BoundsWarper boundsWarper,
             HealthController healthController,
+            SpaceshipDeathHandler deathHandler,
             StunController stunController,
             ICollidable collidable,
             Dictionary<WeaponType, IWeapon> weapons,
@@ -61,6 +63,7 @@ namespace _Project.Features.Spaceship
             _boundsChecker = boundsChecker;
             _boundsWarper = boundsWarper;
             _healthController = healthController;
+            _deathHandler =  deathHandler;
             _stunController = stunController;
             _collidable = collidable;
             _weapons = weapons;
@@ -97,7 +100,7 @@ namespace _Project.Features.Spaceship
 
         private void OnCollided(CollisionData collisionData)
         {
-            _healthController.ApplyDamage(1);
+            _healthController.ApplyDamage();
             _eventBus.Publish(new CollisionDetectedEvent(collisionData));
             _stunController.ApplyStun();
         }
@@ -109,9 +112,7 @@ namespace _Project.Features.Spaceship
 
         private void OnDeath()
         {
-            _eventBus.Publish(new DespawnRequestedEvent<SpaceshipFacade>(this));
-            _gameStateService.SetState(GameState.GameOver);
-            
+            _deathHandler.HandleDeath(this);
         }
 
         public void Dispose()

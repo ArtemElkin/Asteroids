@@ -39,7 +39,7 @@ namespace _Project.Infrastructure.Factories
             BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel);
             HealthModel healthModel = CreateComponent<HealthModel>(data.config.maxHp);
             HealthController healthController = CreateComponent<HealthController>(healthModel);
-            
+            SpaceshipDeathHandler deathHandler = CreateComponent<SpaceshipDeathHandler>();
             IScreenWrapCloneSet screenWrapCloneSet = data.hasClones
                 ? CreateComponent<ScreenWrapCloneSet<SpaceshipFacade>>(
                     movementModel,
@@ -70,6 +70,7 @@ namespace _Project.Infrastructure.Factories
                 boundsChecker,
                 drawable,
                 healthController,
+                deathHandler,
                 collidable,
                 stunController,
                 weapons,

@@ -16,9 +16,9 @@ namespace _Project.Features.Spaceship.Health
             _healthModel.OnDeath += OnDeathHandler;
         }
 
-        public void ApplyDamage(int damage)
+        public void ApplyDamage()
         {
-            _healthModel.DecreaseHp(damage);
+            _healthModel.DecreaseHp();
         }
         
         private void OnDeathHandler()

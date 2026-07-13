@@ -26,9 +26,9 @@ namespace _Project.Features.Spaceship.Health
             Hp = MaxHp;
         }
 
-        public void DecreaseHp(int amount)
+        public void DecreaseHp()
         {
-            Hp -= amount;
+            Hp--;
         }
     }
 }
