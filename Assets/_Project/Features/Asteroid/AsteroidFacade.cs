@@ -25,7 +25,7 @@ namespace _Project.Features.Asteroid
         private readonly BoundsWarper  _boundsWarper;
         private readonly ICollidable _collidable;
         private readonly IHitable _hitable;
-        private readonly AsteroidDestructor _destructor;
+        private readonly AsteroidDeathHandler _deathHandler;
         private readonly IScreenWrapCloneSet _screenWrapCloneSet;
         private readonly ITimeService _timeService;
         private readonly IGameStateService _gameStateService;
@@ -41,7 +41,7 @@ namespace _Project.Features.Asteroid
             BoundsWarper boundsWarper,
             ICollidable collidable,
             IHitable hitable,
-            AsteroidDestructor destructor,
+            AsteroidDeathHandler deathHandler,
             IScreenWrapCloneSet screenWrapCloneSet,
             ITimeService timeService,
             IGameStateService gameStateService,
@@ -55,7 +55,7 @@ namespace _Project.Features.Asteroid
             _boundsWarper = boundsWarper;
             _collidable = collidable;
             _hitable = hitable;
-            _destructor = destructor;
+            _deathHandler =  deathHandler;
             _screenWrapCloneSet = screenWrapCloneSet;
             _timeService = timeService;
             _gameStateService = gameStateService;
@@ -99,9 +99,7 @@ namespace _Project.Features.Asteroid
 
         private void OnHit(HitInfo hitInfo)
         {
-            _eventBus.Publish(new HitEvent(hitInfo));
-            _destructor.Destruct(this, hitInfo.fullDestroy);
-            _eventBus.Publish(new EnemyDestroyedEvent(_type));
+            _deathHandler.HandleDeath(this, hitInfo, _type);
         }
 
         public void Dispose()

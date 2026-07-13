@@ -40,6 +40,7 @@ namespace _Project.Infrastructure.Factories
             
             BoundsChecker boundsChecker = CreateComponent<BoundsChecker>(movementModel, enteredGameAreaOnSpawn);
             AsteroidDestructor destructor = CreateComponent<AsteroidDestructor>(movementModel, data.fragmentsCount);
+            AsteroidDeathHandler deathHandler = CreateComponent<AsteroidDeathHandler>(destructor);
             IScreenWrapCloneSet screenWrapCloneSet = data.hasClones
                 ? CreateComponent<ScreenWrapCloneSet<AsteroidFacade>>(
                     movementModel,
@@ -54,7 +55,7 @@ namespace _Project.Infrastructure.Factories
                 drawable,
                 collidable,
                 hitable,
-                destructor,
+                deathHandler,
                 screenWrapCloneSet);
             return facade;
         }
