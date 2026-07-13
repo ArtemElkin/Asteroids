@@ -33,12 +33,12 @@ namespace _Project.Features.Common.Effects
 
         public void Reset()
         {
-            var effects = _effectStorage.GetAll();
+            var effects = _effectStorage.GetCopy();
             foreach (var e in effects)
             {
                 e.Stop();
-                _effectStorage.Remove(e);
             }
+            _effectStorage.Clear();
         }
 
         public void Dispose()

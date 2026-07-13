@@ -22,7 +22,7 @@ namespace _Project.Core.Tools
             return false;
         }
 
-        public IReadOnlyCollection<T> GetAll() => _storage.AsReadOnly();
+        public IReadOnlyCollection<T> GetCopy() => new List<T>(_storage);
         public bool IsEmpty => _storage.Count == 0;
         public void Clear() => _storage.Clear();
         public IEnumerator<T> GetEnumerator()
