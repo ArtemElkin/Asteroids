@@ -41,14 +41,14 @@ namespace _Project.Features.Common.EntitiesLifecycle
 
         private void OnDespawnRequested(DespawnRequestedEvent<TFacade> @event)
         {
-            var facade = (TFacade)@event.facade;
+            var facade = @event.facade;
             _releaser.Release(facade);
             _storage.Remove(facade);
         }
 
         public void Dispose()
         {
-            _eventBus.Unsubscribe<DespawnRequestedEvent<TFacade>>(OnDespawnRequested);;
+            _eventBus.Unsubscribe<DespawnRequestedEvent<TFacade>>(OnDespawnRequested);
         }
     }
 }

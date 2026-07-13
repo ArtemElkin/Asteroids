@@ -4,10 +4,10 @@ namespace _Project.Features.Common.EntitiesLifecycle.Events
 {
     public sealed class DespawnRequestedEvent<T> : IEvent where T : IFacade
     {
-        public IFacade facade;
+        public T facade;
 
 
-        public DespawnRequestedEvent(IFacade facade)
+        public DespawnRequestedEvent(T facade)
         {
             this.facade = facade;
         }
