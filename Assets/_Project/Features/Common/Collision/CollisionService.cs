@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using _Project.Core.EventBus;
 using _Project.Core.Physics.Collision;
 using _Project.Core.Physics.Collision.Events;
-using _Project.Core.Save;
 using _Project.Core.Services;
-using _Project.Core.StaticData;
 using _Project.Features.Common.Settings;
+using UnityEngine;
 
 namespace _Project.Features.Common.Collision
 {
     public class CollisionService : IDisposable
     {
-        private readonly HashSet<int> _hashes = new();
+        private readonly HashSet<CollisionPair> _processedPairs = new();
         private readonly Dictionary<CollisionResolverType, ICollisionResolver> _collisionResolvers = new();
         private readonly SettingsModel _settingsModel;
         private readonly IEventBus _eventBus;
@@ -35,23 +34,25 @@ namespace _Project.Features.Common.Collision
 
         private void OnFixedTick(float fixedDeltaTime)
         {
-            _hashes.Clear();
+            _processedPairs.Clear();
         }
 
         private void ProcessCollision(CollisionData collisionData)
         {
-            var hashA = collisionData.modelA.GetHashCode();
-            var hashB = collisionData.modelB.GetHashCode();
-            var minHash = hashA < hashB ? hashA : hashB;
-            var maxHash = hashA > hashB ? hashA : hashB;
-            var hash = HashCode.Combine(minHash, maxHash);
+            var pair = new CollisionPair(collisionData.modelA, collisionData.modelB);
             
-            if (_hashes.Contains(hash)) return;
-            
-            _collisionResolvers[_settingsModel.CollisionResolverType].ProcessCollision(collisionData);
-            
-            _eventBus.Publish(new CollisionProcessedEvent(collisionData));
-            _hashes.Add(hash);
+            if (!_processedPairs.Add(pair))
+                return;
+
+            if (_collisionResolvers.TryGetValue(_settingsModel.CollisionResolverType, out var resolver))
+            {
+                resolver.ProcessCollision(collisionData);
+                _eventBus.Publish(new CollisionProcessedEvent(collisionData));
+            }
+            else
+            {
+                Debug.LogError("Collision Resolver not found in ");
+            }
         }
 
         private void OnCollisionDetected(CollisionDetectedEvent @event)
