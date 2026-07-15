@@ -59,8 +59,8 @@ namespace _Project.Features.Asteroid
         private Vector2 GetRandomDirectionFromOriginDirection(Vector2 originDirection)
         {
             var randomAngle = _randomService.GetRandomFloat(
-                -_asteroidConfig.movementConfig.maxfragmentMoveDirectionAgleOffsetFromAsteroid, 
-                _asteroidConfig.movementConfig.maxfragmentMoveDirectionAgleOffsetFromAsteroid);
+                -_asteroidConfig.movementConfig.maxFragmentMoveDirectionAngleOffsetFromAsteroid, 
+                _asteroidConfig.movementConfig.maxFragmentMoveDirectionAngleOffsetFromAsteroid);
             return Vector2.Rotate(originDirection, randomAngle);
         }
         

@@ -7,6 +7,6 @@ namespace _Project.Features.Asteroid.Config
         public float maxSpeed;
         public float minFragmentSpeed;
         public float maxFragmentSpeed;
-        public float maxfragmentMoveDirectionAgleOffsetFromAsteroid;
+        public float maxFragmentMoveDirectionAngleOffsetFromAsteroid;
     }
 }

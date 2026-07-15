@@ -16,7 +16,6 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon
         private readonly IHasPosition _muzzlePosition;
         private readonly IFactory<ProjectileSpawnData, ProjectileFacade> _projectileFactory;
         private readonly Storage<ProjectileFacade> _projectileStorage;
-        private readonly IScreenService _screenService;
 
         
         public ProjectileWeapon(
@@ -27,14 +26,12 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon
             MovementModel spaceshipMovementModel,
             IHasPosition muzzlePosition,
             IFactory<ProjectileSpawnData, ProjectileFacade> projectileFactory,
-            Storage<ProjectileFacade> projectileStorage,
-            IScreenService screenService) : base(config, fireInputService, spaceshipMovementModel, gameStateService, timeService)
+            Storage<ProjectileFacade> projectileStorage) : base(config, fireInputService, spaceshipMovementModel, gameStateService, timeService)
         {
             _spaceshipMovementModel = spaceshipMovementModel;
             _muzzlePosition = muzzlePosition;
             _projectileFactory = projectileFactory;
             _projectileStorage = projectileStorage;
-            _screenService = screenService;
         }
 
         protected override void Shoot()

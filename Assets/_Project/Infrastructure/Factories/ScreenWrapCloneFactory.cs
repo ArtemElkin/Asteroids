@@ -10,7 +10,6 @@ namespace _Project.Infrastructure.Factories
     public class ScreenWrapCloneFactory<TOriginEntity> : IScreenWrapCloneFactory<ScreenWrapCloneSpawnData, TOriginEntity>
     {
         private readonly CustomPool<TransformView> _viewPool;
-        private readonly IInstantiator _instantiator;
         
         public ScreenWrapCloneFactory(
             IInstantiator instantiator, 

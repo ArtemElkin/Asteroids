@@ -18,7 +18,6 @@ namespace _Project.Features.Spaceship
         private readonly Storage<SpaceshipFacade> _storage;
         private readonly SettingsModel _settingsModel;
         private readonly IGameStateService _gameStateService;
-        private readonly IEventBus _eventBus;
 
         
         public SpaceshipSpawner(

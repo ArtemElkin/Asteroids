@@ -9,6 +9,6 @@
     "maxSpeed": 4.0,
     "minFragmentSpeed": 4.0,
     "maxFragmentSpeed": 8.0,
-    "maxfragmentMoveDirectionAgleOffsetFromAsteroid": 60.0
+    "maxFragmentMoveDirectionAngleOffsetFromAsteroid": 60.0
   }
 }
