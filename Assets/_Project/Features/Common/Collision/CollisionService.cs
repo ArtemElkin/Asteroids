@@ -51,7 +51,7 @@ namespace _Project.Features.Common.Collision
             }
             else
             {
-                Debug.LogError("Collision Resolver not found in ");
+                Debug.LogError("Collision Resolver not found in dictionary");
             }
         }
 
