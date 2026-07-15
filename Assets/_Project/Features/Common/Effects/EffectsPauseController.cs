@@ -18,14 +18,14 @@ namespace _Project.Features.Common.Effects
             _gameStateService.OnGameStateChanged += OnGameStateChanged;
         }
 
-        private void OnGameStateChanged(GameState gameState)
+        private void OnGameStateChanged(GameState gameState, TransitionType transitionType)
         {
-            switch (gameState)
+            switch (transitionType)
             {
-                case GameState.Paused:
+                case TransitionType.OnPause:
                     foreach(var e in _effectStorage) e.Pause();
                     break;
-                case GameState.Resume:
+                case TransitionType.OnResume:
                     foreach (var e in _effectStorage) e.Resume();
                     break;
             }

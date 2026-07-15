@@ -54,11 +54,11 @@ namespace _Project.Features.UI.Gameplay.PauseScreen
             IsGameOver.Value = false;
         }
 
-        private void OnGameStateChanged(GameState gameState)
+        private void OnGameStateChanged(GameState gameState, TransitionType transitionType)
         {
             switch (gameState)
             {
-                case GameState.Initialize or GameState.Resume:
+                case GameState.Running:
                     Active.Value = false;
                     break;
                 case GameState.Paused:

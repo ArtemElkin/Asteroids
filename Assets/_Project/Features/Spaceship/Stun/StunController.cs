@@ -36,17 +36,17 @@ namespace _Project.Features.Spaceship.Stun
             _stunEffect = stunEffect;
         }
 
-        private void OnGameStateChanged(GameState gameState)
+        private void OnGameStateChanged(GameState gameState, TransitionType transitionType)
         {
             if (!_mutableStun.IsStunned) return;
             
-            switch (gameState)
+            switch (transitionType)
             {
-                case GameState.Paused:
+                case TransitionType.OnPause:
                     _timer.Pause();
                     _stunEffect.Pause();
                     break;
-                case GameState.Resume:
+                case TransitionType.OnResume:
                     _timer.Resume();
                     _stunEffect.Resume();
                     break;

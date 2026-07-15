@@ -26,20 +26,20 @@ namespace _Project.Features.Common.EntitiesLifecycle
             _spawnTimer.Elapsed += OnSpawnRequested;
         }
 
-        private void OnGameStateChanged(GameState gameState)
+        private void OnGameStateChanged(GameState gameState, TransitionType transitionType)
         {
-            switch (gameState)
+            switch (transitionType)
             {
-                case GameState.Initialize:
+                case TransitionType.OnStart:
                     _spawnTimer.Start(SpawnInterval, true);
                     break;
-                case GameState.Paused:
+                case TransitionType.OnPause:
                     _spawnTimer.Pause();
                     break;
-                case GameState.Resume:
+                case TransitionType.OnResume:
                     _spawnTimer.Resume();
                     break;
-                case GameState.GameOver:
+                case TransitionType.OnStop:
                     _spawnTimer.Stop();
                     break;
             }

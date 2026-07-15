@@ -15,7 +15,6 @@ namespace _Project.Infrastructure.GameLifecycle
 
         public void Initialize()
         {
-            _gameStateService.SetState(GameState.Initialize);
             _gameStateService.SetState(GameState.Running);
         }
     }

@@ -25,18 +25,15 @@ namespace _Project.Features.Ads
             _deathsFromLastAd = 0;
         }
 
-        private void OnGameStateChanged(GameState gameState)
+        private void OnGameStateChanged(GameState gameState, TransitionType transitionType)
         {
             switch (gameState)
             {
-                case GameState.Initialize:
+                case GameState.Running:
                     _adsService.HideBanner();
                     break;
                 case GameState.Paused:
                     _adsService.ShowBanner();
-                    break;
-                case GameState.Resume:
-                    _adsService.HideBanner();
                     break;
                 case GameState.GameOver:
                     _adsService.ShowBanner();

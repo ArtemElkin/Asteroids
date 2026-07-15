@@ -45,14 +45,14 @@ namespace _Project.Features.UI.Gameplay.HUD
             _eventBus.Subscribe<SpaceshipSpawnedEvent>(OnSpaceshipSpawned);
         }
 
-        private void OnGameStateChanged(GameState gameState)
+        private void OnGameStateChanged(GameState gameState, TransitionType transitionType)
         {
             switch (gameState)
             {
                 case GameState.GameOver:
                     Active.Value = false;
                     break;
-                case GameState.Initialize:
+                case GameState.Running:
                     Active.Value = true;
                     break;
             }

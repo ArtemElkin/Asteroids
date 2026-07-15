@@ -18,17 +18,17 @@ namespace _Project.Infrastructure.Audio
             _gameStateService.OnGameStateChanged += OnGameStateChanged;
         }
 
-        private void OnGameStateChanged(GameState gameState)
+        private void OnGameStateChanged(GameState gameState, TransitionType transitionType)
         {
-            switch (gameState)
+            switch (transitionType)
             {
-                case GameState.Initialize:
+                case TransitionType.OnStart:
                     _audioService.StopAllSounds();
                     break;
-                case GameState.Paused:
+                case TransitionType.OnPause:
                     _audioService.PauseSound();
                     break;
-                case GameState.Resume:
+                case TransitionType.OnResume:
                     _audioService.ResumeSound();
                     break;
             }

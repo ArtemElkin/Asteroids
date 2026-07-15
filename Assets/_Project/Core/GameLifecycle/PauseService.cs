@@ -23,7 +23,6 @@ namespace _Project.Core.GameLifecycle
 
         public void Resume()
         {
-            _gameStateService.SetState(GameState.Resume);
             _gameStateService.SetState(GameState.Running);
         }
 

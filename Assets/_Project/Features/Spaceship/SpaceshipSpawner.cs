@@ -36,9 +36,9 @@ namespace _Project.Features.Spaceship
             _gameStateService.OnGameStateChanged += OnGameStateChanged;
         }
 
-        private void OnGameStateChanged(GameState gameState)
+        private void OnGameStateChanged(GameState gameState, TransitionType transitionType)
         {
-            if (gameState == GameState.Initialize) SpawnSpaceship();
+            if (transitionType == TransitionType.OnStart) SpawnSpaceship();
         }
 
         private void SpawnSpaceship()

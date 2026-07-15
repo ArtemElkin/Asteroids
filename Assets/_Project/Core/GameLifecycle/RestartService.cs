@@ -22,7 +22,6 @@ namespace _Project.Core.GameLifecycle
             
             _resetService.ResetWorld();
             _playerModel.CurrentScore = 0;
-            _gameStateService.SetState(GameState.Initialize);
             _gameStateService.SetState(GameState.Running);
         }
     }

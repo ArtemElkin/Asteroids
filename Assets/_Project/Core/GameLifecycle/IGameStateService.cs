@@ -6,6 +6,6 @@ namespace _Project.Core.GameLifecycle
     {
         GameState CurrentState { get; }
         public void SetState(GameState newState);
-        event Action<GameState> OnGameStateChanged;
+        event Action<GameState, TransitionType> OnGameStateChanged;
     }
 }

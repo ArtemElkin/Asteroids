@@ -56,14 +56,14 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon.Projectile
             _timer.Start(aliveTime);
         }
 
-        private void OnGameStateChanged(GameState gameState)
+        private void OnGameStateChanged(GameState gameState, TransitionType transitionType)
         {
-            switch (gameState)
+            switch (transitionType)
             {
-                case GameState.Paused:
+                case TransitionType.OnPause:
                     _timer.Pause();
                     break;
-                case GameState.Running:
+                case TransitionType.OnResume:
                     _timer.Resume();
                     break;
             }
