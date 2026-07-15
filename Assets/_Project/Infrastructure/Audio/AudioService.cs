@@ -44,15 +44,15 @@ namespace _Project.Infrastructure.Audio
 
         private void OnSoundsVolumeChanged(int value)
         {
-            _soundsAudioSource.volume = Convert(value);
+            _soundsAudioSource.volume = NormalizeVolume(value);
         }
 
         private void OnMusicVolumeChanged(int value)
         {
-            _musicAudioSource.volume = Convert(value);
+            _musicAudioSource.volume = NormalizeVolume(value);
         }
 
-        private static float Convert(int value)
+        private static float NormalizeVolume(int value)
         {
             return Mathf.Clamp01((float)value / SettingsSave.MaxVolumeLevel);
         }
