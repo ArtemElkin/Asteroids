@@ -21,9 +21,6 @@ namespace _Project.Infrastructure.Factories
 
         public abstract TEntity Create(TSpawnData data);
 
-        protected T CreateComponent<T>(params object[] extraArgs)
-        {
-            return _instantiator.Instantiate<T>(extraArgs);
-        }
+        protected T CreateComponent<T>(params object[] extraArgs) => _instantiator.Instantiate<T>(extraArgs);
     }
 }
