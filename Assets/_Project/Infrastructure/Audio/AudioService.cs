@@ -12,18 +12,14 @@ namespace _Project.Infrastructure.Audio
         private SettingsModel _settingsModel;
 
 
-        private void OnEnable()
-        {
-            _settingsModel.OnSoundsVolumeChanged += OnSoundsVolumeChanged;
-            _settingsModel.OnMusicVolumeChanged += OnMusicVolumeChanged;
-        }
-
         [Inject]
         private void Construct(SettingsModel settingsModel)
         {
             _settingsModel = settingsModel;
-            _soundsAudioSource.volume = Convert(settingsModel.SoundsVolume);
-            _musicAudioSource.volume = Convert(settingsModel.MusicVolume);
+            _settingsModel.OnSoundsVolumeChanged += OnSoundsVolumeChanged;
+            _settingsModel.OnMusicVolumeChanged += OnMusicVolumeChanged;
+            OnSoundsVolumeChanged(_settingsModel.SoundsVolume);
+            OnMusicVolumeChanged(_settingsModel.MusicVolume);
         }
         
         public void PlaySound(AudioClip clip)
@@ -61,7 +57,7 @@ namespace _Project.Infrastructure.Audio
             return Mathf.Clamp01((float)value / SettingsSave.MaxVolumeLevel);
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             _settingsModel.OnSoundsVolumeChanged -= OnSoundsVolumeChanged;
             _settingsModel.OnMusicVolumeChanged -= OnMusicVolumeChanged;

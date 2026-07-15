@@ -27,7 +27,7 @@ namespace _Project.Features.Common.Settings
 
         public void TurnAsteroidsClonesEnabled()
         {
-            _settingsSave.AsteroidsClonesEnabled = !_settingsSave.AsteroidsClonesEnabled;;
+            _settingsSave.AsteroidsClonesEnabled = !_settingsSave.AsteroidsClonesEnabled;
         }
 
         public void SetSoundsVolume(int value)
@@ -50,6 +50,8 @@ namespace _Project.Features.Common.Settings
         {
             if (loadedSave == null) return;
             _settingsSave = loadedSave.Clone();
+            OnSoundsVolumeChanged?.Invoke(loadedSave.SoundsVolume);
+            OnMusicVolumeChanged?.Invoke(loadedSave.MusicVolume);
         }
     }
 }

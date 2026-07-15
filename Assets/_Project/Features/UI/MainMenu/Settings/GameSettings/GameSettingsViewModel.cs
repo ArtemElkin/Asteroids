@@ -11,15 +11,12 @@ namespace _Project.Features.UI.MainMenu.Settings.GameSettings
         public ReactiveProperty<bool> IsElasticSelected = new();
         [Data("IsSimpleReflectionSelected")]
         public ReactiveProperty<bool> IsSimpleReflectionSelected = new();
-        
         private readonly SettingsModel _settingsModel;
-        private readonly SettingsSaveController _settingsSaveController;
 
 
-        public GameSettingsViewModel(SettingsModel settingsModel, SettingsSaveController settingsSaveController)
+        public GameSettingsViewModel(SettingsModel settingsModel)
         {
             _settingsModel = settingsModel;
-            _settingsSaveController = settingsSaveController;
             
             IsSimpleReflectionSelected.Value =
                 settingsModel.CollisionResolverType is CollisionResolverType.SimpleReflection;
@@ -32,7 +29,6 @@ namespace _Project.Features.UI.MainMenu.Settings.GameSettings
             IsElasticSelected.Value = true;
             IsSimpleReflectionSelected.Value = false;
             _settingsModel.SetCollisionResolver(CollisionResolverType.Elastic);
-            _settingsSaveController.Save();
         }
         [Method("OnSimpleReflectionClick")]
         public void OnSimpleReflectionClicked()
@@ -40,7 +36,6 @@ namespace _Project.Features.UI.MainMenu.Settings.GameSettings
             IsSimpleReflectionSelected.Value = true;
             IsElasticSelected.Value = false;
             _settingsModel.SetCollisionResolver(CollisionResolverType.SimpleReflection);
-            _settingsSaveController.Save();
         }
     }
 }

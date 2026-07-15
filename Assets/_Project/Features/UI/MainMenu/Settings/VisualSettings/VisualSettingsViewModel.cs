@@ -12,12 +12,10 @@ namespace _Project.Features.UI.MainMenu.Settings.VisualSettings
         public ReactiveProperty<bool> IsAsteroidsClonesEnabled = new();
         
         private readonly SettingsModel _settingsModel;
-        private readonly SettingsSaveController _settingsSaveController;
         
-        public VisualSettingsViewModel(SettingsModel settingsModel, SettingsSaveController settingsSaveController)
+        public VisualSettingsViewModel(SettingsModel settingsModel)
         {
             _settingsModel = settingsModel;
-            _settingsSaveController = settingsSaveController;
             
             IsSpaceshipClonesEnabled.Value = settingsModel.SpaceshipClonesEnabled;
             IsAsteroidsClonesEnabled.Value = settingsModel.AsteroidsClonesEnabled;
@@ -27,7 +25,6 @@ namespace _Project.Features.UI.MainMenu.Settings.VisualSettings
         public void OnSpaceshipClonesClicked()
         {
             _settingsModel.TurnSpaceshipClonesEnabled();
-            _settingsSaveController.Save();
             IsSpaceshipClonesEnabled.Value = _settingsModel.SpaceshipClonesEnabled;
         }
 
@@ -35,7 +32,6 @@ namespace _Project.Features.UI.MainMenu.Settings.VisualSettings
         public void OnAsteroidsClonesClicked()
         {
             _settingsModel.TurnAsteroidsClonesEnabled();
-            _settingsSaveController.Save();
             IsAsteroidsClonesEnabled.Value = _settingsModel.AsteroidsClonesEnabled;
         }
     }
