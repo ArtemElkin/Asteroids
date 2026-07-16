@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using _Project.Core.Config;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -12,8 +13,7 @@ namespace _Project.Infrastructure.UnityServices
             TextAsset jsonConfig = Resources.Load<TextAsset>(path);
             if (jsonConfig == null)
             {
-                Debug.LogError($"Config file \"{path}\" could not be found.");
-                return default;
+                throw new FileNotFoundException($"Config file \"{path}\" could not be found.");
             }
             try
             {
