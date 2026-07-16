@@ -4,31 +4,31 @@ namespace _Project.Features.Spaceship.Health
 {
     public class HealthModel : IReadOnlyHealthModel
     {
-        public int MaxHp { get; }
-        private int _hp;
-        public int Hp
+        public int MaxHealth { get; }
+        private int _health;
+        public int Health
         {
-            get => _hp;
+            get => _health;
             private set
             {
-                _hp = value;
-                OnHpChanged?.Invoke(_hp);
-                if (_hp <= 0) OnDeath?.Invoke();
+                _health = value;
+                OnHealthChanged?.Invoke(_health);
+                if (_health <= 0) OnDeath?.Invoke();
             }
         }
         
-        public event Action<int> OnHpChanged;
+        public event Action<int> OnHealthChanged;
         public event Action OnDeath;
 
-        public HealthModel(int maxHp)
+        public HealthModel(int maxHealth)
         {
-            MaxHp = maxHp;
-            Hp = MaxHp;
+            MaxHealth = maxHealth;
+            Health = MaxHealth;
         }
 
-        public void DecreaseHp()
+        public void DecreaseHealth()
         {
-            Hp--;
+            Health--;
         }
     }
 }

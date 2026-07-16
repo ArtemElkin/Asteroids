@@ -1,6 +1,10 @@
 {
   "maxHp": 3,
   "stunDuration": 3.0,
+  "healthConfig":
+  {
+    "maxHealth": 3
+  },
   "movementConfig":
   {
     "mass": 1000,

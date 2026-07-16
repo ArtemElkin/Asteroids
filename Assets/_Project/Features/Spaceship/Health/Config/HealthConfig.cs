@@ -1,9 +1,9 @@
 using _Project.Core.Config;
 
-namespace _Project.Features.Spaceship.Health
+namespace _Project.Features.Spaceship.Health.Config
 {
     public class HealthConfig : IConfig
     {
-        private int maxHp;
+        public int maxHealth;
     }
 }

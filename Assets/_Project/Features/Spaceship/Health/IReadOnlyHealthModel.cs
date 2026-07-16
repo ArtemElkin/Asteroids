@@ -4,8 +4,8 @@ namespace _Project.Features.Spaceship.Health
 {
     public interface IReadOnlyHealthModel
     {
-        public int MaxHp { get; }
-        public int Hp { get; }
-        public event Action<int> OnHpChanged;
+        public int MaxHealth { get; }
+        public int Health { get; }
+        public event Action<int> OnHealthChanged;
     }
 }

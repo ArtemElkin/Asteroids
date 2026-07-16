@@ -61,7 +61,7 @@ namespace _Project.Features.UI.Gameplay.HUD
         private void OnSpaceshipSpawned(SpaceshipSpawnedEvent @event)
         {
             _info = @event.Info;
-            _info.HealthModel.OnHpChanged += OnHealthChanged;
+            _info.HealthModel.OnHealthChanged += OnHealthChanged;
             _info.Position.PositionChanged += OnPositionChanged;
             _info.Rotation.RotationAngleChanged += OnRotationAngleChanged;
             _info.Velocity.VelocityChanged += OnVelocityChanged;
@@ -74,7 +74,7 @@ namespace _Project.Features.UI.Gameplay.HUD
         private void ApplyInitialValues()
         {
             OnCurrentScoreChanged(_playerModel.CurrentScore);
-            OnHealthChanged(_info.HealthModel.Hp);
+            OnHealthChanged(_info.HealthModel.Health);
             OnPositionChanged(_info.Position.Position);
             OnRotationAngleChanged(_info.Rotation.RotationAngle);
             OnVelocityChanged(_info.Velocity.Velocity);
@@ -96,7 +96,7 @@ namespace _Project.Features.UI.Gameplay.HUD
             _gameStateService.OnGameStateChanged -= OnGameStateChanged;
             _playerModel.CurrentScoreChanged -= OnCurrentScoreChanged;
             if (_info == null) return;
-            _info.HealthModel.OnHpChanged -= OnHealthChanged;
+            _info.HealthModel.OnHealthChanged -= OnHealthChanged;
             _info.Position.PositionChanged -= OnPositionChanged;
             _info.Rotation.RotationAngleChanged -= OnRotationAngleChanged;
             _info.Velocity.VelocityChanged -= OnVelocityChanged;

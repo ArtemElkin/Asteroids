@@ -141,7 +141,7 @@ namespace _Project.Infrastructure.Factories
             out HealthController healthController, 
             out SpaceshipDeathHandler deathHandler)
         {
-            var healthModel = CreateComponent<HealthModel>(config.maxHp); 
+            var healthModel = CreateComponent<HealthModel>(config.healthConfig.maxHealth); 
             
             healthController = CreateComponent<HealthController>(healthModel);
             deathHandler = CreateComponent<SpaceshipDeathHandler>();

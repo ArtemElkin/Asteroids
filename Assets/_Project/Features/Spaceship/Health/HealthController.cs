@@ -6,7 +6,7 @@ namespace _Project.Features.Spaceship.Health
     {
         public IReadOnlyHealthModel HealthModel => _healthModel;
         private HealthModel _healthModel;
-        public bool IsAlive => _healthModel.Hp != 0;
+        public bool IsAlive => _healthModel.Health != 0;
         public event Action OnDeath;
 
         
@@ -18,7 +18,7 @@ namespace _Project.Features.Spaceship.Health
 
         public void ApplyDamage()
         {
-            _healthModel.DecreaseHp();
+            _healthModel.DecreaseHealth();
         }
         
         private void OnDeathHandler()
