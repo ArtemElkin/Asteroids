@@ -1,3 +1,4 @@
+using System;
 using _Project.Core.Save;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -17,8 +18,15 @@ namespace _Project.Infrastructure.UnityServices
             if (PlayerPrefs.HasKey(fileName))
             {
                 string json = PlayerPrefs.GetString(fileName);
-                T save = JsonConvert.DeserializeObject<T>(json);
-                return save;
+                try
+                {
+                    T save = JsonConvert.DeserializeObject<T>(json);
+                    return save;
+                }
+                catch (JsonException e)
+                {
+                    Debug.LogError($"Save file {fileName} could not be deserialized.\n{e}");
+                }
             }
             return default;
         }
