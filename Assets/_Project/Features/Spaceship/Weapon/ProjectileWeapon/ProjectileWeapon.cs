@@ -38,9 +38,14 @@ namespace _Project.Features.Spaceship.Weapon.ProjectileWeapon
         {
             var initialPosition = _muzzlePosition.Position;
             var initialDirection = _fireInputService.GetAimDirection(initialPosition);
-            var initialSpeed = 30f;
+            var initialSpeed = _config.projectileSpeed;
             var initialVelocity = _spaceshipMovementModel.Velocity + initialDirection * initialSpeed;
-            var spawnData = new ProjectileSpawnData(new InitialMovementData(1f, initialPosition, initialVelocity), _config.aliveTime);
+            var spawnData = new ProjectileSpawnData(
+                new InitialMovementData
+                    (_config.projectileMass, 
+                        initialPosition, 
+                        initialVelocity), 
+                _config.aliveTime);
             var projectile = _projectileFactory.Create(spawnData);
             _projectileStorage.Add(projectile);
         }

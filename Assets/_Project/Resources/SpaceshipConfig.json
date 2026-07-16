@@ -12,7 +12,9 @@
   {
     "shootsPerSecond": 4,
     "mouseButtonId": 0,
-    "aliveTime": 2.0
+    "aliveTime": 2.0,
+    "projectileSpeed": 30.0,
+    "projectileMass": 1.0
   },
   "laserWeaponConfig":
   {
