@@ -1,6 +1,7 @@
 using System;
 using _Project.Core.EventBus;
 using _Project.Core.Services;
+using _Project.Core.StaticData;
 using _Project.Features.UI.Common.Events;
 using UnityEngine.SceneManagement;
 
@@ -8,8 +9,6 @@ namespace _Project.Infrastructure.UnityServices
 {
     public class SceneLoadService : ISceneLoadService, IDisposable
     {
-        private const string GameplaySceneName = "Game";
-        private const string MainMenuSceneName = "MainMenu";
         private readonly IEventBus _eventBus;
         
         
@@ -22,12 +21,12 @@ namespace _Project.Infrastructure.UnityServices
 
         public void LoadGameScene()
         {
-            LoadScene(GameplaySceneName);
+            LoadScene(FileNames.Scene.Gameplay);
         }
 
         public void LoadMenuScene()
         {
-            LoadScene(MainMenuSceneName);
+            LoadScene(FileNames.Scene.MainMenu);
         }
 
         private void LoadScene(string sceneName)
