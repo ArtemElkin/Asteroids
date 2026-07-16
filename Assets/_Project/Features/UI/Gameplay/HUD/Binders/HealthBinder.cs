@@ -3,14 +3,14 @@ using UniRx;
 
 namespace _Project.Features.UI.Gameplay.HUD.Binders
 {
-    public class HpBinder : IBinder
+    public class HealthBinder : IBinder
     {
         private readonly HudViewModel _hudViewModel;
         private readonly HudView _hudView;
         private readonly CompositeDisposable _disposables = new();
 
 
-        public HpBinder(HudViewModel hudViewModel, HudView hudView)
+        public HealthBinder(HudViewModel hudViewModel, HudView hudView)
         {
             _hudViewModel = hudViewModel;
             _hudView = hudView;
@@ -19,7 +19,7 @@ namespace _Project.Features.UI.Gameplay.HUD.Binders
         public void Bind()
         {
             _hudViewModel.Health
-                .Subscribe(_hudView.SetHp)
+                .Subscribe(_hudView.SetHealth)
                 .AddTo(_disposables);
         }
 

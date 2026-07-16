@@ -3119,7 +3119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _window: {fileID: 1996722318}
-  _hpImages:
+  _healthImages:
   - {fileID: 1754091243}
   - {fileID: 1287988855}
   - {fileID: 953291842}

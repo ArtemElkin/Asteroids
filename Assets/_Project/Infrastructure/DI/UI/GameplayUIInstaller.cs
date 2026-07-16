@@ -21,7 +21,7 @@ namespace _Project.Infrastructure.DI.UI
                 .AsSingle()
                 .NonLazy();
 
-            BinderFactory.RegisterBinder<HpBinder>();
+            BinderFactory.RegisterBinder<HealthBinder>();
         }
 
         private void BindGameOverMenu()

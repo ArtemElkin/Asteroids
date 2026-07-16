@@ -8,7 +8,7 @@ namespace _Project.Features.UI.Gameplay.HUD
     public class HudView : MonoBehaviour
     {
         [SerializeField] private GameObject _window;
-        public Image[] _hpImages;
+        public Image[] _healthImages;
         [Data("Score")]
         public TMP_Text _currentScoreText;
         [Data("Position")]
@@ -27,11 +27,11 @@ namespace _Project.Features.UI.Gameplay.HUD
             set => _window.gameObject.SetActive(value);
         }
 
-        public void SetHp(int newValue)
+        public void SetHealth(int newValue)
         {
-            for (int i = 0; i < _hpImages.Length; i++)
+            for (int i = 0; i < _healthImages.Length; i++)
             {
-                _hpImages[i].enabled = i < newValue;
+                _healthImages[i].enabled = i < newValue;
             }
         }
     }
