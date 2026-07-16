@@ -6,6 +6,7 @@ using _Project.Features.Common.Bounds;
 using _Project.Features.Common.Collision;
 using _Project.Features.Common.Collision.Resolvers;
 using _Project.Features.Common.EnemyAwardsService;
+using _Project.Features.Common.ScreenWrapClone;
 using _Project.Infrastructure.Audio;
 using _Project.Infrastructure.GameLifecycle;
 using _Project.Infrastructure.UnityServices;
@@ -39,6 +40,8 @@ namespace _Project.Infrastructure.DI
             
             BindBoundsService();
             BindBoundsWarper();
+
+            BindScreenWrapCloneOffsetCalculator();
         }
         
         private void BindScreenService(Camera mainCamera)
@@ -151,6 +154,15 @@ namespace _Project.Infrastructure.DI
         {
             Container
                 .BindInterfacesAndSelfTo<BoundsWarper>()
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindScreenWrapCloneOffsetCalculator()
+        {
+            Container
+                .Bind<IScreenWrapCloneOffsetCalculator>()
+                .To<AdaptiveThreeClonesCalculator>()
                 .AsSingle()
                 .NonLazy();
         }

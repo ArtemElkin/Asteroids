@@ -132,6 +132,8 @@ namespace _Project.Infrastructure.Factories
                     boundsChecker,
                     drawable)
                 : new NullScreenWrapCloneSet();
+            
+            screenWrapCloneSet.CreateClones();
         }
 
         private void CreateHealth(
