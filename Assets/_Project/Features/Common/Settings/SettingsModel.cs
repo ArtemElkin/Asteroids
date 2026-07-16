@@ -22,7 +22,7 @@ namespace _Project.Features.Common.Settings
         
         public void TurnSpaceshipClonesEnabled()
         {
-            _settingsSave.SpaceshipClonesEnabled = !_settingsSave.SpaceshipClonesEnabled;;
+            _settingsSave.SpaceshipClonesEnabled = !_settingsSave.SpaceshipClonesEnabled;
         }
 
         public void TurnAsteroidsClonesEnabled()
